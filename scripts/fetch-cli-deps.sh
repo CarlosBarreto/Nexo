@@ -657,9 +657,20 @@ case "$TARGET_OS" in
     ;;
   windows)
     [ -f "$OUT_DIR/codex.exe" ] || missing+=("codex.exe")
-    [ -f "$OUT_DIR/composio-x86_64/composio.exe" ] || missing+=("composio-x86_64/composio.exe")
-    [ -f "$OUT_DIR/composio-x86_64/run-helpers-runtime.mjs" ] || missing+=("composio-x86_64/run-helpers-runtime.mjs")
-    [ -f "$OUT_DIR/composio-x86_64/acp-adapters/codex/win32-x64/codex-acp.exe" ] || missing+=("composio-x86_64/acp-adapters/codex/win32-x64/codex-acp.exe")
+    # Verify only the arches that were actually requested. Previously
+    # this hardcoded composio-x86_64/... paths which made
+    # `windows-arm64` (and any future single-arch mode) fail at the
+    # tail check even when the requested arch built cleanly.
+    for arch in "${ARCHES[@]}"; do
+      case "$arch" in
+        x86_64)  bun_dir="composio-x86_64";  acp_target="win32-x64"  ;;
+        aarch64) bun_dir="composio-aarch64"; acp_target="win32-arm64" ;;
+        *) echo "ERROR: unknown windows arch '$arch' in verification block" >&2; exit 1 ;;
+      esac
+      [ -f "$OUT_DIR/$bun_dir/composio.exe" ] || missing+=("$bun_dir/composio.exe")
+      [ -f "$OUT_DIR/$bun_dir/run-helpers-runtime.mjs" ] || missing+=("$bun_dir/run-helpers-runtime.mjs")
+      [ -f "$OUT_DIR/$bun_dir/acp-adapters/codex/$acp_target/codex-acp.exe" ] || missing+=("$bun_dir/acp-adapters/codex/$acp_target/codex-acp.exe")
+    done
     ;;
 esac
 [ -f "$OUT_DIR/cli-deps.json" ] || missing+=("cli-deps.json")
