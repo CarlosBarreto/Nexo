@@ -1,0 +1,342 @@
+---
+rootPath: "../"
+learnPath: "../learn/index.html"
+visionPath: "../vision/index.html"
+---
+{% extends "base.njk" %}
+{% block title %}Terms of Service - Houston{% endblock %}
+{% block meta %}
+<meta name="description" content="The terms that govern your use of Houston, the Houston desktop app, and Houston Cloud.">
+{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="../learn/style.css?v=3">
+{% endblock %}
+{% block inlineStyles %}
+<style>
+  .legal {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 72px 32px 96px;
+  }
+  @media (max-width: 700px) {
+    .legal { padding: 48px 24px 72px; }
+  }
+  .legal .eyebrow {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-500);
+    margin-bottom: 12px;
+  }
+  .legal h1 {
+    font-size: clamp(34px, 4.5vw, 44px);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--gray-950);
+    margin-bottom: 12px;
+  }
+  .legal .meta-row {
+    font-size: 13px;
+    color: var(--gray-500);
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .legal .lead {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--gray-700);
+    margin-bottom: 16px;
+  }
+  .legal h2 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    color: var(--gray-950);
+    margin-top: 48px;
+    margin-bottom: 14px;
+    scroll-margin-top: 32px;
+  }
+  .legal h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gray-950);
+    margin-top: 24px;
+    margin-bottom: 8px;
+  }
+  .legal p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--gray-700);
+    margin-bottom: 14px;
+  }
+  .legal p strong { color: var(--gray-950); font-weight: 600; }
+  .legal ul, .legal ol {
+    margin-bottom: 16px;
+    padding-left: 22px;
+    color: var(--gray-700);
+    font-size: 15px;
+  }
+  .legal li { margin-bottom: 8px; line-height: 1.6; }
+  .legal li::marker { color: var(--gray-400); }
+  .legal a {
+    color: var(--gray-950);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--gray-300);
+  }
+  .legal a:hover { text-decoration-color: var(--gray-950); }
+  .legal .toc {
+    background: var(--gray-50);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 24px 0 40px;
+  }
+  .legal .toc-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gray-500);
+    margin-bottom: 10px;
+  }
+  .legal .toc ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: toc;
+    font-size: 14px;
+  }
+  .legal .toc li {
+    counter-increment: toc;
+    margin-bottom: 4px;
+    padding-left: 0;
+  }
+  .legal .toc li::marker { content: none; }
+  .legal .toc li::before {
+    content: counter(toc, decimal-leading-zero);
+    color: var(--gray-400);
+    margin-right: 10px;
+    font-variant-numeric: tabular-nums;
+  }
+  .legal .toc a { text-decoration: none; color: var(--gray-700); }
+  .legal .toc a:hover { color: var(--gray-950); text-decoration: underline; }
+  .legal .callout {
+    background: var(--gray-50);
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 18px 0;
+    font-size: 14px;
+    color: var(--gray-700);
+    line-height: 1.6;
+  }
+  .legal .callout strong { color: var(--gray-950); }
+  .legal .all-caps {
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .legal-footer-link {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-light);
+    font-size: 13px;
+    color: var(--gray-500);
+  }
+  .legal-footer-link a { color: var(--gray-700); }
+</style>
+{% endblock %}
+{% block body %}
+{% include "nav-docs.njk" %}
+
+<main class="legal">
+  <div class="eyebrow">Legal</div>
+  <h1>Terms of Service</h1>
+  <div class="meta-row">
+    Effective April 25, 2026 · Last updated April 25, 2026
+  </div>
+
+  <p class="lead">
+    These Terms of Service (the "Terms") form a binding agreement between you ("you" or "User") and Houston ("Houston", "we", "us", or "our") and govern your access to and use of the Houston desktop app, Houston Cloud, the gethouston.ai website, and any related products, software, APIs, and services we make available (together, the "Services").
+  </p>
+
+  <p class="lead">
+    Please read these Terms carefully. <strong>By downloading, installing, or using the Services you agree to be bound by these Terms and by our <a href="/privacy/">Privacy Policy</a>.</strong> If you do not agree, do not use the Services.
+  </p>
+
+  <div class="toc">
+    <div class="toc-label">In these terms</div>
+    <ol>
+      <li><a href="#acceptance">Acceptance and changes</a></li>
+      <li><a href="#eligibility">Eligibility and accounts</a></li>
+      <li><a href="#license">License to use Houston</a></li>
+      <li><a href="#use">Acceptable use</a></li>
+      <li><a href="#third-party">Third-party services and AI providers</a></li>
+      <li><a href="#content">Your data and content</a></li>
+      <li><a href="#cloud">Houston Cloud and beta features</a></li>
+      <li><a href="#fees">Fees, billing, and refunds</a></li>
+      <li><a href="#ip">Intellectual property</a></li>
+      <li><a href="#feedback">Feedback</a></li>
+      <li><a href="#disclaimer">Disclaimer of warranties</a></li>
+      <li><a href="#liability">Limitation of liability</a></li>
+      <li><a href="#indemnity">Indemnification</a></li>
+      <li><a href="#termination">Termination</a></li>
+      <li><a href="#law">Governing law and disputes</a></li>
+      <li><a href="#general">General</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ol>
+  </div>
+
+  <h2 id="acceptance">1. Acceptance and changes</h2>
+  <p>
+    By using the Services you accept these Terms. We may update the Terms from time to time. When we make material changes we will update the "Last updated" date and, where appropriate, give additional notice. Your continued use of the Services after the effective date of an updated version constitutes acceptance of the changes. If you do not agree, you must stop using the Services.
+  </p>
+
+  <h2 id="eligibility">2. Eligibility and accounts</h2>
+  <p>
+    You must be at least 13 years old (or the minimum age required in your jurisdiction) and legally able to enter into a binding contract to use the Services. If you use the Services on behalf of an organization, you represent that you have authority to bind that organization to these Terms, and "you" refers to both you and the organization.
+  </p>
+  <p>
+    You are responsible for keeping your account credentials confidential and for all activity that takes place under your account. Notify us immediately at <a href="mailto:hello@gethouston.ai">hello@gethouston.ai</a> if you suspect unauthorized access.
+  </p>
+
+  <h2 id="license">3. License to use Houston</h2>
+  <p>
+    Subject to these Terms, Houston grants you a limited, personal, non-exclusive, non-transferable, non-sublicensable, revocable license to download, install, and use the Houston desktop app and to access Houston Cloud, solely for your internal personal or business use.
+  </p>
+  <p>
+    Portions of Houston are made available under open-source licenses. Those portions are governed by their respective licenses, which take precedence over these Terms with respect to those portions.
+  </p>
+
+  <h2 id="use">4. Acceptable use</h2>
+  <p>You agree not to:</p>
+  <ul>
+    <li>Use the Services for any unlawful, fraudulent, deceptive, or harmful purpose.</li>
+    <li>Use the Services to send spam, malware, or content that infringes the rights of others or violates applicable laws.</li>
+    <li>Attempt to gain unauthorized access to the Services, other users' accounts, or the systems and networks that support the Services.</li>
+    <li>Reverse-engineer, decompile, or disassemble the Services, except to the extent that applicable law expressly permits despite this restriction.</li>
+    <li>Resell, sublicense, or otherwise commercially exploit the Services in a way that competes with Houston, except as expressly permitted.</li>
+    <li>Use the Services to build a competing product or to extract data for the purpose of training a model that competes with Houston.</li>
+    <li>Interfere with the operation of the Services, including by overloading, flooding, or sending automated traffic that is not generated through normal product use.</li>
+    <li>Use the Services in violation of applicable export controls or sanctions.</li>
+  </ul>
+  <p>
+    We may suspend or terminate access if we reasonably believe you have violated these rules.
+  </p>
+
+  <h2 id="third-party">5. Third-party services and AI providers</h2>
+  <p>
+    Houston is built to connect to third-party services that you choose, including AI providers (for example OpenAI, Anthropic), cloud storage, communication tools, and business applications. Your use of any third-party service is at your own risk and is governed by that provider's terms and privacy policies.
+  </p>
+  <p>
+    <strong>You are solely responsible for:</strong>
+  </p>
+  <ul>
+    <li>The API keys, credentials, and accounts you provide to Houston.</li>
+    <li>The prompts, files, and data you choose to send to AI providers through Houston.</li>
+    <li>Any fees, usage charges, or rate limits imposed by those providers.</li>
+    <li>Compliance with the third party's terms, including any restrictions on the use of their outputs.</li>
+  </ul>
+  <p>
+    AI outputs may be inaccurate, biased, incomplete, or otherwise unsuitable for your use case. <strong>You should review AI-generated content before relying on it for important decisions.</strong> Houston does not warrant the accuracy, reliability, or fitness of any AI output.
+  </p>
+
+  <h2 id="content">6. Your data and content</h2>
+  <p>
+    You retain all rights in the data, files, prompts, and other content you provide to or generate through the Services ("Your Content"). You grant Houston a limited, worldwide, non-exclusive, royalty-free license to host, store, transmit, display, and process Your Content solely as needed to provide and improve the Services for you.
+  </p>
+  <p>
+    You are responsible for Your Content, including for ensuring that you have the rights necessary to use it with the Services and that your use complies with applicable laws (for example, privacy and data-protection laws).
+  </p>
+  <p>
+    We do not use Your Content to train our own models. Our handling of personal information is described in our <a href="/privacy/">Privacy Policy</a>.
+  </p>
+
+  <h2 id="cloud">7. Houston Cloud and beta features</h2>
+  <p>
+    Houston Cloud and any features identified as "beta", "preview", "experimental", or similar are provided on an as-is basis and may be changed, suspended, or discontinued at any time. They may have lower availability than generally available features and may not be subject to the same level of support.
+  </p>
+
+  <h2 id="fees">8. Fees, billing, and refunds</h2>
+  <p>
+    The Houston desktop app is currently provided free of charge. Houston Cloud and other paid plans are billed at the prices and on the terms described at the time of purchase. Unless required by law, fees are non-refundable and pre-paid amounts are not pro-rated upon cancellation.
+  </p>
+  <p>
+    You are responsible for any taxes that apply to your purchases except where Houston is legally required to collect them. Failure to pay may result in suspension or termination of your paid plan.
+  </p>
+
+  <h2 id="ip">9. Intellectual property</h2>
+  <p>
+    The Services, including all software, designs, logos, trademarks, text, and other materials we provide (excluding Your Content and open-source components), are owned by Houston or its licensors and are protected by intellectual-property laws. Except for the rights expressly granted in these Terms, no rights are granted to you by implication or otherwise.
+  </p>
+
+  <h2 id="feedback">10. Feedback</h2>
+  <p>
+    If you send us suggestions, ideas, or feedback about the Services, you grant us a perpetual, irrevocable, worldwide, royalty-free, sublicensable license to use that feedback for any purpose without obligation to you.
+  </p>
+
+  <h2 id="disclaimer">11. Disclaimer of warranties</h2>
+  <p class="all-caps">
+    To the maximum extent permitted by applicable law, the Services are provided "as is" and "as available" without warranties of any kind, either express or implied. Houston, its affiliates, and its suppliers expressly disclaim all warranties, including warranties of merchantability, fitness for a particular purpose, title, non-infringement, and any warranties arising from course of dealing or usage of trade.
+  </p>
+  <p class="all-caps">
+    Houston does not warrant that the Services will be uninterrupted, error-free, secure, or free of viruses or other harmful components, or that any defects will be corrected. Houston does not warrant the accuracy, completeness, or reliability of any output produced by AI providers, third-party services, or the Services themselves.
+  </p>
+  <p>
+    Some jurisdictions do not allow the exclusion of certain warranties, so some of these exclusions may not apply to you.
+  </p>
+
+  <h2 id="liability">12. Limitation of liability</h2>
+  <p class="all-caps">
+    To the maximum extent permitted by applicable law, in no event shall Houston, its affiliates, officers, employees, agents, or licensors be liable for any indirect, incidental, special, consequential, exemplary, or punitive damages, including loss of profits, revenue, data, goodwill, or other intangible losses, arising out of or in connection with your access to or use of, or inability to access or use, the Services, even if Houston has been advised of the possibility of such damages.
+  </p>
+  <p class="all-caps">
+    To the maximum extent permitted by applicable law, Houston's total aggregate liability arising out of or relating to these Terms or the Services shall not exceed the greater of (a) the total amount you paid Houston for the Services in the twelve months preceding the event giving rise to the liability, or (b) one hundred U.S. dollars (US$100).
+  </p>
+  <p>
+    These limitations apply to all claims, whether based on warranty, contract, statute, tort (including negligence), or any other legal theory. Some jurisdictions do not allow the limitation or exclusion of certain damages, so some of these limitations may not apply to you; in those cases, our liability is limited to the smallest extent permitted by applicable law.
+  </p>
+
+  <h2 id="indemnity">13. Indemnification</h2>
+  <p>
+    You agree to defend, indemnify, and hold harmless Houston and its affiliates, officers, employees, agents, and licensors from and against any claims, liabilities, damages, losses, costs, and expenses (including reasonable attorneys' fees) arising out of or relating to: (a) your use of the Services; (b) Your Content; (c) your violation of these Terms; (d) your violation of any rights of any third party, including intellectual-property and privacy rights; or (e) your use of any third-party service connected to Houston.
+  </p>
+
+  <h2 id="termination">14. Termination</h2>
+  <p>
+    You may stop using the Services at any time. We may suspend or terminate your access to all or part of the Services at any time, with or without notice, if we reasonably believe you have violated these Terms, if required by law, or if continuing to provide the Services would create a risk to Houston or its users. Sections that by their nature should survive termination (including 6, 9, 11, 12, 13, 15, and 16) will survive.
+  </p>
+
+  <h2 id="law">15. Governing law and disputes</h2>
+  <p>
+    These Terms are governed by the laws of Colombia, without regard to its conflict-of-laws rules. The parties agree that any dispute arising out of or in connection with these Terms or the Services that cannot be resolved informally shall be submitted to the exclusive jurisdiction of the competent courts located in Bogotá, Colombia, except where applicable consumer-protection laws give you the right to bring proceedings in your country of residence.
+  </p>
+  <p>
+    Nothing in this section prevents either party from seeking injunctive or equitable relief in any court of competent jurisdiction to protect its intellectual-property or confidentiality rights.
+  </p>
+
+  <h2 id="general">16. General</h2>
+  <ul>
+    <li><strong>Entire agreement.</strong> These Terms, together with our <a href="/privacy/">Privacy Policy</a> and any additional terms we present to you for specific features, are the entire agreement between you and Houston regarding the Services and supersede any prior agreements on the same subject.</li>
+    <li><strong>Severability.</strong> If any provision of these Terms is held to be unenforceable, the remaining provisions will remain in full effect, and the unenforceable provision will be modified to the minimum extent necessary to make it enforceable.</li>
+    <li><strong>No waiver.</strong> Our failure to enforce any provision is not a waiver of our right to do so later.</li>
+    <li><strong>Assignment.</strong> You may not assign these Terms without our prior written consent. We may assign these Terms in connection with a merger, acquisition, financing, or sale of assets.</li>
+    <li><strong>Force majeure.</strong> Neither party will be liable for failure or delay caused by events beyond its reasonable control, including acts of God, natural disasters, war, terrorism, civil unrest, labor disputes, or failures of third-party infrastructure.</li>
+    <li><strong>Independent contractors.</strong> The parties are independent contractors. Nothing in these Terms creates a partnership, agency, or employment relationship.</li>
+    <li><strong>Notices.</strong> We may give notices through the Services, by email, or by posting on the website. You may give notices to <a href="mailto:hello@gethouston.ai">hello@gethouston.ai</a>.</li>
+  </ul>
+
+  <h2 id="contact">17. Contact</h2>
+  <p>
+    Questions about these Terms? Email <a href="mailto:hello@gethouston.ai">hello@gethouston.ai</a>.
+  </p>
+
+  <div class="legal-footer-link">
+    See also our <a href="/privacy/">Privacy Policy</a>.
+  </div>
+</main>
+
+{% include "footer-landing.njk" %}
+{% endblock %}

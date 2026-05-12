@@ -1,0 +1,319 @@
+---
+rootPath: "../"
+learnPath: "../learn/index.html"
+visionPath: "../vision/index.html"
+---
+{% extends "base.njk" %}
+{% block title %}Privacy Policy - Houston{% endblock %}
+{% block meta %}
+<meta name="description" content="How Houston collects, uses, stores, and protects your information.">
+{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="../learn/style.css?v=3">
+{% endblock %}
+{% block inlineStyles %}
+<style>
+  .legal {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 72px 32px 96px;
+  }
+  @media (max-width: 700px) {
+    .legal { padding: 48px 24px 72px; }
+  }
+  .legal .eyebrow {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-500);
+    margin-bottom: 12px;
+  }
+  .legal h1 {
+    font-size: clamp(34px, 4.5vw, 44px);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--gray-950);
+    margin-bottom: 12px;
+  }
+  .legal .meta-row {
+    font-size: 13px;
+    color: var(--gray-500);
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .legal .lead {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--gray-700);
+    margin-bottom: 16px;
+  }
+  .legal h2 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    color: var(--gray-950);
+    margin-top: 48px;
+    margin-bottom: 14px;
+    scroll-margin-top: 32px;
+  }
+  .legal h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gray-950);
+    margin-top: 24px;
+    margin-bottom: 8px;
+  }
+  .legal p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--gray-700);
+    margin-bottom: 14px;
+  }
+  .legal p strong { color: var(--gray-950); font-weight: 600; }
+  .legal ul, .legal ol {
+    margin-bottom: 16px;
+    padding-left: 22px;
+    color: var(--gray-700);
+    font-size: 15px;
+  }
+  .legal li { margin-bottom: 8px; line-height: 1.6; }
+  .legal li::marker { color: var(--gray-400); }
+  .legal a {
+    color: var(--gray-950);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--gray-300);
+  }
+  .legal a:hover { text-decoration-color: var(--gray-950); }
+  .legal .toc {
+    background: var(--gray-50);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 24px 0 40px;
+  }
+  .legal .toc-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gray-500);
+    margin-bottom: 10px;
+  }
+  .legal .toc ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: toc;
+    font-size: 14px;
+  }
+  .legal .toc li {
+    counter-increment: toc;
+    margin-bottom: 4px;
+    padding-left: 0;
+  }
+  .legal .toc li::marker { content: none; }
+  .legal .toc li::before {
+    content: counter(toc, decimal-leading-zero);
+    color: var(--gray-400);
+    margin-right: 10px;
+    font-variant-numeric: tabular-nums;
+  }
+  .legal .toc a { text-decoration: none; color: var(--gray-700); }
+  .legal .toc a:hover { color: var(--gray-950); text-decoration: underline; }
+  .legal .callout {
+    background: var(--gray-50);
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 18px 0;
+    font-size: 14px;
+    color: var(--gray-700);
+    line-height: 1.6;
+  }
+  .legal .callout strong { color: var(--gray-950); }
+  .legal-footer-link {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-light);
+    font-size: 13px;
+    color: var(--gray-500);
+  }
+  .legal-footer-link a { color: var(--gray-700); }
+</style>
+{% endblock %}
+{% block body %}
+{% include "nav-docs.njk" %}
+
+<main class="legal">
+  <div class="eyebrow">Legal</div>
+  <h1>Privacy Policy</h1>
+  <div class="meta-row">
+    Effective April 25, 2026 · Last updated April 25, 2026
+  </div>
+
+  <p class="lead">
+    This Privacy Policy explains how Houston ("Houston", "we", "us", or "our") collects, uses, stores, shares, and protects information when you use the Houston desktop app, the Houston Cloud service, the gethouston.ai website, and any related products or services (together, the "Services").
+  </p>
+
+  <p class="lead">
+    By using the Services you agree to this Policy. If you do not agree, please do not use the Services.
+  </p>
+
+  <div class="toc">
+    <div class="toc-label">In this policy</div>
+    <ol>
+      <li><a href="#who">Who we are</a></li>
+      <li><a href="#what">Information we collect</a></li>
+      <li><a href="#why">How we use information</a></li>
+      <li><a href="#share">When we share information</a></li>
+      <li><a href="#third-party">Third-party services and AI providers</a></li>
+      <li><a href="#storage">Where information is stored</a></li>
+      <li><a href="#retention">Data retention</a></li>
+      <li><a href="#security">Security</a></li>
+      <li><a href="#rights">Your rights and choices</a></li>
+      <li><a href="#international">International transfers</a></li>
+      <li><a href="#cookies">Cookies and similar technologies</a></li>
+      <li><a href="#children">Children's privacy</a></li>
+      <li><a href="#changes">Changes to this policy</a></li>
+      <li><a href="#contact">Contact us</a></li>
+    </ol>
+  </div>
+
+  <h2 id="who">1. Who we are</h2>
+  <p>
+    Houston builds a desktop application and a hosted service ("Houston Cloud") that let people run AI agents on top of their own data and tools. The Services are operated by Houston. You can reach us at <a href="mailto:hello@gethouston.ai">hello@gethouston.ai</a>.
+  </p>
+
+  <h2 id="what">2. Information we collect</h2>
+
+  <h3>2.1 Information you provide</h3>
+  <ul>
+    <li><strong>Account information.</strong> If you create a Houston Cloud account we collect your email address, display name, and authentication credentials. Authentication is handled through Supabase.</li>
+    <li><strong>Communications.</strong> If you contact us by email, social channels, or support forms we keep a copy of the message and your contact details.</li>
+    <li><strong>Payment information.</strong> If you purchase a paid plan, payment is processed by our payment provider. We do not store full card numbers ourselves.</li>
+  </ul>
+
+  <h3>2.2 Information you generate while using Houston</h3>
+  <ul>
+    <li><strong>Local agent data (desktop app).</strong> When you use the Houston desktop app, your workspaces, agent files, prompts, settings, and transcripts are stored on your own computer in <code>~/.houston/</code>. We do not receive a copy of this data unless you explicitly enable a feature that uploads it (for example Houston Cloud sync).</li>
+    <li><strong>Cloud agent data (Houston Cloud).</strong> If you use Houston Cloud, the data your agents read, write, and produce while running on our infrastructure is stored on our servers so that the service can function.</li>
+    <li><strong>Connector credentials.</strong> When you connect Houston to third-party tools (for example Gmail, Google Sheets, HubSpot, Stripe, Slack), the credentials and tokens needed to authorize those connections are stored either on your local machine (desktop app) or, if you use Houston Cloud, encrypted on our servers.</li>
+  </ul>
+
+  <h3>2.3 Information we collect automatically</h3>
+  <ul>
+    <li><strong>Product analytics.</strong> We use PostHog to collect usage events such as which screens you visit, which features you trigger, app version, operating system, and approximate region. Analytics events do not include the contents of your messages, files, or agent outputs.</li>
+    <li><strong>Crash and error reports.</strong> We use Sentry to capture crash reports and unhandled errors so we can fix bugs. These reports may include stack traces, the operating system, app version, and a redacted snapshot of relevant state.</li>
+    <li><strong>Website logs.</strong> Our hosting provider (Cloudflare) logs standard request data such as IP address, user agent, and the page requested.</li>
+  </ul>
+
+  <h2 id="why">3. How we use information</h2>
+  <p>We use the information we collect to:</p>
+  <ul>
+    <li>Provide, operate, and maintain the Services.</li>
+    <li>Authenticate you and protect your account.</li>
+    <li>Run the AI agents you create, including sending prompts to the AI provider you have configured.</li>
+    <li>Diagnose problems, fix bugs, and improve performance and reliability.</li>
+    <li>Understand how the product is used in aggregate so we can prioritize what to build.</li>
+    <li>Communicate with you about updates, security alerts, and support requests.</li>
+    <li>Comply with legal obligations and enforce our <a href="/terms/">Terms of Service</a>.</li>
+  </ul>
+  <p>
+    We do not sell your personal information. We do not use the contents of your agent files, prompts, or messages to train our own models.
+  </p>
+
+  <h2 id="share">4. When we share information</h2>
+  <p>We share information only in the following situations:</p>
+  <ul>
+    <li><strong>Service providers.</strong> We share data with vendors that help us run the Services, including hosting (Cloudflare, Google Cloud), authentication and database (Supabase), analytics (PostHog), error monitoring (Sentry), and payment processing. These providers are bound by contract to use the data only for the purpose of providing services to us.</li>
+    <li><strong>AI providers.</strong> When you run an agent, the prompts, files, and tool outputs you send to that agent are transmitted to the AI provider you have configured (for example OpenAI or Anthropic) using the API key or subscription you have chosen. Their use of that data is governed by their own terms and privacy policies.</li>
+    <li><strong>Connected applications.</strong> When you connect a third-party application to Houston, data flows between Houston and that application as needed for the connector to work. The third party's use of your data is governed by its own terms.</li>
+    <li><strong>Legal requirements.</strong> We may disclose information when we believe in good faith that disclosure is necessary to comply with a law, regulation, legal process, or governmental request, or to protect the rights, property, or safety of Houston, our users, or others.</li>
+    <li><strong>Business transfers.</strong> If Houston is involved in a merger, acquisition, financing, or sale of assets, your information may be transferred as part of that transaction. We will notify you of any change in ownership or use of your information.</li>
+  </ul>
+
+  <h2 id="third-party">5. Third-party services and AI providers</h2>
+  <p>
+    Houston is designed to work with services you bring yourself. When you connect Houston to OpenAI, Anthropic, Google, Microsoft, Slack, Stripe, HubSpot, or any other third-party service, you are creating a direct relationship between yourself and that provider.
+  </p>
+  <p>
+    <strong>You are responsible for the choices you make with those providers</strong>, including the API keys you supply, the data you allow Houston to send on your behalf, and the costs you incur. Houston does not control and is not responsible for the practices of those providers. We strongly recommend you review their terms and privacy policies before connecting them.
+  </p>
+  <div class="callout">
+    <strong>Free desktop app.</strong> When you use the Houston desktop app with your own AI subscription or API key, your prompts and agent outputs are sent directly from your computer to the AI provider you selected. Houston does not receive a copy.
+  </div>
+
+  <h2 id="storage">6. Where information is stored</h2>
+  <p>
+    Local data created by the desktop app is stored on your own device. Houston Cloud data and account information are stored on infrastructure provided by Google Cloud, Supabase, and Cloudflare in regions chosen for reliability and performance. By using Houston Cloud you understand and agree that your information may be processed in countries other than your own.
+  </p>
+
+  <h2 id="retention">7. Data retention</h2>
+  <p>
+    We keep personal information only for as long as we need it to provide the Services and to comply with our legal obligations. When you delete your Houston Cloud account we delete or anonymize your account data and any agent data we host within a reasonable period, except where we are required to keep it for legal, accounting, or fraud-prevention purposes.
+  </p>
+  <p>
+    Local files created by the desktop app are kept on your own device until you delete them.
+  </p>
+
+  <h2 id="security">8. Security</h2>
+  <p>
+    We use commercially reasonable technical and organizational measures to protect your information, including encryption in transit (HTTPS/TLS), encryption at rest where supported by our providers, access controls, and audit logging. No method of transmission or storage is completely secure, and we cannot guarantee absolute security.
+  </p>
+
+  <h2 id="rights">9. Your rights and choices</h2>
+  <p>
+    Depending on where you live you may have the following rights with respect to your personal information:
+  </p>
+  <ul>
+    <li><strong>Access</strong> a copy of the personal information we hold about you.</li>
+    <li><strong>Correct</strong> information that is inaccurate or out of date.</li>
+    <li><strong>Delete</strong> your personal information, subject to legal exceptions.</li>
+    <li><strong>Port</strong> your information to another service in a structured, machine-readable format.</li>
+    <li><strong>Object</strong> to or <strong>restrict</strong> certain processing.</li>
+    <li><strong>Withdraw consent</strong> where we rely on consent as the basis for processing.</li>
+    <li><strong>Lodge a complaint</strong> with your local data-protection authority.</li>
+  </ul>
+  <p>
+    To exercise any of these rights, contact us at <a href="mailto:hello@gethouston.ai">hello@gethouston.ai</a>. We may need to verify your identity before responding.
+  </p>
+  <p>
+    California residents have additional rights under the California Consumer Privacy Act (CCPA), including the right to know, the right to delete, and the right to opt out of the sale or sharing of personal information. We do not sell or share personal information for cross-context behavioral advertising.
+  </p>
+
+  <h2 id="international">10. International transfers</h2>
+  <p>
+    Houston operates globally. If you access the Services from outside the country where our servers are located, your information may be transferred to, stored, and processed in another country. Where required by law, we put appropriate safeguards in place for international transfers, such as standard contractual clauses.
+  </p>
+
+  <h2 id="cookies">11. Cookies and similar technologies</h2>
+  <p>
+    The gethouston.ai website uses a small number of cookies and local-storage entries for essential functionality (for example, remembering whether you have dismissed a banner) and for analytics through PostHog. The desktop app does not use cookies in the traditional web sense, but stores local preferences in your operating system's standard application-data location.
+  </p>
+  <p>
+    You can clear cookies and local storage through your browser settings. Blocking analytics may not affect your ability to use the Services.
+  </p>
+
+  <h2 id="children">12. Children's privacy</h2>
+  <p>
+    The Services are not directed to children under the age of 13 (or the equivalent minimum age in your jurisdiction), and we do not knowingly collect personal information from them. If you believe a child has provided us with personal information, please contact us and we will take steps to delete it.
+  </p>
+
+  <h2 id="changes">13. Changes to this policy</h2>
+  <p>
+    We may update this Privacy Policy from time to time. When we make material changes we will update the "Last updated" date above and, where appropriate, give additional notice (for example, by email or through the Services). Your continued use of the Services after the changes take effect means you accept the updated policy.
+  </p>
+
+  <h2 id="contact">14. Contact us</h2>
+  <p>
+    Questions, requests, or concerns about this Privacy Policy or our handling of your information? Email <a href="mailto:hello@gethouston.ai">hello@gethouston.ai</a>.
+  </p>
+
+  <div class="legal-footer-link">
+    See also our <a href="/terms/">Terms of Service</a>.
+  </div>
+</main>
+
+{% include "footer-landing.njk" %}
+{% endblock %}
