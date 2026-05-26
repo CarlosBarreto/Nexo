@@ -6,13 +6,45 @@ Read this once start to finish, then keep it open every morning for a week.
 
 ## Where to find what
 
+PostHog project ID = `396231` (org `houston-tgsg`). Sentry org `houston-cd`. Bookmark these.
+
+### Canonical dashboards (pinned, tag `canonical-2026-05`)
+
+| # | Dashboard | URL | Opens with |
+|---|---|---|---|
+| 1 | Acquisition | https://us.posthog.com/project/396231/dashboard/1631626 | Where users come from |
+| 2 | Activation | https://us.posthog.com/project/396231/dashboard/1631629 | Where the funnel leaks |
+| 3 | Engagement | https://us.posthog.com/project/396231/dashboard/1631631 | Are users actually using it |
+| 4 | Retention | https://us.posthog.com/project/396231/dashboard/1631635 | Do they come back |
+| 5 | Feature Adoption | https://us.posthog.com/project/396231/dashboard/1631636 | Which features pull weight |
+| 6 | Reliability | https://us.posthog.com/project/396231/dashboard/1631644 | What breaks for users |
+| 7 | AI Usage | https://us.posthog.com/project/396231/dashboard/1631647 | LLM cost/latency/errors |
+| 8 | B2B | https://us.posthog.com/project/396231/dashboard/1631648 | Org adoption signals |
+
+The numbered prefix (`Houston / 1. Acquisition`) sorts them in the PostHog sidebar so daily reading order matches the natural flow: acquire → activate → engage → retain.
+
+Old dashboards (`Houston Growth + Reliability`, `Houston Acquisition Funnel`, `My App Dashboard`) are kept but **tagged `legacy-pre-2026-05` and unpinned**. The insights inside them still live (most are cross-attached to the new dashboards). Delete them whenever you're comfortable.
+
+### Saved cohorts (`canonical-2026-05`)
+
+| Cohort | Use when |
+|---|---|
+| Activated users (id 329391) | Denominator for retention curves; inclusion filter for "real users only" insights |
+| Stale-version users (id 329396) | Email outreach to users who never auto-updated. Refresh slug after each release. |
+| B2B users (company email) (id 329392) | Org-adoption analyses; filter any engagement insight by this |
+| Power users (10+ msgs/7d) (id 329393) | User interviews, NPS, advisor input |
+| Lost users (no app_active 30d) (id 329394) | Win-back email targets (intersect with B2B for highest-leverage list) |
+| Internal / Test users (id 275230) | EXCLUDE from every insight via `not in cohort` filter |
+
+### Quick reference
+
 | Question | Tool | Where exactly |
 |---|---|---|
 | "What's breaking?" | Sentry | https://houston-cd.sentry.io → Issues |
-| "How are users behaving?" | PostHog | https://us.posthog.com → Dashboards |
-| "Why did a metric spike on Tuesday?" | PostHog | Look at the release annotations on the chart |
-| "Who downloaded yesterday?" | PostHog | Acquisition dashboard, broken down by `$initial_utm_campaign` |
-| "Is feature X working out?" | PostHog | Feature Adoption dashboard, vs release annotation |
+| "How are users behaving?" | PostHog | Dashboards 1–4 (the daily reading order) |
+| "Why did a metric spike on Tuesday?" | PostHog | Release annotations live on every chart; `release.yml` posts them on every tag |
+| "Who downloaded yesterday?" | PostHog | Acquisition dashboard → "Installs by first-touch UTM campaign" |
+| "Is feature X working out?" | PostHog | Feature Adoption dashboard, before/after release annotation |
 
 ## Daily ritual (5 minutes, every morning)
 

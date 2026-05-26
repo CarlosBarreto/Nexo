@@ -42,18 +42,24 @@ Event names + props are allowlisted in `AnalyticsEventName` / `AnalyticsProperty
 
 **Analytics in `app/` only** — never in `ui/`. Library boundary rule applies.
 
-### PostHog dashboards
-Create one dashboard: **Houston Growth + Reliability**. Every tile filters `is_debug != true`.
+### PostHog dashboards — canonical set (tag `canonical-2026-05`)
 
-1. **DAU:** unique users, event `app_active`, interval day
-2. **WAU:** unique users, event `app_active`, interval week
-3. **MAU:** unique users, event `app_active`, interval month
-4. **Activation funnel:** `install_created` → `workspace_created` → `provider_configured` → `agent_created` → `chat_message_sent` → `chat_message_received`
-5. **Activated retention:** weekly retention where start + return event = `chat_message_received`
-6. **Engaged users:** unique users with `mission_created` or `chat_message_received`
-7. **Reliability:** count of `session_failed` + `$exception`, broken down by `error_kind`
-8. **Company domains:** active users broken down by person property `email_domain`
-9. **Active users by app version:** unique users, event `app_active`, breakdown by super property `app_version`, interval last 30 days, sort descending. Surfaces stragglers on old builds so we know how big the "needs to update" cohort is.
+8 themed dashboards, each opens with one question. Numeric prefix sets the sidebar order to match daily reading flow:
+
+1. **Houston / 1. Acquisition** (id 1631626) — where users come from. Installs over time + UTM-campaign + OS breakdown
+2. **Houston / 2. Activation** (id 1631629) — where the funnel leaks. Install → activation funnel, time-to-activation, onboarding completion
+3. **Houston / 3. Engagement** (id 1631631) — DAU/WAU/MAU, stickiness, messages-per-active-day
+4. **Houston / 4. Retention** (id 1631635) — weekly cohort retention, growth accounting, attribution-cohorted retention
+5. **Houston / 5. Feature Adoption** (id 1631636) — per-feature usage (skill_used, tab_opened, integration_connected, routine_executed, update funnel)
+6. **Houston / 6. Reliability** (id 1631644) — app_error_shown by error_kind, session failures, error rate by app_version
+7. **Houston / 7. AI Usage** (id 1631647) — LLM cost / latency / errors / generation calls (uses PostHog LLM-observability auto-events)
+8. **Houston / 8. B2B** (id 1631648) — multi-user company domains, messages-by-domain
+
+Filter `is_debug != true` is applied at the project level via the `Internal / Test users` cohort (exclude this cohort from every insight as a project-wide convention).
+
+Old dashboards (`Houston Growth + Reliability` 1517531, `Houston Acquisition Funnel` 1522835, `My App Dashboard` 1507849) are tagged `legacy-pre-2026-05` and unpinned. Their insights live on, mostly cross-attached to the new dashboards. Delete the old shells whenever comfortable — no insights will be lost.
+
+Reading guide: `knowledge-base/data-rituals.md`.
 
 Do NOT use raw autocapture event lists for product decisions. If a question needs click-level data, prefer one temporary, named event and delete it after the decision.
 
