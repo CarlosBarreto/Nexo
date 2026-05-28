@@ -448,6 +448,20 @@ mod tests {
         .unwrap();
         let renamed = rename(d.path(), &ws_id, &res.agent.id, "m").unwrap();
         assert_eq!(renamed.name, "m");
+        // The folder moves on disk, so the returned record must carry the NEW
+        // path. The desktop store relies on this to repoint its file watcher;
+        // a stale path makes the watch fail with an error toast (#298).
+        assert_eq!(
+            Path::new(&renamed.folder_path)
+                .file_name()
+                .and_then(|n| n.to_str()),
+            Some("m"),
+        );
+        assert!(
+            !d.path().join("alpha/n").exists(),
+            "old agent folder should no longer exist after rename"
+        );
+        assert!(d.path().join("alpha/m/.houston/agent.json").exists());
         delete(d.path(), &ws_id, &res.agent.id).unwrap();
         assert!(list(d.path(), &ws_id).unwrap().is_empty());
     }

@@ -144,9 +144,9 @@ export const tauriAgents = {
   delete: (workspaceId: string, id: string) =>
     call<void>("delete_agent", () => getEngine().deleteAgent(workspaceId, id)),
   rename: (workspaceId: string, id: string, newName: string) =>
-    call<void>("rename_agent", async () => {
-      await getEngine().renameAgent(workspaceId, id, newName);
-    }),
+    call<Agent>("rename_agent", async () =>
+      toAgent(await getEngine().renameAgent(workspaceId, id, newName)),
+    ),
   updateColor: (workspaceId: string, id: string, color: string) =>
     call<Agent>("update_agent_color", async () =>
       toAgent(await getEngine().updateAgent(workspaceId, id, { color })),
