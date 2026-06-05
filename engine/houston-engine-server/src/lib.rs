@@ -6,10 +6,13 @@
 
 pub mod auth;
 pub mod config;
+pub mod integrations_prompt;
 pub mod mobile_access;
 pub mod routes;
 pub mod state;
 pub mod ws;
+
+pub use integrations_prompt::compose_app_system_prompt;
 
 use axum::{http::HeaderValue, middleware, routing::get, Router};
 use std::sync::Arc;
@@ -38,6 +41,7 @@ pub fn build_router(state: Arc<ServerState>) -> Router {
         .merge(routes::agents::router())
         .merge(routes::agent_files::router())
         .merge(routes::composio::router())
+        .merge(routes::integrations::router())
         .merge(routes::claude::router())
         .merge(routes::tunnel::router())
         .merge(routes::watcher::router())

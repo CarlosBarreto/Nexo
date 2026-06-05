@@ -9,8 +9,13 @@ pub mod auth;
 pub mod cli;
 pub mod commands;
 pub mod connection_watcher;
+pub mod guidance;
 pub mod install;
 pub mod lifecycle;
 pub mod mcp;
 pub use mcp::toolkit_display_name;
+pub mod provider;
 pub mod toolkits;
+
+pub use guidance::COMPOSIO_GUIDANCE;
+pub use provider::ComposioProvider;

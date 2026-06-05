@@ -7,6 +7,7 @@ pub mod attachments;
 pub mod claude;
 pub mod composio;
 pub mod conversations;
+pub mod integrations;
 pub mod error;
 pub mod health;
 pub mod portable;

@@ -144,13 +144,18 @@ async fn update_run(
 
 // -- Scheduler lifecycle --
 
-fn make_dispatcher(st: &Arc<ServerState>) -> EngineRoutineDispatcher {
+async fn make_dispatcher(st: &Arc<ServerState>) -> EngineRoutineDispatcher {
     EngineRoutineDispatcher {
         rt: st.engine.sessions.clone(),
         events: st.engine.events.clone(),
         db: st.engine.db.clone(),
         paths: st.engine.paths.clone(),
-        app_system_prompt: st.engine.app_system_prompt.clone(),
+        // Composite app prompt — base + active integrations provider guidance.
+        // Snapshotted at dispatcher-construction time; runtime provider
+        // switches take effect on the NEXT dispatcher build (routine run /
+        // scheduler reload). Routines that started before a switch keep
+        // their original guidance for the duration of that run.
+        app_system_prompt: crate::compose_app_system_prompt(st).await,
     }
 }
 
@@ -160,7 +165,7 @@ async fn run_now(
     Query(q): Query<AgentQuery>,
 ) -> Result<(), ApiError> {
     let dispatcher: Arc<dyn routines::runner::RoutineDispatcher> =
-        Arc::new(make_dispatcher(&st));
+        Arc::new(make_dispatcher(&st).await);
     let surface: Arc<dyn routines::runner::ActivitySurface> = Arc::new(EngineActivitySurface);
     run_routine(
         st.engine.events.clone(),
@@ -206,7 +211,7 @@ async fn scheduler_start(
 ) -> Result<(), ApiError> {
     let tz = preferences::timezone(&st.engine.db).await;
     let dispatcher: Arc<dyn routines::runner::RoutineDispatcher> =
-        Arc::new(make_dispatcher(&st));
+        Arc::new(make_dispatcher(&st).await);
     let surface: Arc<dyn routines::runner::ActivitySurface> = Arc::new(EngineActivitySurface);
     st.routine_scheduler
         .start_agent(

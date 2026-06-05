@@ -6,14 +6,22 @@
   },
   "notInstalled": {
     "title": "Connect your apps",
-    "body": "Houston uses an integrations provider to let your agent use Gmail, Slack, Google Drive, and 100+ other services on your behalf. The default provider is Composio. One-time install, about 80 MB.",
+    "body": "Houston uses an integrations provider to let your agent use Gmail, Slack, Google Drive, and 100+ other services on your behalf. One-time install, about 80 MB.",
     "install": "Install provider",
     "installing": "Installing…"
   },
   "needsAuth": {
     "title": "Connect your integrations provider",
-    "body": "Sign in to your integrations provider so your agent can use Gmail, Slack, Google Drive, and 100+ other services on your behalf. We use Composio by default.",
+    "body": "Sign in to your integrations provider so your agent can use Gmail, Slack, Google Drive, and 100+ other services on your behalf.",
     "signIn": "Sign in"
+  },
+  "merge": {
+    "signedInTitle": "Signed in to Merge",
+    "signedInBody": "Your agent can use any app available through Merge. To connect a new one, ask your agent in chat (for example, \"connect my Gmail\") and approve the magic link Merge sends back.",
+    "openDashboard": "Open Merge dashboard",
+    "connectedHeading": "Connected apps ({{count}})",
+    "loading": "Loading…",
+    "noConnections": "No apps connected yet. Ask your agent to use one and they'll guide you through the one-time approval."
   },
   "error": {
     "title": "Couldn't load integrations",
@@ -48,5 +56,28 @@
     "alreadyConnected": "Already connected",
     "connected": "Connected",
     "connect": "Connect"
+  },
+  "picker": {
+    "badgeAria": "Change integrations provider",
+    "loading": "Loading provider",
+    "poweredBy": "Powered by {{name}}",
+    "active": "Active",
+    "dialogTitle": "Choose your integrations provider",
+    "dialogDescription": "Houston connects to your apps through an integrations provider. Pick the one you trust, switch anytime.",
+    "footerNote": "Switching providers does not delete your existing connections. They stay linked in the previous provider until you sign out there.",
+    "providers": {
+      "composio": {
+        "name": "Composio",
+        "tagline": "The default. Bundled with Houston, supports 100+ apps out of the box.",
+        "bullet1": "Ships with Houston, no extra install for most users",
+        "bullet2": "Broad app catalog including Gmail, Slack, GitHub, Notion"
+      },
+      "merge": {
+        "name": "Merge",
+        "tagline": "Lightweight alternative. Pure OAuth from Houston, no bundled binaries.",
+        "bullet1": "Signs you in directly to your own Merge account",
+        "bullet2": "Each user gets a free credit allowance every month"
+      }
+    }
   }
 }

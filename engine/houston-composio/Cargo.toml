@@ -18,6 +18,8 @@ sha2 = "0.10"
 houston-ui-events = { workspace = true }
 houston-db = { workspace = true }
 houston-cli-bundle = { workspace = true }
+houston-integrations = { workspace = true }
+async-trait = { workspace = true }
 # Cross-platform home-directory resolution (used by install.rs to locate
 # `~/.composio/composio[.exe]` on macOS/Linux and `%USERPROFILE%\.composio\…`
 # on Windows).

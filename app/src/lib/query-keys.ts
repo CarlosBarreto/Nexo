@@ -32,4 +32,12 @@ export const queryKeys = {
   connections: () => ["connections"] as const,
   composioApps: () => ["composio-apps"] as const,
   connectedToolkits: () => ["connected-toolkits"] as const,
+  /** Provider-agnostic — which integrations provider (Composio/Merge) is active. */
+  integrationsActive: () => ["integrations-active"] as const,
+  /** Status of the currently-active provider. */
+  integrationsStatus: () => ["integrations-status"] as const,
+  /** Apps catalog from the currently-active provider. */
+  integrationsApps: () => ["integrations-apps"] as const,
+  /** Connections list from the currently-active provider. */
+  integrationsConnections: () => ["integrations-connections"] as const,
 };

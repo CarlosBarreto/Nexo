@@ -1,4 +1,16 @@
-/// Composio CLI integration guidance, including rich connect-card links.
+//! Agent-facing operational guidance for Composio.
+//!
+//! Appended to the per-session system prompt when Composio is the active
+//! integrations provider. Tells the model HOW to discover + invoke tools
+//! through Composio's CLI (`composio search` / `composio execute`).
+//!
+//! Moved out of the Houston app (`app/src-tauri/src/houston_prompt/integrations.rs`)
+//! so the prompt fragment lives next to the provider it instructs. The app's
+//! base Houston identity prompt stays in the app; only the provider-specific
+//! operational text is here.
+
+/// Composio operational guidance. Starts with the standard `\n\n---\n\n`
+/// separator so the caller can concatenate without thinking about spacing.
 pub const COMPOSIO_GUIDANCE: &str = "\n\n---\n\n# Integrations - Composio CLI\n\n\
 When a task needs a connected app or account, prefer Composio when a suitable tool exists. \
 Search Composio before using another integration path. \

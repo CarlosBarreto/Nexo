@@ -4,24 +4,32 @@
 //! These strings are the product layer. The engine is prompt-agnostic: it
 //! assembles per-agent context from disk, while this module defines how the
 //! Houston desktop agent behaves and speaks.
+//!
+//! Integrations-provider guidance (Composio CLI usage / Merge MCP usage)
+//! no longer lives here — it moved into the engine alongside each provider
+//! crate (`houston_composio::COMPOSIO_GUIDANCE`, `houston_merge::MERGE_GUIDANCE`).
+//! The engine appends the active provider's guidance at session-spawn time so
+//! the agent sees the right instructions for whichever provider the user is
+//! currently using, without restarting the engine on a runtime picker switch.
 
 mod base;
-mod integrations;
 mod onboarding;
 mod routines;
 mod skills_memory;
 
 pub use base::HOUSTON_SYSTEM_PROMPT;
-pub use integrations::COMPOSIO_GUIDANCE;
 pub use onboarding::ONBOARDING_GUIDANCE;
 pub use routines::ROUTINES_GUIDANCE;
 pub use skills_memory::SELF_IMPROVEMENT_GUIDANCE;
 
 /// Build the composite system prompt the engine uses as its fallback.
-/// Order: base identity, skills/memory guidance, routines guidance, Composio guidance.
+/// Order: base identity, skills/memory guidance, routines guidance.
+/// The active integrations provider's operational guidance is appended by
+/// the engine at session-spawn time (see
+/// `houston_engine_server::compose_app_system_prompt`).
 pub fn system_prompt() -> String {
     format!(
-        "{HOUSTON_SYSTEM_PROMPT}\n\n---\n\n{SELF_IMPROVEMENT_GUIDANCE}\n\n---\n\n{ROUTINES_GUIDANCE}{COMPOSIO_GUIDANCE}"
+        "{HOUSTON_SYSTEM_PROMPT}\n\n---\n\n{SELF_IMPROVEMENT_GUIDANCE}\n\n---\n\n{ROUTINES_GUIDANCE}"
     )
 }
 

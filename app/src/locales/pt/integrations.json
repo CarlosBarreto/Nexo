@@ -6,14 +6,22 @@
   },
   "notInstalled": {
     "title": "Conecte seus apps",
-    "body": "O Houston usa um provedor de integrações para deixar seu agente usar Gmail, Slack, Google Drive e mais de 100 serviços por você. O provedor padrão é o Composio. Instalação única, cerca de 80 MB.",
+    "body": "O Houston usa um provedor de integrações para deixar seu agente usar Gmail, Slack, Google Drive e mais de 100 serviços por você. Instalação única, cerca de 80 MB.",
     "install": "Instalar provedor",
     "installing": "Instalando…"
   },
   "needsAuth": {
     "title": "Conecte seu provedor de integrações",
-    "body": "Entre no seu provedor de integrações para seu agente poder usar Gmail, Slack, Google Drive e mais de 100 serviços por você. Por padrão usamos o Composio.",
+    "body": "Entre no seu provedor de integrações para seu agente poder usar Gmail, Slack, Google Drive e mais de 100 serviços por você.",
     "signIn": "Entrar"
+  },
+  "merge": {
+    "signedInTitle": "Conectado ao Merge",
+    "signedInBody": "Seu agente pode usar qualquer app disponível pelo Merge. Para conectar um novo, peça ao seu agente no chat (por exemplo, \"conecte meu Gmail\") e aprove o magic link que o Merge enviar.",
+    "openDashboard": "Abrir painel do Merge",
+    "connectedHeading": "Apps conectados ({{count}})",
+    "loading": "Carregando…",
+    "noConnections": "Ainda não há apps conectados. Peça ao seu agente para usar um e ele guia você na aprovação única."
   },
   "error": {
     "title": "Não foi possível carregar as integrações",
@@ -48,5 +56,28 @@
     "alreadyConnected": "Já conectado",
     "connected": "Conectado",
     "connect": "Conectar"
+  },
+  "picker": {
+    "badgeAria": "Alterar provedor de integrações",
+    "loading": "Carregando provedor",
+    "poweredBy": "Com tecnologia da {{name}}",
+    "active": "Ativo",
+    "dialogTitle": "Escolha seu provedor de integrações",
+    "dialogDescription": "O Houston conecta seus apps por meio de um provedor de integrações. Escolha o que preferir, você pode trocar quando quiser.",
+    "footerNote": "Trocar de provedor não apaga suas conexões existentes. Elas continuam vinculadas no provedor anterior até você sair lá.",
+    "providers": {
+      "composio": {
+        "name": "Composio",
+        "tagline": "O padrão. Vem com o Houston e suporta mais de 100 apps.",
+        "bullet1": "Já vem no Houston, sem instalação extra para a maioria",
+        "bullet2": "Catálogo amplo, com Gmail, Slack, GitHub, Notion e outros"
+      },
+      "merge": {
+        "name": "Merge",
+        "tagline": "Alternativa leve. OAuth direto do Houston, sem binários extras.",
+        "bullet1": "Conecta você direto à sua própria conta do Merge",
+        "bullet2": "Cada usuário recebe uma cota mensal de créditos gratuitos"
+      }
+    }
   }
 }

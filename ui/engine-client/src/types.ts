@@ -624,6 +624,63 @@ export interface ComposioStartLinkResponse {
   toolkit: string;
 }
 
+// ---------- Provider-agnostic integrations ----------
+//
+// The engine exposes a provider-agnostic surface under `/v1/integrations/*`
+// that talks to whichever provider is active (Composio or Merge). The
+// frontend uses this when it needs to be provider-aware (the picker UI);
+// the existing `/v1/composio/*` shims stay for the per-Composio rendering
+// already in use.
+//
+// Tag strings match `houston-integrations::ProviderId::as_str()` ("composio",
+// "merge") — the discriminated union lets the picker render different chips
+// per provider without hardcoding the variant set in two places.
+
+export type IntegrationsProviderId = "composio" | "merge";
+
+export interface ActiveIntegrationsProvider {
+  id: IntegrationsProviderId;
+  displayName: string;
+  isBundled: boolean;
+}
+
+export type IntegrationsStatus =
+  | { status: "not_installed" }
+  | { status: "needs_auth" }
+  | { status: "ok"; email: string | null; org_name: string | null }
+  | { status: "error"; message: string };
+
+export interface IntegrationsLoginFlow {
+  login_url: string;
+  completion_key: string;
+}
+
+/** One app the user could connect through the active provider. */
+export interface IntegrationsAppEntry {
+  slug: string;
+  display_name: string;
+  description: string;
+  logo_url: string;
+  connected: boolean;
+}
+
+/** An app the user has currently connected. */
+export interface IntegrationsConnection {
+  slug: string;
+  display_name: string;
+  description: string;
+  logo_url: string;
+  email: string | null;
+  connected_at: string | null;
+}
+
+/** Begin connecting a specific app. The URL is provider-supplied. */
+export interface IntegrationsAppConnectionFlow {
+  redirect_url: string;
+  /** Provider-specific handle for follow-up polling (null for Merge magic links). */
+  handle: string | null;
+}
+
 // ────────────────────────────────────────────────────────────────────────
 // Portable agent (share / import "from a friend")
 // ────────────────────────────────────────────────────────────────────────

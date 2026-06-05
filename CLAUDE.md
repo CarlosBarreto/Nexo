@@ -76,6 +76,7 @@ Need specific knowledge? Load on demand:
 - Updater, analytics, Sentry, env vars, CI → `knowledge-base/production-infra.md`
 - Supabase auth, Google SSO, Keychain → `knowledge-base/auth.md`
 - Translating UI strings, namespaces, ui/ labels prop pattern, `t()` rules → `knowledge-base/i18n.md`
+- Provider-agnostic integrations layer (Composio + Merge behind one trait) → `knowledge-base/integrations-providers.md`
 
 Design work? Skills: `/critique` before, `/polish` after. Else `/clarify` (copy), `/distill` (overloaded screen), `/animate` (micro-interactions), `/audit` (a11y).
 

@@ -3,18 +3,31 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
 } from "@houston-ai/core";
 import { Loader2, ExternalLink } from "lucide-react";
-import type { ComposioAuthState } from "../hooks/use-composio-auth";
+
+/**
+ * Structural shape shared by every provider's sign-in hook
+ * (`useComposioAuth`, `useIntegrationsAuth`). Lets one dialog component
+ * render the in-progress UI regardless of which provider is active.
+ */
+interface AuthStateShape {
+  open: boolean;
+  phase: "idle" | "waiting" | "error";
+  loginUrl: string | null;
+  error: string | null;
+}
 
 interface ComposioAuthDialogProps {
-  state: ComposioAuthState;
+  state: AuthStateShape;
   onClose: () => void;
   onReopenBrowser: () => void;
 }
 
 /**
- * Sign-in dialog for Composio. Always shows the login URL as a
- * clickable button as soon as `state.loginUrl` is set, so the user
- * can always manually open it even if the auto-open failed.
+ * Sign-in dialog used for both Composio and Merge flows — the shape is
+ * identical so one component renders the in-progress UI regardless of
+ * which provider is active. Always shows the login URL as a clickable
+ * button as soon as `state.loginUrl` is set, so the user can always
+ * manually open it even if the auto-open failed.
  */
 export function ComposioAuthDialog({
   state,

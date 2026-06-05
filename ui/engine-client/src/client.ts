@@ -18,10 +18,17 @@ import type {
   AttachmentUploadResult,
   ChatHistoryEntry,
   CommunitySkill,
+  ActiveIntegrationsProvider,
   ComposioAppEntry,
   ComposioStartLinkResponse,
   ComposioStartLoginResponse,
   ComposioStatus,
+  IntegrationsAppConnectionFlow,
+  IntegrationsAppEntry,
+  IntegrationsConnection,
+  IntegrationsLoginFlow,
+  IntegrationsProviderId,
+  IntegrationsStatus,
   ConversationEntry,
   CreateAgent,
   CreateAgentResult,
@@ -719,6 +726,70 @@ export class HoustonClient {
    */
   composioWatchConnection(toolkit: string): Promise<void> {
     return this.request("POST", "/composio/connections/watch", { toolkit });
+  }
+
+  // ---------- integrations (provider-agnostic) ----------
+  //
+  // These talk to the currently-active provider via `/v1/integrations/*`.
+  // Use these when the UI needs to be provider-aware (picker, status badge);
+  // use the `composio*` methods above when the surface is specifically about
+  // Composio (legacy direct routes).
+
+  /** Read the active provider preference. Falls back to "composio". */
+  integrationsGetActive(): Promise<ActiveIntegrationsProvider> {
+    return this.request<{
+      id: IntegrationsProviderId;
+      display_name: string;
+      is_bundled: boolean;
+    }>("GET", "/integrations/active").then((r) => ({
+      id: r.id,
+      displayName: r.display_name,
+      isBundled: r.is_bundled,
+    }));
+  }
+  /** Persist the active provider preference. Survives engine restarts. */
+  integrationsSetActive(
+    id: IntegrationsProviderId,
+  ): Promise<ActiveIntegrationsProvider> {
+    return this.request<{
+      id: IntegrationsProviderId;
+      display_name: string;
+      is_bundled: boolean;
+    }>("POST", "/integrations/active", { id }).then((r) => ({
+      id: r.id,
+      displayName: r.display_name,
+      isBundled: r.is_bundled,
+    }));
+  }
+  /** Status of whichever provider is active right now. */
+  integrationsStatus(): Promise<IntegrationsStatus> {
+    return this.request("GET", "/integrations/status");
+  }
+  /** Begin the active provider's login flow. */
+  integrationsStartLogin(): Promise<IntegrationsLoginFlow> {
+    return this.request("POST", "/integrations/login");
+  }
+  /** Finish the active provider's login flow with the completion key. */
+  integrationsCompleteLogin(completionKey: string): Promise<void> {
+    return this.request("POST", "/integrations/login/complete", {
+      completionKey,
+    });
+  }
+  /** Sign out of the active provider. */
+  integrationsLogout(): Promise<void> {
+    return this.request("POST", "/integrations/logout");
+  }
+  /** Catalog of apps available through the active provider. */
+  integrationsListApps(): Promise<IntegrationsAppEntry[]> {
+    return this.request("GET", "/integrations/apps");
+  }
+  /** Apps the user has currently connected through the active provider. */
+  integrationsListConnections(): Promise<IntegrationsConnection[]> {
+    return this.request("GET", "/integrations/connections");
+  }
+  /** Begin connecting one app (e.g. "gmail"). Returns a URL to open. */
+  integrationsConnectApp(slug: string): Promise<IntegrationsAppConnectionFlow> {
+    return this.request("POST", "/integrations/connections", { slug });
   }
 
   // ---------- portable agent share / import ----------
