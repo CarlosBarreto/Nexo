@@ -2,8 +2,10 @@
 //!
 //! Skills are directories containing a `SKILL.md` file with frontmatter metadata
 //! and a markdown body. Stored under `.agents/skills/<name>/SKILL.md` — the
-//! skill.sh / Claude Code convention. A `.claude/skills/<name>` symlink is
-//! typically created alongside so Claude Code can discover skills natively.
+//! skill.sh / Claude Code convention. A live `.claude/skills/<name>` link is
+//! created alongside so Claude Code can discover skills natively (a symlink on
+//! Unix; a directory junction on Windows without Developer Mode). The engine
+//! owns that mirror — see `ensure_claude_mirror` in `houston-engine-core`.
 
 pub mod format;
 pub mod index;

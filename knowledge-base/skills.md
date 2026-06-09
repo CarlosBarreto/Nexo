@@ -6,9 +6,18 @@ A Skill is a reusable procedure stored as a markdown file with YAML frontmatter.
 
 ```
 .agents/skills/<slug>/SKILL.md       # source of truth, YAML frontmatter + body
-.claude/skills/<slug>                # symlink → ../../.agents/skills/<slug>
+.claude/skills/<slug>                # live link → ../../.agents/skills/<slug>
                                      # auto-created by engine on `list_skills`
 ```
+
+The `.claude/skills/<slug>` discovery node is what makes a skill visible to
+Claude Code natively. On Unix it is a relative symlink. On Windows a real
+symlink needs Developer Mode or admin (os error 1314), so the engine falls back
+to a **directory junction** — privilege-free and, crucially, *live*: it always
+reflects the source `SKILL.md`, so a skill the agent later rewrites never goes
+stale behind the mirror. A plain copy is the last resort for the rare non-NTFS
+volume that rejects junctions. See `ensure_claude_mirror` in
+`engine/houston-engine-core/src/skills.rs`.
 
 Houston Store agent packages may also include `.agents/skills/*`.
 Install copies the package to `~/.houston/agents/<id>/`; creating a
