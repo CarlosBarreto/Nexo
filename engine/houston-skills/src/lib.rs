@@ -310,7 +310,14 @@ pub fn install_skill_md(
 
     let skill_dir = skills_dir.join(install_name);
     if skill_dir.exists() {
-        return Err(SkillError::AlreadyExists(install_name.to_string()));
+        // Block reinstalling a healthy skill, but let a reinstall REPLACE one
+        // whose SKILL.md is missing or unparseable (e.g. corrupted by an older
+        // Houston) — otherwise the user is wedged: it never lists, yet a
+        // reinstall reports "already installed".
+        if format::parse_file(&skill_dir.join("SKILL.md")).is_ok() {
+            return Err(SkillError::AlreadyExists(install_name.to_string()));
+        }
+        std::fs::remove_dir_all(&skill_dir).map_err(|e| SkillError::Io(e.to_string()))?;
     }
 
     let (mut summary, body) = match format::parse_content(raw_md) {
@@ -663,6 +670,40 @@ mod tests {
         assert!(
             listed.iter().any(|s| s.name == "ai-sdk"),
             "a skill whose description contains a colon must still appear in the list"
+        );
+    }
+
+    #[test]
+    fn install_md_overwrites_a_corrupt_existing_skill() {
+        let d = TempDir::new().unwrap();
+        // A skill left corrupt by an older Houston: unparseable SKILL.md.
+        let dir = d.path().join("ai-sdk");
+        std::fs::create_dir_all(&dir).unwrap();
+        std::fs::write(dir.join("SKILL.md"), "---\ndescription: broken: yaml\nno closing").unwrap();
+        assert!(
+            list_skills(d.path()).unwrap().is_empty(),
+            "a corrupt skill should not list"
+        );
+
+        // Reinstalling heals it instead of erroring "already installed".
+        let raw = "---\nname: ai-sdk\ndescription: Fresh and valid\n---\n\nBody\n";
+        install_skill_md(d.path(), "ai-sdk", raw, "fallback").unwrap();
+        let listed = list_skills(d.path()).unwrap();
+        assert!(
+            listed.iter().any(|s| s.name == "ai-sdk"),
+            "reinstalling must heal a corrupt skill"
+        );
+    }
+
+    #[test]
+    fn install_md_rejects_a_healthy_existing_skill() {
+        let d = TempDir::new().unwrap();
+        let raw = "---\nname: dup\ndescription: ok\n---\n\nBody\n";
+        install_skill_md(d.path(), "dup", raw, "f").unwrap();
+        let err = install_skill_md(d.path(), "dup", raw, "f").unwrap_err();
+        assert!(
+            matches!(err, SkillError::AlreadyExists(_)),
+            "a healthy skill must still block reinstall"
         );
     }
 }

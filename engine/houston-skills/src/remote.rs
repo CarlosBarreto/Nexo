@@ -437,10 +437,9 @@ pub async fn install_skill(
         .filter(|n| crate::validate::name(n).is_ok())
         .unwrap_or_else(|| slugify(skill_id));
 
-    if skills_dir.join(&install_name).exists() {
-        return Err(SkillError::AlreadyExists(install_name));
-    }
-
+    // `install_skill_md` decides the already-installed case: a healthy existing
+    // skill errors as AlreadyExists; a corrupt one (e.g. left by an older
+    // Houston) is replaced so a reinstall heals it.
     crate::install_skill_md(skills_dir, &install_name, &raw_md, &parsed.description)?;
 
     Ok(install_name)
@@ -619,7 +618,10 @@ pub async fn install_from_repo(
     // continue) returned `Ok(vec![])` to the UI which surfaced as
     // "installed 0 skills" with no clue why.
     for skill in skills {
-        if skills_dir.join(&skill.id).exists() {
+        let existing = skills_dir.join(&skill.id).join("SKILL.md");
+        if crate::format::parse_file(&existing).is_ok() {
+            // Already installed and healthy — skip. A corrupt or missing one
+            // falls through and is (re)installed below.
             installed.push(skill.id.clone());
             continue;
         }
