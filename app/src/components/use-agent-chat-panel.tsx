@@ -65,11 +65,18 @@ import {
   getContextWindowConfig,
   getDefaultModel,
   getModel,
+  getProvider,
   validModelOrNull,
   validEffortOrDefault,
   normalizeLegacyModel,
   type EffortLevel,
 } from "../lib/providers";
+import {
+  decideHandoffMode,
+  estimateConversationTokens,
+} from "../lib/provider-switch";
+import { useProviderSwitchStore } from "../stores/provider-switch";
+import { ProviderSwitchDialog } from "./provider-switch-dialog";
 import {
   sessionContextUsage,
   effectiveContextWindow,
@@ -176,6 +183,12 @@ export function useAgentChatPanel({
   const [agentProvider, setAgentProvider] = useState<string | null>(null);
   const [agentModel, setAgentModel] = useState<string | null>(null);
   const [agentEffort, setAgentEffort] = useState<string | null>(null);
+  // A summarize-and-switch awaiting the user's consent (lossy + spends tokens).
+  const [switchDialog, setSwitchDialog] = useState<{
+    toProvider: string;
+    toModel: string;
+    fromProvider: string;
+  } | null>(null);
   useEffect(() => {
     if (!path) {
       setAgentProvider(null);
@@ -231,10 +244,13 @@ export function useAgentChatPanel({
   const { contextUsage, contextWindow } = useMemo(() => {
     const { latest, peakContextTokens } = sessionContextUsage(sessionFeedItems);
     // `peakContextTokens` is session-wide while `cfg` is the currently-selected
-    // model's. Safe today because all same-provider models share a snap ceiling
-    // (every Anthropic model maxes at 1M; provider is locked after turn one so
-    // openai/anthropic never mix in one session). Revisit if a provider ever
-    // adds a model whose ceiling is below a sibling's realistic peak.
+    // model's. Providers CAN now differ across one conversation (a mid-session
+    // switch reseeds onto a new provider), so a peak observed under the old
+    // provider may snap the new model's window up. That only ever OVER-states
+    // the window (it can never read above 100% — `effectiveContextWindow`
+    // floors at the peak), and the figure is already labeled an estimate, so
+    // it's acceptable for the post-switch turns until the new provider reports
+    // its own usage and the indicator re-settles.
     const cfg = getContextWindowConfig(effectiveProvider, effectiveModel);
     return {
       contextUsage: latest,
@@ -244,9 +260,24 @@ export function useAgentChatPanel({
   }, [sessionFeedItems, effectiveProvider, effectiveModel]);
   const modelLabel = getModel(effectiveProvider, effectiveModel)?.label;
 
-  const handleModelSelect = useCallback(
+  // Whether the current conversation has produced provider output already, so a
+  // provider session exists to hand off FROM. A switch only matters once it has.
+  const conversationStarted = useMemo(
+    () =>
+      (sessionFeedItems ?? []).some(
+        (i) =>
+          i.feed_type === "final_result" ||
+          i.feed_type === "assistant_text" ||
+          i.feed_type === "assistant_text_streaming",
+      ),
+    [sessionFeedItems],
+  );
+
+  // Persist a provider/model choice: agent config (the per-agent default), the
+  // per-mission activity override, and the last-used preference, with an
+  // optimistic picker flip. Shared by the plain pick and the switch-confirm path.
+  const applyProviderModel = useCallback(
     async (prov: string, mod: string) => {
-      // Optimistic UI: the picker flips instantly while the writes fan out.
       setAgentProvider(prov);
       setAgentModel(mod);
       try {
@@ -275,6 +306,85 @@ export function useAgentChatPanel({
     },
     [path, selectedActivityId, addToast, t],
   );
+
+  // Picking a provider/model from the dropdown. Switching to a DIFFERENT
+  // provider mid-conversation can't resume the old CLI session (provider
+  // sessions aren't portable), so the engine reseeds a fresh session with prior
+  // context. We size the conversation against the new model's window: if it
+  // fits, carry the full transcript verbatim (`replay`); if not, summarizing is
+  // lossy and spends tokens, so we ask first via the dialog. A model change
+  // within the same provider, or any pick before the first turn, just persists.
+  const handleModelSelect = useCallback(
+    async (prov: string, mod: string) => {
+      const isProviderSwitch =
+        conversationStarted &&
+        !!selectedSessionKey &&
+        !!path &&
+        prov !== effectiveProvider;
+      if (!isProviderSwitch) {
+        await applyProviderModel(prov, mod);
+        return;
+      }
+      // The provider the LIVE engine session actually runs on. On the first
+      // pick that's `effectiveProvider`; on a re-pick before any send,
+      // `effectiveProvider` has already optimistically flipped, so reuse the
+      // `fromProvider` the first staged handoff captured (the engine session
+      // hasn't moved until a send lands).
+      const fromProvider =
+        useProviderSwitchStore.getState().peekPending(path, selectedSessionKey)
+          ?.fromProvider ?? effectiveProvider;
+      const mode = decideHandoffMode({
+        currentContextTokens: contextUsage?.context_tokens ?? null,
+        estimatedTokens: estimateConversationTokens(sessionFeedItems),
+        // The new provider hasn't been observed yet, so use its catalogued
+        // DEFAULT window, not a snapped-up estimate.
+        targetWindowTokens: getContextWindowConfig(prov, mod)?.default ?? null,
+      });
+      if (mode === "summarize") {
+        // Lossy + spends a summarizer call: get explicit consent first. The
+        // provider/model change is applied only when the user confirms.
+        setSwitchDialog({ toProvider: prov, toModel: mod, fromProvider });
+        return;
+      }
+      // Fits the new window: carry the full conversation over verbatim, no
+      // dialog. Stage the handoff for the next send (consumed in
+      // `tauriChat.send`), then persist the new provider/model.
+      useProviderSwitchStore.getState().setPending(path, selectedSessionKey, {
+        mode: "replay",
+        fromProvider,
+      });
+      await applyProviderModel(prov, mod);
+      addToast({
+        title: t("chat:providerSwitch.replayToast", {
+          provider: getProvider(prov)?.name ?? prov,
+        }),
+      });
+    },
+    [
+      conversationStarted,
+      selectedSessionKey,
+      path,
+      effectiveProvider,
+      contextUsage,
+      sessionFeedItems,
+      applyProviderModel,
+      addToast,
+      t,
+    ],
+  );
+
+  // The user confirmed the summarize-and-switch dialog: stage the summarize
+  // handoff for the next send, then persist the new provider/model.
+  const confirmProviderSwitch = useCallback(async () => {
+    const pending = switchDialog;
+    setSwitchDialog(null);
+    if (!pending || !path || !selectedSessionKey) return;
+    useProviderSwitchStore.getState().setPending(path, selectedSessionKey, {
+      mode: "summarize",
+      fromProvider: pending.fromProvider,
+    });
+    await applyProviderModel(pending.toProvider, pending.toModel);
+  }, [switchDialog, path, selectedSessionKey, applyProviderModel]);
   const handleEffortSelect = useCallback(
     async (effort: EffortLevel) => {
       // Effort is per-agent (not per-activity): persist to the agent config
@@ -542,7 +652,7 @@ export function useAgentChatPanel({
   );
   const renderSystemMessage = useCallback(
     (msg: ChatMessage) => {
-      if (msg.compaction) return <ContextCompactedDivider />;
+      if (msg.compaction) return <ContextCompactedDivider info={msg.compaction} />;
       if (isToolRuntimeErrorMessage(msg)) {
         const isModelUnsupported =
           msg.runtimeError.kind === "provider_model_unsupported";
@@ -651,7 +761,7 @@ export function useAgentChatPanel({
 
   const footer = useMemo<AIBoardProps["footer"]>(() => {
     if (!agent) return undefined;
-    return ({ hasMessages }) => (
+    return () => (
       <div className="flex items-center gap-2 w-full">
         <button
           type="button"
@@ -666,7 +776,6 @@ export function useAgentChatPanel({
           provider={effectiveProvider}
           model={effectiveModel}
           onSelect={handleModelSelect}
-          lockedProvider={hasMessages ? effectiveProvider : null}
         />
         <ChatEffortSelector
           provider={effectiveProvider}
@@ -687,7 +796,7 @@ export function useAgentChatPanel({
 
   const attachMenu = useMemo<AIBoardProps["attachMenu"]>(() => {
     if (!agent) return undefined;
-    return ({ hasMessages, openFilePicker, close }) => (
+    return ({ openFilePicker, close }) => (
       <div className="flex flex-col gap-0.5">
         <button
           type="button"
@@ -715,7 +824,6 @@ export function useAgentChatPanel({
             provider={effectiveProvider}
             model={effectiveModel}
             onSelect={handleModelSelect}
-            lockedProvider={hasMessages ? effectiveProvider : null}
           />
         </div>
         <div className="px-2 py-1">
@@ -731,16 +839,28 @@ export function useAgentChatPanel({
   }, [agent, t, effectiveProvider, effectiveModel, effectiveEffort, handleModelSelect, handleEffortSelect]);
 
   const pickerDialog = agent ? (
-    <NewMissionPickerDialog
-      open={pickerOpen}
-      onOpenChange={setPickerOpen}
-      lockedAgent={agent}
-      hideBlank
-      onSkill={(_agentPath, skillName) => {
-        const skill = (allSkills ?? []).find((s) => s.name === skillName);
-        if (skill) applySkill(skill);
-      }}
-    />
+    <>
+      <NewMissionPickerDialog
+        open={pickerOpen}
+        onOpenChange={setPickerOpen}
+        lockedAgent={agent}
+        hideBlank
+        onSkill={(_agentPath, skillName) => {
+          const skill = (allSkills ?? []).find((s) => s.name === skillName);
+          if (skill) applySkill(skill);
+        }}
+      />
+      <ProviderSwitchDialog
+        open={switchDialog !== null}
+        providerName={
+          switchDialog
+            ? getProvider(switchDialog.toProvider)?.name ?? switchDialog.toProvider
+            : ""
+        }
+        onConfirm={confirmProviderSwitch}
+        onCancel={() => setSwitchDialog(null)}
+      />
+    </>
   ) : null;
 
   return {

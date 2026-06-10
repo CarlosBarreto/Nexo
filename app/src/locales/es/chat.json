@@ -104,5 +104,14 @@
   },
   "filesUpdated_one": "1 archivo actualizado",
   "filesUpdated_other": "{{count}} archivos actualizados",
-  "contextCompacted": "Resumimos la conversación anterior para que el chat pueda continuar"
+  "contextCompacted": "Resumimos la conversación anterior para que el chat pueda continuar",
+  "providerSwitch": {
+    "dialogTitle": "¿Cambiar a {{provider}}?",
+    "dialogBody": "{{provider}} tiene una ventana de contexto más pequeña, así que resumiremos esta conversación para que quepa. Eso usa algunos tokens y puede perder un poco de detalle. ¿Continuar?",
+    "confirm": "Resumir y cambiar",
+    "cancel": "Cancelar",
+    "replayToast": "Continuando con {{provider}}. Tu conversación completa se mantuvo.",
+    "dividerFull": "Se continuó con {{provider}}",
+    "dividerSummary": "Se continuó con {{provider}}, resumido para que quepa"
+  }
 }

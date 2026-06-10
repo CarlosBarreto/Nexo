@@ -104,5 +104,14 @@
   },
   "filesUpdated_one": "1 file updated",
   "filesUpdated_other": "{{count}} files updated",
-  "contextCompacted": "Earlier conversation summarized so the chat can keep going"
+  "contextCompacted": "Earlier conversation summarized so the chat can keep going",
+  "providerSwitch": {
+    "dialogTitle": "Switch to {{provider}}?",
+    "dialogBody": "{{provider}} has a smaller context window, so we'll summarize this conversation so it fits. That uses some tokens and may lose a little detail. Continue?",
+    "confirm": "Summarize and switch",
+    "cancel": "Cancel",
+    "replayToast": "Continuing with {{provider}}. Your full conversation was carried over.",
+    "dividerFull": "Continued with {{provider}}",
+    "dividerSummary": "Continued with {{provider}}, summarized to fit"
+  }
 }
