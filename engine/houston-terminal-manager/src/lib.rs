@@ -33,6 +33,7 @@ mod stderr_filter;
 pub mod types;
 
 // Re-export key types for convenience.
+pub use claude_command::claude_command_name;
 pub use codex_parser::{extract_thread_id, parse_codex_event, CodexAccumulator};
 pub use gemini_parser::{parse_gemini_event, GeminiAccumulator};
 pub use manager::{SessionHandle, SessionManager};

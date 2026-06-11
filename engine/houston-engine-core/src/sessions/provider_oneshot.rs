@@ -13,12 +13,14 @@
 //! Dispatch is by `provider.id()` against the trait/registry `Provider`
 //! newtype (see `houston-terminal-manager::provider`). Adding a provider
 //! here = one new match arm + one new `run_<id>` helper. The per-arm
-//! binary resolution (claude on PATH, bundled codex, bundled gemini) is
-//! intentionally NOT routed through `Provider::resolve()` because each
-//! CLI has provider-specific spawn quirks (env scrubbing, args, HOME
-//! isolation) that the trait doesn't model.
+//! binary resolution (claude via the runtime-installed absolute path,
+//! bundled codex, bundled gemini) is intentionally NOT routed through
+//! `Provider::resolve()` because each CLI has provider-specific spawn
+//! quirks (env scrubbing, args, HOME isolation) that the trait doesn't
+//! model. Each arm resolves its binary the SAME way the streaming chat
+//! runner does, so a CLI that chat can spawn one-shot generation can too.
 
-use houston_terminal_manager::{claude_path, gemini_home, Provider};
+use houston_terminal_manager::{claude_command_name, claude_path, gemini_home, Provider};
 use serde_json::Value;
 use std::time::Duration;
 use tokio::io::AsyncWriteExt;
@@ -43,8 +45,23 @@ pub async fn run_provider_oneshot(
     }
 }
 
-async fn run_claude(prompt: &str, model: &str, time_limit: Duration) -> Result<String, String> {
-    let mut cmd = tokio::process::Command::new("claude");
+/// Build the one-shot `claude` command. The binary is resolved via
+/// `claude_command_name()` — the SAME canonical resolver the streaming
+/// chat runner uses (`claude_runner`), which returns the runtime-installed
+/// absolute path (`~/.local/bin/claude` on Unix,
+/// `%LOCALAPPDATA%\Programs\claude\claude.exe` on Windows) when present and
+/// falls back to the bare name `"claude"` only in dev checkouts that never
+/// ran the installer.
+///
+/// Spawning bare `Command::new("claude")` here was the HOU-445 bug: on
+/// Windows the runtime installer drops `claude.exe` under `%LOCALAPPDATA%`,
+/// which is added to `claude_path::shell_path()` only if that directory
+/// already exists when the PATH cache is built at startup. When the
+/// installer runs *after* startup the cached PATH lacks it, so chat (which
+/// spawns the absolute path) worked while one-shot generation died with
+/// `spawn failed: program not found`.
+fn build_claude_command(model: &str) -> tokio::process::Command {
+    let mut cmd = tokio::process::Command::new(claude_command_name());
     cmd.env("PATH", claude_path::shell_path());
     cmd.env_remove("CLAUDE_CODE_ENTRYPOINT");
     cmd.env_remove("CLAUDECODE");
@@ -55,7 +72,11 @@ async fn run_claude(prompt: &str, model: &str, time_limit: Duration) -> Result<S
         .arg("text")
         .arg("--allowedTools")
         .arg("");
-    run_command(cmd, prompt, time_limit).await
+    cmd
+}
+
+async fn run_claude(prompt: &str, model: &str, time_limit: Duration) -> Result<String, String> {
+    run_command(build_claude_command(model), prompt, time_limit).await
 }
 
 async fn run_codex(prompt: &str, model: &str, time_limit: Duration) -> Result<String, String> {
@@ -228,5 +249,41 @@ mod tests {
     fn returns_error_when_no_agent_message() {
         let raw = r#"{"type":"thread.started","thread_id":"t1"}"#;
         assert!(extract_codex_text(raw).is_err());
+    }
+
+    /// Regression for HOU-445 (`generate_agent_instructions: spawn failed:
+    /// program not found`). The one-shot path must spawn the SAME claude
+    /// binary the streaming chat runner does — the runtime-installed
+    /// absolute path when present — not a bare `claude` PATH lookup, which
+    /// fails on Windows where the installed `claude.exe` lives under
+    /// `%LOCALAPPDATA%` and isn't always on the start-up-cached PATH.
+    #[test]
+    fn claude_oneshot_resolves_same_binary_as_chat_runner() {
+        let cmd = build_claude_command("sonnet");
+        assert_eq!(
+            cmd.as_std().get_program(),
+            claude_command_name().as_os_str(),
+            "one-shot claude must use the canonical resolver, not bare \"claude\""
+        );
+    }
+
+    #[test]
+    fn claude_oneshot_argv_carries_model_and_text_format() {
+        let cmd = build_claude_command("sonnet");
+        let args: Vec<String> = cmd
+            .as_std()
+            .get_args()
+            .map(|a| a.to_string_lossy().to_string())
+            .collect();
+        let model_pos = args
+            .iter()
+            .position(|a| a == "--model")
+            .expect("--model flag present");
+        assert_eq!(args[model_pos + 1], "sonnet");
+        assert!(args.contains(&"-p".to_string()));
+        assert!(
+            args.windows(2).any(|w| w == ["--output-format", "text"]),
+            "one-shot generation requests plain text output"
+        );
     }
 }

@@ -19,7 +19,7 @@ use tokio::process::Command;
 /// `claude` from npm-global, homebrew, or a prior install, which then
 /// rejects the flag with `error: unknown option '--include-partial-messages'`
 /// and the session dies before producing any output.
-pub(crate) fn claude_command_name() -> OsString {
+pub fn claude_command_name() -> OsString {
     if crate::claude_install_path::is_installed() {
         crate::claude_install_path::cli_path().into_os_string()
     } else {
