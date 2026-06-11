@@ -29,10 +29,10 @@ import type {
   ProviderStatus as EngineProviderStatus,
   GenerateInstructionsResult,
 } from "@houston-ai/engine-client";
-import { isHoustonEngineError } from "@houston-ai/engine-client";
 import { getEngine } from "./engine";
 import { osPickDirectory } from "./os-bridge";
 import { logger } from "./logger";
+import { MISSING_SKILL_KIND } from "./missing-skill";
 import { normalizeLegacyModel } from "./providers";
 import { shouldAutocompactForSession } from "./autocompact";
 import { useProviderSwitchStore } from "../stores/provider-switch";
@@ -46,12 +46,13 @@ interface EngineCallOptions {
    *  user-initiated failures always reach crash reporting; set false only for
    *  genuinely fire-and-forget calls or ones with their own report path. */
   capture?: boolean;
+  /** Engine error `kind`s that are expected + explainable (not Houston bugs).
+   *  Matching errors are logged but get NO red bug toast and NO Sentry report;
+   *  the caller surfaces them inline. Use sparingly, only for kinds a user can
+   *  understand and act on (e.g. `skill_not_found` — the skill was renamed or
+   *  removed). */
+  silenceKinds?: string[];
 }
-
-/** Typed engine error `kind`s that are expected user-flow outcomes, fully
- *  surfaced by their own inline UI. Never toasted, never sent to Sentry —
- *  the same treatment as an aborted request. */
-const EXPECTED_INLINE_KINDS = new Set<string>(["composio_login_timeout"]);
 
 /** Wrap an engine call and surface errors as toasts unless caller handles them inline. */
 async function call<T>(
@@ -82,11 +83,15 @@ async function surfaceError(
   // are expected, not failures — never toast or report them.
   if (err instanceof Error && err.name === "AbortError") return;
 
-  // Typed engine errors that are expected user-flow outcomes (e.g. the
-  // user closed the Composio sign-in tab so the login poll timed out) own
-  // their inline UI — never toast or report them. Reporting these is
-  // exactly the Sentry noise HOU-434 surfaced.
-  if (isHoustonEngineError(err) && err.kind && EXPECTED_INLINE_KINDS.has(err.kind)) return;
+  // Expected, explainable engine errors the caller surfaces inline. Logged
+  // above for the local log tail, but no red bug toast and no Sentry report.
+  // e.g. `composio_login_timeout` (the user closed the sign-in tab) and
+  // `skill_not_found` (the skill was renamed/removed).
+  const kind =
+    err && typeof err === "object" && "kind" in err
+      ? (err as { kind?: unknown }).kind
+      : undefined;
+  if (typeof kind === "string" && options?.silenceKinds?.includes(kind)) return;
 
   const shouldToast = options?.toast !== false;
   const shouldCapture = options?.capture !== false;
@@ -332,7 +337,15 @@ export const tauriSkills = {
       })),
     ),
   load: (agentPath: string, name: string) =>
-    call<SkillDetail>("load_skill", () => getEngine().loadSkill(agentPath, name)),
+    call<SkillDetail>(
+      "load_skill",
+      () => getEngine().loadSkill(agentPath, name),
+      undefined,
+      // The skill the user opened may have been renamed, deleted, or never
+      // installed. That's expected — the Skills view surfaces it inline and
+      // refreshes the list — so don't fire the red bug toast or report it.
+      { silenceKinds: [MISSING_SKILL_KIND] },
+    ),
   create: (agentPath: string, name: string, description: string, content: string) =>
     call<void>("create_skill", () =>
       getEngine().createSkill({ workspacePath: agentPath, name, description, content }),
@@ -493,10 +506,10 @@ export const tauriConnections = {
       "complete_composio_login",
       () => getEngine().composioCompleteLogin(cliKey),
       undefined,
-      // The sign-in dialog renders failures inline; don't double-surface
-      // as a toast. Genuine faults still capture to Sentry; the expected
-      // timeout is carved out in surfaceError (EXPECTED_INLINE_KINDS).
-      { toast: false },
+      // The sign-in dialog renders failures inline, so don't double-surface
+      // as a toast. The expected `composio_login_timeout` (user closed the
+      // tab) is fully silenced; genuine faults still capture to Sentry.
+      { toast: false, silenceKinds: ["composio_login_timeout"] },
     ),
   logout: () => call<void>("logout_composio", () => getEngine().composioLogout()),
   isCliInstalled: () =>
