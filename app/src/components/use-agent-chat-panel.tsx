@@ -101,6 +101,7 @@ import { NewMissionPickerDialog } from "./new-mission-picker-dialog";
 import { UserSkillMessage } from "./user-skill-message";
 import { SelectedSkillChip } from "./selected-skill-chip";
 import { ProviderReconnectCard } from "./shell/provider-reconnect-card";
+import { ProviderErrorCard } from "./shell/provider-error-card";
 import { ToolRuntimeErrorCard } from "./shell/tool-runtime-error-card";
 import { isToolRuntimeErrorMessage } from "./tool-runtime-feed";
 import { useChatDisplayLabels } from "./use-chat-display-labels";
@@ -704,10 +705,38 @@ export function useAgentChatPanel({
           />
         );
       }
+      // Typed provider-error card (rate-limit, quota, model-unavailable,
+      // UNAUTHENTICATED reconnect button, internal 5xx, …). The engine emits
+      // these as `provider_error` FeedItems; feed-to-messages stashes the
+      // payload on `msg.providerError` with empty `content`. Without this
+      // branch the message fell through to the default renderer below, which
+      // shows `msg.content` ("") — i.e. NOTHING. That's why a 429 card and the
+      // OpenAI reconnect card never appeared in chat.
+      if (msg.providerError) {
+        return (
+          <ProviderErrorCard
+            error={msg.providerError}
+            onRetry={async () => {
+              if (!path || !selectedSessionKey) return;
+              const text = t("chat:toolRuntimeError.retryPrompt");
+              await tauriChat.send(path, text, selectedSessionKey, {
+                providerOverride: effectiveProvider,
+                modelOverride: effectiveModel,
+                effortOverride: effectiveEffort,
+              });
+              pushFeedItem(path, selectedSessionKey, {
+                feed_type: "user_message",
+                data: text,
+              });
+            }}
+            onSwitchModel={() => setPickerOpen(true)}
+          />
+        );
+      }
       if (isProviderAuthMessage(msg.content)) return null;
       return undefined;
     },
-    [effectiveModel, effectiveProvider, effectiveEffort, handleModelSelect, path, pushFeedItem, selectedSessionKey, t],
+    [effectiveModel, effectiveProvider, effectiveEffort, handleModelSelect, path, pushFeedItem, selectedSessionKey, setPickerOpen, t],
   );
   const mapFeedItems = useCallback(
     ({ items }: { sessionKey: string; items: FeedItem[] }) =>
@@ -716,6 +745,19 @@ export function useAgentChatPanel({
   );
   const afterMessages = useCallback(
     ({ feedItems }: { sessionKey: string; feedItems: FeedItem[] }) => {
+      // The persisted inline `UnauthenticatedCard` (a provider_error feed item)
+      // is the stable reconnect surface. When it's already present for THIS
+      // chat's provider, don't also render the store-driven card — it flickers
+      // (auto-dismisses) when the provider's auth probe is unreliable, e.g.
+      // codex reporting "authenticated" off a stale ~/.codex/auth.json after a
+      // server-side session kill. One card, and it stays put.
+      const hasInlineAuthCard = feedItems.some(
+        (it) =>
+          it.feed_type === "provider_error" &&
+          it.data.kind === "unauthenticated" &&
+          it.data.provider === effectiveProvider,
+      );
+      if (hasInlineAuthCard) return null;
       const signalKey = providerAuthSignalKey(feedItems);
       // Always hand the card THIS chat's provider so it can match the global
       // `authRequired` flag against the provider this chat actually uses — a
