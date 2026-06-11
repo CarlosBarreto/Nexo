@@ -35,7 +35,7 @@ use houston_ui_events::{DynEventSink, HoustonEvent};
 use once_cell::sync::Lazy;
 use regex::Regex;
 use std::collections::HashMap;
-use std::sync::atomic::{AtomicU64, Ordering};
+use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::Arc;
 use std::time::Duration;
 use tokio::io::{AsyncBufReadExt, AsyncReadExt, AsyncWriteExt, BufReader};
@@ -76,15 +76,23 @@ struct LoginSession {
     /// Fired by [`cancel_login`] to abort an in-flight browser sign-in.
     /// The relay task holds its own `Arc` clone and selects on it.
     cancel: Arc<Notify>,
+    /// Set by [`supersede_session`] immediately before it fires `cancel`,
+    /// marking this teardown as "a fresh launch is replacing me." The relay
+    /// reads it on the cancel path and stays silent (no
+    /// `ProviderLoginComplete`) so it can't clear the replacement login's
+    /// spinner on the frontend (HOU-438). A user-driven [`cancel_login`]
+    /// leaves it false, preserving the benign completion that re-arms the card.
+    superseded: Arc<AtomicBool>,
     /// Identifies which relay owns this map entry (see [`SESSION_SEQ`]).
     token: u64,
 }
 
 /// Handed back by [`insert_session`] to the spawn site so the relay
-/// task gets the same cancel handle + token stored in the map.
+/// task gets the same cancel handle + supersede flag + token stored in the map.
 #[derive(Debug)]
 pub(super) struct RelayRegistration {
     cancel: Arc<Notify>,
+    superseded: Arc<AtomicBool>,
     token: u64,
 }
 
@@ -94,6 +102,10 @@ pub(super) struct RelayRegistration {
 enum RelayOutcome {
     Exited(std::io::Result<std::process::ExitStatus>),
     Cancelled,
+    /// A fresh launch tore this session down to take its slot. Behaves like
+    /// `Cancelled` (kill + reap the child) but the relay emits no
+    /// `ProviderLoginComplete` — see [`supersede_session`].
+    Superseded,
 }
 
 /// Regex over a single line of CLI stdout, looking for an HTTPS URL
@@ -183,16 +195,22 @@ pub(super) async fn insert_session(
         )));
     }
     let cancel = Arc::new(Notify::new());
+    let superseded = Arc::new(AtomicBool::new(false));
     let token = SESSION_SEQ.fetch_add(1, Ordering::Relaxed);
     sessions.insert(
         provider_id.to_string(),
         LoginSession {
             stdin: Arc::new(Mutex::new(stdin)),
             cancel: Arc::clone(&cancel),
+            superseded: Arc::clone(&superseded),
             token,
         },
     );
-    Ok(RelayRegistration { cancel, token })
+    Ok(RelayRegistration {
+        cancel,
+        superseded,
+        token,
+    })
 }
 
 /// Cancel an in-flight OAuth login. Removes the map entry **eagerly**
@@ -226,6 +244,39 @@ async fn cancel_login_inner(provider_id: &str, cli_name: &str) -> CoreResult<()>
         }
     }
     Ok(())
+}
+
+/// Silently tear down a stale pending session for `provider_id` because a
+/// FRESH login is about to take its slot. Like [`cancel_login_inner`] it
+/// removes the map entry under the lock and signals the relay to kill the
+/// subprocess, but it first sets the session's `superseded` flag so the relay
+/// SKIPS its `ProviderLoginComplete` emit. Without that suppression the benign
+/// completion would race the replacement login and clear the new attempt's
+/// spinner on the frontend (HOU-438). Idempotent: a no-op when nothing is
+/// pending. Infallible — there is nothing to surface; the caller proceeds to
+/// spawn its own session regardless.
+pub(super) async fn supersede_session(provider_id: &str, cli_name: &str) {
+    let session = {
+        let mut sessions = LOGIN_SESSIONS.lock().await;
+        sessions.remove(provider_id)
+    };
+    match session {
+        Some(session) => {
+            // Ordering matters: store the flag BEFORE notifying so the relay
+            // is guaranteed to observe it when it wakes. `Notify` holds a
+            // permit if no waiter is parked yet, so the wakeup is never lost.
+            session.superseded.store(true, Ordering::SeqCst);
+            session.cancel.notify_one();
+            tracing::info!(
+                "[houston:provider] {cli_name} stale login superseded by a fresh launch"
+            );
+        }
+        None => {
+            tracing::debug!(
+                "[houston:provider] supersede_session: no pending {cli_name} session"
+            );
+        }
+    }
 }
 
 /// Spawn the background task that drives a single login session:
@@ -273,7 +324,11 @@ async fn relay_login_output(
     registration: RelayRegistration,
     device_auth: bool,
 ) {
-    let RelayRegistration { cancel, token } = registration;
+    let RelayRegistration {
+        cancel,
+        superseded,
+        token,
+    } = registration;
     // Drain stderr in a sibling task so a verbose CLI can't fill the
     // 64KB stderr pipe buffer and deadlock the child on write.
     // Captured stderr is appended to the `ProviderLoginComplete`
@@ -305,14 +360,36 @@ async fn relay_login_output(
     let work = async {
         loop {
             tokio::select! {
+                // Poll in declared order, not at random: a user cancel is
+                // honored first, then we DRAIN stdout before observing the
+                // child's exit. Without the bias, a CLI that prints its URL
+                // (or device code) and exits promptly races `reader.next_line`
+                // against `child.wait` — when exit wins, the URL line is left
+                // unread and `ProviderLoginUrl` never fires. Reader-before-exit
+                // guarantees every buffered line is surfaced before we treat
+                // the process as done (also de-flakes the device-auth relay
+                // test, whose stand-in emits then exits immediately).
+                biased;
                 _ = cancel.notified() => {
+                    // A fresh launch that superseded this session set the flag
+                    // before signalling cancel. Distinguish the two: a
+                    // superseded relay must stay silent (the replacement login
+                    // owns the slot now), whereas a user cancel emits a benign
+                    // completion to re-arm the card. The flag is false for a
+                    // plain `cancel_login`.
+                    let superseded = superseded.load(Ordering::SeqCst);
                     tracing::info!(
-                        "[houston:provider] {cli_name} login cancelled — killing subprocess"
+                        "[houston:provider] {cli_name} login {} — killing subprocess",
+                        if superseded { "superseded" } else { "cancelled" }
                     );
                     let _ = child.kill().await;
                     // Reap so the OS doesn't keep a zombie around.
                     let _ = child.wait().await;
-                    return RelayOutcome::Cancelled;
+                    return if superseded {
+                        RelayOutcome::Superseded
+                    } else {
+                        RelayOutcome::Cancelled
+                    };
                 }
                 line = reader.next_line() => {
                     match line {
@@ -382,56 +459,68 @@ async fn relay_login_output(
         RelayOutcome::Exited(child.wait().await)
     };
 
-    let (success, error) = match tokio::time::timeout(LOGIN_SESSION_TIMEOUT, work).await {
-        Ok(RelayOutcome::Exited(Ok(status))) => {
-            tracing::info!("[houston:provider] {cli_name} login exited: {status}");
-            let stderr_text = drain_stderr(stderr_handle).await;
-            (
-                status.success(),
-                if status.success() {
-                    None
-                } else {
-                    Some(format_exit_error(&cli_name, &format!("{status}"), &stderr_text))
-                },
-            )
-        }
-        Ok(RelayOutcome::Exited(Err(e))) => {
-            tracing::warn!("[houston:provider] {cli_name} login wait failed: {e}");
-            let stderr_text = drain_stderr(stderr_handle).await;
-            (
-                false,
-                Some(format_exit_error(&cli_name, &format!("wait failed: {e}"), &stderr_text)),
-            )
-        }
-        Ok(RelayOutcome::Cancelled) => {
-            // User abandoned the sign-in. Drain stderr so the sibling
-            // task joins, but DON'T surface it — a deliberate cancel
-            // isn't an error, so `error: None` keeps the frontend from
-            // toasting. The spinner just clears and the card re-arms.
-            drain_stderr(stderr_handle).await;
-            (false, None)
-        }
-        Err(_) => {
-            tracing::warn!(
-                "[houston:provider] {cli_name} login timed out after {}s — killing subprocess",
-                LOGIN_SESSION_TIMEOUT.as_secs()
-            );
-            let _ = child.kill().await;
-            let stderr_text = drain_stderr(stderr_handle).await;
-            (
-                false,
-                Some(format_exit_error(
-                    &cli_name,
-                    &format!("timed out after {}s", LOGIN_SESSION_TIMEOUT.as_secs()),
-                    &stderr_text,
-                )),
-            )
-        }
-    };
+    // `None` == superseded: emit nothing. Every other outcome carries the
+    // exactly-one `ProviderLoginComplete` payload `(success, error)`.
+    let result: Option<(bool, Option<String>)> =
+        match tokio::time::timeout(LOGIN_SESSION_TIMEOUT, work).await {
+            Ok(RelayOutcome::Exited(Ok(status))) => {
+                tracing::info!("[houston:provider] {cli_name} login exited: {status}");
+                let stderr_text = drain_stderr(stderr_handle).await;
+                Some((
+                    status.success(),
+                    if status.success() {
+                        None
+                    } else {
+                        Some(format_exit_error(&cli_name, &format!("{status}"), &stderr_text))
+                    },
+                ))
+            }
+            Ok(RelayOutcome::Exited(Err(e))) => {
+                tracing::warn!("[houston:provider] {cli_name} login wait failed: {e}");
+                let stderr_text = drain_stderr(stderr_handle).await;
+                Some((
+                    false,
+                    Some(format_exit_error(&cli_name, &format!("wait failed: {e}"), &stderr_text)),
+                ))
+            }
+            Ok(RelayOutcome::Cancelled) => {
+                // User abandoned the sign-in. Drain stderr so the sibling
+                // task joins, but DON'T surface it — a deliberate cancel
+                // isn't an error, so `error: None` keeps the frontend from
+                // toasting. The spinner just clears and the card re-arms.
+                drain_stderr(stderr_handle).await;
+                Some((false, None))
+            }
+            Ok(RelayOutcome::Superseded) => {
+                // A fresh launch already tore this session down and took its
+                // slot (see `supersede_session`). Drain stderr so the sibling
+                // task joins, then emit NOTHING: a benign ProviderLoginComplete
+                // would race the replacement login and clear its spinner. The
+                // map entry is already gone, so the cleanup below is a no-op.
+                drain_stderr(stderr_handle).await;
+                None
+            }
+            Err(_) => {
+                tracing::warn!(
+                    "[houston:provider] {cli_name} login timed out after {}s — killing subprocess",
+                    LOGIN_SESSION_TIMEOUT.as_secs()
+                );
+                let _ = child.kill().await;
+                let stderr_text = drain_stderr(stderr_handle).await;
+                Some((
+                    false,
+                    Some(format_exit_error(
+                        &cli_name,
+                        &format!("timed out after {}s", LOGIN_SESSION_TIMEOUT.as_secs()),
+                        &stderr_text,
+                    )),
+                ))
+            }
+        };
 
-    // Remove the map entry only if it's still *ours*. A `cancel_login`
-    // already removed it eagerly, and a fresh `Connect` may have
-    // inserted a brand-new session under the same provider id — token
+    // Remove the map entry only if it's still *ours*. A `cancel_login` or
+    // `supersede_session` already removed it eagerly, and a fresh `Connect`
+    // may have inserted a brand-new session under the same provider id — token
     // equality stops us from evicting that newcomer.
     {
         let mut sessions = LOGIN_SESSIONS.lock().await;
@@ -439,11 +528,13 @@ async fn relay_login_output(
             sessions.remove(&provider_id);
         }
     }
-    sink.emit(HoustonEvent::ProviderLoginComplete {
-        provider: provider_id,
-        success,
-        error,
-    });
+    if let Some((success, error)) = result {
+        sink.emit(HoustonEvent::ProviderLoginComplete {
+            provider: provider_id,
+            success,
+            error,
+        });
+    }
 }
 
 async fn drain_stderr(handle: Option<tokio::task::JoinHandle<String>>) -> String {
@@ -889,6 +980,108 @@ mod tests {
         // The relay removes the session on child exit (token-guarded); clear
         // it explicitly too so a slow exit can't leak into sibling tests that
         // share the global LOGIN_SESSIONS map.
+        LOGIN_SESSIONS.lock().await.remove(provider_id);
+    }
+
+    #[tokio::test]
+    async fn supersede_session_frees_slot_without_emitting() {
+        // A fresh launch supersedes a stale pending session. Unlike a user
+        // cancel, the relay must tear the subprocess down SILENTLY — no
+        // ProviderLoginComplete — because the replacement login already owns
+        // the slot and a benign completion would clear its spinner (HOU-438).
+        use houston_ui_events::BroadcastEventSink;
+
+        let provider_id = "test-supersede-silent";
+        let cli_name = "test-cli";
+
+        let mut child = spawn_idle_child().await;
+        let stdin = child.stdin.take().expect("stdin piped");
+        let stdout = child.stdout.take().expect("stdout piped");
+        let stderr = child.stderr.take();
+
+        let sink = Arc::new(BroadcastEventSink::new(16));
+        let mut rx = sink.subscribe();
+
+        let registration = insert_session(provider_id, cli_name, stdin)
+            .await
+            .expect("insert succeeds");
+        spawn_relay(
+            provider_id.to_string(),
+            cli_name.to_string(),
+            child,
+            stdout,
+            stderr,
+            sink.clone(),
+            registration,
+            false,
+        );
+
+        assert!(
+            LOGIN_SESSIONS.lock().await.contains_key(provider_id),
+            "session pending right after spawn"
+        );
+
+        supersede_session(provider_id, cli_name).await;
+
+        // The slot frees eagerly so a retry can spawn at once...
+        assert!(
+            !LOGIN_SESSIONS.lock().await.contains_key(provider_id),
+            "supersede frees the slot"
+        );
+
+        // ...and the relay stays SILENT — no event may arrive. (A user cancel,
+        // by contrast, emits a benign ProviderLoginComplete; see
+        // `cancel_login_kills_session_and_emits_benign_completion`.)
+        let quiet = tokio::time::timeout(Duration::from_secs(1), rx.recv()).await;
+        assert!(
+            quiet.is_err(),
+            "a superseded relay must not emit any event, got {quiet:?}"
+        );
+    }
+
+    #[tokio::test]
+    async fn supersede_unblocks_a_fresh_insert() {
+        // Regression for HOU-438: a stale pending session must not wedge the
+        // next sign-in. After supersede frees the slot, a fresh insert for the
+        // same provider succeeds instead of being rejected as "already pending"
+        // (cf. `insert_session_rejects_duplicate`, which has no supersede).
+        use houston_ui_events::BroadcastEventSink;
+
+        let provider_id = "test-supersede-unblocks";
+        let cli_name = "test-cli";
+
+        let mut stale = spawn_idle_child().await;
+        let stale_stdin = stale.stdin.take().expect("stdin piped");
+        let stale_stdout = stale.stdout.take().expect("stdout piped");
+        let stale_stderr = stale.stderr.take();
+
+        let sink = Arc::new(BroadcastEventSink::new(16));
+
+        let registration = insert_session(provider_id, cli_name, stale_stdin)
+            .await
+            .expect("first insert succeeds");
+        spawn_relay(
+            provider_id.to_string(),
+            cli_name.to_string(),
+            stale,
+            stale_stdout,
+            stale_stderr,
+            sink.clone(),
+            registration,
+            false,
+        );
+
+        // A fresh launch supersedes the stale session, then retries the insert.
+        supersede_session(provider_id, cli_name).await;
+
+        let mut fresh = spawn_idle_child().await;
+        let fresh_stdin = fresh.stdin.take().expect("stdin piped");
+        insert_session(provider_id, cli_name, fresh_stdin)
+            .await
+            .expect("insert after supersede succeeds — the slot was freed");
+
+        // Cleanup: drop the fresh session so sibling tests see an empty map.
+        // (`fresh` is kill_on_drop, so its subprocess dies at scope end.)
         LOGIN_SESSIONS.lock().await.remove(provider_id);
     }
 }

@@ -120,6 +120,19 @@ pub async fn launch_login(
         return gemini_login::launch_login(path).await;
     }
 
+    // A previous sign-in for this provider may still be pending: the user
+    // abandoned the OAuth tab, lost the browser window, or the app restarted
+    // while the relay's 10-minute timeout was still counting down. Left as-is,
+    // the `insert_session` guard below would reject this fresh attempt as
+    // "already pending" and the user would be stuck with no way to retry
+    // (HOU-438) — worse on desktop, where the sign-in dialog and its Cancel
+    // button are hidden (#453). A fresh Connect must win: silently tear the
+    // stale session down (kill its subprocess, free the slot) before we spawn.
+    // Silent — no `ProviderLoginComplete` — because THIS launch immediately
+    // takes the slot's place, so a benign completion would only clear the new
+    // attempt's spinner. Idempotent no-op when nothing is pending.
+    login_relay::supersede_session(provider.id(), provider.cli_name()).await;
+
     let ProviderCliCommand {
         cli_name,
         path,
@@ -256,7 +269,21 @@ pub async fn launch_login(
             })?;
             let stderr = child.stderr.take();
 
-            let registration = login_relay::insert_session(&provider_id, cli_name, stdin).await?;
+            // The supersede at the top of `launch_login` frees any stale slot,
+            // so this normally succeeds. It can still reject if a genuinely
+            // concurrent Connect for the same provider grabbed the slot inside
+            // our 3s probe window — in that case kill the child we just spawned
+            // so it doesn't orphan (`kill_on_drop` is false on the login
+            // command) before surfacing the conflict.
+            let registration =
+                match login_relay::insert_session(&provider_id, cli_name, stdin).await {
+                    Ok(reg) => reg,
+                    Err(e) => {
+                        let _ = child.kill().await;
+                        let _ = child.wait().await;
+                        return Err(e);
+                    }
+                };
             login_relay::spawn_relay(
                 provider_id,
                 cli_name_owned,
