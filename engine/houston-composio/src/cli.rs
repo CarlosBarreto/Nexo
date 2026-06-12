@@ -135,7 +135,15 @@ pub async fn start_login() -> Result<StartLoginResponse, String> {
                 .map_err(|e| format!("Failed to read login output: {e}"))?;
             let _ = std::fs::remove_file(&tmp);
 
-            tracing::info!("[composio:cli] start_login stdout: {}", stdout.trim());
+            // Do NOT log the raw stdout: it is the `{login_url, cli_key}`
+            // JSON, and `cli_key` is the login-session credential that
+            // `complete_login` later passes as `--key` (HOU-431). Log only
+            // its size so "CLI returned something" is still distinguishable
+            // from "CLI returned nothing".
+            tracing::info!(
+                "[composio:cli] start_login returned {} bytes",
+                stdout.trim().len()
+            );
             Ok(stdout)
         }),
     )
@@ -150,10 +158,11 @@ pub async fn start_login() -> Result<StartLoginResponse, String> {
     }
 
     let payload: Payload = serde_json::from_str(result.trim()).map_err(|e| {
-        format!(
-            "Unexpected composio login --no-wait output: {e}\nstdout: {}",
-            result.trim()
-        )
+        // Do NOT echo the raw stdout: it is the `{login_url, cli_key}` payload
+        // and both fields carry the login-session secret (`login_url` embeds
+        // it as `?cliKey=`). The serde message names the failing field/offset
+        // without dumping the blob (HOU-431).
+        format!("Unexpected composio login --no-wait output: {e}")
     })?;
 
     Ok(StartLoginResponse {
@@ -417,7 +426,7 @@ async fn run_cli_with_timeout(
     tracing::debug!(
         "[composio:cli] → spawn {:?} {:?} (timeout={:?})",
         bin,
-        args,
+        redact_secret_args(args),
         timeout
     );
 
@@ -460,7 +469,7 @@ async fn run_cli_with_timeout(
                 stdout_len,
                 stderr_len,
                 elapsed,
-                args
+                redact_secret_args(args)
             );
             if stdout_len > 0 && stdout_len < 2048 {
                 tracing::debug!(
@@ -493,6 +502,31 @@ async fn run_cli_with_timeout(
         }
     }
     result
+}
+
+/// Mask secret-bearing argv values before an arg list is formatted into a
+/// log line or a returned error string. `composio login --key <cli_key>`
+/// puts a login-session credential on argv; without this it rode into
+/// `backend.log`, the timeout error string, and from there into Sentry
+/// (HOU-431). Returns owned `String`s safe to `{:?}`-format. Handles both
+/// the separated (`--key`, `<value>`) and joined (`--key=<value>`) forms.
+fn redact_secret_args(args: &[&str]) -> Vec<String> {
+    let mut out = Vec::with_capacity(args.len());
+    let mut redact_next = false;
+    for &arg in args {
+        if redact_next {
+            out.push("<redacted>".to_string());
+            redact_next = false;
+        } else if arg == "--key" {
+            out.push(arg.to_string());
+            redact_next = true;
+        } else if arg.starts_with("--key=") {
+            out.push("--key=<redacted>".to_string());
+        } else {
+            out.push(arg.to_string());
+        }
+    }
+    out
 }
 
 fn cli_binary() -> Result<PathBuf, String> {
@@ -877,6 +911,39 @@ fn decorate_windows_exit(command: &str, status_display: &str, exit_code: Option<
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn redact_secret_args_masks_separated_key() {
+        let args = [
+            "login",
+            "--key",
+            "cf7f2461-f693-4f65-95bf-6d110f1d4344",
+            "--no-skill-install",
+            "-y",
+        ];
+        let red = redact_secret_args(&args);
+        assert_eq!(
+            red,
+            vec!["login", "--key", "<redacted>", "--no-skill-install", "-y"]
+        );
+        // The Debug-formatted form is what reached Sentry — it must be clean.
+        assert!(!format!("{red:?}").contains("cf7f2461"));
+    }
+
+    #[test]
+    fn redact_secret_args_masks_joined_key() {
+        let args = ["login", "--key=super-secret", "-y"];
+        assert_eq!(
+            redact_secret_args(&args),
+            vec!["login", "--key=<redacted>", "-y"]
+        );
+    }
+
+    #[test]
+    fn redact_secret_args_passes_through_non_key() {
+        assert_eq!(redact_secret_args(&["whoami"]), vec!["whoami"]);
+        assert_eq!(redact_secret_args(&["logout"]), vec!["logout"]);
+    }
 
     #[test]
     fn complete_login_timeout_message_has_no_secret_argv() {
