@@ -35,6 +35,7 @@ use houston_ui_events::{DynEventSink, HoustonEvent};
 use once_cell::sync::Lazy;
 use regex::Regex;
 use std::collections::HashMap;
+use std::str::FromStr;
 use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::Arc;
 use std::time::Duration;
@@ -48,6 +49,12 @@ use tokio::sync::{Mutex, Notify};
 /// `ProviderLoginComplete` with a timeout error and the session is
 /// removed so the next Connect click can spawn a fresh subprocess.
 const LOGIN_SESSION_TIMEOUT: Duration = Duration::from_secs(600);
+
+/// How many leading stdout lines the relay retains for failure diagnosis
+/// (e.g. codex's "Starting local login server" banner — HOU-446). Bounded so a
+/// chatty CLI can't grow this without limit; the signatures we look for are
+/// printed at startup, well within this head.
+const RELAY_STDOUT_DIAG_LINES: usize = 64;
 
 /// In-flight OAuth login sessions, keyed by provider id (e.g.
 /// `"anthropic"`, `"openai"`). Single-entry-per-provider by design:
@@ -350,6 +357,10 @@ async fn relay_login_output(
     // re-emit can carry both.
     let mut login_url: Option<String> = None;
     let mut code_emitted = false;
+    // Bounded head of stdout, retained for the failure path so the diagnoser
+    // can see a login-server startup banner the CLI printed to stdout (the
+    // companion to the drained stderr). See [`make_login_error`].
+    let mut stdout_tail: Vec<String> = Vec::new();
     let mut reader = BufReader::new(stdout).lines();
 
     // Outer timeout protects against a CLI that keeps stdout open
@@ -360,15 +371,15 @@ async fn relay_login_output(
     let work = async {
         loop {
             tokio::select! {
-                // Poll in declared order, not at random: a user cancel is
-                // honored first, then we DRAIN stdout before observing the
-                // child's exit. Without the bias, a CLI that prints its URL
-                // (or device code) and exits promptly races `reader.next_line`
-                // against `child.wait` — when exit wins, the URL line is left
-                // unread and `ProviderLoginUrl` never fires. Reader-before-exit
-                // guarantees every buffered line is surfaced before we treat
-                // the process as done (also de-flakes the device-auth relay
-                // test, whose stand-in emits then exits immediately).
+                // Biased so the branches are polled top-to-bottom, not at
+                // random: a pending user cancel always wins, then we DRAIN a
+                // ready stdout line BEFORE observing the child's exit. Without
+                // the bias, a fast-exiting CLI that printed its login URL (or
+                // device code) races `reader.next_line` against `child.wait`;
+                // when exit wins the URL line is left unread and
+                // `ProviderLoginUrl` never fires. stdout EOF (`Ok(None)`) then
+                // falls through to the exit branch below. (Also de-flakes the
+                // device-auth relay test, whose stand-in emits then exits.)
                 biased;
                 _ = cancel.notified() => {
                     // A fresh launch that superseded this session set the flag
@@ -402,6 +413,10 @@ async fn relay_login_output(
                             // never surfaced. See `strip_ansi`.
                             let clean = strip_ansi(&line);
                             let clean = clean.as_ref();
+                            // Retain a bounded head for the failure diagnoser.
+                            if stdout_tail.len() < RELAY_STDOUT_DIAG_LINES {
+                                stdout_tail.push(clean.to_string());
+                            }
                             if !url_emitted {
                                 if let Some(url) = extract_login_url(clean) {
                                     tracing::info!(
@@ -459,64 +474,83 @@ async fn relay_login_output(
         RelayOutcome::Exited(child.wait().await)
     };
 
+    let outcome = tokio::time::timeout(LOGIN_SESSION_TIMEOUT, work).await;
+    // `work` has completed and been dropped, releasing its borrow of
+    // `stdout_tail` — safe to read it now for the failure diagnoser.
+    let stdout_diag = stdout_tail.join("\n");
+    let provider = Provider::from_str(&provider_id).ok();
+
     // `None` == superseded: emit nothing. Every other outcome carries the
     // exactly-one `ProviderLoginComplete` payload `(success, error)`.
-    let result: Option<(bool, Option<String>)> =
-        match tokio::time::timeout(LOGIN_SESSION_TIMEOUT, work).await {
-            Ok(RelayOutcome::Exited(Ok(status))) => {
-                tracing::info!("[houston:provider] {cli_name} login exited: {status}");
-                let stderr_text = drain_stderr(stderr_handle).await;
-                Some((
-                    status.success(),
-                    if status.success() {
-                        None
-                    } else {
-                        Some(format_exit_error(&cli_name, &format!("{status}"), &stderr_text))
-                    },
-                ))
-            }
-            Ok(RelayOutcome::Exited(Err(e))) => {
-                tracing::warn!("[houston:provider] {cli_name} login wait failed: {e}");
-                let stderr_text = drain_stderr(stderr_handle).await;
-                Some((
-                    false,
-                    Some(format_exit_error(&cli_name, &format!("wait failed: {e}"), &stderr_text)),
-                ))
-            }
-            Ok(RelayOutcome::Cancelled) => {
-                // User abandoned the sign-in. Drain stderr so the sibling
-                // task joins, but DON'T surface it — a deliberate cancel
-                // isn't an error, so `error: None` keeps the frontend from
-                // toasting. The spinner just clears and the card re-arms.
-                drain_stderr(stderr_handle).await;
-                Some((false, None))
-            }
-            Ok(RelayOutcome::Superseded) => {
-                // A fresh launch already tore this session down and took its
-                // slot (see `supersede_session`). Drain stderr so the sibling
-                // task joins, then emit NOTHING: a benign ProviderLoginComplete
-                // would race the replacement login and clear its spinner. The
-                // map entry is already gone, so the cleanup below is a no-op.
-                drain_stderr(stderr_handle).await;
-                None
-            }
-            Err(_) => {
-                tracing::warn!(
-                    "[houston:provider] {cli_name} login timed out after {}s — killing subprocess",
-                    LOGIN_SESSION_TIMEOUT.as_secs()
-                );
-                let _ = child.kill().await;
-                let stderr_text = drain_stderr(stderr_handle).await;
-                Some((
-                    false,
-                    Some(format_exit_error(
+    let result: Option<(bool, Option<String>)> = match outcome {
+        Ok(RelayOutcome::Exited(Ok(status))) => {
+            tracing::info!("[houston:provider] {cli_name} login exited: {status}");
+            let stderr_text = drain_stderr(stderr_handle).await;
+            Some((
+                status.success(),
+                if status.success() {
+                    None
+                } else {
+                    Some(make_login_error(
+                        provider,
                         &cli_name,
-                        &format!("timed out after {}s", LOGIN_SESSION_TIMEOUT.as_secs()),
+                        &stdout_diag,
+                        &format!("{status}"),
                         &stderr_text,
-                    )),
-                ))
-            }
-        };
+                    ))
+                },
+            ))
+        }
+        Ok(RelayOutcome::Exited(Err(e))) => {
+            tracing::warn!("[houston:provider] {cli_name} login wait failed: {e}");
+            let stderr_text = drain_stderr(stderr_handle).await;
+            Some((
+                false,
+                Some(make_login_error(
+                    provider,
+                    &cli_name,
+                    &stdout_diag,
+                    &format!("wait failed: {e}"),
+                    &stderr_text,
+                )),
+            ))
+        }
+        Ok(RelayOutcome::Cancelled) => {
+            // User abandoned the sign-in. Drain stderr so the sibling
+            // task joins, but DON'T surface it — a deliberate cancel
+            // isn't an error, so `error: None` keeps the frontend from
+            // toasting. The spinner just clears and the card re-arms.
+            drain_stderr(stderr_handle).await;
+            Some((false, None))
+        }
+        Ok(RelayOutcome::Superseded) => {
+            // A fresh launch already tore this session down and took its
+            // slot (see `supersede_session`). Drain stderr so the sibling
+            // task joins, then emit NOTHING: a benign ProviderLoginComplete
+            // would race the replacement login and clear its spinner. The
+            // map entry is already gone, so the cleanup below is a no-op.
+            drain_stderr(stderr_handle).await;
+            None
+        }
+        Err(_) => {
+            tracing::warn!(
+                "[houston:provider] {cli_name} login timed out after {}s — killing subprocess",
+                LOGIN_SESSION_TIMEOUT.as_secs()
+            );
+            let _ = child.kill().await;
+            let stderr_text = drain_stderr(stderr_handle).await;
+            Some((
+                false,
+                Some(make_login_error(
+                    provider,
+                    &cli_name,
+                    &stdout_diag,
+                    &format!("timed out after {}s", LOGIN_SESSION_TIMEOUT.as_secs()),
+                    &stderr_text,
+                )),
+            ))
+        }
+    };
 
     // Remove the map entry only if it's still *ours*. A `cancel_login` or
     // `supersede_session` already removed it eagerly, and a fresh `Connect`
@@ -551,6 +585,26 @@ fn format_exit_error(cli_name: &str, status: &str, stderr: &str) -> String {
     } else {
         format!("{cli_name} {status}: {stderr}")
     }
+}
+
+/// Pick the user-facing error message for a login subprocess the relay saw
+/// fail. A provider-specific recoverable diagnosis wins (e.g. codex's loopback
+/// login server failing to start — HOU-446), so the user gets an actionable
+/// message instead of codex's benign "Starting local login server" banner;
+/// otherwise we fall back to [`format_exit_error`] (raw stderr is the real,
+/// actionable detail for a genuine login error). Mirrors
+/// `super::login_early_exit_error`, which guards the sub-3s probe path.
+fn make_login_error(
+    provider: Option<Provider>,
+    cli_name: &str,
+    stdout_diag: &str,
+    status: &str,
+    stderr: &str,
+) -> String {
+    provider
+        .and_then(|p| p.diagnose_login_failure(stdout_diag, stderr))
+        .map(|hint| hint.message)
+        .unwrap_or_else(|| format_exit_error(cli_name, status, stderr))
 }
 
 /// Submit the OAuth verification code the user pasted from their
@@ -1082,6 +1136,106 @@ mod tests {
 
         // Cleanup: drop the fresh session so sibling tests see an empty map.
         // (`fresh` is kill_on_drop, so its subprocess dies at scope end.)
+        LOGIN_SESSIONS.lock().await.remove(provider_id);
+    }
+
+    #[test]
+    fn make_login_error_prefers_diagnosis_then_falls_back() {
+        let codex = parse("openai").unwrap();
+        // codex login-server banner on stderr → recoverable diagnosis, not the
+        // raw "codex exit status: 1: <banner>" string.
+        let diagnosed = make_login_error(
+            Some(codex),
+            "codex",
+            "",
+            "exit status: 1",
+            "Starting local login server on http://localhost:1455.",
+        );
+        assert!(diagnosed.contains("1455"), "got: {diagnosed}");
+        assert!(!diagnosed.contains("Starting local login server"), "got: {diagnosed}");
+
+        // A genuine codex error has no login-server signature → raw stderr
+        // (the actionable detail) flows through format_exit_error.
+        let raw = make_login_error(
+            Some(codex),
+            "codex",
+            "",
+            "exit status: 1",
+            "Error loading configuration: bad value",
+        );
+        assert_eq!(raw, "codex exit status: 1: Error loading configuration: bad value");
+
+        // No provider resolved → always the raw fallback.
+        let none = make_login_error(None, "codex", "", "exit status: 1", "boom");
+        assert_eq!(none, "codex exit status: 1: boom");
+    }
+
+    /// End-to-end relay proof: a `codex login` stand-in whose loopback server
+    /// can't start prints codex's benign banner to stderr and exits non-zero.
+    /// The relay must emit a `ProviderLoginComplete` carrying the recoverable
+    /// diagnosis, NOT the raw banner (HOU-446). Unix-only: it shells out to
+    /// `sh -c` to write stderr + exit 1; the cross-platform logic is covered by
+    /// `make_login_error_prefers_diagnosis_then_falls_back` and the OpenAI
+    /// adapter's own `openai_login` unit tests.
+    #[cfg(unix)]
+    #[tokio::test]
+    async fn relay_diagnoses_codex_login_server_failure_instead_of_raw_banner() {
+        use houston_ui_events::BroadcastEventSink;
+
+        let mut cmd = tokio::process::Command::new("sh");
+        cmd.arg("-c")
+            .arg("echo 'Starting local login server on http://localhost:1455.' 1>&2; exit 1")
+            .stdin(std::process::Stdio::piped())
+            .stdout(std::process::Stdio::piped())
+            .stderr(std::process::Stdio::piped())
+            .kill_on_drop(true);
+        let mut child = cmd.spawn().expect("spawn codex stand-in");
+        let stdin = child.stdin.take().expect("stdin piped");
+        let stdout = child.stdout.take().expect("stdout piped");
+        let stderr = child.stderr.take();
+
+        // Real provider id so the relay resolves the OpenAI adapter + diagnoser.
+        let provider_id = "openai";
+        let cli_name = "codex";
+        let sink = Arc::new(BroadcastEventSink::new(16));
+        let mut rx = sink.subscribe();
+
+        let registration = insert_session(provider_id, cli_name, stdin)
+            .await
+            .expect("insert succeeds");
+        spawn_relay(
+            provider_id.to_string(),
+            cli_name.to_string(),
+            child,
+            stdout,
+            stderr,
+            sink.clone(),
+            registration,
+            false,
+        );
+
+        let ev = tokio::time::timeout(Duration::from_secs(5), rx.recv())
+            .await
+            .expect("relay emits within 5s")
+            .expect("event received");
+        match ev {
+            HoustonEvent::ProviderLoginComplete {
+                provider,
+                success,
+                error,
+            } => {
+                assert_eq!(provider, provider_id);
+                assert!(!success, "a failed login did not complete");
+                let error = error.expect("a failed sign-in surfaces an error");
+                assert!(error.contains("1455"), "recoverable message names the port: {error}");
+                assert!(
+                    !error.contains("Starting local login server"),
+                    "the benign banner must not leak: {error}"
+                );
+            }
+            other => panic!("expected ProviderLoginComplete, got {other:?}"),
+        }
+
         LOGIN_SESSIONS.lock().await.remove(provider_id);
     }
 }
