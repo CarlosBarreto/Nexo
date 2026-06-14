@@ -112,6 +112,19 @@ detects. It feature-tests lookbehind via the `RegExp` *constructor* (a literal
 would fail to parse on the very engines it targets) and, when unsupported, paints
 a localized "update macOS" message instead of a white screen.
 
+On the unsupported path the gate also shuts Sentry down. `tauri-plugin-sentry`
+injects `@sentry/browser` (exposed as `window.Sentry`) ahead of our bundle and
+forwards every envelope to the Rust SDK over IPC, so it keeps reporting even
+though our bundle never evaluates. Left alone it ships the bundle's
+`SyntaxError` *plus* the null-ref cascade it triggers
+(`TypeError: null is not an object (evaluating 'el.dispatchEvent')`, HOU-460) as
+crashes — for a user we are already, clearly, telling to update macOS. So before
+the doomed bundle loads, the gate records one intentional `info` event (to keep
+visibility into how many users land on an unsupported engine) and then calls
+`window.Sentry.close()`, which flushes that event and disables the client so the
+cascade is dropped. This runs only on the unsupported branch, so supported
+engines keep full reporting.
+
 Invariants: keep it a classic `<script defer>` (not `type=module`, never
 parser-blocking), dependency-free, and never author a lookbehind / `v`-flag
 regex *literal* in it. Defense in depth:

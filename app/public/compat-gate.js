@@ -103,6 +103,37 @@
     }
   }
 
+  // On an unsupported engine the deferred app bundle is doomed: its markdown
+  // stack ships a top-level regex *lookbehind* literal this engine can't parse
+  // ("SyntaxError: invalid group specifier name"), and the partial teardown
+  // that follows trips a null-ref cascade ("TypeError: null is not an object
+  // (evaluating 'el.dispatchEvent')", HOU-460). The Sentry SDK is injected by
+  // tauri-plugin-sentry and runs even though our bundle never evaluates, so
+  // without intervention it ships both crashes as reports for a user we are
+  // already, clearly, telling to update macOS. That is pure noise. Record ONE
+  // intentional event so we keep visibility into how many users hit an
+  // unsupported engine, then shut the SDK down so the doomed bundle stays
+  // silent. inject.js exposes the SDK as `window.Sentry`; close() flushes the
+  // event above and then disables the client, dropping every later capture.
+  // All best-effort: telemetry must never block the update message.
+  function quietTelemetryForUnsupportedEngine(win) {
+    var sentry = win && win.Sentry;
+    if (!sentry) return;
+    try {
+      if (typeof sentry.captureMessage === "function") {
+        sentry.captureMessage(
+          "Unsupported WebView engine (no regex lookbehind); showed update-macOS prompt",
+          "info",
+        );
+      }
+      if (typeof sentry.close === "function") {
+        sentry.close();
+      }
+    } catch (e) {
+      /* telemetry shutdown is best-effort; never block the update screen */
+    }
+  }
+
   function renderUnsupportedScreen(root, message) {
     // Inline styles only — the app stylesheet may not parse on the unsupported
     // engine, and explicit colors cover the viewport regardless.
@@ -264,6 +295,7 @@
       CRASH_MESSAGES: CRASH_MESSAGES,
       pickLanguage: pickLanguage,
       isModernEngineSupported: isModernEngineSupported,
+      quietTelemetryForUnsupportedEngine: quietTelemetryForUnsupportedEngine,
       renderUnsupportedScreen: renderUnsupportedScreen,
       rootHasMounted: rootHasMounted,
       captureDiagnostics: captureDiagnostics,
@@ -280,6 +312,9 @@
   //    is already painted (rootHasMounted would short-circuit anyway, but this
   //    also saves the listeners and timer).
   if (!isModernEngineSupported(RegExp)) {
+    // Silence the doomed app bundle's crash reports before it even loads (this
+    // runs ahead of the deferred bundle). HOU-460.
+    quietTelemetryForUnsupportedEngine(typeof window === "undefined" ? null : window);
     var unsupportedRoot = document.getElementById("root");
     if (unsupportedRoot) {
       renderUnsupportedScreen(unsupportedRoot, MESSAGES[pickLanguage(navigator.language)]);

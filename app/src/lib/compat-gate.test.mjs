@@ -20,7 +20,7 @@ function loadHelpers() {
 
 // Runs the gate's browser side effect with injected globals. `module` is
 // undefined here, so the IIFE skips the export branch and executes the gate.
-function runGate({ navigatorLanguage, lookbehindThrows, hasWindow = false }) {
+function runGate({ navigatorLanguage, lookbehindThrows, sentry }) {
   const root = { innerHTML: "", childElementCount: 0, querySelector: () => null };
   const fakeDocument = {
     getElementById: (id) => (id === "root" ? root : null),
@@ -31,10 +31,11 @@ function runGate({ navigatorLanguage, lookbehindThrows, hasWindow = false }) {
         throw new SyntaxError("invalid group specifier name");
       }
     : RegExp;
-  // For tests of the Monterey path we deliberately leave `window`/`setTimeout`
-  // undefined: the gate's modern-engine branch guards on `typeof window` and
-  // bails, so we exercise the lookbehind branch in isolation.
-  const fakeWindow = hasWindow ? undefined : undefined;
+  // The lookbehind branch runs ahead of the modern-engine `typeof window`
+  // guard, so `window` can be a real object there. Pass a fake `window.Sentry`
+  // to exercise the telemetry-shutdown path; leaving it undefined matches the
+  // Monterey path where the gate bails before touching window/setTimeout.
+  const fakeWindow = sentry ? { Sentry: sentry } : undefined;
   new Function("module", "document", "navigator", "RegExp", "window", gateSource)(
     undefined,
     fakeDocument,
@@ -45,9 +46,29 @@ function runGate({ navigatorLanguage, lookbehindThrows, hasWindow = false }) {
   return root.innerHTML;
 }
 
+// Minimal stand-in for the injected `@sentry/browser` namespace. Records calls
+// so tests can assert the gate quiets telemetry, and can be told to throw so we
+// can prove the gate swallows SDK failures rather than blocking the screen.
+function makeSentrySpy({ throwOn } = {}) {
+  const calls = { captureMessage: [], close: 0 };
+  return {
+    calls,
+    captureMessage: (message, level) => {
+      if (throwOn === "captureMessage") throw new Error("captureMessage failed");
+      calls.captureMessage.push({ message, level });
+    },
+    close: () => {
+      if (throwOn === "close") throw new Error("close failed");
+      calls.close += 1;
+      return Promise.resolve(true);
+    },
+  };
+}
+
 const {
   pickLanguage,
   isModernEngineSupported,
+  quietTelemetryForUnsupportedEngine,
   MESSAGES,
   CRASH_MESSAGES,
   rootHasMounted,
@@ -128,6 +149,46 @@ test("an old engine renders a localized message into the root", () => {
 
   const en = runGate({ navigatorLanguage: "fr-FR", lookbehindThrows: true });
   assert.ok(en.includes(MESSAGES.en.title), "unknown locale falls back to English");
+});
+
+// ---- Telemetry shutdown on unsupported engines (HOU-460) --------------------
+// On macOS < 13 the app bundle fails to parse (markdown lookbehind regex) and
+// the injected Sentry SDK reports that SyntaxError plus a null-ref cascade
+// ("el.dispatchEvent") for a user we already tell to update macOS. The gate
+// shuts the SDK down so that noise never ships.
+
+test("quietTelemetryForUnsupportedEngine records one info event then closes Sentry", () => {
+  const spy = makeSentrySpy();
+  quietTelemetryForUnsupportedEngine({ Sentry: spy });
+  assert.equal(spy.calls.captureMessage.length, 1, "exactly one intentional event");
+  assert.equal(spy.calls.captureMessage[0].level, "info");
+  assert.match(spy.calls.captureMessage[0].message, /unsupported/i);
+  assert.equal(spy.calls.close, 1, "must close the client to drop the doomed bundle's crashes");
+});
+
+test("quietTelemetryForUnsupportedEngine is a safe no-op without window or Sentry", () => {
+  assert.doesNotThrow(() => quietTelemetryForUnsupportedEngine(undefined));
+  assert.doesNotThrow(() => quietTelemetryForUnsupportedEngine(null));
+  assert.doesNotThrow(() => quietTelemetryForUnsupportedEngine({}));
+  // SDK present but missing the methods (older/newer shape): still no throw.
+  assert.doesNotThrow(() => quietTelemetryForUnsupportedEngine({ Sentry: {} }));
+});
+
+test("quietTelemetryForUnsupportedEngine swallows SDK errors so the update screen still paints", () => {
+  assert.doesNotThrow(() =>
+    quietTelemetryForUnsupportedEngine({ Sentry: makeSentrySpy({ throwOn: "captureMessage" }) }),
+  );
+  assert.doesNotThrow(() =>
+    quietTelemetryForUnsupportedEngine({ Sentry: makeSentrySpy({ throwOn: "close" }) }),
+  );
+});
+
+test("the old-engine branch quiets telemetry AND still paints the update message", () => {
+  const spy = makeSentrySpy();
+  const html = runGate({ navigatorLanguage: "en-US", lookbehindThrows: true, sentry: spy });
+  assert.equal(spy.calls.close, 1, "old-engine path must close Sentry to silence the doomed bundle");
+  assert.equal(spy.calls.captureMessage.length, 1, "and record one intentional event");
+  assert.ok(html.includes(MESSAGES.en.title), "while still showing the update-macOS prompt");
 });
 
 // Guards the load order, which runGate can't model: the gate paints into #root,
