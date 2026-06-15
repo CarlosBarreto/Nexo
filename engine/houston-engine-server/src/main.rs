@@ -118,38 +118,21 @@ async fn main() {
         actual
     );
 
-    // Tunnel identity: cached in `<home>/tunnel.json`, or allocated on
-    // first boot via `POST {relay}/allocate`. Failure is non-fatal — the
-    // engine keeps serving local traffic; mobile companion + push stay
-    // dormant until the next boot succeeds.
-    let tunnel_identity = match houston_tunnel::ensure(&cfg.home_dir, &cfg.tunnel_url).await {
-        Ok(identity) => {
-            tracing::info!(
-                target: "houston_tunnel",
-                tunnel_id = %identity.tunnel_id,
-                host = %identity.public_host,
-                "tunnel identity loaded"
-            );
-            Some(identity)
-        }
-        Err(e) => {
-            tracing::warn!(
-                target: "houston_tunnel",
-                error = %e,
-                "tunnel allocation failed — running local-only, pairing disabled until next boot"
-            );
-            None
-        }
-    };
-
-    let state = ServerState::new(cfg, tunnel_identity)
+    // Mobile companion tunnel is intentionally disabled (HOU-474). We skip
+    // `houston_tunnel::ensure` so the engine never POSTs `{relay}/allocate`
+    // and never dials the Cloudflare relay. With no identity the tunnel
+    // runtime stays `None`, so `spawn_tunnel_if_allocated` below is inert.
+    // The `houston-tunnel` crate, the `/v1/tunnel/*` routes, and the settings
+    // section are all kept; restore the `ensure` call here to re-enable phone
+    // pairing.
+    let state = ServerState::new(cfg, None)
         .await
         .expect("engine state init failed");
 
     let state = Arc::new(state);
 
-    // Spawn the tunnel client if identity allocated. Needs the engine
-    // port, which we know now.
+    // No-op while the tunnel is disabled (identity is `None`); kept wired so
+    // restoring `ensure` above brings the connection back with no other edits.
     spawn_tunnel_if_allocated(state.clone(), actual.port());
 
     // Bundled-/runtime-CLI lifecycles. Fire-and-forget — both publish
