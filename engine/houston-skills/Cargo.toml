@@ -7,7 +7,10 @@ license = "MIT"
 
 [features]
 default = []
-remote = ["reqwest", "tokio"]
+# `remote` covers all network + subprocess work: marketplace install AND
+# the SkillSpector security scan (which shells out to the bundled scanner
+# and writes the SKILL.md to a temp dir).
+remote = ["reqwest", "tokio", "dep:tempfile", "dep:houston-skill-inspector"]
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
@@ -18,6 +21,8 @@ chrono = { version = "0.4", features = ["serde"] }
 tracing = "0.1"
 reqwest = { version = "0.12", features = ["json"], optional = true }
 tokio = { version = "1", features = ["sync", "time"], optional = true }
+tempfile = { version = "3", optional = true }
+houston-skill-inspector = { workspace = true, optional = true }
 
 [dev-dependencies]
 tempfile = "3"

@@ -59,6 +59,8 @@ import type {
   SessionStartRequest,
   SessionStartResponse,
   SkillDetail,
+  SkillSecurityResult,
+  SkillSecurityTarget,
   SkillSummary,
   StoreListing,
   GenerateInstructionsResult,
@@ -647,6 +649,14 @@ export class HoustonClient {
   }
   installSkillsFromRepo(req: InstallFromRepoRequest, signal?: AbortSignal): Promise<string[]> {
     return this.request("POST", "/skills/repo/install", req, undefined, signal);
+  }
+  /** Security-scan a skill (community / repo / installed) with the bundled
+   *  SkillSpector. Read-only POST → replay-safe. */
+  scanSkillSecurity(
+    req: SkillSecurityTarget,
+    signal?: AbortSignal,
+  ): Promise<SkillSecurityResult> {
+    return this.request("POST", "/skills/security/scan", req, undefined, signal, true);
   }
 
   // ---------- preferences ----------

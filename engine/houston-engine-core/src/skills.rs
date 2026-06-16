@@ -101,6 +101,91 @@ pub struct InstallCommunityRequest {
     pub skill_id: String,
 }
 
+// ── Security scan DTOs (SkillSpector) ──────────────────────────────
+
+/// What to scan. Mirrors the install entry points: a community skill
+/// (skills.sh), a skill discovered in a GitHub repo, or one already
+/// installed in a workspace.
+#[derive(Deserialize, Debug)]
+#[serde(tag = "target", rename_all = "camelCase")]
+pub enum SkillSecurityRequest {
+    Community { source: String, skill_id: String },
+    Repo { source: String, path: String },
+    Installed { workspace_path: String, name: String },
+}
+
+/// Result of a scan request. `unavailable` means the bundled scanner isn't
+/// present on this device (e.g. an Intel Mac in v1) — the caller installs
+/// without a pre-scan rather than treating it as an error.
+#[derive(Serialize, Debug)]
+#[serde(tag = "status", rename_all = "camelCase")]
+pub enum SkillSecurityResponse {
+    Scanned { report: SkillSecurityReportDto },
+    Unavailable,
+}
+
+#[derive(Serialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct SkillSecurityReportDto {
+    /// 0-100 risk score.
+    pub score: u16,
+    pub severity: UiSeverity,
+    pub recommendation: UiRecommendation,
+    pub findings: Vec<SkillFindingDto>,
+    pub scanner_version: Option<String>,
+}
+
+/// One de-duplicated, user-facing finding. SkillSpector's raw code
+/// snippets and model-guessed intent are deliberately dropped — Houston's
+/// users are non-technical.
+#[derive(Serialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct SkillFindingDto {
+    pub category: String,
+    pub severity: UiSeverity,
+    pub summary: String,
+}
+
+#[derive(Serialize, Debug, Clone, Copy)]
+#[serde(rename_all = "snake_case")]
+pub enum UiSeverity {
+    Low,
+    Medium,
+    High,
+    Critical,
+}
+
+#[derive(Serialize, Debug, Clone, Copy)]
+#[serde(rename_all = "snake_case")]
+pub enum UiRecommendation {
+    Safe,
+    Caution,
+    DoNotInstall,
+}
+
+impl From<houston_skills::scan::Severity> for UiSeverity {
+    fn from(s: houston_skills::scan::Severity) -> Self {
+        use houston_skills::scan::Severity as S;
+        match s {
+            S::Low => Self::Low,
+            S::Medium => Self::Medium,
+            S::High => Self::High,
+            S::Critical => Self::Critical,
+        }
+    }
+}
+
+impl From<houston_skills::scan::Recommendation> for UiRecommendation {
+    fn from(r: houston_skills::scan::Recommendation) -> Self {
+        use houston_skills::scan::Recommendation as R;
+        match r {
+            R::Safe => Self::Safe,
+            R::Caution => Self::Caution,
+            R::DoNotInstall => Self::DoNotInstall,
+        }
+    }
+}
+
 // ── Error mapping ──────────────────────────────────────────────────
 //
 // The `kind` strings here are part of the engine-client's typed error
@@ -182,6 +267,11 @@ impl From<SkillError> for CoreError {
                 code: ErrorCode::Unavailable,
                 kind: "github_rate_limited",
                 message: "GitHub is busy. Wait a moment and try again.".into(),
+            },
+            SkillError::ScanFailed(s) => CoreError::Labeled {
+                code: ErrorCode::Unavailable,
+                kind: "scan_failed",
+                message: format!("Couldn't run the skill safety check. {s}"),
             },
             SkillError::Io(s) => CoreError::Internal(s),
         }
@@ -468,6 +558,68 @@ pub async fn install_community(
     ensure_claude_mirror(&req.workspace_path, &name);
     emit_skills_changed(events, &req.workspace_path);
     Ok(name)
+}
+
+/// Security-scan a skill with the bundled SkillSpector. Read-only: this
+/// never installs. The desktop scans before install (gate-with-override)
+/// and on demand from the Skills tab.
+pub async fn security_scan(req: SkillSecurityRequest) -> CoreResult<SkillSecurityResponse> {
+    use houston_skills::scan::ScanOutcome;
+    let outcome = match req {
+        SkillSecurityRequest::Community { source, skill_id } => {
+            houston_skills::scan::scan_community_skill(&source, &skill_id).await?
+        }
+        SkillSecurityRequest::Repo { source, path } => {
+            houston_skills::scan::scan_repo_skill(&source, &path).await?
+        }
+        SkillSecurityRequest::Installed {
+            workspace_path,
+            name,
+        } => {
+            let dir = skills_dir(&workspace_path);
+            houston_skills::scan::scan_installed_skill(&dir, &name).await?
+        }
+    };
+    Ok(match outcome {
+        ScanOutcome::Scanned(report) => SkillSecurityResponse::Scanned {
+            report: report_dto(report),
+        },
+        ScanOutcome::Unavailable => SkillSecurityResponse::Unavailable,
+    })
+}
+
+/// Map the inspector's report into the user-facing wire DTO: de-duplicate
+/// findings by (category, summary) and prefer SkillSpector's plain-English
+/// `explanation` over the raw matched text.
+fn report_dto(r: houston_skills::scan::ScanReport) -> SkillSecurityReportDto {
+    let mut seen = std::collections::HashSet::new();
+    let findings = r
+        .issues
+        .iter()
+        .filter_map(|i| {
+            let summary = i
+                .explanation
+                .clone()
+                .or_else(|| i.finding.clone())
+                .unwrap_or_default();
+            if seen.insert((i.category.clone(), summary.clone())) {
+                Some(SkillFindingDto {
+                    category: i.category.clone(),
+                    severity: i.severity.into(),
+                    summary,
+                })
+            } else {
+                None
+            }
+        })
+        .collect();
+    SkillSecurityReportDto {
+        score: r.score(),
+        severity: r.severity().into(),
+        recommendation: r.recommendation().into(),
+        findings,
+        scanner_version: r.metadata.skillspector_version.clone(),
+    }
 }
 
 #[cfg(test)]

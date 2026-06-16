@@ -401,33 +401,7 @@ pub async fn install_skill(
     std::fs::create_dir_all(skills_dir).map_err(|e| SkillError::Io(e.to_string()))?;
 
     let client = build_client()?;
-
-    // Try common path patterns first (cheap — no API call).
-    let candidates = [
-        format!("skills/{skill_id}/SKILL.md"),
-        format!("{skill_id}/SKILL.md"),
-        "SKILL.md".to_string(),
-    ];
-    let mut raw_md = None;
-    for candidate in &candidates {
-        if let Ok(md) = fetch_skill_md_at_path(&client, source, candidate).await {
-            raw_md = Some(md);
-            break;
-        }
-    }
-    // Fallback: scan the repo tree and match by directory name or frontmatter `name:`.
-    if raw_md.is_none() {
-        if let Ok(Some(path)) = find_skill_path_in_repo(&client, source, skill_id).await {
-            if let Ok(md) = fetch_skill_md_at_path(&client, source, &path).await {
-                raw_md = Some(md);
-            }
-        }
-    }
-    let raw_md = raw_md.ok_or_else(|| {
-        SkillError::SkillNotInRepo(format!(
-            "Could not find '{skill_id}' in {source}"
-        ))
-    })?;
+    let raw_md = fetch_community_skill_md(&client, source, skill_id).await?;
     let parsed = parse_skill_md(&raw_md, skill_id);
 
     // Prefer the SKILL.md's own `name:` (the authoritative slug) and fall back
@@ -462,7 +436,7 @@ pub async fn install_skill(
 /// [`SkillError::InvalidRepoSource`] so the user gets a "type owner/repo"
 /// hint instead of a doomed GitHub lookup that 404s on the garbage and
 /// echoes it back. (HOU-440)
-fn normalize_source(source: &str) -> Option<String> {
+pub(crate) fn normalize_source(source: &str) -> Option<String> {
     let trimmed = source
         .trim()
         .trim_matches(|c| c == '"' || c == '\'' || c == '`');
@@ -689,9 +663,39 @@ pub async fn install_from_repo(
     Ok(installed)
 }
 
+/// Fetch a single community skill's `SKILL.md` from GitHub, trying the
+/// common path patterns first (cheap) and falling back to a repo-tree scan
+/// that matches on directory name or frontmatter `name:`. Shared by
+/// `install_skill` and the security scan so the two never drift in how they
+/// locate the skill.
+pub(crate) async fn fetch_community_skill_md(
+    client: &Client,
+    source: &str,
+    skill_id: &str,
+) -> Result<String, SkillError> {
+    let candidates = [
+        format!("skills/{skill_id}/SKILL.md"),
+        format!("{skill_id}/SKILL.md"),
+        "SKILL.md".to_string(),
+    ];
+    for candidate in &candidates {
+        if let Ok(md) = fetch_skill_md_at_path(client, source, candidate).await {
+            return Ok(md);
+        }
+    }
+    if let Ok(Some(path)) = find_skill_path_in_repo(client, source, skill_id).await {
+        if let Ok(md) = fetch_skill_md_at_path(client, source, &path).await {
+            return Ok(md);
+        }
+    }
+    Err(SkillError::SkillNotInRepo(format!(
+        "Could not find '{skill_id}' in {source}"
+    )))
+}
+
 // ── Internals ─────────────────────────────────────────────────────
 
-fn build_client() -> Result<Client, SkillError> {
+pub(crate) fn build_client() -> Result<Client, SkillError> {
     Client::builder()
         .user_agent("houston-skills/1.0")
         .timeout(std::time::Duration::from_secs(15))
@@ -799,7 +803,7 @@ fn extract_frontmatter_name(content: &str) -> Option<String> {
     None
 }
 
-async fn fetch_skill_md_at_path(
+pub(crate) async fn fetch_skill_md_at_path(
     client: &Client,
     source: &str,
     path: &str,

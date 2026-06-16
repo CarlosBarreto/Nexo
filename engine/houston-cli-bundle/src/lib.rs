@@ -164,6 +164,73 @@ pub fn bundled_gemini_path() -> Option<PathBuf> {
     }
 }
 
+/// Per-arch SkillSpector directory inside the bundle.
+///
+/// SkillSpector is NVIDIA's agent-skill security scanner — a Python tool
+/// with no prebuilt binary and no PyPI release, so unlike the other
+/// bundled CLIs it ships as a relocatable python-build-standalone
+/// interpreter with the package installed into its own site-packages,
+/// staged per-arch at `Resources/bin/skillspector-{aarch64|x86_64}/`
+/// (same per-arch model as composio/gemini). macOS only in v1; on any
+/// platform where the directory was never staged this returns `None` and
+/// the scan feature is simply unavailable (the install flow still works,
+/// just without a pre-install safety check).
+pub fn bundled_skillspector_dir() -> Option<PathBuf> {
+    let arch = std::env::consts::ARCH;
+    let p = bundled_bin_dir()?.join(format!("skillspector-{arch}"));
+    p.is_dir().then_some(p)
+}
+
+/// Command to run a SkillSpector scan: `(python_exe, skillspector_script)`.
+///
+/// We invoke `python <script>` rather than the `skillspector` console
+/// script directly: the script's shebang is the absolute *build-time* path
+/// (it points at the staging dir, not the installed `.app`), so executing
+/// it via its shebang after the bundle has been relocated would fail.
+/// Passing the script as an argument to the relocated interpreter bypasses
+/// the stale shebang entirely. Returns `None` when SkillSpector isn't
+/// bundled or the layout is incomplete.
+pub fn bundled_skillspector_invocation() -> Option<(PathBuf, PathBuf)> {
+    let dir = bundled_skillspector_dir()?;
+    let python = skillspector_python(&dir)?;
+    let script = skillspector_script(&dir);
+    script.is_file().then_some((python, script))
+}
+
+/// Resolve the interpreter inside a staged SkillSpector tree. Prefers the
+/// stable `bin/python3` symlink; falls back to scanning for `python3.<n>`
+/// if a future python-build-standalone drops the alias.
+#[cfg(not(windows))]
+fn skillspector_python(dir: &Path) -> Option<PathBuf> {
+    let bin = dir.join("bin");
+    let p3 = bin.join("python3");
+    if p3.is_file() {
+        return Some(p3);
+    }
+    std::fs::read_dir(&bin).ok()?.flatten().find_map(|e| {
+        let name = e.file_name();
+        let name = name.to_str()?;
+        (name.starts_with("python3.") && name[8..].chars().all(|c| c.is_ascii_digit()))
+            .then(|| e.path())
+    })
+}
+
+#[cfg(windows)]
+fn skillspector_python(dir: &Path) -> Option<PathBuf> {
+    let p = dir.join("python.exe");
+    p.is_file().then_some(p)
+}
+
+#[cfg(not(windows))]
+fn skillspector_script(dir: &Path) -> PathBuf {
+    dir.join("bin").join("skillspector")
+}
+
+#[cfg(windows)]
+fn skillspector_script(dir: &Path) -> PathBuf {
+    dir.join("Scripts").join("skillspector.exe")
+}
+
 /// Per-arch PortableGit self-extracting 7z. The SFX itself never
 /// runs on the host that built the bundle — it's a Windows PE meant
 /// to be extracted on the user's machine on first launch (see
@@ -799,6 +866,54 @@ mod tests {
             .join(format!("gemini-{}", std::env::consts::ARCH))
             .join(gemini_binary_name());
         assert!(gemini_resolved.is_file());
+    }
+
+    #[cfg(not(windows))]
+    #[test]
+    fn detects_bundled_skillspector_per_arch() {
+        // Build a fake .app with the per-arch skillspector layout: a
+        // relocatable interpreter dir with bin/python3 + bin/skillspector.
+        // Same approach as the gemini test — drive the underlying layout
+        // via `bundled_bin_dir_for(&exe)` since the public functions read
+        // `std::env::current_exe()`.
+        let tmp = tempfile::tempdir().unwrap();
+        let app = tmp.path().join("Houston.app");
+        let macos = app.join("Contents").join("MacOS");
+        let bin = app.join("Contents").join("Resources").join(BIN_SUBDIR);
+        let ss = bin.join(format!("skillspector-{}", std::env::consts::ARCH));
+        let ss_bin = ss.join("bin");
+        fs::create_dir_all(&macos).unwrap();
+        fs::create_dir_all(&ss_bin).unwrap();
+        let exe = macos.join("houston-engine");
+        fs::write(&exe, b"").unwrap();
+        fs::write(ss_bin.join("python3"), b"").unwrap();
+        fs::write(ss_bin.join("python3.13"), b"").unwrap();
+        fs::write(ss_bin.join("skillspector"), b"").unwrap();
+
+        let bin_resolved = bundled_bin_dir_for(&exe).unwrap();
+        let ss_resolved = bin_resolved.join(format!("skillspector-{}", std::env::consts::ARCH));
+        assert!(ss_resolved.is_dir());
+        assert!(ss_resolved.join("bin").join("skillspector").is_file());
+
+        // The interpreter finder prefers the stable `bin/python3` symlink.
+        let py = skillspector_python(&ss_resolved).expect("python resolved");
+        assert_eq!(py.file_name().unwrap(), "python3");
+        // The script path resolves to bin/skillspector.
+        let script = skillspector_script(&ss_resolved);
+        assert!(script.is_file());
+    }
+
+    #[cfg(not(windows))]
+    #[test]
+    fn skillspector_python_falls_back_to_versioned_name() {
+        // If a future python-build-standalone drops the `python3` alias,
+        // the finder must still locate `python3.<n>`.
+        let tmp = tempfile::tempdir().unwrap();
+        let bin = tmp.path().join("bin");
+        fs::create_dir_all(&bin).unwrap();
+        fs::write(bin.join("python3.13"), b"").unwrap();
+        let py = skillspector_python(tmp.path()).expect("versioned python resolved");
+        assert_eq!(py.file_name().unwrap(), "python3.13");
     }
 
     #[test]

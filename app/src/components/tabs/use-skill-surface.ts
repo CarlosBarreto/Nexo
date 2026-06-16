@@ -2,6 +2,10 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import type { CommunitySkill, RepoSkill, Skill } from "@houston-ai/skills";
+import type {
+  SkillSecurityReport,
+  SkillSecurityTarget,
+} from "@houston-ai/engine-client";
 import {
   useCreateSkill,
   useDeleteSkill,
@@ -70,6 +74,42 @@ export function useSkillSurface(agentPath: string) {
   const listFromRepo = useListSkillsFromRepo();
   const installFromRepo = useInstallSkillFromRepo(agentPath);
 
+  // Security gate: when a pre-install scan flags a skill, we pause and show a
+  // confirm dialog. The stored `resolve` is fulfilled when the user chooses
+  // to install anyway or cancel.
+  const [securityGate, setSecurityGate] = useState<{
+    skillName: string;
+    report: SkillSecurityReport;
+    resolve: (proceed: boolean) => void;
+  } | null>(null);
+
+  const resolveSecurityGate = useCallback((proceed: boolean) => {
+    setSecurityGate((gate) => {
+      gate?.resolve(proceed);
+      return null;
+    });
+  }, []);
+
+  // Scan `target`; if the verdict is anything but "safe", pause for the user
+  // to confirm. Throws an AbortError when they decline so the install views
+  // reset to idle. An "unavailable" result (scanner not bundled on this
+  // device) or a clean "safe" verdict passes straight through, so install
+  // still works everywhere — it just isn't pre-screened.
+  const scanAndGate = useCallback(
+    async (skillName: string, target: SkillSecurityTarget, signal?: AbortSignal) => {
+      const result = await tauriSkills.scanSecurity(target, signal);
+      if (result.status === "scanned" && result.report.recommendation !== "safe") {
+        const proceed = await new Promise<boolean>((resolve) => {
+          setSecurityGate({ skillName, report: result.report, resolve });
+        });
+        if (!proceed) {
+          throw new DOMException("Skill install cancelled by the user", "AbortError");
+        }
+      }
+    },
+    [],
+  );
+
   const selectedSkill: Skill | undefined =
     selectedSkillName && skillDetail
       ? {
@@ -122,13 +162,19 @@ export function useSkillSurface(agentPath: string) {
   );
 
   const handleInstallCommunity = useCallback(
-    async (skill: CommunitySkill, signal?: AbortSignal) =>
-      installCommunity.mutateAsync({
+    async (skill: CommunitySkill, signal?: AbortSignal) => {
+      await scanAndGate(
+        skill.name,
+        { target: "community", source: skill.source, skillId: skill.skillId },
+        signal,
+      );
+      return installCommunity.mutateAsync({
         source: skill.source,
         skillId: skill.skillId,
         signal,
-      }),
-    [installCommunity],
+      });
+    },
+    [installCommunity, scanAndGate],
   );
 
   const handleListFromRepo = useCallback(
@@ -137,9 +183,19 @@ export function useSkillSurface(agentPath: string) {
   );
 
   const handleInstallFromRepo = useCallback(
-    async (source: string, skills: RepoSkill[]) =>
-      installFromRepo.mutateAsync({ source, skills }),
-    [installFromRepo],
+    async (source: string, skills: RepoSkill[]) => {
+      // Scan each selected skill; any non-safe one pauses for confirmation
+      // before the whole batch installs.
+      for (const skill of skills) {
+        await scanAndGate(skill.name, {
+          target: "repo",
+          source,
+          path: skill.path,
+        });
+      }
+      return installFromRepo.mutateAsync({ source, skills });
+    },
+    [installFromRepo, scanAndGate],
   );
 
   const handleCreateFromScratch = useCallback(
@@ -167,5 +223,7 @@ export function useSkillSurface(agentPath: string) {
     handleInstallFromRepo,
     handleCreateFromScratch,
     installedSkillNames,
+    securityGate,
+    resolveSecurityGate,
   };
 }

@@ -127,6 +127,18 @@ users pasted commands and got `Couldn't find a repo named 'npx skills add ...'`.
 When you add a `SkillError` variant, mirror its `kind` in
 `ui/skills/src/skill-error-kinds.ts` (that union is the TS source of truth).
 
+## Security scan before install (SkillSpector)
+
+Before a community or repo skill is installed, the desktop scans its
+`SKILL.md` with the bundled NVIDIA SkillSpector (`POST /v1/skills/security/scan`)
+and, when the verdict is `caution` / `do_not_install`, shows a
+gate-with-override confirm ("Install anyway" / "Cancel"). A `safe` verdict —
+or an `unavailable` result on a device where the scanner isn't bundled
+(Intel Macs in v1) — installs straight through. The scan never installs; the
+gate is enforced client-side in `use-skill-surface.ts::scanAndGate`. Full
+mechanism (bundling, the YARA `__file__` trap, arch coverage, signing) lives
+in `knowledge-base/skill-inspector.md`.
+
 ## Skill invocation marker (chat persistence)
 
 When the user runs a Skill, the persisted user_message body is:

@@ -22,6 +22,7 @@ export type SkillErrorKind =
   | "repo_no_skills"
   | "invalid_repo_source"
   | "github_rate_limited"
+  | "scan_failed"
 
 /**
  * Pull the typed `kind` off any thrown value. Works whether the

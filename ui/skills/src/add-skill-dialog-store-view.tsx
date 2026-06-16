@@ -271,7 +271,16 @@ export function StoreView({
       } catch (err) {
         if (controller.signal.aborted) return
         const cls = classifySkillError(err)
-        if (cls === "aborted") return
+        if (cls === "aborted") {
+          // Aborted/declined (e.g. the security gate was cancelled) — drop
+          // the row back to its idle state instead of leaving it spinning.
+          setInstalls((prev) => {
+            const next = new Map(prev)
+            next.delete(skill.id)
+            return next
+          })
+          return
+        }
         const reason = installFailureReason(cls)
         setInstalls((prev) => {
           const next = new Map(prev)

@@ -2684,10 +2684,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "houston-skill-inspector"
+version = "0.4.24"
+dependencies = [
+ "houston-cli-bundle",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
 name = "houston-skills"
 version = "0.4.24"
 dependencies = [
  "chrono",
+ "houston-skill-inspector",
  "reqwest 0.12.28",
  "serde",
  "serde_json",

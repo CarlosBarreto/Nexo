@@ -16,6 +16,7 @@ import { LearningsContent } from "./learnings-content";
 import { InstructionsContent, type SubTab } from "./job-description-parts";
 import { SkillsContent } from "./skills-content";
 import { useSkillSurface } from "./use-skill-surface";
+import { SkillSecurityDialog } from "./skill-security-dialog";
 import {
   SidebarSectionNav,
   type SidebarSectionItem,
@@ -111,6 +112,10 @@ export default function JobDescriptionTab({ agent }: TabProps) {
           />
         )}
       </div>
+      <SkillSecurityDialog
+        gate={surface.securityGate}
+        onResolve={surface.resolveSecurityGate}
+      />
     </div>
   );
 }

@@ -1,0 +1,18 @@
+[package]
+name = "houston-skill-inspector"
+version = "0.4.24"
+edition = "2021"
+description = "Run NVIDIA SkillSpector against a skill and parse its risk assessment into typed Rust"
+license = "MIT"
+repository = "https://github.com/gethouston/houston"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+thiserror = "2"
+houston-cli-bundle = { workspace = true }
+
+[dev-dependencies]
+tempfile = "3"

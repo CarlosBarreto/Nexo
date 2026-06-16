@@ -90,5 +90,19 @@
     "deleteTitle": "¿Eliminar \"{{name}}\"?",
     "deleteDescription": "Esto elimina el skill de tu agente. Puedes reinstalarlo después.",
     "instructionsPlaceholder": "Instrucciones para este skill..."
+  },
+  "security": {
+    "doNotInstall": {
+      "title": "No recomendamos este skill",
+      "description_one": "Nuestra verificación de seguridad encontró 1 posible problema de seguridad en \"{{name}}\". No recomendamos instalarlo. ¿Instalar de todos modos?",
+      "description_other": "Nuestra verificación de seguridad encontró {{count}} posibles problemas de seguridad en \"{{name}}\". No recomendamos instalarlo. ¿Instalar de todos modos?"
+    },
+    "caution": {
+      "title": "Revisa bien este skill",
+      "description_one": "Nuestra verificación de seguridad encontró 1 cosa para revisar en \"{{name}}\". ¿Instalar de todos modos?",
+      "description_other": "Nuestra verificación de seguridad encontró {{count}} cosas para revisar en \"{{name}}\". ¿Instalar de todos modos?"
+    },
+    "installAnyway": "Instalar de todos modos",
+    "cancel": "Cancelar"
   }
 }

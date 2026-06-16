@@ -332,6 +332,13 @@ jobs:
             brew install jq
             echo "::endgroup::"
           fi
+          # uv builds the bundled SkillSpector (downloads the standalone
+          # CPython + resolves its wheels). macos runners may not ship it.
+          if ! command -v uv >/dev/null 2>&1; then
+            echo "::group::Installing uv (missing on runner)"
+            brew install uv
+            echo "::endgroup::"
+          fi
           ./scripts/fetch-cli-deps.sh both
 
           echo "=== Staged bundle ==="
@@ -345,6 +352,10 @@ jobs:
           test -x app/src-tauri/resources/bin/composio-aarch64/composio
           test -x app/src-tauri/resources/bin/composio-x86_64/composio
           test -f app/src-tauri/resources/bin/cli-deps.json
+          # SkillSpector ships for the runner's native arch only (arm64 on
+          # Apple Silicon); see cli-deps.json ship_layout comment.
+          test -f app/src-tauri/resources/bin/skillspector-aarch64/bin/skillspector
+          test -x app/src-tauri/resources/bin/skillspector-aarch64/bin/python3
 
           LIPO_INFO=$(lipo -info app/src-tauri/resources/bin/codex)
           echo "$LIPO_INFO"
@@ -415,6 +426,28 @@ jobs:
             codesign --force --options runtime --timestamp \
               --sign "$APPLE_SIGNING_IDENTITY" "$f"
             codesign -dvv "$f" 2>&1 | grep -E '^(Authority|TeamIdentifier|Timestamp|CodeDirectory)' || true
+          done
+
+          # SkillSpector ships as a relocatable Python interpreter tree with
+          # many Mach-O C-extensions (.so), the libpython dylib, and the
+          # interpreter executable. tauri-action's deep sign doesn't recurse
+          # here, and Apple notary rejects ANY unsigned Mach-O in the bundle
+          # (execute bit or not), so sign every Mach-O in the tree. Same-team
+          # signatures also satisfy hardened-runtime library validation when
+          # the interpreter dlopen's its extensions, so no extra entitlement
+          # is needed.
+          for ssdir in "$BIN"/skillspector-*; do
+            [ -d "$ssdir" ] || continue
+            echo "=== Signing Mach-Os under $ssdir ==="
+            signed=0
+            while IFS= read -r -d '' f; do
+              if file "$f" | grep -q 'Mach-O'; then
+                codesign --force --options runtime --timestamp \
+                  --sign "$APPLE_SIGNING_IDENTITY" "$f"
+                signed=$((signed + 1))
+              fi
+            done < <(find "$ssdir" -type f \( -name '*.so' -o -name '*.dylib' -o -perm -u+x \) -print0)
+            echo "  Signed $signed Mach-O file(s) under $ssdir"
           done
 
       # Build the engine sidecar for BOTH macOS architectures BEFORE the
@@ -576,6 +609,9 @@ jobs:
           test -x "$BIN/composio-x86_64/composio"  || { echo "::error::composio-x86_64/composio missing"; exit 1; }
           test -x "$BIN/gemini-aarch64/gemini"     || { echo "::error::gemini-aarch64/gemini missing"; exit 1; }
           test -x "$BIN/gemini-x86_64/gemini"      || { echo "::error::gemini-x86_64/gemini missing"; exit 1; }
+          # SkillSpector ships for the native (arm64) arch only in v1.
+          test -f "$BIN/skillspector-aarch64/bin/skillspector" || { echo "::error::skillspector-aarch64 scanner missing"; exit 1; }
+          test -x "$BIN/skillspector-aarch64/bin/python3"      || { echo "::error::skillspector-aarch64 interpreter missing"; exit 1; }
           test -f "$BIN/cli-deps.json" || { echo "::error::cli-deps.json manifest missing"; exit 1; }
           ls -lah "$BIN"
 
@@ -586,9 +622,12 @@ jobs:
           echo "$LIPO" | grep -q 'x86_64' || { echo "::error::codex missing x86_64 slice"; exit 1; }
 
           echo "=== 3. Mach-O binaries have Developer ID + hardened runtime ==="
-          # Walk every executable file under Resources/bin/ and assert
-          # signing invariants. We only care about Mach-O — `.mjs` /
-          # `services/` / json files don't need signatures.
+          # Walk every Mach-O under Resources/bin/ and assert signing
+          # invariants. Besides the +x CLI binaries we explicitly include
+          # `.so` / `.dylib` so SkillSpector's Python C-extensions (which
+          # are not +x but still must be signed for notarization) are
+          # verified too. `.mjs` / `services/` / json files don't need
+          # signatures and are skipped by the Mach-O `file` check.
           fail=0
           while IFS= read -r f; do
             if file "$f" | grep -q 'Mach-O'; then
@@ -613,7 +652,7 @@ jobs:
                 fail=1
               fi
             fi
-          done < <(find "$BIN" -type f -perm -u+x)
+          done < <(find "$BIN" -type f \( -perm -u+x -o -name '*.so' -o -name '*.dylib' \))
 
           if [ "$fail" -ne 0 ]; then
             echo "::error::One or more bundled CLI binaries failed signing checks"

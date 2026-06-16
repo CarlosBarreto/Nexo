@@ -381,6 +381,42 @@ export interface CommunitySkill {
   source: string;
 }
 
+// ---------- Skill security scan (SkillSpector) ----------
+
+export type SkillSecuritySeverity = "low" | "medium" | "high" | "critical";
+
+/** SkillSpector's overall verdict. `do_not_install` is the one Houston
+ *  gates on (the user can still override after seeing the warning). */
+export type SkillSecurityRecommendation = "safe" | "caution" | "do_not_install";
+
+export interface SkillSecurityFinding {
+  category: string;
+  severity: SkillSecuritySeverity;
+  summary: string;
+}
+
+export interface SkillSecurityReport {
+  /** 0-100 risk score. */
+  score: number;
+  severity: SkillSecuritySeverity;
+  recommendation: SkillSecurityRecommendation;
+  findings: SkillSecurityFinding[];
+  scannerVersion: string | null;
+}
+
+/** Result of a scan request. `unavailable` means the bundled scanner isn't
+ *  present on this device (e.g. an Intel Mac in v1) — callers install
+ *  without a pre-scan rather than treating it as an error. */
+export type SkillSecurityResult =
+  | { status: "scanned"; report: SkillSecurityReport }
+  | { status: "unavailable" };
+
+/** What to scan. Mirrors the install entry points. */
+export type SkillSecurityTarget =
+  | { target: "community"; source: string; skillId: string }
+  | { target: "repo"; source: string; path: string }
+  | { target: "installed"; workspacePath: string; name: string };
+
 // ---------- Providers / preferences ----------
 
 /**

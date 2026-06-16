@@ -672,6 +672,209 @@ build_composio_windows() {
 }
 
 # ---------------------------------------------------------------------------
+# SkillSpector (macOS) — NVIDIA's agent-skill security scanner.
+#
+# Unlike codex/composio/gemini there is no prebuilt binary and no PyPI
+# release: SkillSpector is a Python 3.12/3.13 package installed from a
+# pinned git SHA. We ship it as a relocatable python-build-standalone
+# interpreter with the package + deps installed into the interpreter's
+# own site-packages, staged per-arch at resources/bin/skillspector-{aarch64
+# |x86_64}/ — the same per-arch directory model as composio/gemini.
+#
+# A real relocatable interpreter is chosen over a PyInstaller freeze on
+# purpose: SkillSpector locates its bundled YARA rules via Path(__file__),
+# which a frozen _MEIPASS layout silently breaks (the scanner then compiles
+# zero rules and passes every skill). A real interpreter keeps __file__
+# correct so all four rule files load — the smoke scan below asserts this.
+#
+# Both macOS arches cross-build from a single arm64 runner: uv downloads
+# the target-arch standalone CPython and resolves arch-specific wheels via
+# --python-platform; SkillSpector itself is pure Python so it builds
+# host-side into a none-any wheel.
+stage_skillspector_arch_darwin() {
+  local arch="$1"
+  local platform="darwin-$arch"
+  local source_repo source_sha python_download python_platform version
+  version=$(jq -r '.skillspector.version' "$DEPS_FILE")
+  source_repo=$(jq -r ".skillspector.build[\"$platform\"].source_repo // empty" "$DEPS_FILE")
+  source_sha=$(jq -r ".skillspector.build[\"$platform\"].source_sha // empty" "$DEPS_FILE")
+  python_download=$(jq -r ".skillspector.build[\"$platform\"].python_download // empty" "$DEPS_FILE")
+  python_platform=$(jq -r ".skillspector.build[\"$platform\"].python_platform // empty" "$DEPS_FILE")
+
+  for v in "$source_repo" "$source_sha" "$python_download" "$python_platform"; do
+    if [ -z "$v" ]; then
+      echo "ERROR: skillspector.build.$platform is missing required fields in cli-deps.json" >&2
+      exit 1
+    fi
+  done
+
+  if ! command -v uv >/dev/null 2>&1; then
+    echo "ERROR: uv is required to build skillspector" >&2
+    echo "  brew install uv   (or: curl -LsSf https://astral.sh/uv/install.sh | sh)" >&2
+    exit 1
+  fi
+
+  local rust_arch
+  case "$arch" in
+    arm64) rust_arch="aarch64" ;;
+    x64)   rust_arch="x86_64" ;;
+  esac
+  local dest_dir="$OUT_DIR/skillspector-$rust_arch"
+  rm -rf "$dest_dir"
+
+  echo "BUILD skillspector v$version ($platform) from $source_repo @ ${source_sha:0:12}"
+
+  # 1. Download the target-arch standalone CPython into an isolated dir.
+  local py_install_dir target_py interp_root
+  py_install_dir=$(mktemp -d)
+  uv python install --install-dir "$py_install_dir" "$python_download" 2>&1 | tail -2
+  # Resolve the real interpreter (find -type f does not descend uv's alias
+  # symlink dir, so this never picks the unversioned alias).
+  target_py=$(find "$py_install_dir" -type f -path '*/bin/python3.*' | grep -E 'python3\.[0-9]+$' | head -1)
+  if [ -z "$target_py" ] || [ ! -x "$target_py" ]; then
+    echo "ERROR: standalone CPython not found after uv install ($python_download)" >&2
+    find "$py_install_dir" -maxdepth 3 -type f | head -20 >&2
+    rm -rf "$py_install_dir"
+    exit 1
+  fi
+  interp_root=$(cd "$(dirname "$target_py")/.." && pwd)
+
+  # 2. Copy the interpreter tree into the bundle dir — this is what ships.
+  mkdir -p "$dest_dir"
+  cp -a "$interp_root/." "$dest_dir/"
+  rm -rf "$py_install_dir"
+
+  local bpy
+  bpy=$(ls "$dest_dir"/bin/python3.* 2>/dev/null | grep -E 'python3\.[0-9]+$' | head -1)
+  if [ -z "$bpy" ] || [ ! -x "$bpy" ]; then
+    echo "ERROR: bundle python missing under $dest_dir/bin after copy" >&2
+    exit 1
+  fi
+
+  # 3. Drop uv's externally-managed marker so we can install into our copy.
+  rm -f "$dest_dir"/lib/python3.*/EXTERNALLY-MANAGED
+
+  # 4. Install SkillSpector (pinned SHA) + deps into the interpreter's
+  #    site-packages. Native deps resolve as arch wheels via
+  #    --python-platform; SkillSpector is pure Python and builds host-side.
+  echo "  uv pip install git+...@${source_sha:0:12} (target $python_platform)"
+  uv pip install --python "$bpy" --python-platform "$python_platform" \
+    "git+${source_repo}@${source_sha}" 2>&1 | tail -3
+
+  # 5. Verify the package + its YARA rules actually landed (a cross-arch
+  #    resolve that found zero wheels would otherwise ship a hollow tree).
+  if [ ! -f "$dest_dir/bin/skillspector" ]; then
+    echo "ERROR: skillspector console script not installed for $platform" >&2
+    exit 1
+  fi
+  local n_yara
+  n_yara=$(find "$dest_dir" -path '*skillspector/yara_rules/*.yar' | wc -l | tr -d ' ')
+  if [ "$n_yara" -lt 4 ]; then
+    echo "ERROR: expected >=4 bundled YARA rule files, found $n_yara for $platform" >&2
+    exit 1
+  fi
+
+  prune_skillspector_tree "$dest_dir"
+  adhoc_sign_macho_tree "$dest_dir"
+
+  # 6. Host-arch smoke scan: runs the static --no-llm path end to end so a
+  #    broken prune or relocation fails the build, not the user. Cannot exec
+  #    the cross-arch slice on this host, so skip it there.
+  if [ "$arch" = "$(detect_host_arch)" ]; then
+    smoke_scan_skillspector "$dest_dir"
+  else
+    echo "  (cross-arch $platform: skipping smoke scan — cannot exec on host)"
+  fi
+
+  echo "  Installed: $dest_dir/ ($(du -sh "$dest_dir" | cut -f1))"
+}
+
+# Slim the SkillSpector tree by removing only runtime-unused content. Each
+# target is import-safe: pip is the installer, grpc_tools is the protoc
+# codegen plugin (grpcio itself stays), and the stripped stdlib modules
+# (test corpus, IDLE, tkinter, 2to3, ensurepip) are never imported by the
+# static scanner. The smoke scan afterwards is the safety net.
+prune_skillspector_tree() {
+  local dir="$1"
+  local before after sp
+  before=$(du -sh "$dir" | cut -f1)
+  sp=$(echo "$dir"/lib/python3.*/site-packages)
+  rm -rf "$sp"/pip "$sp"/pip-*.dist-info \
+         "$sp"/grpc_tools "$sp"/grpcio_tools-*.dist-info 2>/dev/null || true
+  rm -rf "$dir"/lib/python3.*/test \
+         "$dir"/lib/python3.*/idlelib \
+         "$dir"/lib/python3.*/tkinter \
+         "$dir"/lib/python3.*/turtledemo \
+         "$dir"/lib/python3.*/lib2to3 \
+         "$dir"/lib/python3.*/ensurepip \
+         "$dir"/lib/python3.*/config-* \
+         "$dir"/include "$dir"/share 2>/dev/null || true
+  find "$dir"/lib -type f -name 'libpython*.a' -delete 2>/dev/null || true
+  after=$(du -sh "$dir" | cut -f1)
+  echo "  Pruned skillspector tree ($before -> $after)"
+}
+
+# Ad-hoc sign every Mach-O in the interpreter tree (the python executable,
+# libpython dylib, and every C-extension .so). Same rationale as the gemini
+# ad-hoc sign: macOS kills unsigned Mach-Os with SIGKILL the moment the
+# engine execs them in `pnpm tauri dev`. release.yml replaces these with
+# Developer ID + hardened-runtime signatures before notarization.
+adhoc_sign_macho_tree() {
+  local dir="$1"
+  local count=0 f
+  while IFS= read -r -d '' f; do
+    if file "$f" | grep -q 'Mach-O'; then
+      codesign --force --sign - "$f" 2>/dev/null \
+        || { echo "ERROR: ad-hoc codesign failed for $f" >&2; exit 1; }
+      count=$((count + 1))
+    fi
+  done < <(find "$dir" -type f \( -name '*.so' -o -name '*.dylib' -o -path '*/bin/python3.*' \) -print0)
+  echo "  Ad-hoc signed $count Mach-O file(s)"
+}
+
+# Exercise the bundled scanner end to end on a throwaway clean skill: this
+# compiles the YARA rules and parses JSON, so a relocation/prune that broke
+# imports or the rule path fails the build here instead of silently shipping
+# a scanner that finds nothing. Exit 0 (clean) and 1 (findings) are both
+# "ran"; any other code is a real failure.
+smoke_scan_skillspector() {
+  local dir="$1"
+  local bpy tmp out rc rules
+  bpy=$(ls "$dir"/bin/python3.* | grep -E 'python3\.[0-9]+$' | head -1)
+  tmp=$(mktemp -d)
+  printf -- '---\nname: smoke-test\ndescription: smoke test skill\n---\n## Procedure\nSummarize the notes.\n' > "$tmp/SKILL.md"
+
+  set +e
+  out=$(env -u OPENAI_API_KEY -u ANTHROPIC_API_KEY -u NVIDIA_INFERENCE_KEY \
+        "$bpy" "$dir/bin/skillspector" scan "$tmp" --no-llm --format json 2>"$tmp/err")
+  rc=$?
+  set -e
+  if [ "$rc" -ne 0 ] && [ "$rc" -ne 1 ]; then
+    echo "ERROR: skillspector smoke scan failed (exit $rc)" >&2
+    cat "$tmp/err" >&2
+    rm -rf "$tmp"
+    exit 1
+  fi
+  if ! echo "$out" | jq -e '.risk_assessment.recommendation' >/dev/null 2>&1; then
+    echo "ERROR: skillspector smoke scan did not emit parseable JSON" >&2
+    echo "$out" | head -5 >&2
+    rm -rf "$tmp"
+    exit 1
+  fi
+
+  rules=$(env -u OPENAI_API_KEY -u ANTHROPIC_API_KEY -u NVIDIA_INFERENCE_KEY \
+          "$bpy" "$dir/bin/skillspector" scan "$tmp" --no-llm -V 2>&1 \
+          | grep -oE 'compiled [0-9]+ YARA rule file' | grep -oE '[0-9]+' | head -1)
+  rm -rf "$tmp"
+  if [ -z "$rules" ] || [ "$rules" -lt 4 ]; then
+    echo "ERROR: skillspector YARA rules did not compile (got '${rules:-0}', expected >=4)." >&2
+    echo "  A relocated scanner that finds zero rules would silently pass every skill." >&2
+    exit 1
+  fi
+  echo "  Smoke scan OK (recommendation parsed, YARA rule files compiled: $rules)"
+}
+
+# ---------------------------------------------------------------------------
 # Pre-flight: clean any stale artifacts so a re-run produces a known layout.
 # Removing the full bin dir is safe — every artifact in there is
 # reproducible from cli-deps.json.
@@ -680,6 +883,7 @@ rm -rf "$OUT_DIR/.staging" \
        "$OUT_DIR/codex" "$OUT_DIR/codex.exe" \
        "$OUT_DIR/composio-"* \
        "$OUT_DIR/gemini-"* \
+       "$OUT_DIR/skillspector-"* \
        "$OUT_DIR/cli-deps.json"
 
 # ---------------------------------------------------------------------------
@@ -693,6 +897,22 @@ case "$TARGET_OS" in
       fetch_composio_arch_darwin "$arch"
       stage_gemini_arch_darwin "$arch"
     done
+
+    # SkillSpector builds for the runner's NATIVE arch only. Its native
+    # Python deps (cryptography, yara-python, grpcio, ...) don't
+    # cross-compile reliably on an arm host, and the universal .app is
+    # produced on a single runner — so the scanner ships for the build
+    # host's arch (arm64 on the current Apple Silicon runner). On Apple
+    # Silicon it runs; Intel Macs running the universal .app get clean
+    # degradation (install proceeds without the pre-scan) until a native
+    # x86_64 build runner is added (the darwin-x64 build block in
+    # cli-deps.json is the pinned config for that phase-2 work).
+    ss_native_arch=$(detect_host_arch)
+    if printf '%s\n' "${ARCHES[@]}" | grep -qx "$ss_native_arch"; then
+      stage_skillspector_arch_darwin "$ss_native_arch"
+    else
+      echo "SKIP skillspector (host arch $ss_native_arch not in requested arches: ${ARCHES[*]})"
+    fi
 
     if [ "${#ARCHES[@]}" -eq 2 ]; then
       lipo_codex_universal_darwin
@@ -735,6 +955,13 @@ case "$TARGET_OS" in
       [ -x "$OUT_DIR/composio-x86_64/composio" ]  || missing+=("composio-x86_64/composio")
       [ -x "$OUT_DIR/gemini-aarch64/gemini" ]     || missing+=("gemini-aarch64/gemini")
       [ -x "$OUT_DIR/gemini-x86_64/gemini" ]      || missing+=("gemini-x86_64/gemini")
+    fi
+    # SkillSpector is staged for the native arch only (see dispatch note).
+    ss_native_arch=$(detect_host_arch)
+    case "$ss_native_arch" in arm64) ss_rust_arch="aarch64" ;; x64) ss_rust_arch="x86_64" ;; esac
+    if printf '%s\n' "${ARCHES[@]}" | grep -qx "$ss_native_arch"; then
+      [ -f "$OUT_DIR/skillspector-$ss_rust_arch/bin/skillspector" ] \
+        || missing+=("skillspector-$ss_rust_arch/bin/skillspector")
     fi
     ;;
   windows)

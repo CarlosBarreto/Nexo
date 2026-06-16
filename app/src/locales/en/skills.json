@@ -90,5 +90,19 @@
     "deleteTitle": "Delete \"{{name}}\"?",
     "deleteDescription": "This removes the skill from your agent. You can reinstall it later.",
     "instructionsPlaceholder": "Instructions for this skill..."
+  },
+  "security": {
+    "doNotInstall": {
+      "title": "We don't recommend this skill",
+      "description_one": "Our safety check found 1 possible security concern in \"{{name}}\". We don't recommend installing it. Install anyway?",
+      "description_other": "Our safety check found {{count}} possible security concerns in \"{{name}}\". We don't recommend installing it. Install anyway?"
+    },
+    "caution": {
+      "title": "Double-check this skill",
+      "description_one": "Our safety check found 1 thing to double-check in \"{{name}}\". Install anyway?",
+      "description_other": "Our safety check found {{count}} things to double-check in \"{{name}}\". Install anyway?"
+    },
+    "installAnyway": "Install anyway",
+    "cancel": "Cancel"
   }
 }

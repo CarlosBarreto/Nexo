@@ -9,7 +9,7 @@ use axum::{
 };
 use houston_engine_core::skills::{
     self, CreateSkillRequest, InstallCommunityRequest, InstallFromRepoRequest, SaveSkillRequest,
-    SkillDetailResponse, SkillSummaryResponse,
+    SkillDetailResponse, SkillSecurityRequest, SkillSecurityResponse, SkillSummaryResponse,
 };
 use houston_skills::remote::{CommunitySkill, RepoSkill};
 use serde::Deserialize;
@@ -24,6 +24,7 @@ pub fn router() -> Router<Arc<ServerState>> {
         .route("/skills/community/install", post(community_install))
         .route("/skills/repo/list", post(repo_list))
         .route("/skills/repo/install", post(repo_install))
+        .route("/skills/security/scan", post(security_scan))
 }
 
 #[derive(Deserialize)]
@@ -117,4 +118,14 @@ async fn repo_install(
     Json(req): Json<InstallFromRepoRequest>,
 ) -> Result<Json<Vec<String>>, ApiError> {
     Ok(Json(skills::install_from_repo(&st.engine.events, req).await?))
+}
+
+/// Security-scan a skill (community / repo / installed) with the bundled
+/// SkillSpector. Read-only — never installs. The desktop calls this before
+/// install to gate risky skills, and on demand from the Skills tab.
+async fn security_scan(
+    State(_st): State<Arc<ServerState>>,
+    Json(req): Json<SkillSecurityRequest>,
+) -> Result<Json<SkillSecurityResponse>, ApiError> {
+    Ok(Json(skills::security_scan(req).await?))
 }

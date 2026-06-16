@@ -10,6 +10,7 @@ import {
 import { RepoDoneState } from "./add-skill-dialog-repo-done"
 import { RepoSkillRow } from "./add-skill-dialog-repo-row"
 import { RepoSelectionSummary } from "./add-skill-dialog-repo-selection"
+import { classifySkillError } from "./skill-error-kinds"
 
 export interface RepoViewProps {
   onList: (source: string) => Promise<RepoSkill[]>
@@ -58,7 +59,11 @@ export function RepoView({ onList, onInstall, labels }: RepoViewProps) {
       const names = await onInstall(stage.source, toInstall)
       setStage({ kind: "done", installed: names })
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e))
+      // A cancelled security gate aborts the install — return to the
+      // selection list quietly rather than showing an error banner.
+      if (classifySkillError(e) !== "aborted") {
+        setError(e instanceof Error ? e.message : String(e))
+      }
       setStage({ kind: "selection", source: stage.source, skills: stage.skills })
     }
   }, [stage, selected, onInstall])

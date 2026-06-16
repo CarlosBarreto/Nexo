@@ -15,6 +15,7 @@ opening a shell.
 | codex       | Apache-2.0    | Bundled (universal) | `Houston.app/Contents/Resources/bin/codex` — single Mach-O fat binary |
 | composio    | MIT           | Bundled (per-arch)  | `Resources/bin/composio-aarch64/`, `Resources/bin/composio-x86_64/`   |
 | gemini      | Apache-2.0    | Bundled (per-arch)  | `Resources/bin/gemini-aarch64/gemini`, `Resources/bin/gemini-x86_64/gemini` (Node SEA, single Mach-O each) |
+| skillspector| Apache-2.0    | Bundled (native arch only) | `Resources/bin/skillspector-aarch64/` — relocatable Python interpreter + NVIDIA SkillSpector installed in it; arm64-only in v1 (see `knowledge-base/skill-inspector.md`) |
 | claude-code | PROPRIETARY   | Runtime download    | `~/.local/bin/claude`                                                  |
 
 ### Windows (x64 only in v1)
@@ -297,6 +298,7 @@ Bundled CLIs add ~940 MB to `Resources/`:
 - composio-x86_64:  ~190 MB
 - gemini-aarch64:   ~115 MB
 - gemini-x86_64:    ~118 MB
+- skillspector-aarch64: ~190 MB (Python interpreter + deps; arm64 only in v1)
 
 DMG compression brings the user-facing download to ~450-560 MB. This is
 a deliberate trade — the target user is non-technical and would not

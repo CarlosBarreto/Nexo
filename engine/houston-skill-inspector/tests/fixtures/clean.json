@@ -1,0 +1,28 @@
+{
+  "skill": {
+    "name": "summarize-notes",
+    "source": "/skills/summarize-notes",
+    "scanned_at": "2026-06-16T18:49:16.990648+00:00"
+  },
+  "risk_assessment": {
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 6,
+      "executable": false,
+      "size_bytes": 161
+    }
+  ],
+  "issues": [],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.1.5",
+    "llm_requested": false,
+    "llm_available": false
+  }
+}

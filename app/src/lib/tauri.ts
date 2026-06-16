@@ -28,6 +28,8 @@ import type {
   ProviderAuthState,
   ProviderStatus as EngineProviderStatus,
   GenerateInstructionsResult,
+  SkillSecurityResult,
+  SkillSecurityTarget,
 } from "@houston-ai/engine-client";
 import { getEngine } from "./engine";
 import { osPickDirectory } from "./os-bridge";
@@ -413,6 +415,17 @@ export const tauriSkills = {
           },
           signal,
         ),
+      undefined,
+      { toast: false },
+    ),
+  // Security-scan a skill before install (or on demand). The install views
+  // surface scan failures inline, so suppress the auto-toast like the
+  // install calls above. An `unavailable` result is a normal value, not an
+  // error (the bundled scanner ships arm64-only in v1).
+  scanSecurity: (target: SkillSecurityTarget, signal?: AbortSignal) =>
+    call<SkillSecurityResult>(
+      "scan_skill_security",
+      () => getEngine().scanSkillSecurity(target, signal),
       undefined,
       { toast: false },
     ),

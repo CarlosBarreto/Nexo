@@ -12,6 +12,8 @@ pub mod index;
 pub mod patch;
 #[cfg(feature = "remote")]
 pub mod remote;
+#[cfg(feature = "remote")]
+pub mod scan;
 pub(crate) mod validate;
 
 use serde::{Deserialize, Serialize};
@@ -63,6 +65,12 @@ pub enum SkillError {
     RepoEmpty(String),
     #[error("GitHub is busy. Wait a moment and try again.")]
     GithubRateLimited,
+    /// The bundled SkillSpector security scanner failed to run or returned
+    /// output we couldn't read. Distinct from a scan that ran and flagged
+    /// the skill (that's a successful scan with a DO_NOT_INSTALL verdict,
+    /// not an error). Surfaced so a broken scanner never silently passes.
+    #[error("Couldn't run the skill safety check. {0}")]
+    ScanFailed(String),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
