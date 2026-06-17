@@ -19,6 +19,9 @@ import { LanguageGate } from "./components/shell/language-gate";
 import { showErrorToast } from "./lib/error-toast";
 import { isBenignLockRejection } from "./lib/benign-rejections";
 import { analytics, classifyAnalyticsError } from "./lib/analytics";
+import { runStartupAnalytics } from "./lib/startup-analytics";
+import { tauriSystem } from "./lib/tauri";
+import { loadTheme } from "./lib/theme";
 import { initSentry } from "./lib/sentry";
 import { installSentrySmokeShortcuts } from "./lib/sentry-smoke";
 
@@ -115,6 +118,23 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | 
 }
 
 /**
+ * Install-lifecycle + theme bootstrap, mounted ABOVE the language/disclaimer
+ * gates. Emits `install_created` and runs `posthog.identify(install_id)` BEFORE
+ * any `onboarding_*` event so the sequential acquisition→activation funnel
+ * (keyed on `install_created` as step 1) doesn't break at step 2. The gates
+ * short-circuit `<App/>` on a fresh install, so analytics.init() can't live in
+ * App's mount effect — it would fire after the gate events. See
+ * `runStartupAnalytics`. Renders children immediately; never blocks.
+ */
+function StartupEffects({ children }: { children: ReactNode }) {
+  useEffect(() => {
+    void runStartupAnalytics(analytics, (url) => tauriSystem.openUrl(url));
+    void loadTheme();
+  }, []);
+  return <>{children}</>;
+}
+
+/**
  * Blocks the app from rendering until the Tauri supervisor emits
  * `houston-engine-ready` (or the injection raced in early). Hooks deep in
  * the tree synchronously call `getEngine()` in their first useEffect, so
@@ -170,15 +190,17 @@ createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
     <ErrorBoundary>
       <TooltipProvider>
-        <EngineGate>
-          <I18nextProvider i18n={i18n}>
-            <LanguageGate>
-              <DisclaimerGate>
-                <App />
-              </DisclaimerGate>
-            </LanguageGate>
-          </I18nextProvider>
-        </EngineGate>
+        <StartupEffects>
+          <EngineGate>
+            <I18nextProvider i18n={i18n}>
+              <LanguageGate>
+                <DisclaimerGate>
+                  <App />
+                </DisclaimerGate>
+              </LanguageGate>
+            </I18nextProvider>
+          </EngineGate>
+        </StartupEffects>
       </TooltipProvider>
     </ErrorBoundary>
   </QueryClientProvider>,
