@@ -6,18 +6,22 @@ export { AgentAvatar, HoustonLogo, getAgentIcon, getAgentIconColor, getHoustonLo
 
 interface AgentCardProps {
   config: AgentConfig;
+  /** Localized display name (falls back to `config.name`). */
+  title?: string;
+  /** Localized display description (falls back to `config.description`). */
+  description?: string;
   onSelect: (id: string) => void;
 }
 
-export function AgentCard({ config, onSelect }: AgentCardProps) {
+export function AgentCard({ config, title, description, onSelect }: AgentCardProps) {
   return (
     <SkillCard
       image={config.image}
       media={
         config.image ? undefined : <AgentAvatar config={config} size="md" />
       }
-      title={config.name}
-      description={config.description}
+      title={title ?? config.name}
+      description={description ?? config.description}
       integrations={config.integrations}
       maxIntegrations={8}
       className="min-h-[132px]"
@@ -28,12 +32,18 @@ export function AgentCard({ config, onSelect }: AgentCardProps) {
 
 interface StoreAgentCardProps {
   listing: StoreListing;
+  /** Localized display name (falls back to `listing.name`). */
+  title?: string;
+  /** Localized display description (falls back to `listing.description`). */
+  description?: string;
   onInstall: (listing: StoreListing) => Promise<void>;
   onSelect: (id: string) => void;
 }
 
 export function StoreAgentCard({
   listing,
+  title,
+  description,
   onInstall,
   onSelect,
 }: StoreAgentCardProps) {
@@ -51,8 +61,8 @@ export function StoreAgentCard({
 
   return (
     <SkillCard
-      title={listing.name}
-      description={listing.description}
+      title={title ?? listing.name}
+      description={description ?? listing.description}
       image={listing.icon_url}
       integrations={listing.integrations}
       maxIntegrations={8}
