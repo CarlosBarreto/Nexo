@@ -1,13 +1,16 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import {
   composeSkillMd,
+  contractKey,
+  loadSkillContract,
   loadSkillDetail,
   loadSkills,
+  parseSkillContract,
   skillDirKey,
   skillKey,
   slugify,
 } from "@houston/domain";
-import type { HoustonEvent } from "@houston/protocol";
+import type { HoustonEvent, SkillDetail } from "@houston/protocol";
 import type { Agent, Workspace } from "../domain/types";
 import type { WorkspacePaths } from "../paths";
 import type { Vfs } from "../vfs";
@@ -49,8 +52,11 @@ export async function handleSkills(
 
   if (method === "GET" && slug) {
     const detail = await loadSkillDetail(vfs, root, slug);
-    if (!detail) json(res, 404, { error: "skill not found" });
-    else json(res, 200, detail);
+    if (!detail) {
+      json(res, 404, { error: "skill not found" });
+      return true;
+    }
+    json(res, 200, await withContract(vfs, root, slug, detail));
     return true;
   }
 
@@ -74,6 +80,10 @@ export async function handleSkills(
       json(res, 400, { error: "name does not produce a usable slug" });
       return true;
     }
+    // An invalid contract must 400 BEFORE anything is written — never a
+    // half-created skill.
+    const contractToml = await readContractField(body, newSlug, res);
+    if (contractToml === INVALID) return true;
     if ((await vfs.readText(skillKey(root, newSlug))) !== null) {
       json(res, 409, { error: `skill '${newSlug}' already exists` });
       return true;
@@ -88,9 +98,15 @@ export async function handleSkills(
         createdIsoDate: today,
       }),
     );
+    if (contractToml !== undefined)
+      await vfs.writeText(contractKey(root, newSlug), contractToml);
     fireChange();
     const detail = await loadSkillDetail(vfs, root, newSlug);
-    json(res, 201, detail);
+    json(
+      res,
+      201,
+      detail ? await withContract(vfs, root, newSlug, detail) : detail,
+    );
     return true;
   }
 
@@ -100,11 +116,15 @@ export async function handleSkills(
       json(res, 400, { error: "missing 'content'" });
       return true;
     }
+    const contractToml = await readContractField(body, slug, res);
+    if (contractToml === INVALID) return true;
     if ((await vfs.readText(skillKey(root, slug))) === null) {
       json(res, 404, { error: "skill not found" });
       return true;
     }
     await vfs.writeText(skillKey(root, slug), body.content);
+    if (contractToml !== undefined)
+      await vfs.writeText(contractKey(root, slug), contractToml);
     fireChange();
     json(res, 200, { ok: true });
     return true;
@@ -123,4 +143,47 @@ export async function handleSkills(
 
   json(res, 405, { error: "method not allowed" });
   return true;
+}
+
+/** Sentinel: the request carried a contract and it failed validation (response already sent). */
+const INVALID = Symbol("invalid contract");
+
+/**
+ * The optional `contract` field of a create/save body: undefined when absent,
+ * the TOML text when present and valid, INVALID (after answering 400) when
+ * present and broken. Authoring-time validation is the contract's whole point
+ * — a broken one must never land on disk.
+ */
+async function readContractField(
+  body: Record<string, unknown>,
+  slug: string,
+  res: ServerResponse,
+): Promise<string | undefined | typeof INVALID> {
+  const contract = body.contract;
+  if (contract === undefined) return undefined;
+  if (typeof contract !== "string") {
+    json(res, 400, { error: "'contract' must be a TOML string" });
+    return INVALID;
+  }
+  const parsed = parseSkillContract(slug, contract);
+  if ("error" in parsed) {
+    json(res, 400, { error: parsed.error });
+    return INVALID;
+  }
+  return contract;
+}
+
+/** The detail plus its contract (parsed + raw), when the skill declares one. */
+async function withContract(
+  vfs: Vfs,
+  root: string,
+  slug: string,
+  detail: SkillDetail,
+): Promise<SkillDetail> {
+  const { contract, toml } = await loadSkillContract(vfs, root, slug);
+  return {
+    ...detail,
+    ...(contract ? { contract } : {}),
+    ...(toml !== null ? { contractToml: toml } : {}),
+  };
 }
