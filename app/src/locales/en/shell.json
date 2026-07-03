@@ -246,6 +246,87 @@
       "5": "Very detailed"
     }
   },
+  "soulRitual": {
+    "cardTitle": "Discover with the ritual",
+    "cardDescription": "Answer five short questions and discover your agent's element",
+    "stepTitle": "The Ritual of Birth",
+    "progress": "Chapter {{current}} of {{total}}",
+    "chapters": {
+      "awakening": {
+        "title": "The Primordial Awakening",
+        "question": "Your agent wakes with unlimited resources. What does it do first?",
+        "options": {
+          "act": "Charges at the biggest problem right away",
+          "listen": "Listens and maps what everyone needs",
+          "secure": "Secures what already exists before touching anything",
+          "wander": "Wanders off to explore what nobody has tried"
+        }
+      },
+      "territory": {
+        "title": "The Call of the Territory",
+        "question": "Where does it feel at home?",
+        "options": {
+          "forge": "A forge: heat, sparks, and things being made",
+          "tide": "The tide: deep currents and quiet patterns",
+          "mountain": "A mountain: solid ground and the long view",
+          "sky": "The open sky: no walls, no fixed paths"
+        }
+      },
+      "bond": {
+        "title": "The Mirror of the Bond",
+        "question": "Which value does it hold above all else?",
+        "options": {
+          "courage": "Courage: act even when it is uncomfortable",
+          "empathy": "Empathy: understand before judging",
+          "loyalty": "Loyalty: protect what was entrusted to it",
+          "freedom": "Freedom: question every rule that limits"
+        }
+      },
+      "storm": {
+        "title": "The Dance of the Storm",
+        "question": "A storm of chaos hits. How does it respond?",
+        "options": {
+          "charge": "Rides the lightning and pushes straight through",
+          "flow": "Flows around the obstacles like water",
+          "hold": "Holds the line and shelters the essentials",
+          "dance": "Dances with the chaos and finds the hidden door"
+        }
+      },
+      "manifesto": {
+        "title": "The Soul's Manifesto",
+        "question": "In one word, its purpose is to...",
+        "options": {
+          "transform": "Transform: turn plans into finished things",
+          "understand": "Understand: find the truth beneath the surface",
+          "protect": "Protect: keep what matters safe and in order",
+          "explore": "Explore: open paths nobody has walked"
+        }
+      }
+    },
+    "result": {
+      "title": "The soul has spoken",
+      "hint": "Your agent starts from this archetype. You can adjust everything later.",
+      "continueButton": "Meet your agent"
+    },
+    "elements": {
+      "fire": {
+        "name": "Fire",
+        "description": "Ambition, willpower, transformation. An agent that moves first and refines while moving."
+      },
+      "water": {
+        "name": "Water",
+        "description": "Intuition, harmony, depth. An agent that understands the whole current before acting."
+      },
+      "earth": {
+        "name": "Earth",
+        "description": "Permanence, wisdom, protection. An agent that builds things that hold and keeps the record straight."
+      },
+      "air": {
+        "name": "Air",
+        "description": "Freedom, curiosity, creative chaos. An agent that finds the options nobody was looking at."
+      }
+    }
+  },
   "aiReview": {
     "stepTitle": "Review your agent",
     "instructionsLabel": "Agent instructions",

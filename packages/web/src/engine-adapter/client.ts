@@ -254,7 +254,12 @@ export class HoustonClient {
   ): Promise<CreateAgentResult> {
     if (this.cp)
       return {
-        agent: await controlPlane.createAgent(this.cp, req.name, req.color),
+        agent: await controlPlane.createAgent(
+          this.cp,
+          req.name,
+          req.color,
+          req.element,
+        ),
       };
     return agents.createAgent(workspaceId, req);
   }

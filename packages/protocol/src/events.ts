@@ -18,6 +18,7 @@ export type HoustonEvent =
   | { type: "RoutineRunsChanged"; agentPath: string }
   | { type: "ConfigChanged"; agentPath: string }
   | { type: "LearningsChanged"; agentPath: string }
+  | { type: "MemoryChanged"; agentPath: string }
   | { type: "SkillsChanged"; agentPath: string }
   | { type: "ContextChanged"; agentPath: string }
   | { type: "FilesChanged"; agentPath: string }

@@ -8,6 +8,22 @@
       "name": "Começar do zero",
       "description": "Um agente em branco, sem ações, instruções ou aprendizados pré-configurados. Monte do seu jeito."
     },
+    "axie-fire": {
+      "name": "Arquétipo Fogo",
+      "description": "Execução em primeiro lugar. Ambicioso, rápido e voltado à transformação: escolhe o caminho viável mais ousado e avança."
+    },
+    "axie-water": {
+      "name": "Arquétipo Água",
+      "description": "Compreensão em primeiro lugar. Intuitivo, paciente e minucioso: entende toda a corrente antes de agir."
+    },
+    "axie-earth": {
+      "name": "Arquétipo Terra",
+      "description": "Confiabilidade em primeiro lugar. Estável, protetor e preciso: constrói coisas duráveis e cuida do registro."
+    },
+    "axie-air": {
+      "name": "Arquétipo Ar",
+      "description": "Exploração em primeiro lugar. Curioso, livre e criativamente caótico: encontra as opções que ninguém estava olhando."
+    },
     "bookkeeping": {
       "name": "Contabilidade",
       "description": "Categoriza transações, concilia contas, fecha os livros todo mês e gera demonstrações financeiras prontas para investidores. Conecta com QuickBooks, Xero, Stripe e os feeds do seu banco. Prepara lançamentos contábeis e demonstrações, mas nunca registra no seu livro-razão nem movimenta dinheiro."

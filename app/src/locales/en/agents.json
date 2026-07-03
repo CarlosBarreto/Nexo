@@ -8,6 +8,22 @@
       "name": "Start from scratch",
       "description": "A blank agent with no pre-configured actions, instructions, or learnings. Build it your way."
     },
+    "axie-fire": {
+      "name": "Fire archetype",
+      "description": "Execution first. Ambitious, fast, and transformation-driven: picks the boldest viable path and moves."
+    },
+    "axie-water": {
+      "name": "Water archetype",
+      "description": "Insight first. Intuitive, patient, and thorough: understands the whole current before acting."
+    },
+    "axie-earth": {
+      "name": "Earth archetype",
+      "description": "Reliability first. Steady, protective, and precise: builds things that hold and keeps the record straight."
+    },
+    "axie-air": {
+      "name": "Air archetype",
+      "description": "Exploration first. Curious, free, and creatively chaotic: finds the options nobody was looking at."
+    },
     "bookkeeping": {
       "name": "Bookkeeping",
       "description": "Categorize transactions, reconcile accounts, close the books every month, and generate investor-ready financials. Connects to QuickBooks, Xero, Stripe, and your bank feeds. Drafts journal entries and statements, never posts to your ledger or moves money."

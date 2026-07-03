@@ -184,6 +184,8 @@ export interface CreateAgent {
   installedPath?: string;
   seeds?: Record<string, string>;
   existingPath?: string;
+  /** Soul element for the new agent (fire/water/earth/air). v3 host only; the legacy engine ignores it. */
+  element?: string;
 }
 
 export interface CreateAgentResult {

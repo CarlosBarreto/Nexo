@@ -201,6 +201,7 @@ export const tauriAgents = {
     installedPath?: string,
     seeds?: Record<string, string>,
     existingPath?: string,
+    element?: string,
   ) =>
     call<CreateAgentResult>("create_agent", async () => {
       const r = await getEngine().createAgent(workspaceId, {
@@ -211,6 +212,7 @@ export const tauriAgents = {
         installedPath,
         seeds,
         existingPath,
+        element,
       });
       return {
         agent: toAgent(r.agent),

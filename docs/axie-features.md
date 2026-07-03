@@ -130,6 +130,12 @@ timeout_seconds = 30
 
 ### Tier 2 — High Impact, Medium Effort
 
+> **Status: IMPLEMENTED (2026-07-02, `feat/axie-tier2`).** What landed:
+>
+> - **Memory Stack (2.4)** — `memory` family at `.houston/memory/memory.json` (profile facts + operational goals, schema seeded) plus `episodes/<id>.md` for the episodic layer. Flat learnings migrate into the profile lazily on first read (one-shot, learnings.json untouched). Host surface: `GET /memory`, `PUT /memory/{profile,operational}`, episodes CRUD. The pi runtime injects profile (always) + active goals into context via `loadMemoryContext` (`packages/runtime/src/session/resource-loader.ts`); episodes are never injected wholesale.
+> - **Hybrid Retrieval (2.5)** — `packages/domain/src/retrieval.ts`: dependency-free BM25, cosine similarity, RRF merge, and an `Embedder` port. `GET /memory/retrieve?q=` ranks episodes; with no embedder wired the fusion degrades to plain BM25 deterministically, and an embedder failure surfaces rather than silently degrading. Wiring a concrete embedder (in-process or API-key) is the remaining piece.
+> - **Birth Ritual (2.6)** — 5-chapter narrative wizard (`app/src/components/shell/soul-ritual/`) reached from the agent picker ("Discover with the ritual"). Answers tally invisible element points (manifesto counts double; deterministic tie-breaks); the revealed element selects the matching archetype preset AND rides the create call end-to-end (store → tauri shim → engine-client `CreateAgent.element` → v3 `POST /agents`), so the soul is born with the ritual's element on the TS host. Full i18n (en/es/pt) including archetype catalog cards.
+
 ---
 
 #### 2.4 Three-Layer Memory Stack
@@ -278,12 +284,12 @@ Suggested phasing based on dependency order and impact:
 2. **Agent Archetypes** (2.2) — 4 builtin presets in the creation picker
 3. **Skill Contract Validation** (2.3) — `contract.toml` parser + authoring-time validation in host
 
-### Sprint 2 (Week 3–4)
-4. **Narrative Onboarding Ritual** (2.6) — 5-step UI wizard, element scoring, SOUL assignment
-5. **Three-Layer Memory Stack** (2.4) — schema migration + context builder refactor
+### Sprint 2 (Week 3–4) — ✅ DONE (2026-07-02)
+4. **Narrative Onboarding Ritual** (2.6) — 5-step wizard + element scoring + create-flow wiring
+5. **Three-Layer Memory Stack** (2.4) — `memory` family + lazy learnings migration + runtime injection
 
-### Sprint 3 (Week 5–6)
-6. **Hybrid Retrieval** (2.5) — FTS5 + embeddings + RRF in host memory endpoint
+### Sprint 3 (Week 5–6) — 2.5 ✅ DONE (2026-07-02, embedder wiring pending)
+6. **Hybrid Retrieval** (2.5) — BM25 + RRF + Embedder port in `/memory/retrieve`
 7. **Dream Auto-Schedule** (2.7) — idle trigger + dream skill
 
 ### Sprint 4 (Week 7–8)

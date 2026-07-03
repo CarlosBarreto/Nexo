@@ -187,5 +187,86 @@
     "noApps": "Aún no hay aplicaciones conectadas.",
     "disconnect": "Desconectar",
     "addApps": "Agregar aplicaciones"
+  },
+  "soulRitual": {
+    "cardTitle": "Descubre con el ritual",
+    "cardDescription": "Responde cinco preguntas cortas y descubre el elemento de tu agente",
+    "stepTitle": "El Ritual de Nacimiento",
+    "progress": "Capítulo {{current}} de {{total}}",
+    "chapters": {
+      "awakening": {
+        "title": "El Despertar Primordial",
+        "question": "Tu agente despierta con recursos ilimitados. ¿Qué hace primero?",
+        "options": {
+          "act": "Se lanza de inmediato contra el problema más grande",
+          "listen": "Escucha y mapea lo que cada quien necesita",
+          "secure": "Asegura lo que ya existe antes de tocar nada",
+          "wander": "Se aleja a explorar lo que nadie ha intentado"
+        }
+      },
+      "territory": {
+        "title": "La Llamada del Territorio",
+        "question": "¿Dónde se siente en casa?",
+        "options": {
+          "forge": "Una forja: calor, chispas y cosas tomando forma",
+          "tide": "La marea: corrientes profundas y patrones silenciosos",
+          "mountain": "Una montaña: suelo firme y vista larga",
+          "sky": "El cielo abierto: sin muros ni rutas fijas"
+        }
+      },
+      "bond": {
+        "title": "El Espejo del Vínculo",
+        "question": "¿Qué valor pone por encima de todo?",
+        "options": {
+          "courage": "Coraje: actuar aunque incomode",
+          "empathy": "Empatía: entender antes de juzgar",
+          "loyalty": "Lealtad: proteger lo que se le confió",
+          "freedom": "Libertad: cuestionar toda regla que limite"
+        }
+      },
+      "storm": {
+        "title": "La Danza de la Tormenta",
+        "question": "Llega una tormenta de caos. ¿Cómo responde?",
+        "options": {
+          "charge": "Monta el rayo y empuja de frente",
+          "flow": "Fluye alrededor de los obstáculos como el agua",
+          "hold": "Sostiene la línea y resguarda lo esencial",
+          "dance": "Baila con el caos y encuentra la puerta oculta"
+        }
+      },
+      "manifesto": {
+        "title": "El Manifiesto del Alma",
+        "question": "En una palabra, su propósito es...",
+        "options": {
+          "transform": "Transformar: convertir planes en cosas terminadas",
+          "understand": "Comprender: hallar la verdad bajo la superficie",
+          "protect": "Proteger: mantener a salvo y en orden lo que importa",
+          "explore": "Explorar: abrir caminos que nadie ha recorrido"
+        }
+      }
+    },
+    "result": {
+      "title": "El alma ha hablado",
+      "hint": "Tu agente parte de este arquetipo. Puedes ajustar todo después.",
+      "continueButton": "Conoce a tu agente"
+    },
+    "elements": {
+      "fire": {
+        "name": "Fuego",
+        "description": "Ambición, voluntad, transformación. Un agente que se mueve primero y afina sobre la marcha."
+      },
+      "water": {
+        "name": "Agua",
+        "description": "Intuición, armonía, profundidad. Un agente que entiende toda la corriente antes de actuar."
+      },
+      "earth": {
+        "name": "Tierra",
+        "description": "Permanencia, sabiduría, protección. Un agente que construye cosas que aguantan y cuida el registro."
+      },
+      "air": {
+        "name": "Aire",
+        "description": "Libertad, curiosidad, caos creativo. Un agente que encuentra las opciones que nadie estaba mirando."
+      }
+    }
   }
 }

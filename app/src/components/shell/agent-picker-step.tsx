@@ -17,6 +17,7 @@ interface AgentPickerStepProps {
   agents: AgentDefinition[];
   onSelect: (id: string) => void;
   onCreateWithAi: () => void;
+  onDiscoverSoul: () => void;
 }
 
 export function AgentPickerStep({
@@ -25,6 +26,7 @@ export function AgentPickerStep({
   agents,
   onSelect,
   onCreateWithAi,
+  onDiscoverSoul,
 }: AgentPickerStepProps) {
   const { t, i18n } = useTranslation(["shell", "portable", "agents"]);
   const setImportOpen = useUIStore((s) => s.setImportFromFriendOpen);
@@ -119,6 +121,15 @@ export function AgentPickerStep({
                 description={t("aiAssist.cardDescription")}
                 className="min-h-[132px]"
                 onClick={onCreateWithAi}
+              />
+            )}
+            {!query && (
+              <SkillCard
+                image="crystal-ball"
+                title={t("soulRitual.cardTitle")}
+                description={t("soulRitual.cardDescription")}
+                className="min-h-[132px]"
+                onClick={onDiscoverSoul}
               />
             )}
             {reorderedAgents.map((def) => {

@@ -2,6 +2,7 @@ export * from "./conversation";
 export * from "./core";
 export * from "./domain/activity";
 export * from "./domain/config";
+export * from "./domain/memory";
 export * from "./domain/portable";
 export * from "./domain/routine";
 export * from "./domain/skill";
