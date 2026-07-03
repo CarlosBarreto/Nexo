@@ -3,6 +3,7 @@ import config from "./config.schema.json";
 import learnings from "./learnings.schema.json";
 import routine_runs from "./routine_runs.schema.json";
 import routines from "./routines.schema.json";
+import soul from "./soul.schema.json";
 
 export const schemas = {
   activity,
@@ -10,8 +11,9 @@ export const schemas = {
   routine_runs,
   config,
   learnings,
+  soul,
 } as const;
 
-export { activity, config, learnings, routine_runs, routines };
+export { activity, config, learnings, routine_runs, routines, soul };
 
 export type SchemaName = keyof typeof schemas;

@@ -1,9 +1,10 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { loadRoutines, seedSchemas } from "@houston/domain";
-import type {
-  Capabilities,
-  CustomEndpoint,
-  HoustonEvent,
+import { ensureSoul, loadRoutines, seedSchemas } from "@houston/domain";
+import {
+  type Capabilities,
+  type CustomEndpoint,
+  type HoustonEvent,
+  isSoulElement,
 } from "@houston/protocol";
 import { canUseAgent } from "../domain/access";
 import type {
@@ -26,6 +27,7 @@ import { handleAgentFile } from "./agent-file";
 import { json, readJson } from "./http";
 import { handlePortableExport } from "./portable";
 import { handleSkills } from "./skills";
+import { handleSoul } from "./soul";
 
 export interface AgentRouteDeps {
   store: WorkspaceStore;
@@ -103,9 +105,15 @@ export async function handleAgents(
     return true;
   }
   if (path === "/agents" && method === "POST") {
-    const { name } = await readJson(req);
+    const { name, element } = await readJson(req);
     if (!name || typeof name !== "string") {
       json(res, 400, { error: "missing 'name'" });
+      return true;
+    }
+    // Optional archetype element for the soul. Reject unknown values rather
+    // than silently deriving one — a typo'd element must surface.
+    if (element !== undefined && !isSoulElement(element)) {
+      json(res, 400, { error: "unknown 'element'" });
       return true;
     }
     const ws = await deps.store.getOrCreatePersonalWorkspace(userId);
@@ -113,11 +121,18 @@ export async function handleAgents(
     // Seed the .houston JSON schemas beside the (future) docs so the agent and
     // external tools can validate what they write. Skipped only when no vfs is
     // wired (legacy gke-only deploys); the typed-data routes 503 there anyway.
-    if (deps.vfs)
-      await seedSchemas(
-        deps.vfs,
-        (deps.paths ?? DEFAULT_PATHS).agentRoot(ws, agent),
-      );
+    if (deps.vfs) {
+      const root = (deps.paths ?? DEFAULT_PATHS).agentRoot(ws, agent);
+      await seedSchemas(deps.vfs, root);
+      // Forge the soul at birth — permanent identity (see routes/soul.ts).
+      await ensureSoul(deps.vfs, root, {
+        agentId: agent.id,
+        agentName: agent.name,
+        bornIso: new Date(agent.createdAt).toISOString(),
+        newId: () => crypto.randomUUID(),
+        ...(element !== undefined ? { element } : {}),
+      });
+    }
     deps.events?.emit(ws.ownerUserId, {
       type: "AgentsChanged",
       workspaceId: ws.id,
@@ -486,6 +501,8 @@ export async function handleAgents(
     )
       return true;
     if (await handleSkills(deps.vfs, paths, ctx, method, rest, req, res, emit))
+      return true;
+    if (await handleSoul(deps.vfs, paths, ctx, method, rest, req, res))
       return true;
     // The Files tab: served by the HOST off the workspace vfs for every profile
     // (the runtime has no /files route). Same handler cloud + local — zero drift.

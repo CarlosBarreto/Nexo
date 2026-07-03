@@ -1,6 +1,6 @@
 {
   "name": "@houston-ai/agent-schemas",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "main": "./src/index.ts",
@@ -11,6 +11,7 @@
     "./routines.schema.json": "./src/routines.schema.json",
     "./routine_runs.schema.json": "./src/routine_runs.schema.json",
     "./config.schema.json": "./src/config.schema.json",
-    "./learnings.schema.json": "./src/learnings.schema.json"
+    "./learnings.schema.json": "./src/learnings.schema.json",
+    "./soul.schema.json": "./src/soul.schema.json"
   }
 }

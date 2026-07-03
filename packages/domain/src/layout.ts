@@ -3,6 +3,7 @@ import configSchema from "@houston-ai/agent-schemas/config.schema.json";
 import learningsSchema from "@houston-ai/agent-schemas/learnings.schema.json";
 import routineRunsSchema from "@houston-ai/agent-schemas/routine_runs.schema.json";
 import routinesSchema from "@houston-ai/agent-schemas/routines.schema.json";
+import soulSchema from "@houston-ai/agent-schemas/soul.schema.json";
 import { saveJson, type TextStore } from "./store";
 
 /**
@@ -16,7 +17,8 @@ export type HoustonFamily =
   | "routines"
   | "routine_runs"
   | "config"
-  | "learnings";
+  | "learnings"
+  | "soul";
 
 export const FAMILIES: HoustonFamily[] = [
   "activity",
@@ -24,6 +26,7 @@ export const FAMILIES: HoustonFamily[] = [
   "routine_runs",
   "config",
   "learnings",
+  "soul",
 ];
 
 export const docKey = (root: string, family: HoustonFamily) =>
@@ -41,6 +44,7 @@ const SCHEMAS: Record<HoustonFamily, unknown> = {
   routine_runs: routineRunsSchema,
   config: configSchema,
   learnings: learningsSchema,
+  soul: soulSchema,
 };
 
 /**

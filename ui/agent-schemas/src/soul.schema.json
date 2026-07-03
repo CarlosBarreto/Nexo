@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Soul",
+  "description": "The agent's permanent identity (Axie SOUL Core). Written once at agent creation; never edit this file.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^soul_",
+      "description": "Permanent identifier. Never regenerated."
+    },
+    "born": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC3339 timestamp of the agent's creation."
+    },
+    "element": {
+      "type": "string",
+      "enum": ["fire", "water", "earth", "air"],
+      "description": "Primary element assigned at birth."
+    },
+    "originSeed": {
+      "type": "string",
+      "description": "Deterministic fingerprint of the birth inputs."
+    }
+  },
+  "required": ["id", "born", "element", "originSeed"],
+  "additionalProperties": false
+}
