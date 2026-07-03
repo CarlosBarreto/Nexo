@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Memory",
+  "description": "The agent's layered memory: profile facts (always injected into context) and operational goals (injected while active). Episodic entries live beside this file under episodes/.",
+  "type": "object",
+  "properties": {
+    "profile": {
+      "type": "array",
+      "description": "Stable facts about the agent's context. Always injected.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "text": { "type": "string" },
+          "created_at": { "type": "string" }
+        },
+        "required": ["id", "text"],
+        "additionalProperties": false
+      }
+    },
+    "operational": {
+      "type": "array",
+      "description": "Current goals and in-flight context. Injected while active.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "text": { "type": "string" },
+          "status": { "type": "string", "enum": ["active", "done"] },
+          "created_at": { "type": "string" }
+        },
+        "required": ["id", "text", "status"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["profile", "operational"],
+  "additionalProperties": false
+}

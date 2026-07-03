@@ -29,6 +29,48 @@ function loadWorkspaceContextFile(
 }
 
 /**
+ * The agent's injected memory layers (.houston/memory/memory.json): profile
+ * facts ALWAYS ride into context; operational goals ride while any is
+ * active. The episodic layer deliberately does NOT — it is retrieved by
+ * query (host /memory/retrieve), never injected wholesale.
+ *
+ * Exported for tests. A malformed file degrades to no injection with a
+ * console warning — a broken memory must not kill the whole session, and the
+ * host's GET /memory surfaces the same problem as a diagnostic the UI shows.
+ */
+export function loadMemoryContext(
+  cwd: string,
+): Array<{ path: string; content: string }> {
+  const path = join(cwd, ".houston", "memory", "memory.json");
+  if (!existsSync(path)) return [];
+  let profile: string[] = [];
+  let active: string[] = [];
+  try {
+    const raw = JSON.parse(readFileSync(path, "utf8")) as {
+      profile?: Array<{ text?: unknown }>;
+      operational?: Array<{ text?: unknown; status?: unknown }>;
+    };
+    profile = (Array.isArray(raw.profile) ? raw.profile : [])
+      .map((f) => f?.text)
+      .filter((t): t is string => typeof t === "string" && t.length > 0);
+    active = (Array.isArray(raw.operational) ? raw.operational : [])
+      .filter((g) => g?.status === "active")
+      .map((g) => g?.text)
+      .filter((t): t is string => typeof t === "string" && t.length > 0);
+  } catch (err) {
+    console.warn(`[memory] skipping unreadable ${path}: ${err}`);
+    return [];
+  }
+  if (profile.length === 0 && active.length === 0) return [];
+  const sections = ["# Agent memory"];
+  if (profile.length > 0)
+    sections.push("## Profile", ...profile.map((t) => `- ${t}`));
+  if (active.length > 0)
+    sections.push("## Active goals", ...active.map((t) => `- ${t}`));
+  return [{ path, content: sections.join("\n") }];
+}
+
+/**
  * Pure, parameterized loader builder: our system prompt, the workspace's own
  * context file (CLAUDE.md/AGENTS.md, root only), and SKILL.md skills from the
  * given skills dir. pi's broader on-disk discovery (extensions, prompt
@@ -53,7 +95,10 @@ export function buildAgentLoader(opts: {
     noContextFiles: true,
     additionalSkillPaths: existsSync(opts.skillsDir) ? [opts.skillsDir] : [],
     agentsFilesOverride: () => ({
-      agentsFiles: loadWorkspaceContextFile(opts.cwd),
+      agentsFiles: [
+        ...loadWorkspaceContextFile(opts.cwd),
+        ...loadMemoryContext(opts.cwd),
+      ],
     }),
     systemPrompt: opts.systemPrompt,
   });
