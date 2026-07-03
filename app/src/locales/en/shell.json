@@ -3,6 +3,7 @@
     "missionControl": "Mission Control",
     "integrations": "Integrations",
     "settings": "Settings",
+    "bestiary": "Bestiary",
     "yourAgents": "Your Agents",
     "selectWorkspace": "Select workspace",
     "addAgent": "New agent",
@@ -326,6 +327,14 @@
         "description": "Freedom, curiosity, creative chaos. An agent that finds the options nobody was looking at."
       }
     }
+  },
+  "bestiary": {
+    "title": "Bestiary",
+    "subtitle": "Every agent in this workspace, with its soul element and birth date.",
+    "born": "Born",
+    "unforged": "Unforged",
+    "emptyTitle": "No agents yet",
+    "emptyDescription": "Create an agent and it will appear here."
   },
   "aiReview": {
     "stepTitle": "Review your agent",

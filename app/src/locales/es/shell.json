@@ -268,5 +268,13 @@
         "description": "Libertad, curiosidad, caos creativo. Un agente que encuentra las opciones que nadie estaba mirando."
       }
     }
+  },
+  "bestiary": {
+    "title": "Bestiario",
+    "subtitle": "Cada agente de este espacio, con su elemento y fecha de nacimiento.",
+    "born": "Nació el",
+    "unforged": "Sin forjar",
+    "emptyTitle": "Aún no hay agentes",
+    "emptyDescription": "Crea un agente y aparecerá aquí."
   }
 }

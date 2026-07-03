@@ -1,5 +1,16 @@
 // Types
 
+export type {
+  AgentGalleryItem,
+  AgentGalleryProps,
+} from "./agent-gallery";
+// Components
+export { AgentGallery } from "./agent-gallery";
+export type {
+  AgentGalleryLabels,
+  GalleryElement,
+} from "./agent-gallery-labels";
+export { mergeGalleryLabels } from "./agent-gallery-labels";
 // Hooks
 export {
   INTERNAL_DRAG_TYPE,
@@ -8,8 +19,6 @@ export {
 } from "./drop-zone";
 export type { FileMenuLabels } from "./file-menu";
 export type { FilesBrowserLabels, FilesBrowserProps } from "./files-browser";
-
-// Components
 export { FilesBrowser } from "./files-browser";
 export type { InstructionsPanelProps } from "./instructions-panel";
 export { InstructionsPanel } from "./instructions-panel";
