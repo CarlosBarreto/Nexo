@@ -142,7 +142,8 @@ export class Scheduler {
           );
           if (won) await this.fireRoutine(ws, agent, routine);
         }
-        // Complete runs whose turn has finished (silent/surfaced/timeout).
+        // Complete runs whose turn has finished (silent/surfaced/timeout),
+        // fire judge turns for opted-in routines, and settle their verdicts.
         await reconcileAgentRuns(
           {
             vfs: this.deps.vfs,
@@ -151,6 +152,7 @@ export class Scheduler {
             events: this.deps.events,
             now: this.now,
             newId: this.newId,
+            firer: this.deps.firer,
           },
           ws,
           agent,

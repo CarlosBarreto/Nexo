@@ -19,6 +19,10 @@ export interface Routine {
   trigger: RoutineTrigger;
   /** Idle threshold in minutes; present and >= 1 iff trigger === "idle". */
   idle_minutes?: number;
+  /** Opt-in AI-as-a-Judge: a completed run's reply gets evaluated by a second turn. */
+  judge_enabled: boolean;
+  /** Extra evaluation criteria for the judge; the routine's prompt is always the base intent. */
+  judge_criteria?: string;
   /** Provider id override (e.g. "anthropic", "openai"); absent means inherit the agent's provider. */
   provider?: string | null;
   /** Model override (e.g. "claude-opus-4-8", "gpt-5.5"); absent means inherit the agent's model. */
@@ -47,6 +51,8 @@ export interface NewRoutine {
   /** Omit for "cron". "idle" routines require idle_minutes >= 1; schedule is stored as "". */
   trigger?: RoutineTrigger;
   idle_minutes?: number;
+  judge_enabled?: boolean;
+  judge_criteria?: string;
   /** Provider id to pin (e.g. "openai"); omit to inherit the agent's provider. */
   provider?: string | null;
   /** Model to pin (e.g. "gpt-5.5"); omit to inherit the agent's model. */
@@ -66,6 +72,8 @@ export interface RoutineUpdate {
   chat_mode?: RoutineChatMode;
   trigger?: RoutineTrigger;
   idle_minutes?: number;
+  judge_enabled?: boolean;
+  judge_criteria?: string;
   /** Provider id to pin; `null` clears (back to inherit), omit to leave unchanged. */
   provider?: string | null;
   /** Model to pin; `null` clears (back to inherit), omit to leave unchanged. */
@@ -82,6 +90,9 @@ export type RoutineRunStatus =
   | "error"
   | "cancelled";
 
+/** The judge's lifecycle on a run: absent entirely when the routine is not opted in. */
+export type JudgeStatus = "pending" | "pass" | "fail" | "error";
+
 export interface RoutineRun {
   id: string;
   routine_id: string;
@@ -93,6 +104,12 @@ export interface RoutineRun {
   completed_at?: string;
   /** Human-readable reset hint while a run sleeps on a usage-limit window. */
   paused_until?: string;
+  judge_status?: JudgeStatus;
+  /** The judge's rationale (or the failure reason when judge_status is "error"). */
+  judge_verdict?: string;
+  /** The judge turn's dedicated conversation (`judge-<runId>`). */
+  judge_session_key?: string;
+  judge_completed_at?: string;
 }
 
 export interface RoutineRunUpdate {

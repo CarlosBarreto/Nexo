@@ -7,20 +7,53 @@
     "type": "object",
     "required": ["id", "routine_id", "status", "session_key", "started_at"],
     "properties": {
-      "id": { "type": "string" },
-      "routine_id": { "type": "string" },
+      "id": {
+        "type": "string"
+      },
+      "routine_id": {
+        "type": "string"
+      },
       "status": {
         "type": "string",
         "enum": ["running", "silent", "surfaced", "error", "cancelled"]
       },
-      "session_key": { "type": "string" },
-      "activity_id": { "type": "string" },
-      "summary": { "type": "string" },
-      "started_at": { "type": "string", "format": "date-time" },
-      "completed_at": { "type": "string", "format": "date-time" },
+      "session_key": {
+        "type": "string"
+      },
+      "activity_id": {
+        "type": "string"
+      },
+      "summary": {
+        "type": "string"
+      },
+      "started_at": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "completed_at": {
+        "type": "string",
+        "format": "date-time"
+      },
       "paused_until": {
         "type": "string",
         "description": "Human-readable reset hint while the provider CLI is sleeping on a usage-limit window. Only meaningful when status is 'running'."
+      },
+      "judge_status": {
+        "type": "string",
+        "enum": ["pending", "pass", "fail", "error"],
+        "description": "AI-as-a-Judge lifecycle for this run; absent when the routine is not opted in."
+      },
+      "judge_verdict": {
+        "type": "string",
+        "description": "The judge's rationale (or the failure reason when judge_status is 'error')."
+      },
+      "judge_session_key": {
+        "type": "string",
+        "description": "The judge turn's dedicated conversation (judge-<runId>)."
+      },
+      "judge_completed_at": {
+        "type": "string",
+        "format": "date-time"
       }
     },
     "additionalProperties": false

@@ -49,6 +49,7 @@ export function normalizeRoutines(
         // Absent on disk = "cron", so legacy routines read unchanged and the
         // discriminant is always present inside TS (exhaustive dispatch).
         trigger: entry.trigger === "idle" ? "idle" : "cron",
+        judge_enabled: entry.judge_enabled === true,
         integrations: Array.isArray(entry.integrations)
           ? entry.integrations
           : [],
@@ -110,6 +111,8 @@ export function createRoutine(
     ...(input.trigger === "idle" && input.idle_minutes
       ? { idle_minutes: input.idle_minutes }
       : {}),
+    judge_enabled: input.judge_enabled ?? false,
+    ...(input.judge_criteria ? { judge_criteria: input.judge_criteria } : {}),
     // Per-routine provider/model/effort pins. Absent (null) means inherit the
     // agent's config at dispatch — see resolveTurnModel in the runtime.
     provider: input.provider ?? null,
