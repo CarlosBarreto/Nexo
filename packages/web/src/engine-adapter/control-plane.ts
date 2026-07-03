@@ -170,10 +170,11 @@ export async function createAgent(
   cfg: ControlPlaneConfig,
   name: string,
   color?: string,
+  element?: string,
 ): Promise<Agent> {
   const res = await cpFetch(cfg, "/agents", {
     method: "POST",
-    body: JSON.stringify({ name }),
+    body: JSON.stringify({ name, ...(element ? { element } : {}) }),
   });
   const agent = (await res.json()) as CpAgent;
   if (color) setColor(agent.id, color);

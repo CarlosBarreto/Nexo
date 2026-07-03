@@ -21,8 +21,10 @@ import { AiAssistStep } from "./ai-assist-step";
 import { AiReviewStep } from "./ai-review-step";
 import { AiRoutineStep } from "./ai-routine-step";
 import { NamingStep } from "./naming-step";
+import type { RitualElement } from "./soul-ritual/chapters";
+import { SoulRitualStep } from "./soul-ritual/soul-ritual-step";
 
-type Step = 1 | "ai-assist" | "ai-routine" | "ai-review" | 2;
+type Step = 1 | "ai-assist" | "ai-routine" | "ai-review" | "soul-ritual" | 2;
 
 export function CreateAgentDialog() {
   const { t } = useTranslation("shell");
@@ -46,6 +48,9 @@ export function CreateAgentDialog() {
   const seededRoutineRef = useRef<SuggestedRoutine | null>(null);
   const [name, setName] = useState("");
   const [color, setColor] = useState<string | undefined>(undefined);
+  const [ritualElement, setRitualElement] = useState<RitualElement | undefined>(
+    undefined,
+  );
   const [error, setError] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
   const [search, setSearch] = useState("");
@@ -67,6 +72,7 @@ export function CreateAgentDialog() {
       seededRoutineRef.current = null;
       setName("");
       setColor(undefined);
+      setRitualElement(undefined);
       setError(null);
       setCreating(false);
       setSearch("");
@@ -106,6 +112,7 @@ export function CreateAgentDialog() {
         selectedDef?.path,
         selectedDef?.config.agentSeeds,
         existingPath ?? undefined,
+        ritualElement,
       );
       // Always write provider/model to the agent's own config. With workspace
       // defaults retired, the agent is the single source of truth — leaving
@@ -208,8 +215,25 @@ export function CreateAgentDialog() {
                 setGeneratedClaudeMd(undefined);
                 setStep("ai-assist");
               }}
+              onDiscoverSoul={() => {
+                setGeneratedClaudeMd(undefined);
+                setStep("soul-ritual");
+              }}
             />
           </>
+        ) : step === "soul-ritual" ? (
+          <SoulRitualStep
+            onBack={() => setStep(1)}
+            onComplete={(element) => {
+              // The revealed element maps 1:1 to an Axie archetype preset
+              // (claudeMd personality); the soul element itself rides on the
+              // create call for engines that support it.
+              setRitualElement(element);
+              setSelectedConfigId(`axie-${element}`);
+              setGeneratedClaudeMd(undefined);
+              setStep(2);
+            }}
+          />
         ) : step === "ai-assist" ? (
           <AiAssistStep
             provider={provider}

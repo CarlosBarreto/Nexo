@@ -246,6 +246,87 @@
       "5": "Muito detalhado"
     }
   },
+  "soulRitual": {
+    "cardTitle": "Descubra com o ritual",
+    "cardDescription": "Responda cinco perguntas curtas e descubra o elemento do seu agente",
+    "stepTitle": "O Ritual de Nascimento",
+    "progress": "Capítulo {{current}} de {{total}}",
+    "chapters": {
+      "awakening": {
+        "title": "O Despertar Primordial",
+        "question": "Seu agente acorda com recursos ilimitados. O que ele faz primeiro?",
+        "options": {
+          "act": "Parte imediatamente para o maior problema",
+          "listen": "Escuta e mapeia o que cada um precisa",
+          "secure": "Protege o que já existe antes de tocar em algo",
+          "wander": "Sai para explorar o que ninguém tentou"
+        }
+      },
+      "territory": {
+        "title": "O Chamado do Território",
+        "question": "Onde ele se sente em casa?",
+        "options": {
+          "forge": "Uma forja: calor, faíscas e coisas tomando forma",
+          "tide": "A maré: correntes profundas e padrões silenciosos",
+          "mountain": "Uma montanha: chão firme e visão de longo prazo",
+          "sky": "O céu aberto: sem muros nem rotas fixas"
+        }
+      },
+      "bond": {
+        "title": "O Espelho do Vínculo",
+        "question": "Qual valor ele coloca acima de tudo?",
+        "options": {
+          "courage": "Coragem: agir mesmo quando incomoda",
+          "empathy": "Empatia: entender antes de julgar",
+          "loyalty": "Lealdade: proteger o que foi confiado a ele",
+          "freedom": "Liberdade: questionar toda regra que limita"
+        }
+      },
+      "storm": {
+        "title": "A Dança da Tempestade",
+        "question": "Chega uma tempestade de caos. Como ele responde?",
+        "options": {
+          "charge": "Monta no relâmpago e avança em frente",
+          "flow": "Flui ao redor dos obstáculos como a água",
+          "hold": "Segura a linha e protege o essencial",
+          "dance": "Dança com o caos e encontra a porta escondida"
+        }
+      },
+      "manifesto": {
+        "title": "O Manifesto da Alma",
+        "question": "Em uma palavra, seu propósito é...",
+        "options": {
+          "transform": "Transformar: converter planos em coisas prontas",
+          "understand": "Compreender: achar a verdade sob a superfície",
+          "protect": "Proteger: manter seguro e em ordem o que importa",
+          "explore": "Explorar: abrir caminhos que ninguém percorreu"
+        }
+      }
+    },
+    "result": {
+      "title": "A alma falou",
+      "hint": "Seu agente parte deste arquétipo. Você pode ajustar tudo depois.",
+      "continueButton": "Conheça seu agente"
+    },
+    "elements": {
+      "fire": {
+        "name": "Fogo",
+        "description": "Ambição, vontade, transformação. Um agente que se move primeiro e refina em movimento."
+      },
+      "water": {
+        "name": "Água",
+        "description": "Intuição, harmonia, profundidade. Um agente que entende toda a corrente antes de agir."
+      },
+      "earth": {
+        "name": "Terra",
+        "description": "Permanência, sabedoria, proteção. Um agente que constrói coisas duráveis e cuida do registro."
+      },
+      "air": {
+        "name": "Ar",
+        "description": "Liberdade, curiosidade, caos criativo. Um agente que encontra as opções que ninguém estava olhando."
+      }
+    }
+  },
   "aiReview": {
     "stepTitle": "Revise seu agente",
     "instructionsLabel": "Instruções do agente",
