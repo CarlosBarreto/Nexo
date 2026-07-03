@@ -1,5 +1,5 @@
 {
-  "title": "Mission Control",
+  "title": "Nexo",
   "archived": {
     "back": "Back",
     "button": "Archived",
@@ -23,9 +23,11 @@
   },
   "columns": {
     "running": "Running",
-    "needsYou": "Needs you",
+    "needsYou": "Needs a Guardian",
     "done": "Done"
   },
+  "subtitle_one": "{{count}} thread alive in Lunaria right now",
+  "subtitle_other": "{{count}} threads alive in Lunaria right now",
   "empty": {
     "boardTitle": "No conversations yet",
     "boardDescription": "Start a new conversation to delegate work to an agent.",

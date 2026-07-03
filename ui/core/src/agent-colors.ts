@@ -41,6 +41,36 @@ export function colorHex(color: AgentColor): string {
   return isDark() ? color.dark : color.light;
 }
 
+/**
+ * Axie element visual identity — the ONE source for the elemental palette used
+ * by the Lunaria skin (sidebar dots, board tokens, pills, running glow). The
+ * four canonical soul elements (fire/water/earth/air) plus a UI-only `system`
+ * fallback for agents with no forged element (the design's "Sistema" tone). The
+ * hexes come from the Axie Lunaria design system; keep them in step with the
+ * `--el-*` CSS vars in `app/src/styles/lunaria.css`.
+ */
+export type ElementKey = "fire" | "water" | "earth" | "air" | "system";
+
+export const ELEMENT_COLORS: Record<ElementKey, AgentColor> = {
+  fire: { id: "fire", light: "#f08b3e", dark: "#f5a862" },
+  water: { id: "water", light: "#41c3c6", dark: "#5fd4d7" },
+  earth: { id: "earth", light: "#2f8a58", dark: "#4fb57c" },
+  air: { id: "air", light: "#d8c16a", dark: "#e6d488" },
+  system: { id: "system", light: "#259df4", dark: "#5cb8f7" },
+};
+
+/** Normalize any stored/unknown element to a known key (`system` = fallback). */
+export function elementKey(element: string | undefined): ElementKey {
+  return element && element in ELEMENT_COLORS
+    ? (element as ElementKey)
+    : "system";
+}
+
+/** The theme-correct hex for an element, defaulting to `system` when unknown. */
+export function resolveElementColor(element: string | undefined): string {
+  return colorHex(ELEMENT_COLORS[elementKey(element)]);
+}
+
 function isDark(): boolean {
   if (typeof document === "undefined") return false;
   return document.documentElement.getAttribute("data-theme") === "dark";

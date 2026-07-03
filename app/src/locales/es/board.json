@@ -1,7 +1,7 @@
 {
   "cardActions": {
-    "approve": "Mover a Listo",
-    "approveTooltip": "Mover a Listo",
+    "approve": "Mover a Completado",
+    "approveTooltip": "Mover a Completado",
     "renameTooltip": "Cambiar título",
     "deleteTooltip": "Eliminar",
     "select": "Seleccionar misión"

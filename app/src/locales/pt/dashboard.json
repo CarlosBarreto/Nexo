@@ -1,5 +1,5 @@
 {
-  "title": "Central de missões",
+  "title": "Nexo",
   "archived": {
     "back": "Voltar",
     "button": "Arquivadas",
@@ -23,9 +23,11 @@
   },
   "columns": {
     "running": "Em execução",
-    "needsYou": "Precisa de você",
-    "done": "Pronto"
+    "needsYou": "Precisa de Guardião",
+    "done": "Concluído"
   },
+  "subtitle_one": "{{count}} fluxo vivo em Lunaria agora",
+  "subtitle_other": "{{count}} fluxos vivos em Lunaria agora",
   "empty": {
     "boardTitle": "Ainda sem conversas",
     "boardDescription": "Comece uma conversa nova para delegar trabalho a um agente.",

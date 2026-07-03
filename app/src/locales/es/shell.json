@@ -1,4 +1,32 @@
 {
+  "sidebar": {
+    "missionControl": "Nexo",
+    "integrations": "Integraciones",
+    "settings": "Ajustes",
+    "bestiary": "Bestiario",
+    "yourAgents": "Tus Axies",
+    "selectWorkspace": "Elige un santuario",
+    "addAgent": "Nuevo agente",
+    "agentMenu": "Menú del agente",
+    "color": "Color",
+    "changeColor": "Cambiar color",
+    "colorLabels": {
+      "charcoal": "Carbón",
+      "forest": "Bosque",
+      "navy": "Marino",
+      "purple": "Púrpura",
+      "crimson": "Carmesí",
+      "orange": "Naranja",
+      "golden": "Dorado"
+    },
+    "needsYouCount_one": "{{count}} asunto te necesita",
+    "needsYouCount_other": "{{count}} asuntos te necesitan",
+    "runningCount_one": "{{count}} asunto en curso",
+    "runningCount_other": "{{count}} asuntos en curso",
+    "collapse": "Contraer barra lateral",
+    "expand": "Expandir barra lateral",
+    "createWorkspace": "Crear santuario"
+  },
   "catalog": {
     "personal-assistant": {
       "name": "Asistente personal",
