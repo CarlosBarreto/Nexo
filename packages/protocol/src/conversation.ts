@@ -134,6 +134,21 @@ export interface TokenUsage {
 }
 
 /**
+ * Per-prompt ReAct-loop telemetry (Axie loop observability). Terminology
+ * caution: pi calls ONE loop iteration a "turn", Houston calls the whole
+ * prompt a turn — `steps` counts pi's iterations (one per model request)
+ * during one Houston turn. Aggregated by the runtime from events pi already
+ * emits, so no provider or pi changes are involved.
+ */
+export interface LoopStats {
+  tool_calls: number;
+  tool_errors: number;
+  /** Model requests during the prompt (one per ReAct-loop iteration). */
+  steps: number;
+  duration_ms: number;
+}
+
+/**
  * Why an `unauthenticated` provider error happened. Mirrors the frontend
  * `AuthFailureCause` (`@houston-ai/chat`) so the typed reconnect card reads it
  * straight off the wire and picks the right body copy + reconnect lifecycle.
@@ -229,6 +244,8 @@ export interface ChatMessage {
   /** Normalized usage for the turn this assistant message completed, when the
    *  provider reported it. Persisted so the context indicator survives a reload. */
   usage?: TokenUsage | null;
+  /** ReAct-loop telemetry for the turn. Persisted so it survives a reload. */
+  stats?: LoopStats;
   /**
    * Set on the first assistant message produced after a mid-session provider
    * switch, so the boundary divider and the context-usage window reset survive a
@@ -273,6 +290,9 @@ export interface ConversationHistory {
  * - `tool_start` / `tool_end` — tool activity within the turn.
  * - `usage` — normalized token usage for the turn (when the provider reports it),
  *   emitted before `done`. Drives the context-usage indicator.
+ * - `loop_stats` — the prompt's ReAct-loop telemetry (tool calls, steps,
+ *   duration), emitted once right before the terminal frame — on failed turns
+ *   too, where it matters most.
  * - `provider_switched` — the conversation moved to a different provider
  *   mid-session; renders a boundary divider and resets the context-usage window.
  * - `provider_error` — the turn's model request failed with a typed provider /
@@ -302,6 +322,7 @@ export type WireEvent =
   | { type: "tool_start"; data: { name: string; args: unknown } }
   | { type: "tool_end"; data: { name: string; isError: boolean } }
   | { type: "usage"; data: TokenUsage }
+  | { type: "loop_stats"; data: LoopStats }
   | {
       /**
        * The conversation moved to a different provider mid-session. The runtime

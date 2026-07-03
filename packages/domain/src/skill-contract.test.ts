@@ -29,6 +29,10 @@ items = "string"
 [security]
 forbid_prompt_injection = true
 timeout_seconds = 30
+
+[judge]
+enabled = true
+criteria = "Bullets must cover every section."
 `;
 
 function memStore(): TextStore & { files: Map<string, string> } {
@@ -66,6 +70,10 @@ test("parses a full contract, normalizing snake_case keys to the protocol shape"
     forbidPromptInjection: true,
     timeoutSeconds: 30,
   });
+  expect(contract.judge).toEqual({
+    enabled: true,
+    criteria: "Bullets must cover every section.",
+  });
 });
 
 test("rejects a contract whose skill.name drifts from the slug (the slug is identity)", () => {
@@ -94,6 +102,11 @@ test("rejects structural mistakes with the offending path named", () => {
     [
       '[skill]\nname = "s"\n[security]\ntimeout_seconds = 9000',
       "timeout_seconds",
+    ],
+    ['[skill]\nname = "s"\n[judge]\ncriteria = "x"', "judge.enabled"],
+    [
+      '[skill]\nname = "s"\n[judge]\nenabled = true\ncriteria = 5',
+      "judge.criteria",
     ],
   ];
   for (const [toml, message] of cases) {

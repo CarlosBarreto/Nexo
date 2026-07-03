@@ -44,6 +44,7 @@ export function appendAssistantMessage(
   usage?: TokenUsage | null,
   providerSwitch?: ChatMessage["providerSwitch"],
   providerError?: ChatMessage["providerError"],
+  stats?: ChatMessage["stats"],
 ) {
   appendAssistantMessageAt(
     dir,
@@ -53,6 +54,7 @@ export function appendAssistantMessage(
     usage,
     providerSwitch,
     providerError,
+    stats,
   );
 }
 

@@ -37,6 +37,7 @@ import { ExportAgentWizard } from "../portable/export-wizard";
 import { ImportAgentWizard } from "../portable/import-wizard";
 import { SettingsView } from "../settings/settings-view";
 import { ShortcutCheatsheet } from "../shortcut-cheatsheet";
+import { BestiaryDialog } from "./bestiary-dialog";
 import { CreateAgentDialog } from "./create-workspace-dialog";
 import { DetailPanelProvider } from "./detail-panel-context";
 import { HoustonLogo } from "./experience-card";
@@ -327,6 +328,7 @@ export function WorkspaceShell({
           </Sidebar>
         </div>
         <CreateAgentDialog />
+        <BestiaryDialog />
         <ExportAgentWizard />
         <ImportAgentWizard />
         <CommandPalette />

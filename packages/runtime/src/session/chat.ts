@@ -25,6 +25,7 @@ import {
 import { type ActingContext, runWithActingContext } from "./acting-context";
 import { decodeActingAuthor, framePrompt } from "./attribution";
 import { publish } from "./bus";
+import { LoopStatsAccumulator } from "./loop-stats";
 import { makeAgentLoader } from "./resource-loader";
 import { buildToolSelection } from "./tool-selection";
 import { makeClampedFileTools } from "./tools/clamped-fs";
@@ -205,7 +206,11 @@ async function execTurn(
   // `done` that would settle the chat as a success on top of the error.
   let providerError: ProviderError | undefined;
 
+  const loopStats = new LoopStatsAccumulator();
   const unsub = conv.session.subscribe((e: AgentSessionEvent) => {
+    // Raw-event observation BEFORE toWire's filter: pi's turn_start (one per
+    // ReAct iteration) is dropped by toWire, so steps count here.
+    loopStats.observe(e);
     const wire = toWire(e);
     if (!wire) return;
     if (wire.type === "text") assistantText += wire.data;
@@ -284,6 +289,11 @@ async function execTurn(
     // the integration tools' proxy calls (which run inside this async subtree)
     // attach it. Absent → runs plainly (act as owner).
     await runWithActingContext(acting, () => conv.session.prompt(promptText));
+    // The prompt's loop telemetry rides right before the terminal frame — on
+    // the provider_error path too (provider_error suppresses `done`, and a
+    // failed turn is where the telemetry matters most).
+    const stats = loopStats.finish(tools);
+    publish(id, { type: "loop_stats", data: stats });
     // Persist the switch marker AND any typed provider error on this turn's
     // assistant message so both the boundary divider and the reconnect /
     // rate-limit card survive a history reload. A provider failure lands HERE
@@ -295,6 +305,7 @@ async function execTurn(
       usage,
       providerSwitch,
       providerError,
+      stats,
     );
     // Skip the clean `done` when the turn failed: the provider_error frame is the
     // turn's terminal surface (the web adapter settles on it), and a `done` would
@@ -310,6 +321,7 @@ async function execTurn(
         usage,
         providerSwitch,
         providerError,
+        loopStats.finish(tools),
       );
     publish(id, { type: "error", data: { message: errMessage(err) } });
   } finally {

@@ -1,6 +1,6 @@
 import { ConfirmDialog } from "@houston-ai/core";
 import { AppSidebar, WorkspaceSwitcher } from "@houston-ai/layout";
-import { LayoutDashboard, Settings } from "lucide-react";
+import { BookOpen, LayoutDashboard, Settings } from "lucide-react";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DEFAULT_TAB_ID } from "../../agents/standard-tabs";
@@ -35,6 +35,7 @@ export function Sidebar({ children }: { children: ReactNode }) {
   const viewMode = useUIStore((s) => s.viewMode);
   const setViewMode = useUIStore((s) => s.setViewMode);
   const setDialogOpen = useUIStore((s) => s.setCreateAgentDialogOpen);
+  const setBestiaryOpen = useUIStore((s) => s.setBestiaryOpen);
   const { canCreate: canCreateAgents } = useCanCreateAgents();
   const collapsed = useUIStore((s) => s.sidebarCollapsed);
   const toggleCollapsed = useUIStore((s) => s.toggleSidebarCollapsed);
@@ -151,6 +152,12 @@ export function Sidebar({ children }: { children: ReactNode }) {
               icon: <LayoutDashboard className="h-4 w-4" />,
               onClick: () => setViewMode("dashboard"),
               dataAttrs: { "data-tour-target": "nav-dashboard" },
+            },
+            {
+              id: "bestiary",
+              label: t("shell:sidebar.bestiary"),
+              icon: <BookOpen className="h-4 w-4" />,
+              onClick: () => setBestiaryOpen(true),
             },
             {
               id: "settings",
