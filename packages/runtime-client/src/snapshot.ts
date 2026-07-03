@@ -31,6 +31,7 @@ export function reduceSnapshot(
     case "tool_start":
     case "tool_end":
     case "usage":
+    case "loop_stats":
       return prev.running ? prev : { running: true, partial: prev.partial };
     case "done":
     case "error":

@@ -16,6 +16,7 @@ export type {
   LoginInfo,
   LoginState,
   LoginStatus,
+  LoopStats,
   ProviderAuth,
   ProviderError,
   ProviderId,

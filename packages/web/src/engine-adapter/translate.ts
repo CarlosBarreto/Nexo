@@ -1,6 +1,7 @@
 import type {
   ChatMessage,
   HoustonEngineClient,
+  LoopStats,
   TokenUsage,
   WireEvent,
 } from "@houston/runtime-client";
@@ -118,6 +119,9 @@ export async function streamTurn(
   // emits before `done`. Attached to the `final_result` so the context-usage
   // indicator can read it.
   let usage: TokenUsage | null = null;
+  // Loop telemetry for the turn (`loop_stats` frame, right before the terminal).
+  // Its duration fills the final_result slot the UI already renders.
+  let stats: LoopStats | null = null;
   let settled = false;
   // Terminal board status, persisted once the turn settles (NOT mid-stream) so
   // the write is awaited and a failure is surfaced.
@@ -133,7 +137,12 @@ export async function streamTurn(
       feed(agentPath, sessionKey, { feed_type: "assistant_text", data: text });
     feed(agentPath, sessionKey, {
       feed_type: "final_result",
-      data: { result: text, cost_usd: null, duration_ms: null, usage },
+      data: {
+        result: text,
+        cost_usd: null,
+        duration_ms: stats?.duration_ms ?? null,
+        usage,
+      },
     });
     sessionStatus(agentPath, sessionKey, "completed");
     terminal = "needs_you";
@@ -225,6 +234,11 @@ export async function streamTurn(
       case "usage":
         // Stash the turn's usage; finishOk attaches it to the final_result.
         usage = ev.data;
+        break;
+      case "loop_stats":
+        // Stash the turn's loop telemetry; finishOk fills the final_result's
+        // duration slot from it.
+        stats = ev.data;
         break;
       case "provider_switched":
         // The conversation moved to a different provider mid-turn: draw the
@@ -368,16 +382,17 @@ export function historyToFeed(messages: ChatMessage[]): ChatHistoryEntry[] {
         });
       }
       if (m.content) out.push({ feed_type: "assistant_text", data: m.content });
-      // Replay the turn's usage as a final_result (which only flushes, never
-      // renders a bubble) so the context-usage indicator survives a reload.
-      if (m.usage) {
+      // Replay the turn's usage + loop duration as a final_result (which only
+      // flushes, never renders a bubble) so the context-usage indicator and
+      // the duration line survive a reload.
+      if (m.usage || m.stats) {
         out.push({
           feed_type: "final_result",
           data: {
             result: m.content,
             cost_usd: null,
-            duration_ms: null,
-            usage: m.usage,
+            duration_ms: m.stats?.duration_ms ?? null,
+            usage: m.usage ?? null,
           },
         });
       }
