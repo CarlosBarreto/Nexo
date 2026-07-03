@@ -144,7 +144,14 @@ export function applyRoutineUpdate(
   );
   // `...current` preserves `created_by` (RoutineUpdate can't set it, so a client
   // can never reassign a routine's creator — it stays whoever created it).
-  return { ...current, ...defined, updated_at: nowIso } as Routine;
+  const merged = { ...current, ...defined, updated_at: nowIso } as Routine;
+  // The on-disk trigger invariant every writer must hold: an idle routine has
+  // NO cron (schedule "" — the legacy Rust engine, trigger-unaware, would
+  // otherwise fire the dream prompt on the stale cron); a cron routine
+  // carries no idle_minutes. Same normalization POST applies at create.
+  if (merged.trigger === "idle") return { ...merged, schedule: "" };
+  const { idle_minutes: _stale, ...cron } = merged;
+  return cron as Routine;
 }
 
 /** Normalize raw routine runs (written by the scheduler; read by the UI). */

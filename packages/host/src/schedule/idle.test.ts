@@ -129,6 +129,25 @@ test("its own dream turns never reset the idle clock (routine-* excluded)", asyn
   expect(env.firer.jobs).toHaveLength(1);
 });
 
+test("a judge turn never resets the idle clock either (judge-* excluded)", async () => {
+  const env = await setup([dreamRoutine()]);
+  await env.vfs.writeText(
+    conversationKey(PATHS, env.ws, env.agent, "chat-1"),
+    "{}",
+  );
+  const idleFor = await anchor(env);
+  // An AI-as-a-Judge turn writes into its own judge-<runId> conversation. That
+  // write must not count as activity — otherwise a judged run would freeze the
+  // dream (the exact bug isSystemConversation closes over the old routine-only skip).
+  await env.vfs.writeText(
+    conversationKey(PATHS, env.ws, env.agent, "judge-run-1"),
+    JSON.stringify({ messages: [] }),
+  );
+
+  await env.scheduler.tick(idleFor(31));
+  expect(env.firer.jobs).toHaveLength(1);
+});
+
 test("a never-active agent does not dream, and cron routines are untouched by the idle path", async () => {
   const env = await setup([dreamRoutine()]);
   // No conversations at all.

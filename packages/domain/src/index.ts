@@ -1,5 +1,6 @@
 export * from "./activities";
 export * from "./config";
+export * from "./dream";
 export * from "./judge";
 export * from "./layout";
 export * from "./memory";
