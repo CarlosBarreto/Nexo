@@ -6,5 +6,7 @@ export * from "./preferences";
 export * from "./provider-model";
 export * from "./routines";
 export * from "./schedule";
+export * from "./skill-contract";
 export * from "./skills";
+export * from "./soul";
 export * from "./store";
