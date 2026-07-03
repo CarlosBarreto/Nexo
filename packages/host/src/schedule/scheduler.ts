@@ -1,10 +1,17 @@
-import { dueAt, getPreference, loadRoutines } from "@houston/domain";
+import {
+  dueAt,
+  getPreference,
+  idleDueAt,
+  loadRoutineRuns,
+  loadRoutines,
+} from "@houston/domain";
 import type { Routine } from "@houston/protocol";
 import type { Agent, Workspace } from "../domain/types";
 import type { EventHub } from "../events/hub";
 import type { WorkspacePaths } from "../paths";
 import type { WorkspaceStore } from "../ports";
 import type { Vfs } from "../vfs";
+import { lastActivityMs } from "./idle";
 import { reconcileAgentRuns } from "./reconcile";
 import { fireRoutineRun } from "./run";
 
@@ -111,8 +118,21 @@ export class Scheduler {
       for (const agent of await this.deps.store.listAgents(ws.id)) {
         const root = this.deps.paths.agentRoot(ws, agent);
         const { items: routines } = await loadRoutines(this.deps.vfs, root);
+        // Idle ("dream") routines fire on inactivity, not cron. Probe the
+        // agent's last activity + past runs only when one exists — one
+        // listDetailed per agent per tick, and only where it matters.
+        const hasIdle = routines.some((r) => r.enabled && r.trigger === "idle");
+        const activityMs = hasIdle
+          ? await lastActivityMs(this.deps.vfs, this.deps.paths, ws, agent)
+          : null;
+        const runs = hasIdle
+          ? (await loadRoutineRuns(this.deps.vfs, root)).items
+          : [];
         for (const routine of routines) {
-          const at = dueAt(routine, since, now, timezone);
+          const at =
+            routine.trigger === "idle"
+              ? idleDueAt(routine, activityMs, runs, now)
+              : dueAt(routine, since, now, timezone);
           if (!at) continue;
           // The instant is replica-independent → all replicas race for one key.
           const won = await this.deps.lock.setNx(

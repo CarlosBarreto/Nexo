@@ -46,6 +46,9 @@ export function normalizeRoutines(
         enabled: true,
         suppress_when_silent: false,
         chat_mode: entry.chat_mode === "per_run" ? "per_run" : "shared",
+        // Absent on disk = "cron", so legacy routines read unchanged and the
+        // discriminant is always present inside TS (exhaustive dispatch).
+        trigger: entry.trigger === "idle" ? "idle" : "cron",
         integrations: Array.isArray(entry.integrations)
           ? entry.integrations
           : [],
@@ -102,6 +105,11 @@ export function createRoutine(
     enabled: input.enabled ?? true,
     suppress_when_silent: input.suppress_when_silent ?? false,
     chat_mode: input.chat_mode ?? "shared",
+    trigger: input.trigger ?? "cron",
+    // Only written for idle routines, so cron routines stay absent on disk.
+    ...(input.trigger === "idle" && input.idle_minutes
+      ? { idle_minutes: input.idle_minutes }
+      : {}),
     // Per-routine provider/model/effort pins. Absent (null) means inherit the
     // agent's config at dispatch — see resolveTurnModel in the runtime.
     provider: input.provider ?? null,

@@ -3,6 +3,9 @@
 /** Whether a routine's runs share one chat ("shared", default) or each run gets its own ("per_run"). */
 export type RoutineChatMode = "shared" | "per_run";
 
+/** How a routine fires: on a cron schedule (default) or after the agent idles ("dream"). */
+export type RoutineTrigger = "cron" | "idle";
+
 export interface Routine {
   id: string;
   name: string;
@@ -12,6 +15,10 @@ export interface Routine {
   enabled: boolean;
   suppress_when_silent: boolean;
   chat_mode: RoutineChatMode;
+  /** Absent on disk = "cron" (tolerant read, no migration; the normalizer fills it in). */
+  trigger: RoutineTrigger;
+  /** Idle threshold in minutes; present and >= 1 iff trigger === "idle". */
+  idle_minutes?: number;
   /** Provider id override (e.g. "anthropic", "openai"); absent means inherit the agent's provider. */
   provider?: string | null;
   /** Model override (e.g. "claude-opus-4-8", "gpt-5.5"); absent means inherit the agent's model. */
@@ -37,6 +44,9 @@ export interface NewRoutine {
   enabled?: boolean;
   suppress_when_silent?: boolean;
   chat_mode?: RoutineChatMode;
+  /** Omit for "cron". "idle" routines require idle_minutes >= 1; schedule is stored as "". */
+  trigger?: RoutineTrigger;
+  idle_minutes?: number;
   /** Provider id to pin (e.g. "openai"); omit to inherit the agent's provider. */
   provider?: string | null;
   /** Model to pin (e.g. "gpt-5.5"); omit to inherit the agent's model. */
@@ -54,6 +64,8 @@ export interface RoutineUpdate {
   enabled?: boolean;
   suppress_when_silent?: boolean;
   chat_mode?: RoutineChatMode;
+  trigger?: RoutineTrigger;
+  idle_minutes?: number;
   /** Provider id to pin; `null` clears (back to inherit), omit to leave unchanged. */
   provider?: string | null;
   /** Model to pin; `null` clears (back to inherit), omit to leave unchanged. */

@@ -37,6 +37,7 @@ function job(over: Partial<FiringJob> = {}): FiringJob {
       enabled: true,
       suppress_when_silent: false,
       chat_mode: "shared",
+      trigger: "cron",
       integrations: [],
       created_at: "",
       updated_at: "",
