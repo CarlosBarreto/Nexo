@@ -211,6 +211,15 @@ Each answer maps to weighted element scores. The dominant element becomes the SO
 
 ### Tier 3 — Medium Impact, Higher Effort
 
+> **Status: IMPLEMENTED (2026-07-03, `feat/axie-tier3`).** What landed:
+>
+> - **Dream Auto-Schedule (2.7)** — routines gain `trigger: "cron" | "idle"`; an idle routine fires after the agent's real conversations go quiet for `idle_minutes` (pure `idleDueAt` beside `dueAt`; probe = newest non-`routine-*` conversation mtime, so a dream never resets its own clock; at most once per idle period, durably guarded by the recorded run). `dreamRoutineTemplate` + `DREAM_PROMPT` consolidate the Tier 2 memory stack while idle. Disk stays legacy-compatible (`schedule: ""`; the Rust engine skips it non-fatally).
+> - **ReAct Loop Observability (2.8)** — a `loop_stats` wire frame (tool_calls, tool_errors, steps = pi model requests, duration_ms) emitted once per prompt right before the terminal frame — on failed turns too — aggregated by a shared accumulator from events pi already emits (no pi changes). Persisted as `ChatMessage.stats`; the web adapter fills `final_result.duration_ms` (a slot the chat UI already renders), live and on reload.
+> - **AI-as-a-Judge (2.9)** — opt-in per routine (`judge_enabled` + `judge_criteria`): on run completion, reconcile fires ONE judge turn into a dedicated `judge-<runId>` conversation (bare fire, no run record → structurally no judge-of-judge; never the run's shared chat) and settles the verdict onto the run record on a later sweep (`judge_status` + `judge_verdict`). A sentinel-less/silent judge is an error, never a default pass. Skill contracts gain a `[judge]` table for parity.
+> - **Bestiario (2.10)** — `AgentGallery` in `ui/agent` (props-only) + a sidebar-opened dialog: avatar, element badge, birth date, description per agent. Souls read files-first (`.houston/soul/soul.json` via the agent-file layer) — correct on BOTH engines; unforged agents render deliberately with `createdAt` fallback.
+>
+> Scope notes: judge wiring to skill execution waits until skills have run records; UI editors for idle/judge routine fields ride the routines form later (the API + scheduler + persistence are complete); es sidebar label inherits the English fallback until upstream restores es's sidebar block.
+
 ---
 
 #### 2.7 Dream Auto-Schedule — Autonomous Background Tasks
@@ -288,14 +297,14 @@ Suggested phasing based on dependency order and impact:
 4. **Narrative Onboarding Ritual** (2.6) — 5-step wizard + element scoring + create-flow wiring
 5. **Three-Layer Memory Stack** (2.4) — `memory` family + lazy learnings migration + runtime injection
 
-### Sprint 3 (Week 5–6) — 2.5 ✅ DONE (2026-07-02, embedder wiring pending)
+### Sprint 3 (Week 5–6) — ✅ DONE (2.5: 2026-07-02, embedder wiring pending; 2.7: 2026-07-03)
 6. **Hybrid Retrieval** (2.5) — BM25 + RRF + Embedder port in `/memory/retrieve`
-7. **Dream Auto-Schedule** (2.7) — idle trigger + dream skill
+7. **Dream Auto-Schedule** (2.7) — idle trigger + dream template
 
-### Sprint 4 (Week 7–8)
-8. **ReAct Loop Observability** (2.8) — protocol events + activity feed
-9. **AI-as-a-Judge** (2.9) — opt-in judge hook in pi runtime
-10. **Bestiario Gallery** (2.10) — AgentGallery UI component
+### Sprint 4 (Week 7–8) — ✅ DONE (2026-07-03)
+8. **ReAct Loop Observability** (2.8) — loop_stats wire frame + persisted ChatMessage.stats
+9. **AI-as-a-Judge** (2.9) — reconcile-driven judge turn + verdict on the run record
+10. **Bestiario Gallery** (2.10) — AgentGallery (ui/agent) + sidebar dialog
 
 ---
 
