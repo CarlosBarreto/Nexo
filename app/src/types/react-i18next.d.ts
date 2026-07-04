@@ -18,6 +18,7 @@ import type errors from "../locales/en/errors.json";
 import type events from "../locales/en/events.json";
 import type integrations from "../locales/en/integrations.json";
 import type legal from "../locales/en/legal.json";
+import type lunaria from "../locales/en/lunaria.json";
 import type org from "../locales/en/org.json";
 import type portable from "../locales/en/portable.json";
 import type providers from "../locales/en/providers.json";
@@ -35,6 +36,7 @@ declare module "react-i18next" {
       connect: typeof connect;
       setup: typeof setup;
       legal: typeof legal;
+      lunaria: typeof lunaria;
       shell: typeof shell;
       dashboard: typeof dashboard;
       settings: typeof settings;
