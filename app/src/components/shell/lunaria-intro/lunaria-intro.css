@@ -1,0 +1,281 @@
+/* ============================================================
+   LUNARIA ARCADE INTRO
+   ------------------------------------------------------------
+   First-run pixel-art splash that plays the Lunaria creation
+   myth. Full-screen, always-dark (an arcade attract screen),
+   independent of the app theme so it looks right before the
+   theme even loads. Scoped entirely to `.lunaria-intro`.
+
+   Lore source: the Axie website "Mito de Creacion" (myth.astro)
+   backed by content/lore/Chapter_01.md in 600_06_Axies.
+   Elemental palette (--el-*) comes from lunaria.css on :root.
+   ============================================================ */
+
+/* Pixel font, self-hosted (offline desktop, no CDN). Latin subset
+   carries the es/pt accents the lore needs. */
+@font-face {
+  font-family: "Pixelify Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../../assets/fonts/pixelify-sans-latin-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Pixelify Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../../../assets/fonts/pixelify-sans-latin-700.woff2") format("woff2");
+}
+
+.lunaria-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  color: #eaf6ff;
+  font-family: "Pixelify Sans", ui-monospace, monospace;
+  -webkit-font-smoothing: none;
+  background: radial-gradient(
+    140% 120% at 50% -10%,
+    #10305c 0%,
+    #0a1836 45%,
+    #060d22 100%
+  );
+}
+
+/* Full-screen click-to-enter target, behind everything. A real button so it
+   is keyboard-safe, but the content above sets pointer-events:none, so a click
+   anywhere that is not the START button lands here. */
+.lunaria-intro__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* ── Sky (moon + stars) ─────────────────────────────────────── */
+.lunaria-intro__sky {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.lunaria-moon {
+  position: absolute;
+  top: 12%;
+  right: 14%;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  image-rendering: pixelated;
+  background: radial-gradient(
+    circle at 38% 36%,
+    #fdf7d8 0 42%,
+    #f0e6ad 42% 66%,
+    #dcc972 66% 84%,
+    #c9b45f 84% 100%
+  );
+  box-shadow:
+    0 0 0 3px rgba(216, 193, 106, 0.18),
+    0 0 40px 8px rgba(216, 193, 106, 0.25);
+}
+
+/* Square "pixel" craters. */
+.lunaria-moon::before,
+.lunaria-moon::after {
+  content: "";
+  position: absolute;
+  background: rgba(150, 132, 74, 0.5);
+}
+.lunaria-moon::before {
+  width: 12px;
+  height: 12px;
+  top: 22px;
+  left: 20px;
+}
+.lunaria-moon::after {
+  width: 8px;
+  height: 8px;
+  top: 46px;
+  left: 42px;
+}
+
+.lunaria-star {
+  position: absolute;
+  background: #eaf6ff;
+  image-rendering: pixelated;
+  opacity: 0.85;
+  animation: lunaria-twinkle 2.4s steps(2, end) infinite;
+}
+
+/* ── Content ─────────────────────────────────────────────────── */
+.lunaria-intro__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+  text-align: center;
+  /* Let clicks fall through to the backdrop; only the CTA re-enables them. */
+  pointer-events: none;
+}
+
+.lunaria-intro__eyebrow {
+  margin-bottom: 10px;
+  font-size: clamp(0.7rem, 2.4vw, 0.95rem);
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #5cb8f7;
+}
+
+.lunaria-intro__title {
+  margin: 0;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 9vw, 5.5rem);
+  letter-spacing: 0.18em;
+  color: #bfe3ff;
+  text-shadow:
+    0 0 2px #2a6fb0,
+    0 4px 0 #0a3a63,
+    0 0 24px rgba(92, 184, 247, 0.55);
+}
+
+/* Elemental palette bar (fire / water / earth / air). */
+.lunaria-intro__bar {
+  width: min(360px, 70vw);
+  height: 6px;
+  margin: 14px 0 22px;
+  image-rendering: pixelated;
+  background: linear-gradient(
+    to right,
+    var(--el-fire, #f08b3e) 0 25%,
+    var(--el-water, #41c3c6) 25% 50%,
+    var(--el-earth, #2f8a58) 50% 75%,
+    var(--el-air, #d8c16a) 75% 100%
+  );
+}
+
+.lunaria-intro__lore {
+  max-width: min(680px, 88vw);
+  line-height: 1.9;
+}
+
+.lunaria-intro__line {
+  margin: 0 0 6px;
+  font-size: clamp(0.85rem, 2.6vw, 1.15rem);
+  color: #dbe9ff;
+  opacity: 0;
+  transform: translateY(6px);
+  animation: lunaria-line-in 0.5s steps(4, end) forwards;
+}
+
+.lunaria-intro__cta {
+  margin-top: 30px;
+  padding: 14px 26px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: clamp(1rem, 3.2vw, 1.4rem);
+  letter-spacing: 0.25em;
+  color: #061a30;
+  background: #ffd34e;
+  border: 3px solid #fff2b0;
+  box-shadow:
+    0 0 0 3px #0a3a63,
+    0 0 24px rgba(255, 211, 78, 0.5);
+  cursor: pointer;
+  pointer-events: auto;
+  image-rendering: pixelated;
+  animation: lunaria-blink 1s steps(1, end) infinite;
+}
+.lunaria-intro__cta:hover {
+  background: #ffdd73;
+}
+.lunaria-intro__cta:focus-visible {
+  outline: 3px solid #5cb8f7;
+  outline-offset: 3px;
+}
+
+.lunaria-intro__hint {
+  margin-top: 14px;
+  font-size: clamp(0.6rem, 2vw, 0.8rem);
+  letter-spacing: 0.2em;
+  color: #6f8fbf;
+}
+
+.lunaria-intro__booting {
+  margin-top: 30px;
+  font-weight: 700;
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  letter-spacing: 0.25em;
+  color: #ffd34e;
+  animation: lunaria-blink 0.7s steps(1, end) infinite;
+}
+
+/* ── Scanlines + CRT vignette (over everything, click-through) ── */
+.lunaria-intro::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.24) 0 1px,
+      rgba(0, 0, 0, 0) 1px 3px
+    ),
+    radial-gradient(
+      120% 120% at 50% 50%,
+      rgba(0, 0, 0, 0) 55%,
+      rgba(0, 0, 0, 0.55) 100%
+    );
+}
+
+/* ── Animations ──────────────────────────────────────────────── */
+@keyframes lunaria-line-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes lunaria-blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+@keyframes lunaria-twinkle {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lunaria-intro__line {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .lunaria-intro__cta,
+  .lunaria-intro__booting,
+  .lunaria-star {
+    animation: none;
+  }
+}

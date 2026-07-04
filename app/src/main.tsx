@@ -10,6 +10,7 @@ import { ConnectionGate } from "./components/shell/connection-gate";
 import { DisclaimerGate } from "./components/shell/disclaimer-gate";
 import { EngineGate } from "./components/shell/engine-gate";
 import { LanguageGate } from "./components/shell/language-gate";
+import { LunariaIntroGate } from "./components/shell/lunaria-intro/lunaria-intro-gate";
 import { analytics, classifyAnalyticsError } from "./lib/analytics";
 import { whenEngineReady } from "./lib/engine";
 import { showErrorToast } from "./lib/error-toast";
@@ -151,15 +152,17 @@ createRoot(rootElement).render(
       <ErrorBoundary>
         <TooltipProvider>
           <StartupEffects>
-            <ConnectionGate>
-              <EngineGate>
-                <LanguageGate>
-                  <DisclaimerGate>
-                    <App />
-                  </DisclaimerGate>
-                </LanguageGate>
-              </EngineGate>
-            </ConnectionGate>
+            <LunariaIntroGate>
+              <ConnectionGate>
+                <EngineGate>
+                  <LanguageGate>
+                    <DisclaimerGate>
+                      <App />
+                    </DisclaimerGate>
+                  </LanguageGate>
+                </EngineGate>
+              </ConnectionGate>
+            </LunariaIntroGate>
           </StartupEffects>
         </TooltipProvider>
       </ErrorBoundary>

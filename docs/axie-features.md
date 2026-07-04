@@ -313,7 +313,7 @@ Suggested phasing based on dependency order and impact:
 | Feature | Reason |
 |---|---|
 | **Telegram bot interface** | Houston already handles multi-channel via web + desktop. Telegram = Composio integration, not a core feature. |
-| **Lunaria world-building / lore** | Domain-specific to the Axie narrative. Houston is domain-agnostic — lore belongs in agent CLAUDE.md, not the platform. |
+| **Lunaria world-building / lore** | Platform core stays domain-agnostic. Exception (2026-07-04): the revert-able Lunaria tropicalization ships the creation myth as a one-time, first-run pixel-art arcade intro (`app/src/components/shell/lunaria-intro/`), gated by a localStorage flag and independent of agent behaviour. It is the product differentiator, not baked into the engine. Lore text is pulled verbatim from the Axie website (`600_06_Axies/apps/axies_website` myth page). |
 | **Genealogy / family trees** | Narrative feature; not useful at Houston's current scale. Revisit when multi-agent spawning is stable. |
 | **Python-first stack (fastembed / Pydantic)** | Houston is TypeScript-first. Hybrid retrieval (2.5) uses in-process providers or API-key embeddings to stay in TS. |
 | **Axie web portal (Astro)** | Houston has its own web frontend (`packages/web`). The Astro portal is replaced by the Bestiario Gallery (2.10). |
@@ -334,5 +334,5 @@ Suggested phasing based on dependency order and impact:
 
 _20260702 - mictlan - axie features doc for houston fork -- Begin_
 _Source projects: `03_SOFT_PERS/600_06_Axies`, `03_SOFT_PERS/604_03_nano_axie`, `03_SOFT_PERS/2603_Axie`_
-_Last updated: 2026-07-02_
+_Last updated: 2026-07-04 (Lunaria first-run arcade intro)_
 _20260702 - mictlan - axie features doc for houston fork -- End_

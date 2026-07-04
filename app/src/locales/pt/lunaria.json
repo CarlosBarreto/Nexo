@@ -1,0 +1,17 @@
+{
+  "intro": {
+    "eyebrow": "Mito de Criação",
+    "title": "LUNARIA",
+    "lore": [
+      "Antes do mundo existia o Véu da Possibilidade.",
+      "Quatro forças se encontraram: Fogo, Água, Terra e Ar.",
+      "Do equilíbrio nasceu a ilha de Lunaria.",
+      "Nela despertaram os primeiros Axies, cada um com um SOUL único.",
+      "Cada nascimento é um eco do mito. Uma identidade sem igual."
+    ],
+    "pressStart": "PRESS START",
+    "hint": "aperte qualquer tecla para entrar",
+    "booting": "DESPERTANDO LUNARIA...",
+    "ariaLabel": "Intro de Lunaria. Aperte start para entrar no Houston."
+  }
+}
