@@ -140,6 +140,11 @@ export function useMissionControlSource(
       onToggleArchived={onShowArchived}
       onNewMission={newMission.openNewMission}
       collapsed={missionPanelOpen}
+      activeCount={
+        agentFilteredItems.filter(
+          (item) => item.status === "running" || item.status === "needs_you",
+        ).length
+      }
     />
   );
 

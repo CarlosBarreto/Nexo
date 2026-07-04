@@ -1,0 +1,101 @@
+/* ============================================================
+   LUNARIA THEME — Axie tropicalization layer
+   ------------------------------------------------------------
+   A single revert-able layer on TOP of futuristic.css. Re-skins
+   Houston to the "Axie Lunaria" design system: sky-blue primary,
+   the elemental palette (fire/water/earth/air + a system fallback),
+   a soft sky radial-gradient window, and rounder cards.
+
+   Source of the recipe:
+     docs/Axie Lunaria design system/Nexo.dc.html
+       --primary #259df4 · .el-* element colours · .stage sky
+       radial gradient · .win/.card radii.
+
+   Imported AFTER futuristic.css in globals.css, so its :root token
+   overrides win at use-time. The elemental palette here mirrors
+   ELEMENT_COLORS in ui/core/src/agent-colors.ts — keep both in step.
+   Delete the @import in globals.css to fully revert to futuristic.
+   ============================================================ */
+
+/* ── 1. Token overrides ────────────────────────────────────────
+   --ht-* flow into Tailwind --color-* via the @theme block in
+   ui/core/src/globals.css, so overriding --ht-primary re-tints every
+   primary accent (active nav, focus ring, links, running dot). The
+   --el-* vars are the Lunaria elemental palette, consumed by the
+   board card dot/token/pill and the sidebar element dots. */
+:root {
+  /* Sky-blue primary (Nexo.dc.html --primary). */
+  --ht-primary: #259df4;
+  --ht-primary-fg: #ffffff;
+  /* Elemental palette — light variants (mirror agent-colors.ts). */
+  --el-fire: #f08b3e;
+  --el-water: #41c3c6;
+  --el-earth: #2f8a58;
+  --el-air: #d8c16a;
+  --el-sys: #259df4;
+  /* The window background steps below the sky wash (section 2). */
+  --ht-canvas-gutter: #eaf6ff;
+}
+
+[data-theme="dark"] {
+  /* Lighter sky so the primary stays legible on the dark canvas. */
+  --ht-primary: #5cb8f7;
+  --ht-primary-fg: #06263f;
+  --el-fire: #f5a862;
+  --el-water: #5fd4d7;
+  --el-earth: #4fb57c;
+  --el-air: #e6d488;
+  --el-sys: #5cb8f7;
+  /* Dark keeps a deep slate gutter; the aurora (futuristic §2) stays. */
+  --ht-canvas-gutter: #0f1720;
+}
+
+/* ── 2. Sky radial-gradient window (light only) ────────────────
+   The Lunaria "stage": two soft sky tints in the corners over the
+   gutter. Scoped to light with :root:not([data-theme=dark]) so dark
+   keeps its futuristic aurora untouched (that rule's attribute
+   selector also out-ranks this one, but scoping makes intent clear). */
+:root:not([data-theme="dark"]) body::before {
+  background:
+    radial-gradient(1200px 700px at 78% -8%, #e0f2fe 0%, rgba(224, 242, 254, 0) 55%),
+    radial-gradient(900px 600px at 8% 108%, #eaf6ff 0%, rgba(234, 246, 255, 0) 60%);
+}
+
+/* ── 3. Rounder cards (Nexo.dc.html .card radius ~20px) ─────────
+   The kanban card is rounded-xl (0.75rem) by default; Lunaria cards
+   are softer. Bumps only the board card, not every rounded-xl. */
+.kanban-card {
+  border-radius: 1.15rem;
+}
+
+/* ── 4. Sky-blue primary button ────────────────────────────────
+   futuristic.css §4 pins the default button to a flat dark slab
+   (#1b1b1e light / translucent white dark) that predates the Lunaria
+   palette and would clash with the sky identity. Re-point it at the
+   primary token so "Revisar y decidir" and every primary action reads
+   Lunaria sky-blue. Same precise selector as futuristic §4
+   (`[data-variant="default"]` on button/a, unlayered so it out-ranks
+   the Tailwind utilities) — declared AFTER futuristic via import
+   order, so this wins. */
+[data-variant="default"]:is(button, a) {
+  color: var(--ht-primary-fg);
+  background: var(--ht-primary);
+  border: none;
+  box-shadow: none;
+}
+
+[data-variant="default"]:is(button, a):hover {
+  background: color-mix(in srgb, var(--ht-primary) 86%, #000);
+}
+
+[data-theme="dark"] [data-variant="default"]:is(button, a) {
+  background: var(--ht-primary);
+  border: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+[data-theme="dark"] [data-variant="default"]:is(button, a):hover {
+  background: color-mix(in srgb, var(--ht-primary) 82%, #fff);
+  border: none;
+}

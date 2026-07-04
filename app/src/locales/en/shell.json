@@ -1,10 +1,10 @@
 {
   "sidebar": {
-    "missionControl": "Mission Control",
+    "missionControl": "Nexo",
     "integrations": "Integrations",
     "settings": "Settings",
     "bestiary": "Bestiary",
-    "yourAgents": "Your Agents",
+    "yourAgents": "Your Axies",
     "selectWorkspace": "Select workspace",
     "addAgent": "New agent",
     "agentMenu": "Agent menu",
