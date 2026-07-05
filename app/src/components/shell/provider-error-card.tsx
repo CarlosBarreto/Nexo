@@ -19,7 +19,7 @@
  * act on, even Unknown (Report bug). Don't ship a card with no buttons.
  */
 
-import type { ProviderError } from "@houston-ai/chat";
+import type { ProviderError } from "@nexo-ai/chat";
 import { UnauthenticatedCard } from "./provider-error-cards/auth";
 import {
   ModelUnavailableCard,

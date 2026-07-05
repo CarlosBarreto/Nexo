@@ -1,6 +1,6 @@
 import type { Server } from "node:http";
-import { loadSoul } from "@houston/domain";
-import type { AgentSoul, Capabilities } from "@houston/protocol";
+import { loadSoul } from "@nexo/domain";
+import type { AgentSoul, Capabilities } from "@nexo/protocol";
 import { beforeEach, expect, test } from "vitest";
 import { MemoryCredentialStore } from "../credentials/store";
 import type { RuntimeChannel, TokenVerifier } from "../ports";

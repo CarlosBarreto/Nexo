@@ -1,5 +1,5 @@
 import { EventEmitter } from "node:events";
-import type { TurnBus } from "@houston/host/src/turn/bus";
+import type { TurnBus } from "@nexo/host/src/turn/bus";
 import { afterAll, describe, expect, test, vi } from "vitest";
 
 // Replace `ioredis` with the in-process `ioredis-mock` BEFORE bus-redis.ts is
@@ -23,8 +23,8 @@ EventEmitter.defaultMaxListeners = 100;
 /**
  * RedisTurnBus (CLOSED) run against the in-process `ioredis-mock`. RedisTurnBus
  * has NO injectable clock (it rides Redis's own EX/NX/TTL), so the virtual-clock
- * contract (runTurnBusContract, exported from `@houston/host`, run against
- * MemoryTurnBus in `@houston/host`) can't drive it directly; instead this suite
+ * contract (runTurnBusContract, exported from `@nexo/host`, run against
+ * MemoryTurnBus in `@nexo/host`) can't drive it directly; instead this suite
  * runs:
  *   1) the TIME-INDEPENDENT contract behaviors verbatim against the real bus,
  *      proving the pub/sub fan-out + unsubscribe + channel isolation + key

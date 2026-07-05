@@ -3,10 +3,10 @@ import {
   parseServiceTokens,
   ServiceTokenVerifier,
   stripBearer,
-} from "@houston/host/src/auth/verify";
-import { config } from "@houston/host/src/config";
-import type { UserId } from "@houston/host/src/domain/types";
-import type { TokenVerifier } from "@houston/host/src/ports";
+} from "@nexo/host/src/auth/verify";
+import { config } from "@nexo/host/src/config";
+import type { UserId } from "@nexo/host/src/domain/types";
+import type { TokenVerifier } from "@nexo/host/src/ports";
 import {
   createRemoteJWKSet,
   type JWTVerifyGetKey,
@@ -20,10 +20,10 @@ import {
  * to a principal (`{ userId }`) or `null` if the token is invalid/expired.
  *
  * The open dev / single-user / service-token verifiers (and the shared
- * `stripBearer` / `parseServiceTokens` helpers) stay in `@houston/host`
+ * `stripBearer` / `parseServiceTokens` helpers) stay in `@nexo/host`
  * (auth/verify.ts). `makeTokenVerifier` is a CLOUD wiring concern (it picks
  * dev-vs-Supabase from `config`), so it lives here and is called from the cloud
- * entry point (`@houston/host-cloud` main.ts).
+ * entry point (`@nexo/host-cloud` main.ts).
  *
  * Failure policy (CLAUDE.md "no silent failures"): only *authentication*
  * failures resolve to `null`. An auth failure is any of jose's typed JOSE errors

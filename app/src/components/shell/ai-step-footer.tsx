@@ -1,4 +1,4 @@
-import { Button, Spinner } from "@houston-ai/core";
+import { Button, Spinner } from "@nexo-ai/core";
 import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
 

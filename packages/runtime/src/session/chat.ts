@@ -11,7 +11,7 @@ import type {
   ProviderError,
   TokenUsage,
   ToolCallRecord,
-} from "@houston/runtime-client";
+} from "@nexo/runtime-client";
 import { DEFAULT_REASONING_EFFORT, toThinkingLevel } from "../ai/effort";
 import { activeEffort, activeProvider, resolveModel } from "../ai/providers";
 import { syncServedCredential } from "../auth/serve";

@@ -1,7 +1,7 @@
 /**
  * The conversation core — runtime v2, verbatim. One runtime instance serves
  * exactly this surface; the host nests it under /v1/agents/:id/conversations/*.
- * Source of truth for these shapes; @houston/runtime-client re-exports them.
+ * Source of truth for these shapes; @nexo/runtime-client re-exports them.
  */
 
 /**
@@ -119,7 +119,7 @@ export interface ToolCallRecord {
 
 /**
  * Normalized per-turn token usage, provider-agnostic. Mirrors the frontend
- * `TokenUsage` in `@houston-ai/chat` so the context-usage indicator can read it
+ * `TokenUsage` in `@nexo-ai/chat` so the context-usage indicator can read it
  * straight off a `final_result` feed item.
  *
  * `context_tokens` is the headline number: the prompt size of the most recent
@@ -150,7 +150,7 @@ export interface LoopStats {
 
 /**
  * Why an `unauthenticated` provider error happened. Mirrors the frontend
- * `AuthFailureCause` (`@houston-ai/chat`) so the typed reconnect card reads it
+ * `AuthFailureCause` (`@nexo-ai/chat`) so the typed reconnect card reads it
  * straight off the wire and picks the right body copy + reconnect lifecycle.
  *
  * - `no_credentials` — never connected (surfaced separately at send time, not
@@ -169,7 +169,7 @@ export type AuthFailureCause =
 
 /**
  * Why a `model_unavailable` provider error happened. Mirrors the frontend
- * `ModelUnavailableReason` (`@houston-ai/chat`) so the wire shape stays
+ * `ModelUnavailableReason` (`@nexo-ai/chat`) so the wire shape stays
  * assignable to the card's union. The runtime can't always tell the precise
  * sub-reason from the gateway's flat string (GitHub Copilot just says
  * `model_not_supported`), so `unknown` is the common case; the actionable detail
@@ -183,7 +183,7 @@ export type ModelUnavailableReason =
 
 /**
  * A typed provider/auth/model failure for a turn's model request. Mirrors the
- * relevant subset of the frontend `ProviderError` union (`@houston-ai/chat`) so
+ * relevant subset of the frontend `ProviderError` union (`@nexo-ai/chat`) so
  * it renders as the matching inline card (UnauthenticatedCard / RateLimitedCard /
  * ProviderInternalCard / NetworkUnreachableCard / UnknownErrorCard). The runtime
  * classifies pi's errored `AssistantMessage` (provider + model + errorMessage)

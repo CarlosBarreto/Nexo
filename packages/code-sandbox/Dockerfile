@@ -24,7 +24,7 @@ RUN apt-get update \
 WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages/code-sandbox/ ./packages/code-sandbox/
-RUN pnpm install --frozen-lockfile --prod --filter @houston/code-sandbox... \
+RUN pnpm install --frozen-lockfile --prod --filter @nexo/code-sandbox... \
     && chown -R node:node /app
 
 ENV NODE_ENV=production \

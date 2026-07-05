@@ -1,12 +1,12 @@
 import { type FSWatcher, watch } from "node:fs";
-import type { HoustonEvent } from "@houston/protocol";
+import type { NexoEvent } from "@nexo/protocol";
 import { classifyChange } from "./classify";
 
 /**
  * Watches the local `~/.houston/workspaces` tree and emits reactivity events for
  * changes — so an agent (or the user) editing files directly shows up in the UI
  * with no write going through the host. The local counterpart of the cloud's
- * post-mutation emits; same HoustonEvent vocabulary, different detection.
+ * post-mutation emits; same NexoEvent vocabulary, different detection.
  *
  * Events are coalesced per (agentPath, type) over a short debounce so a burst of
  * writes (a routine run rewriting several files) yields one invalidation each.
@@ -17,7 +17,7 @@ export class FsWatcher {
 
   constructor(
     private readonly root: string,
-    private readonly onEvent: (event: HoustonEvent) => void,
+    private readonly onEvent: (event: NexoEvent) => void,
     private readonly debounceMs = 300,
   ) {}
 
@@ -36,7 +36,7 @@ export class FsWatcher {
     );
   }
 
-  private schedule(event: HoustonEvent): void {
+  private schedule(event: NexoEvent): void {
     const key = `${event.type}:${"agentPath" in event ? event.agentPath : ""}`;
     const existing = this.pending.get(key);
     if (existing) clearTimeout(existing);

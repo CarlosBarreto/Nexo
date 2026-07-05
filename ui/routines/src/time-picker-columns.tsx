@@ -4,7 +4,7 @@
  * time logic — the parent computes values and hands selection callbacks down.
  */
 
-import { cn } from "@houston-ai/core";
+import { cn } from "@nexo-ai/core";
 import { useEffect, useRef } from "react";
 import {
   centerPadding,

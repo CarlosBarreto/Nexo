@@ -1,4 +1,4 @@
-import { AsyncButton } from "@houston-ai/core";
+import { AsyncButton } from "@nexo-ai/core";
 import { useQueryClient } from "@tanstack/react-query";
 import { ShieldCheck } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";

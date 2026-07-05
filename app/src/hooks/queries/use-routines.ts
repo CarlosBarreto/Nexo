@@ -1,4 +1,4 @@
-import type { NewRoutine, RoutineUpdate } from "@houston-ai/engine-client";
+import type { NewRoutine, RoutineUpdate } from "@nexo-ai/engine-client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../../lib/query-keys";
 import { tauriRoutines } from "../../lib/tauri";

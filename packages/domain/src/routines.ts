@@ -3,7 +3,7 @@ import type {
   Routine,
   RoutineRun,
   RoutineUpdate,
-} from "@houston/protocol";
+} from "@nexo/protocol";
 import { docKey } from "./layout";
 import {
   type DocDiagnostic,

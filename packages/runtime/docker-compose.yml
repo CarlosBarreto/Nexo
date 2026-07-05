@@ -5,7 +5,7 @@
 #   docker compose logs -f
 #
 # The build context is the repo root so the image can pull in the sibling
-# @houston/runtime-client package (see Dockerfile). The image's HEALTHCHECK and
+# @nexo/runtime-client package (see Dockerfile). The image's HEALTHCHECK and
 # graceful-shutdown handling are inherited as-is.
 
 services:

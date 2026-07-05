@@ -38,7 +38,7 @@ import {
 export interface RemoteIntegrationOptions {
   /** Provider id served upstream (and reported locally), e.g. "composio". */
   id: string;
-  /** Base URL of Houston's cloud host, e.g. "https://engine.gethouston.ai". */
+  /** Base URL of Houston's cloud host, e.g. "https://engine.getnexo.ai". */
   upstreamUrl: string;
   /** The user's current Supabase access token; null when signed out. */
   token: () => string | null;

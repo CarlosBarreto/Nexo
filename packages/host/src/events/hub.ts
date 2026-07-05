@@ -1,4 +1,4 @@
-import type { HoustonEvent } from "@houston/protocol";
+import type { NexoEvent } from "@nexo/protocol";
 import type { UserId } from "../domain/types";
 
 /**
@@ -18,15 +18,15 @@ export interface PubSub {
  * tenant only ever receives events for their OWN agents; the host emits to the
  * workspace owner after every successful mutation.
  *
- * This carries the same HoustonEvent vocabulary the Rust firehose used — only
+ * This carries the same NexoEvent vocabulary the Rust firehose used — only
  * the detection mechanism differs per profile (host mutation here; FS watcher
  * locally; post-turn sync in cloud), never the wire.
  */
 export interface EventHub {
   /** Emit a change to a user's subscribers across every replica. Fire-and-forget. */
-  emit(userId: UserId, event: HoustonEvent): void;
+  emit(userId: UserId, event: NexoEvent): void;
   /** Subscribe to a user's events; returns unsubscribe. */
-  subscribe(userId: UserId, handler: (event: HoustonEvent) => void): () => void;
+  subscribe(userId: UserId, handler: (event: NexoEvent) => void): () => void;
 }
 
 const channelFor = (userId: UserId) => `events:${userId}`;
@@ -34,7 +34,7 @@ const channelFor = (userId: UserId) => `events:${userId}`;
 export class BusEventHub implements EventHub {
   constructor(private readonly bus: PubSub) {}
 
-  emit(userId: UserId, event: HoustonEvent): void {
+  emit(userId: UserId, event: NexoEvent): void {
     // Fire-and-forget: the user-initiated action is the MUTATION, which already
     // succeeded and returned 2xx. The event is a reactivity nicety — if publish
     // fails the UI still refetches on focus, so we log (no UI thread to toast on,
@@ -49,13 +49,10 @@ export class BusEventHub implements EventHub {
       });
   }
 
-  subscribe(
-    userId: UserId,
-    handler: (event: HoustonEvent) => void,
-  ): () => void {
+  subscribe(userId: UserId, handler: (event: NexoEvent) => void): () => void {
     return this.bus.subscribe(channelFor(userId), (message) => {
       try {
-        handler(JSON.parse(message) as HoustonEvent);
+        handler(JSON.parse(message) as NexoEvent);
       } catch (err) {
         console.error(
           "[events] dropped malformed frame:",

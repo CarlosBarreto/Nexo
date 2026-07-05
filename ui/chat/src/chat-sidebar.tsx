@@ -4,7 +4,7 @@ import {
   CollapsibleTrigger,
   cn,
   ScrollArea,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { Check, ChevronDown, Circle, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { feedItemsToMessages } from "./feed-to-messages";

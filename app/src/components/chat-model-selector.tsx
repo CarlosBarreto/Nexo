@@ -2,7 +2,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { ChevronDown } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useCapabilities } from "../hooks/use-capabilities";

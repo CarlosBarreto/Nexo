@@ -14,7 +14,7 @@
  * verbatim (that is how Skill cards survive a reload), so the same filter
  * applies to the optimistic path AND to the message replayed on reload.
  */
-import type { FeedItem } from "@houston-ai/chat";
+import type { FeedItem } from "@nexo-ai/chat";
 
 const AUTO_CONTINUE_MARKER = "<!--houston:auto_continue-->";
 

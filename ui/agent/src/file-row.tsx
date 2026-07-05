@@ -4,7 +4,7 @@
  * Folders: click to expand/collapse, drop target for moves.
  */
 
-import { cn } from "@houston-ai/core";
+import { cn } from "@nexo-ai/core";
 import { useEffect, useRef, useState } from "react";
 import { INTERNAL_DRAG_TYPE, useFolderDropTarget } from "./drop-zone";
 import {

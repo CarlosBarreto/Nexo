@@ -1,4 +1,4 @@
-import type { WireEvent } from "@houston/runtime-client";
+import type { WireEvent } from "@nexo/runtime-client";
 
 /**
  * Pump `data: <WireEvent JSON>` SSE frames out of a fetch body. Comments and

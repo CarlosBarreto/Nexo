@@ -71,11 +71,9 @@ test("installs deps from the frozen pnpm lockfile", () => {
 });
 
 test("vendors the workspace sibling dep the engine declares", () => {
-  // The engine depends on @houston/runtime-client via a workspace path; the image
+  // The engine depends on @nexo/runtime-client via a workspace path; the image
   // must copy that sibling in or the frozen install can't resolve it.
-  expect(enginePkg.dependencies?.["@houston/runtime-client"]).toBe(
-    "workspace:*",
-  );
+  expect(enginePkg.dependencies?.["@nexo/runtime-client"]).toBe("workspace:*");
   expect(dockerfile).toContain("COPY packages/runtime-client/");
   expect(dockerfile).toContain("COPY packages/protocol/");
 });

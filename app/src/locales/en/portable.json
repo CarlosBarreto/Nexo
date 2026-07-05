@@ -4,7 +4,7 @@
     "fromFriendCard": "From a friend",
     "fromFriendDescription": "Drop a file someone shared with you and bring their agent into your workspace."
   },
-  "flagged": "Houston flagged this one for a closer look.",
+  "flagged": "Nexo flagged this one for a closer look.",
   "export": {
     "eyebrow": "Sharing {{name}}",
     "loading": "Loading your agent.",
@@ -20,13 +20,13 @@
     },
     "step2": {
       "title": "Want to anonymize first?",
-      "body": "Houston can remove obvious personal info like emails and paths. You'll see exactly what changed before saving.",
+      "body": "Nexo can remove obvious personal info like emails and paths. You'll see exactly what changed before saving.",
       "asIsTitle": "Share as is",
       "asIsBody": "Keep everything exactly the way it is.",
       "anonymizeTitle": "Help me anonymize",
       "anonymizeBody": "Strip emails, paths and other obvious personal details.",
       "reviewLabel": "Review what changed",
-      "working": "Houston is reviewing your content.",
+      "working": "Nexo is reviewing your content.",
       "diffInstructions": "Instructions",
       "before": "Before",
       "after": "After",
@@ -38,7 +38,7 @@
     },
     "step3": {
       "title": "Ready to share",
-      "body": "Houston will package {{name}} into a single file you can send through any app.",
+      "body": "Nexo will package {{name}} into a single file you can send through any app.",
       "skillsLabel": "Skills",
       "routinesLabel": "Routines",
       "learningsLabel": "Learnings",
@@ -68,23 +68,23 @@
   },
   "import": {
     "eyebrow": "From a friend",
-    "flagged": "Houston flagged this one for a closer look.",
+    "flagged": "Nexo flagged this one for a closer look.",
     "step1": {
       "title": "Drop the file your friend sent",
-      "body": "Houston reads it on your machine. Nothing is uploaded.",
+      "body": "Nexo reads it on your machine. Nothing is uploaded.",
       "pickFile": "Choose a file",
       "uploadedFrom": "Shared by {{name}}",
       "anonymous": "your friend",
       "counts": "{{skills}} skills, {{routines}} routines, {{learnings}} learnings",
       "anonymizedFlag": "Anonymized before sharing.",
-      "scanChoiceLabel": "Should Houston take a quick look?",
+      "scanChoiceLabel": "Should Nexo take a quick look?",
       "scanYesTitle": "Yes, review it first",
-      "scanYesBody": "Houston scans for obvious risks. Not a guarantee, just a careful read.",
+      "scanYesBody": "Nexo scans for obvious risks. Not a guarantee, just a careful read.",
       "scanNoTitle": "No, I trust them",
       "scanNoBody": "Skip the review and continue.",
       "scanning": "Reviewing the package.",
-      "scanClean": "Houston did not flag anything.",
-      "scanFlagged": "Houston flagged {{count}} item(s). Review them as you continue."
+      "scanClean": "Nexo did not flag anything.",
+      "scanFlagged": "Nexo flagged {{count}} item(s). Review them as you continue."
     },
     "step2": {
       "title": "Name your new agent",

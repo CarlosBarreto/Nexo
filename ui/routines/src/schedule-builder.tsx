@@ -13,7 +13,7 @@
  * i18n-agnostic; `locale` drives day names + time formatting in the summary.
  */
 
-import { cn } from "@houston-ai/core";
+import { cn } from "@nexo-ai/core";
 import { AnimatePresence } from "framer-motion";
 import { DEFAULT_SCHEDULE_LABELS, type ScheduleLabels } from "./labels";
 import { IntervalPicker } from "./schedule-interval-picker";

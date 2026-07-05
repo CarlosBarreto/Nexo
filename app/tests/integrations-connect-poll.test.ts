@@ -1,6 +1,6 @@
 import { rejects, strictEqual } from "node:assert";
 import { describe, it } from "node:test";
-import type { IntegrationConnection } from "@houston-ai/engine-client";
+import type { IntegrationConnection } from "@nexo-ai/engine-client";
 import { pollConnectionUntilActive } from "../src/components/tabs/integrations-tab-model.ts";
 
 /** A `sleep` that resolves instantly so the loop runs without real timers. */

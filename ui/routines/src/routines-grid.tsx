@@ -14,7 +14,7 @@ import {
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { Plus } from "lucide-react";
 import {
   DEFAULT_GRID_LABELS,

@@ -132,7 +132,7 @@ textarea {
   font-variant-ligatures: none;
 }
 
-/* Kanban card drag cursor (pointer-events based — see @houston-ai/board's
+/* Kanban card drag cursor (pointer-events based — see @nexo-ai/board's
    use-board-drag). Native HTML5 drag lets each OS pick the drag cursor; the
    board runs the drag itself, so we force ONE cursor across macOS, Windows and
    Linux here. The `!important` universal selector beats every element's own

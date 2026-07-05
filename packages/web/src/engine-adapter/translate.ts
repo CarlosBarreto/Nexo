@@ -1,11 +1,11 @@
 import type {
   ChatMessage,
-  HoustonEngineClient,
   LoopStats,
+  NexoEngineClient,
   TokenUsage,
   WireEvent,
-} from "@houston/runtime-client";
-import { EngineError } from "@houston/runtime-client";
+} from "@nexo/runtime-client";
+import { EngineError } from "@nexo/runtime-client";
 import type { ChatHistoryEntry } from "../../../../ui/engine-client/src/types";
 import { emitEvent } from "./bus";
 import { toOldProvider } from "./synthetic";
@@ -84,7 +84,7 @@ function sessionStatus(
  * `mergeFeedItem` replaces the live streaming item in place, so we do too).
  */
 export async function streamTurn(
-  engine: HoustonEngineClient,
+  engine: NexoEngineClient,
   agentPath: string,
   sessionKey: string,
   prompt: string,

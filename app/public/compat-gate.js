@@ -27,7 +27,7 @@
 //    unhandledrejection listener up front, plus a watchdog timer: if #root
 //    is still empty after MOUNT_TIMEOUT_MS, paint a localized "couldn't start"
 //    message with the captured error + diagnostics and a Copy button so the
-//    user has something to send to support@gethouston.ai instead of a blank.
+//    user has something to send to support@getnexo.ai instead of a blank.
 //
 // Written in conservative ES2015 (no optional chaining / nullish coalescing)
 // because this file is shipped as-authored, never run through esbuild.
@@ -42,39 +42,39 @@
   // voice: no mention of WebKit/Safari, no em dashes.
   var MESSAGES = {
     en: {
-      title: "Houston needs a newer version of macOS",
-      body: "Please update your Mac to macOS Ventura (13) or later, then open Houston again.",
+      title: "Nexo needs a newer version of macOS",
+      body: "Please update your Mac to macOS Ventura (13) or later, then open Nexo again.",
     },
     es: {
-      title: "Houston necesita una versión más reciente de macOS",
-      body: "Actualiza tu Mac a macOS Ventura (13) o una versión posterior y vuelve a abrir Houston.",
+      title: "Nexo necesita una versión más reciente de macOS",
+      body: "Actualiza tu Mac a macOS Ventura (13) o una versión posterior y vuelve a abrir Nexo.",
     },
     pt: {
-      title: "O Houston precisa de uma versão mais recente do macOS",
-      body: "Atualize seu Mac para o macOS Ventura (13) ou mais recente e abra o Houston novamente.",
+      title: "O Nexo precisa de uma versão mais recente do macOS",
+      body: "Atualize seu Mac para o macOS Ventura (13) ou mais recente e abra o Nexo novamente.",
     },
   };
 
   // Used when the watchdog or an early error fires. Same language matrix.
   var CRASH_MESSAGES = {
     en: {
-      title: "Houston couldn't start",
-      body: "Try opening Houston again. If this keeps happening, copy the details below and send them to hello@gethouston.ai so we can fix it.",
-      reload: "Reopen Houston",
+      title: "Nexo couldn't start",
+      body: "Try opening Nexo again. If this keeps happening, copy the details below and send them to hello@getnexo.ai so we can fix it.",
+      reload: "Reopen Nexo",
       copy: "Copy details",
       copied: "Copied",
     },
     es: {
-      title: "Houston no pudo iniciar",
-      body: "Intenta abrir Houston de nuevo. Si el problema continúa, copia los detalles y envíalos a hello@gethouston.ai para que podamos resolverlo.",
-      reload: "Volver a abrir Houston",
+      title: "Nexo no pudo iniciar",
+      body: "Intenta abrir Nexo de nuevo. Si el problema continúa, copia los detalles y envíalos a hello@getnexo.ai para que podamos resolverlo.",
+      reload: "Volver a abrir Nexo",
       copy: "Copiar detalles",
       copied: "Copiado",
     },
     pt: {
-      title: "O Houston não conseguiu iniciar",
-      body: "Tente abrir o Houston novamente. Se o problema continuar, copie os detalhes e envie para hello@gethouston.ai para que possamos resolver.",
-      reload: "Reabrir o Houston",
+      title: "O Nexo não conseguiu iniciar",
+      body: "Tente abrir o Nexo novamente. Se o problema continuar, copie os detalhes e envie para hello@getnexo.ai para que possamos resolver.",
+      reload: "Reabrir o Nexo",
       copy: "Copiar detalhes",
       copied: "Copiado",
     },
@@ -105,7 +105,7 @@
     // Inline styles only — the app stylesheet may not parse on the unsupported
     // engine, and explicit colors cover the viewport regardless.
     root.innerHTML =
-      '<div style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;background:#0d0d0f;color:#e8e8ea;font-family:system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;">' +
+      '<div style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;background:#0a1224;color:#e8e8ea;font-family:system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;">' +
       '<div style="max-width:30rem;text-align:center;">' +
       '<h1 style="margin:0 0 12px;font-size:20px;font-weight:600;line-height:1.3;">' +
       message.title +
@@ -157,7 +157,7 @@
 
   function renderCrashScreen(root, message, diagnostics) {
     root.innerHTML =
-      '<div style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;background:#0d0d0f;color:#e8e8ea;font-family:system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;overflow:auto;">' +
+      '<div style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;background:#0a1224;color:#e8e8ea;font-family:system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;overflow:auto;">' +
       '<div style="max-width:36rem;width:100%;">' +
       '<h1 style="margin:0 0 12px;font-size:20px;font-weight:600;line-height:1.3;text-align:center;">' +
       escapeHtml(message.title) +
@@ -166,7 +166,7 @@
       escapeHtml(message.body) +
       "</p>" +
       '<div style="display:flex;gap:8px;justify-content:center;margin-bottom:20px;flex-wrap:wrap;">' +
-      '<button id="houston-gate-reload" type="button" style="padding:8px 16px;font:inherit;font-size:14px;background:#3b82f6;color:#fff;border:0;border-radius:6px;cursor:pointer;">' +
+      '<button id="houston-gate-reload" type="button" style="padding:8px 16px;font:inherit;font-size:14px;background:#259df4;color:#fff;border:0;border-radius:6px;cursor:pointer;">' +
       escapeHtml(message.reload) +
       "</button>" +
       '<button id="houston-gate-copy" type="button" style="padding:8px 16px;font:inherit;font-size:14px;background:#1f1f23;color:#e8e8ea;border:1px solid #2e2e33;border-radius:6px;cursor:pointer;">' +

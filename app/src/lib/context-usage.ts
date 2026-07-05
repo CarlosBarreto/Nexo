@@ -1,4 +1,4 @@
-import type { FeedItem, TokenUsage } from "@houston-ai/chat";
+import type { FeedItem, TokenUsage } from "@nexo-ai/chat";
 import type { ContextWindowConfig } from "./providers";
 
 export interface SessionContextUsage {

@@ -28,11 +28,11 @@ function importTauriEvents(): Promise<TauriEventModule | null> {
 /**
  * Subscribe to a Tauri event with automatic cleanup.
  *
- * Uses dynamic import of @tauri-apps/api/event so @houston-ai/core has no
+ * Uses dynamic import of @tauri-apps/api/event so @nexo-ai/core has no
  * build-time dependency on Tauri. In non-Tauri environments the import
  * fails silently and no listener is registered.
  */
-export function useHoustonEvent<T>(
+export function useNexoEvent<T>(
   eventName: string,
   handler: (payload: T) => void,
 ): void {

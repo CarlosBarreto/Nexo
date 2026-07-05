@@ -1,4 +1,4 @@
-import type { AttachmentRejection, PrepareAttachments } from "@houston-ai/chat";
+import type { AttachmentRejection, PrepareAttachments } from "@nexo-ai/chat";
 import {
   Button,
   Dialog,
@@ -7,7 +7,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { AlertTriangle } from "lucide-react";
 import { type ReactNode, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";

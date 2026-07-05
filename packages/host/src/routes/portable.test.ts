@@ -1,6 +1,6 @@
 import type { Server } from "node:http";
-import { loadRoutines } from "@houston/domain";
-import type { Capabilities, Routine } from "@houston/protocol";
+import { loadRoutines } from "@nexo/domain";
+import type { Capabilities, Routine } from "@nexo/protocol";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import { ProxyChannel } from "../channel/proxy";
 import { MemoryCredentialStore } from "../credentials/store";

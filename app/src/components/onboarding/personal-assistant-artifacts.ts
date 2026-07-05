@@ -26,7 +26,7 @@ export function buildAssistantInstructions(
 ): string {
   return `# ${setup.assistantName}
 
-You are my Personal assistant in Houston.
+You are my Personal assistant in Nexo.
 
 ## Main job
 ${setup.focus.trim()}

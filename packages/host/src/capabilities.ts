@@ -1,4 +1,4 @@
-import type { Capabilities } from "@houston/protocol";
+import type { Capabilities } from "@nexo/protocol";
 
 /**
  * The two deployment capability profiles, in ONE place so the host, the local

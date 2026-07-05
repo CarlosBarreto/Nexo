@@ -10,9 +10,9 @@ import type { RuntimeLauncher } from "../ports";
  * is reused, not respawned), sleep then ensureAwake re-wakes, and independent
  * agents track state separately.
  *
- * Exported from `@houston/host` (OPEN) so BOTH the open adapter suite
+ * Exported from `@nexo/host` (OPEN) so BOTH the open adapter suite
  * (launcher/contract.test.ts: Fake/Process via injected doubles) AND the closed
- * adapter suite in `@houston/host-cloud` (launcher/gke.integration.test.ts:
+ * adapter suite in `@nexo/host-cloud` (launcher/gke.integration.test.ts:
  * GkeLauncher against a live apiserver, gated on HOUSTON_GKE_TEST) run the SAME
  * assertions.
  */

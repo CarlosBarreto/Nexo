@@ -1,4 +1,4 @@
-import { cn, HoustonAvatar } from "@houston-ai/core";
+import { cn, NexoAvatar } from "@nexo-ai/core";
 import { Droplets, Flame, Mountain, Sparkles, Wind } from "lucide-react";
 import type { AgentGalleryItem } from "./agent-gallery";
 import type {
@@ -62,7 +62,7 @@ export function AgentGalleryCard({
       )}
     >
       <div className="flex items-center gap-3 min-w-0">
-        <HoustonAvatar color={item.color} diameter={36} />
+        <NexoAvatar color={item.color} diameter={36} />
         <div className="min-w-0 flex-1">
           <p className="text-sm font-medium text-foreground truncate">
             {item.name}

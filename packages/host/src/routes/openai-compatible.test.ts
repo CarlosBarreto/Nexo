@@ -1,5 +1,5 @@
 import type { Server } from "node:http";
-import type { Capabilities, CustomEndpoint } from "@houston/protocol";
+import type { Capabilities, CustomEndpoint } from "@nexo/protocol";
 import { afterEach, expect, test } from "vitest";
 import { MemoryCredentialStore } from "../credentials/store";
 import type { ChannelCtx, RuntimeChannel, TokenVerifier } from "../ports";

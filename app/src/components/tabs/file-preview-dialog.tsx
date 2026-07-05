@@ -6,7 +6,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { saveBlob } from "../../lib/save-blob";

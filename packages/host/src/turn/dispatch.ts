@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import type { ConversationSummary } from "@houston/runtime-client";
+import type { ConversationSummary } from "@nexo/runtime-client";
 import type { Agent, Workspace } from "../domain/types";
 import type { WorkspaceCredential } from "../ports";
 import { CLOUD_PROVIDERS, isApiKeyProvider, providerName } from "../providers";
@@ -100,7 +100,7 @@ export async function dispatchCloudrun(
       let snapTurn = "";
       let snapSeq = 0;
       const buffered: {
-        e: import("@houston/runtime-client").WireEvent;
+        e: import("@nexo/runtime-client").WireEvent;
         turnId: string;
         seq: number;
       }[] = [];

@@ -43,7 +43,7 @@ export interface SendOptions {
  * `streamEvents(id)`; trigger a turn with `sendMessage(id, text)`. A conversation's
  * events only ever arrive on that conversation's stream — never another's.
  *
- *   const engine = new HoustonEngineClient({ baseUrl: "http://127.0.0.1:4317" });
+ *   const engine = new NexoEngineClient({ baseUrl: "http://127.0.0.1:4317" });
  *   const ac = new AbortController();
  *   engine.streamEvents("abc", {
  *     signal: ac.signal,
@@ -52,7 +52,7 @@ export interface SendOptions {
  *   await engine.sendMessage("abc", "List the files here");
  *   // ac.abort() stops observing; the turn keeps running server-side.
  */
-export class HoustonEngineClient {
+export class NexoEngineClient {
   private base: string;
   private token?: string;
   private fetchImpl: typeof fetch;

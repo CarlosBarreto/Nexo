@@ -17,7 +17,7 @@
  *   already installed, etc). No raw error messages reach the user.
  */
 
-import { Spinner } from "@houston-ai/core";
+import { Spinner } from "@nexo-ai/core";
 import { AlertCircle, Search } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {

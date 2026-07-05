@@ -1,4 +1,4 @@
-import { migrateProviderModel } from "@houston/domain";
+import { migrateProviderModel } from "@nexo/domain";
 import type { Agent, Workspace } from "../../../../ui/engine-client/src/types";
 
 /**

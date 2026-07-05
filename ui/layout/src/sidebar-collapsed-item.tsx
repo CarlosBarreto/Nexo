@@ -3,7 +3,7 @@ import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import type { KeyboardEvent } from "react";
 import type { SidebarItem } from "./sidebar";
 import { sidebarItemRowClasses } from "./sidebar-classes";

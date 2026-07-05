@@ -8,14 +8,14 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { Archive, ArrowLeft, ChevronDown, ListFilter } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { shortcutLabel } from "../lib/shortcuts";
 import type { Agent } from "../lib/types";
 import { MissionSearchInput } from "./mission-search-input";
 import { AgentCardAvatar } from "./shell/agent-card-avatar";
-import { HoustonLogo } from "./shell/experience-card";
+import { NexoLogo } from "./shell/experience-card";
 
 interface MissionControlToolbarProps {
   agents: Agent[];
@@ -169,7 +169,7 @@ export function MissionControlToolbar({
                     onClick={onNewMission}
                     aria-label={t("empty.newMission")}
                   >
-                    <HoustonLogo size={16} />
+                    <NexoLogo size={16} />
                     {!collapsed && t("empty.newMission")}
                   </Button>
                 </TooltipTrigger>

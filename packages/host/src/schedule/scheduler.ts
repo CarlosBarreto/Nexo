@@ -4,8 +4,8 @@ import {
   idleDueAt,
   loadRoutineRuns,
   loadRoutines,
-} from "@houston/domain";
-import type { Routine } from "@houston/protocol";
+} from "@nexo/domain";
+import type { Routine } from "@nexo/protocol";
 import type { Agent, Workspace } from "../domain/types";
 import type { EventHub } from "../events/hub";
 import type { WorkspacePaths } from "../paths";

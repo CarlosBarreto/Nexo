@@ -4,7 +4,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { Check, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { KanbanItem } from "./types";

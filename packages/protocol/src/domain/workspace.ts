@@ -33,7 +33,7 @@ export interface Agent {
   name: string;
   /**
    * The agent's opaque key, used by the UI to scope feeds/queries and by
-   * HoustonEvent.agentPath. Local profile: the real on-disk folder path.
+   * NexoEvent.agentPath. Local profile: the real on-disk folder path.
    * Cloud profile: a stable synthetic key. Treat as opaque everywhere.
    */
   folderPath: string;

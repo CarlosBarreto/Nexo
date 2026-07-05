@@ -1,4 +1,4 @@
-import { Input } from "@houston-ai/core";
+import { Input } from "@nexo-ai/core";
 import { Loader2, Search, X } from "lucide-react";
 import { useLayoutEffect, useRef, useState } from "react";
 

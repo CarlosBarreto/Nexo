@@ -4,7 +4,7 @@ import type {
   EpisodeSummary,
   MemoryFact,
   MemoryGoal,
-} from "@houston/protocol";
+} from "@nexo/protocol";
 import { parse as parseYaml, stringify as stringifyYaml } from "yaml";
 import { loadLearnings } from "./config";
 import { docKey } from "./layout";

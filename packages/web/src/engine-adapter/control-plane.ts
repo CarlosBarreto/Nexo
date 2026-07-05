@@ -1,4 +1,4 @@
-import { HoustonEngineClient } from "@houston/runtime-client";
+import { NexoEngineClient } from "@nexo/runtime-client";
 import type {
   Activity,
   ActivityUpdate,
@@ -10,7 +10,7 @@ import type {
   SkillSummary,
   Workspace,
 } from "../../../../ui/engine-client/src/types";
-import { HoustonEngineError } from "./client";
+import { NexoEngineError } from "./client";
 import { DEFAULT_AGENT_COLOR, DEFAULT_AGENT_CONFIG_ID } from "./synthetic";
 
 /**
@@ -20,7 +20,7 @@ import { DEFAULT_AGENT_COLOR, DEFAULT_AGENT_CONFIG_ID } from "./synthetic";
  * runtime). Agents are REAL — the user's personal workspace, served by
  * `GET/POST/PATCH/DELETE /agents` — and a conversation is proxied to that agent's
  * sandbox via `/agents/:id/conversations/:cid/*`, which mirrors the runtime's own
- * wire contract. So chat reuses the exact same `HoustonEngineClient` + `streamTurn`
+ * wire contract. So chat reuses the exact same `NexoEngineClient` + `streamTurn`
  * path; we just point the client at `${baseUrl}/agents/${agentId}`.
  *
  * Auth is the caller's Supabase access token (the control plane verifies it).
@@ -155,7 +155,7 @@ async function cpFetch(
   if (!res.ok) {
     // Surface the real failure (auth, not-found, server) — never swallow.
     const body = await res.json().catch(() => ({}));
-    throw new HoustonEngineError(res.status, body);
+    throw new NexoEngineError(res.status, body);
   }
   return res;
 }
@@ -208,7 +208,7 @@ export async function updateAgentColor(
   const res = await cpFetch(cfg, "/agents");
   const found = ((await res.json()) as CpAgent[]).find((a) => a.id === agentId);
   if (!found)
-    throw new HoustonEngineError(404, {
+    throw new NexoEngineError(404, {
       error: { message: "agent not found" },
     });
   return toUiAgent(found);
@@ -314,8 +314,8 @@ export async function setCustomEndpoint(
 export function runtimeClientFor(
   cfg: ControlPlaneConfig,
   agentId: string,
-): HoustonEngineClient {
-  return new HoustonEngineClient({
+): NexoEngineClient {
+  return new NexoEngineClient({
     baseUrl: `${cfg.baseUrl}/agents/${encodeURIComponent(agentId)}`,
     token: liveToken(cfg.token) || undefined,
   });
@@ -714,7 +714,7 @@ export async function setIntegrationSession(
     // 404 = this deployment has no gateway session sink (the cloud host
     // verifies JWTs itself) — a legitimate shape, not a failure. Anything
     // else (network, 5xx) rethrows and the caller surfaces it.
-    if (err instanceof HoustonEngineError && err.status === 404) return;
+    if (err instanceof NexoEngineError && err.status === 404) return;
     throw err;
   }
 }

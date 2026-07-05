@@ -16,7 +16,7 @@ export const COMPOSIO_ALREADY_CONNECTED_KIND = "composio_already_connected";
 
 /**
  * True when a thrown engine error means the toolkit is already connected.
- * Reads the typed `.kind` exposed by `HoustonEngineError` (and tolerates a
+ * Reads the typed `.kind` exposed by `NexoEngineError` (and tolerates a
  * plain `{ kind }` object), so it never depends on parsing message strings.
  */
 export function isAlreadyConnectedError(err: unknown): boolean {

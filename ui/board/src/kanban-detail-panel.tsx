@@ -1,4 +1,4 @@
-import { cn } from "@houston-ai/core";
+import { cn } from "@nexo-ai/core";
 import { Loader2, XIcon } from "lucide-react";
 import { forwardRef } from "react";
 

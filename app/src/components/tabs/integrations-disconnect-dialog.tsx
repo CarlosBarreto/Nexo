@@ -1,4 +1,4 @@
-import { ConfirmDialog } from "@houston-ai/core";
+import { ConfirmDialog } from "@nexo-ai/core";
 import { useTranslation } from "react-i18next";
 import type { AppDisplay } from "./integrations-app-display";
 

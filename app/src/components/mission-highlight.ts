@@ -1,4 +1,4 @@
-import type { HighlightRange } from "@houston-ai/core";
+import type { HighlightRange } from "@nexo-ai/core";
 
 /** A matched fragment shown below a mission in search results. `text` is the
  *  display string; `ranges` index into it for `<HighlightedText>`. */

@@ -1,4 +1,4 @@
-import type { KanbanColumnConfig, KanbanItem } from "@houston-ai/board";
+import type { KanbanColumnConfig, KanbanItem } from "@nexo-ai/board";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { moveTargetsForSection } from "../../lib/mission-selection";

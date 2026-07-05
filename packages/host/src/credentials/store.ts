@@ -8,7 +8,7 @@ import type { CredentialStore, WorkspaceCredential } from "../ports";
  * refresh token), so there is no per-agent refresh-token-rotation conflict.
  *
  * MemoryCredentialStore backs dev/tests; the live Postgres adapter
- * (PgCredentialStore) lives in `@houston/host-cloud` (credentials/store-pg.ts) —
+ * (PgCredentialStore) lives in `@nexo/host-cloud` (credentials/store-pg.ts) —
  * same interface, same semantics. The two are held to one shared contract
  * (credentials/contract.test.ts → runCredentialStoreContract).
  */

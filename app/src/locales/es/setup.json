@@ -1,6 +1,6 @@
 {
   "welcome": {
-    "title": "Bienvenido a Houston",
+    "title": "Bienvenido a Nexo",
     "tagline": "Haz lo imposible.",
     "getStarted": "Empezar"
   },
@@ -11,7 +11,7 @@
   },
   "provider": {
     "title": "Conecta tu IA",
-    "description": "Houston usa <emph>tu propia</emph> suscripción. Nunca vemos tus credenciales.",
+    "description": "Nexo usa <emph>tu propia</emph> suscripción. Nunca vemos tus credenciales.",
     "finishPage": "Empezar",
     "finishDialog": "Crear espacio de trabajo"
   },
@@ -22,7 +22,7 @@
     "dismissError": "No pudimos guardar eso. Inténtalo de nuevo."
   },
   "tutorial": {
-    "brand": "Houston",
+    "brand": "Nexo",
     "nav": {
       "back": "Atrás",
       "continue": "Continuar"
@@ -35,8 +35,8 @@
       "setupFailed": "No pudimos terminar de configurar tu espacio de trabajo. Inténtalo de nuevo."
     },
     "welcome": {
-      "title": "Bienvenido a Houston",
-      "tagline": "Houston es donde construyes agentes que trabajan con las mismas apps que ya usas.",
+      "title": "Bienvenido a Nexo",
+      "tagline": "Nexo es donde construyes agentes que trabajan con las mismas apps que ya usas.",
       "stepsTitle": "Una configuración rápida para poner a trabajar a tu agente:",
       "steps": {
         "meet": "Conoce a tu agente",
@@ -79,10 +79,10 @@
       },
       "brain": {
         "title": "Inicia sesión en tu suscripción de IA",
-        "body": "Elige la IA que ya pagas. Tú traes tu propia suscripción, así que Houston nunca ve tu contraseña ni tu factura.",
+        "body": "Elige la IA que ya pagas. Tú traes tu propia suscripción, así que Nexo nunca ve tu contraseña ni tu factura.",
         "continue": "Crear mi asistente",
         "creating": "Creando",
-        "continueHint": "Houston creará tu asistente y abrirá la siguiente misión."
+        "continueHint": "Nexo creará tu asistente y abrirá la siguiente misión."
       },
       "providerLogin": {
         "title": "Inicia sesión en {{provider}}",
@@ -100,7 +100,7 @@
         "body": "Tu agente trabaja con apps como Gmail y tu calendario a través de Composio, un proveedor de integraciones seguro. Una sola cuenta le permite conectar cualquier app, solo cuando la necesitas.",
         "steps": {
           "account": "Crea tu cuenta de Composio",
-          "authorize": "Autoriza a Houston para conectar"
+          "authorize": "Autoriza a Nexo para conectar"
         },
         "allow": "Iniciar sesión",
         "waiting": "Esperándote en tu navegador...",
@@ -125,7 +125,7 @@
         "placeholder": "Responde a tu agente...",
         "body": "Tu agente te enviará un correo real, para que lo veas funcionar.",
         "skip": "Omitir por ahora",
-        "skipHint": "Tu agente terminó pero no confirmó. Puedes omitir y empezar a usar Houston."
+        "skipHint": "Tu agente terminó pero no confirmó. Puedes omitir y empezar a usar Nexo."
       },
       "aiConnected": {
         "title": "¡Tu IA está conectada!",
@@ -163,7 +163,7 @@
       "finished": {
         "title": "¡Todo listo!",
         "body": "Tu agente está listo. ¿Qué quieres hacer ahora?",
-        "tour": "Hacer un recorrido por Houston",
+        "tour": "Hacer un recorrido por Nexo",
         "tourBody": "Un repaso rápido de lo básico.",
         "connectMore": "Conectar más apps",
         "connectMoreBody": "Dale a tu agente acceso a más de tus herramientas."
@@ -177,7 +177,7 @@
         "title": "Prueba una misión real",
         "intro": {
           "title": "Trabaja con tu primer agente",
-          "body": "En Houston, tus agentes se conectan a tus herramientas reales para hacer el trabajo por ti.",
+          "body": "En Nexo, tus agentes se conectan a tus herramientas reales para hacer el trabajo por ti.",
           "cta": "Probémoslo"
         },
         "doneTitle": "Lo lograste. Primera misión completada.",
@@ -223,7 +223,7 @@
         "placeholder": "Responde a tu asistente...",
         "done": {
           "title": "Tu Rutina está lista",
-          "subtitle": "Houston ejecutará esto automáticamente en el horario que elegiste.",
+          "subtitle": "Nexo ejecutará esto automáticamente en el horario que elegiste.",
           "everyWeekdayAt": "Cada día laboral a las {{time}}",
           "runsSkill": "Ejecuta tu Habilidad {{skill}}",
           "manualHint": "También puedes crear rutinas desde la pestaña Rutinas o pedirle a cualquier agente que las cree."
@@ -236,7 +236,7 @@
         "routineCardTitle": "Rutina",
         "noSkill": "Ninguna Habilidad guardada",
         "noRoutine": "Ninguna Rutina guardada",
-        "continueChip": "Entra a Houston"
+        "continueChip": "Entra a Nexo"
       }
     },
     "sectionCounter": "{{section}} · {{current}} de {{total}}",

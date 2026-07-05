@@ -1,4 +1,4 @@
-import type { NewRoutine, Routine, RoutineRun } from "@houston/protocol";
+import type { NewRoutine, Routine, RoutineRun } from "@nexo/protocol";
 
 /**
  * The instant an idle ("dream") routine becomes due: lastActivity +

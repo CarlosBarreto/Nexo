@@ -14,7 +14,7 @@ import type {
   ConversationSummary,
   TokenUsage,
   ToolCallRecord,
-} from "@houston/runtime-client";
+} from "@nexo/runtime-client";
 
 /**
  * Pure, dir-parameterized conversation file logic: one JSON file per

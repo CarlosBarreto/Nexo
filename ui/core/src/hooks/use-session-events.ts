@@ -2,18 +2,18 @@
  * Base hook for subscribing to houston-tauri backend events.
  *
  * Uses a ref-based handler pattern to avoid the race condition in
- * useHoustonEvent (where handler recreation tears down and re-registers
+ * useNexoEvent (where handler recreation tears down and re-registers
  * the listener, causing missed events).
  *
  * Apps pass their own `listen` function from `@tauri-apps/api/event`
- * so @houston-ai/core doesn't need a build-time dependency on Tauri.
+ * so @nexo-ai/core doesn't need a build-time dependency on Tauri.
  *
  * Handles the core events (FeedItem, SessionStatus, Toast) and calls
  * an optional `onEvent` callback for app-specific event handling.
  */
 
 import { useEffect, useRef } from "react";
-import type { HoustonEvent } from "../types";
+import type { NexoEvent } from "../types";
 
 /** Tauri listen function signature. */
 export type TauriListenFn = <T>(
@@ -33,7 +33,7 @@ export interface SessionEventsHandlers {
   /** Returns the active (agentPath, sessionKey) pair for desktop-dupe filtering. */
   getActiveSession?: () => { agentPath: string; sessionKey: string } | null;
   /** Called for app-specific events not handled by the base hook. */
-  onEvent?: (event: HoustonEvent) => void;
+  onEvent?: (event: NexoEvent) => void;
 }
 
 /**
@@ -51,57 +51,51 @@ export function useSessionEvents(handlers: SessionEventsHandlers): void {
   ref.current = handlers;
 
   useEffect(() => {
-    const unlisten = ref.current.listen<HoustonEvent>(
-      "houston-event",
-      (event) => {
-        const h = ref.current;
-        const payload = event.payload;
+    const unlisten = ref.current.listen<NexoEvent>("houston-event", (event) => {
+      const h = ref.current;
+      const payload = event.payload;
 
-        switch (payload.type) {
-          case "FeedItem": {
-            const { agent_path, session_key } = payload.data;
-            const active = h.getActiveSession?.() ?? null;
-            const isDesktopDupe =
-              active?.agentPath === agent_path &&
-              active?.sessionKey === session_key &&
-              (payload.data.item as { feed_type: string }).feed_type ===
-                "user_message";
-            if (!isDesktopDupe) {
-              h.onFeedItem(
-                agent_path,
-                session_key,
-                payload.data.item as { feed_type: string; data: unknown },
-              );
-            }
-            break;
-          }
-          case "SessionStatus":
-            if (payload.data.status === "error" && payload.data.error) {
-              // Echo the session-status error as a feed item so an un-carded
-              // failure is never silent. When a typed error card already covered
-              // the turn, this redundant raw line is suppressed downstream in
-              // `feed-to-messages` (`isSessionErrorEcho`) — keep the
-              // "Session error:" prefix in sync with that matcher.
-              h.onFeedItem(payload.data.agent_path, payload.data.session_key, {
-                feed_type: "system_message",
-                data: `Session error: ${payload.data.error}`,
-              });
-            }
-            h.onEvent?.(payload);
-            break;
-          case "Toast":
-            console.log(
-              `[toast:${payload.data.variant}]`,
-              payload.data.message,
+      switch (payload.type) {
+        case "FeedItem": {
+          const { agent_path, session_key } = payload.data;
+          const active = h.getActiveSession?.() ?? null;
+          const isDesktopDupe =
+            active?.agentPath === agent_path &&
+            active?.sessionKey === session_key &&
+            (payload.data.item as { feed_type: string }).feed_type ===
+              "user_message";
+          if (!isDesktopDupe) {
+            h.onFeedItem(
+              agent_path,
+              session_key,
+              payload.data.item as { feed_type: string; data: unknown },
             );
-            h.onEvent?.(payload);
-            break;
-          default:
-            h.onEvent?.(payload);
-            break;
+          }
+          break;
         }
-      },
-    );
+        case "SessionStatus":
+          if (payload.data.status === "error" && payload.data.error) {
+            // Echo the session-status error as a feed item so an un-carded
+            // failure is never silent. When a typed error card already covered
+            // the turn, this redundant raw line is suppressed downstream in
+            // `feed-to-messages` (`isSessionErrorEcho`) — keep the
+            // "Session error:" prefix in sync with that matcher.
+            h.onFeedItem(payload.data.agent_path, payload.data.session_key, {
+              feed_type: "system_message",
+              data: `Session error: ${payload.data.error}`,
+            });
+          }
+          h.onEvent?.(payload);
+          break;
+        case "Toast":
+          console.log(`[toast:${payload.data.variant}]`, payload.data.message);
+          h.onEvent?.(payload);
+          break;
+        default:
+          h.onEvent?.(payload);
+          break;
+      }
+    });
 
     return () => {
       unlisten.then((fn) => fn());

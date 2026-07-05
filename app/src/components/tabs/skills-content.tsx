@@ -4,8 +4,8 @@ import {
   EmptyHeader,
   EmptyTitle,
   Spinner,
-} from "@houston-ai/core";
-import { AddSkillDialog } from "@houston-ai/skills";
+} from "@nexo-ai/core";
+import { AddSkillDialog } from "@nexo-ai/skills";
 import { Plus } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";

@@ -1,4 +1,4 @@
-import { Button, Separator } from "@houston-ai/core";
+import { Button, Separator } from "@nexo-ai/core";
 import { isTauri } from "@tauri-apps/api/core";
 import { type FormEvent, useEffect, useState } from "react";
 import {
@@ -8,7 +8,7 @@ import {
 } from "../../lib/auth";
 import { reportBug } from "../../lib/bug-report";
 import { logger } from "../../lib/logger";
-import { HoustonLogo } from "../shell/experience-card";
+import { NexoLogo } from "../shell/experience-card";
 import { prettifyAuthError } from "./auth-errors";
 import { EmailSignIn } from "./email-sign-in";
 
@@ -29,7 +29,7 @@ type Provider = "google";
  *
  * `allowManualCallback` (HOU-621) surfaces the paste-the-code fallback. The
  * cloud/remote gate passes it always (the connecting build may not own the
- * `houston://` scheme and can't receive the deep-link callback); the local
+ * `nexo://` scheme and can't receive the deep-link callback); the local
  * account login passes it only in dev builds (#146: a dev callback opens the
  * installed prod app), so production standalone shows no manual step.
  *
@@ -52,7 +52,7 @@ export function SignInScreen({
     "idle",
   );
   const [logsIssueId, setLogsIssueId] = useState<string | null>(null);
-  // Dev-only manual completion (the `houston://` deep link opens the installed
+  // Dev-only manual completion (the `nexo://` deep link opens the installed
   // production app, so a dev build never receives the callback).
   const [devCode, setDevCode] = useState("");
   const [devExchanging, setDevExchanging] = useState(false);
@@ -122,9 +122,9 @@ export function SignInScreen({
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-background text-foreground px-6">
       <div className="flex flex-col items-center gap-6 max-w-sm w-full">
-        <HoustonLogo size={48} />
+        <NexoLogo size={48} className="text-primary" />
         <div className="text-center">
-          <h1 className="text-2xl font-semibold">Welcome to Houston</h1>
+          <h1 className="text-2xl font-semibold">Welcome to Nexo</h1>
           <p className="text-sm text-muted-foreground mt-2">
             Sign in to save your agents and keep everything in sync.
           </p>
@@ -187,7 +187,7 @@ export function SignInScreen({
         </div>
 
         {/* Manual sign-in completion for the cloud/remote flow (HOU-621). The
-         * `houston://auth-callback` deep link routes to the INSTALLED app that
+         * `nexo://auth-callback` deep link routes to the INSTALLED app that
          * owns the `houston` scheme, which is not necessarily the build that is
          * pointed at the remote engine (e.g. a `pnpm start` dev build alongside
          * the installed production app). Paste the code (or the full callback
@@ -206,7 +206,7 @@ export function SignInScreen({
             <input
               value={devCode}
               onChange={(e) => setDevCode(e.target.value)}
-              placeholder="code or https://gethouston.ai/auth/callback?code=..."
+              placeholder="code or https://getnexo.ai/auth/callback?code=..."
               autoComplete="off"
               spellCheck={false}
               className="w-full rounded-md border border-border bg-background px-3 h-9 text-xs"

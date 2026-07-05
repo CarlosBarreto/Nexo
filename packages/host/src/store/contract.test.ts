@@ -10,7 +10,7 @@ import { MemoryWorkspaceStore } from "./memory";
  * The OPEN WorkspaceStore adapters (Memory + Local) run through the shared
  * contract (../testing/store-contract.ts → runWorkspaceStoreContract). The CLOSED
  * PgWorkspaceStore runs the SAME contract over an in-process Postgres (pg-mem) in
- * `@houston/host-cloud` (store/pg.contract.test.ts) — the contract function lives
+ * `@nexo/host-cloud` (store/pg.contract.test.ts) — the contract function lives
  * on the open side of the seam; only the adapters differ.
  *
  * The divergence block below pins the per-impl behaviors that are NOT part of the

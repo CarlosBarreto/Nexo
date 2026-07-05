@@ -18,7 +18,7 @@
  * placement stays consistent with the rest of the pill.
  */
 
-import { AsyncButton } from "@houston-ai/core";
+import { AsyncButton } from "@nexo-ai/core";
 import { Loader2 } from "lucide-react";
 import type { ReactNode } from "react";
 

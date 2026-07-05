@@ -4,7 +4,7 @@
 # Postgres + the cluster, never here.
 #
 # The entry is `packages/host-cloud/src/main.ts` (the CLOUD wiring point). It
-# depends on `@houston/host` (the OPEN server builder + ports) and sibling pnpm
+# depends on `@nexo/host` (the OPEN server builder + ports) and sibling pnpm
 # workspace packages.
 #
 # BUILD CONTEXT MUST BE THE MONOREPO ROOT:
@@ -25,7 +25,7 @@ COPY packages/domain/ ./packages/domain/
 COPY packages/host/ ./packages/host/
 COPY packages/host-cloud/ ./packages/host-cloud/
 
-RUN pnpm install --frozen-lockfile --prod --filter @houston/host-cloud...
+RUN pnpm install --frozen-lockfile --prod --filter @nexo/host-cloud...
 
 # ---------- Runtime stage ----------
 FROM node:22-bookworm-slim AS runtime

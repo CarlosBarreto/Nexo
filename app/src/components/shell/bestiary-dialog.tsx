@@ -1,11 +1,11 @@
-import { AgentGallery, type AgentGalleryItem } from "@houston-ai/agent";
+import { AgentGallery, type AgentGalleryItem } from "@nexo-ai/agent";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   resolveAgentColor,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useSouls } from "../../hooks/queries/use-souls";

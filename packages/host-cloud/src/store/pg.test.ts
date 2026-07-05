@@ -1,4 +1,4 @@
-import type { WorkspaceStore } from "@houston/host/src/ports";
+import type { WorkspaceStore } from "@nexo/host/src/ports";
 import { expect, test } from "vitest";
 import { PgWorkspaceStore } from "./pg";
 

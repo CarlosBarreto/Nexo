@@ -4,7 +4,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { useTranslation } from "react-i18next";
 import { shortcutLabel } from "../lib/shortcuts";
 import { useUIStore } from "../stores/ui";

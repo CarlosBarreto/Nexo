@@ -24,7 +24,7 @@ export interface SessionPair {
 
 /** The v3 transcript message — mirrors runtime's ChatMessage
  * (packages/protocol/src/conversation.ts). Re-declared here rather than imported
- * because the transcript file is written directly, not via @houston/runtime. */
+ * because the transcript file is written directly, not via @nexo/runtime. */
 export interface TranscriptMessage {
   role: "user" | "assistant";
   content: string;

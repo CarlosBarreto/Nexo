@@ -1,4 +1,4 @@
-import { TooltipProvider } from "@houston-ai/core";
+import { TooltipProvider } from "@nexo-ai/core";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Component, type ReactNode, useEffect } from "react";
 import { createRoot } from "react-dom/client";

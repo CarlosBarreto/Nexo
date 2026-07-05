@@ -20,7 +20,7 @@
 //!   when the parent's pipe write-end closes on death. On **Windows that
 //!   does not work**: `TerminateProcess` (force-quit, crash, Task Manager
 //!   "End task") never delivers stdin EOF to the child, so the watchdog
-//!   blocks forever and the engine orphaned (gethouston/houston#306).
+//!   blocks forever and the engine orphaned (getnexo/nexo#306).
 //!   Windows instead binds the engine to a kill-on-close **Job Object**
 //!   (see the `win_job` module): when the app process dies the OS closes the job
 //!   handle and the kernel terminates the engine and every process it
@@ -230,7 +230,7 @@ impl EngineSubprocess {
         // stdin-EOF watchdog covers Unix but NOT Windows —
         // `TerminateProcess` (force-quit / crash) never delivers EOF to a
         // child's piped stdin, so the watchdog would block forever and the
-        // engine orphaned (gethouston/houston#306). Assigned immediately
+        // engine orphaned (getnexo/nexo#306). Assigned immediately
         // after spawn: the engine spawns no subprocess in the microseconds
         // before assignment (its first child processes run on tokio
         // blocking tasks, many ms later), so the whole subtree is covered.
@@ -677,7 +677,7 @@ mod libc {
 /// watchdog (`spawn_parent_watchdog`) is Unix-only in effect: on Windows
 /// `TerminateProcess` (force-quit, crash, Task Manager "End task") does not
 /// deliver EOF to the child's piped stdin, so the watchdog never fires and
-/// the engine orphaned (gethouston/houston#306). A kill-on-close job is
+/// the engine orphaned (getnexo/nexo#306). A kill-on-close job is
 /// kernel-enforced and fires on every death mode.
 #[cfg(windows)]
 mod win_job {

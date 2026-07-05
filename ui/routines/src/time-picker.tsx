@@ -16,7 +16,7 @@
  * given `locale`. The scroll columns live in time-picker-columns.tsx.
  */
 
-import { cn, Popover, PopoverContent, PopoverTrigger } from "@houston-ai/core";
+import { cn, Popover, PopoverContent, PopoverTrigger } from "@nexo-ai/core";
 import { Clock } from "lucide-react";
 import { formatTime, parseTime } from "./schedule-format.ts";
 import { labelClass } from "./schedule-picker-fields.tsx";

@@ -3,7 +3,7 @@
  * SVGs designed to match Finder's 16x16 list-view icons.
  */
 
-import { cn } from "@houston-ai/core";
+import { cn } from "@nexo-ai/core";
 import type { ReactNode } from "react";
 
 const IC = "size-4 shrink-0";

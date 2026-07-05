@@ -3,7 +3,7 @@ import {
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 
 export interface EventEmptyProps {
   /** @deprecated use `description` instead */

@@ -28,7 +28,7 @@ export interface LocalePreferenceState {
   /**
    * True until the GLOBAL preference has resolved AND been applied. The
    * per-workspace override is applied on arrival and NEVER holds the first
-   * paint — blocking on it hung the app on launch (gethouston/houston#439).
+   * paint — blocking on it hung the app on launch (getnexo/nexo#439).
    */
   isLoading: boolean;
   /**
@@ -85,7 +85,7 @@ export function useLocalePreference(): LocalePreferenceState {
   // when it is slow or never settles it is applied on arrival instead. It is
   // best-effort and MUST NOT gate the paint: see `localeGateIsLoading` and the
   // apply effect below. Blocking the gate on this query hung the app on launch
-  // (a non-settling GET /workspaces never released the gate, gethouston/houston#439).
+  // (a non-settling GET /workspaces never released the gate, getnexo/nexo#439).
   // A rejecting fetch logs and resolves null (the real error surfaces via the
   // store's loadWorkspaces), so boot falls back to the global default.
   const bootWorkspaceQuery = useQuery({
@@ -122,7 +122,7 @@ export function useLocalePreference(): LocalePreferenceState {
   // includes the boot workspace override landing LATER (apply-on-arrival) and
   // the user switching into a workspace that pins a different language. We do
   // NOT wait on `bootWorkspaceQuery` here: gating the first paint on it hung
-  // the app when GET /workspaces never settled (gethouston/houston#439).
+  // the app when GET /workspaces never settled (getnexo/nexo#439).
   // Applying is best-effort — the i18next detector already picked a valid
   // language — so a failure must NOT hold the gate: always un-gate in
   // `finally`, and log (never silently swallow) on error.

@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { analytics } from "../../lib/analytics";
 import { useUIStore } from "../../stores/ui";
-import { HoustonLogo } from "../shell/experience-card";
+import { NexoLogo } from "../shell/experience-card";
 import { ProviderPicker } from "../shell/provider-picker";
 
 interface MigrationReconnectScreenProps {
@@ -49,7 +49,7 @@ export function MigrationReconnectScreen({
   return (
     <div className="flex h-screen flex-col items-center justify-center bg-background px-6 text-foreground">
       <div className="flex w-full max-w-md flex-col items-center gap-6 text-center">
-        <HoustonLogo size={56} />
+        <NexoLogo size={56} />
         <h1 className="text-[28px] font-normal leading-tight">
           {t("migrationReconnect.title")}
         </h1>

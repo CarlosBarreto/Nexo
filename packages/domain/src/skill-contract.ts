@@ -2,7 +2,7 @@ import type {
   SkillContract,
   SkillFieldSpec,
   SkillFieldType,
-} from "@houston/protocol";
+} from "@nexo/protocol";
 import { parse as parseToml } from "smol-toml";
 import { skillDirKey } from "./skills";
 import type { DocDiagnostic, TextStore } from "./store";

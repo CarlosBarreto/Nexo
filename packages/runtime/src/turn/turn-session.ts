@@ -13,7 +13,7 @@ import type {
   TokenUsage,
   ToolCallRecord,
   WireEvent,
-} from "@houston/runtime-client";
+} from "@nexo/runtime-client";
 import { DEFAULT_REASONING_EFFORT, toThinkingLevel } from "../ai/effort";
 import { providerDefaultModel, safeGetModel } from "../ai/providers";
 import { config } from "../config";

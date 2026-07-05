@@ -3,7 +3,7 @@ import {
   isSoulElement,
   SOUL_ELEMENTS,
   type SoulElement,
-} from "@houston/protocol";
+} from "@nexo/protocol";
 import { docKey } from "./layout";
 import {
   type DocDiagnostic,

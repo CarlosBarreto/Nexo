@@ -7,9 +7,9 @@ import type { Vfs } from "../vfs/vfs";
  * local (FsVfs) and cloud (GcsVfs/MemoryVfs) cannot quietly diverge in file
  * semantics.
  *
- * Exported from `@houston/host` (OPEN) so BOTH the open adapter suite
+ * Exported from `@nexo/host` (OPEN) so BOTH the open adapter suite
  * (vfs/contract.test.ts: Memory/Fs) AND the closed adapter suite in
- * `@houston/host-cloud` (vfs/gcs.contract.test.ts: GcsVfs against a real object
+ * `@nexo/host-cloud` (vfs/gcs.contract.test.ts: GcsVfs against a real object
  * store, env-gated on HOUSTON_GCS_TEST_BUCKET) run the SAME assertions. It is
  * never faked green.
  */

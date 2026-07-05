@@ -6,8 +6,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@houston-ai/core";
-import type { OrgRole } from "@houston-ai/engine-client";
+} from "@nexo-ai/core";
+import type { OrgRole } from "@nexo-ai/engine-client";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAddMember } from "../../../hooks/queries";

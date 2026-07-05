@@ -35,10 +35,10 @@ export interface ClaudeInstallError {
 /**
  * Events emitted from the Rust backend via houston-tauri.
  *
- * Mirrors the Rust `HoustonEvent` enum in `houston-tauri/src/events.rs`.
+ * Mirrors the Rust `NexoEvent` enum in `houston-tauri/src/events.rs`.
  * Apps can extend this with app-specific event types.
  */
-export type HoustonEvent =
+export type NexoEvent =
   | {
       type: "FeedItem";
       data: {

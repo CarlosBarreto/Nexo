@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, cn, ScrollArea, ScrollBar } from "@houston-ai/core";
+import { Button, cn, ScrollArea, ScrollBar } from "@nexo-ai/core";
 import type { ComponentProps } from "react";
 import { useCallback } from "react";
 

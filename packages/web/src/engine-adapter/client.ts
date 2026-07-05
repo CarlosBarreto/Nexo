@@ -1,9 +1,9 @@
-import { migrateProviderModel } from "@houston/domain";
+import { migrateProviderModel } from "@nexo/domain";
 import {
   type CustomEndpoint,
-  HoustonEngineClient,
+  NexoEngineClient,
   type ProviderId,
-} from "@houston/runtime-client";
+} from "@nexo/runtime-client";
 import type {
   Activity,
   ActivityUpdate,
@@ -48,20 +48,20 @@ import {
 } from "./synthetic";
 import { historyToFeed, streamTurn } from "./translate";
 
-export interface HoustonClientOptions {
+export interface NexoClientOptions {
   baseUrl: string;
   token: string;
   /** When true, route agents + chat through the Houston control plane (cloud). */
   controlPlane?: boolean;
 }
 
-export class HoustonEngineError extends Error {
+export class NexoEngineError extends Error {
   constructor(
     public status: number,
     public body: unknown,
   ) {
     super(`engine error ${status}`);
-    this.name = "HoustonEngineError";
+    this.name = "NexoEngineError";
   }
   get code(): string | undefined {
     return (this.body as { error?: { code?: string } })?.error?.code;
@@ -70,19 +70,19 @@ export class HoustonEngineError extends Error {
     return (this.body as { error?: { kind?: string } })?.error?.kind;
   }
 }
-export function isHoustonEngineError(e: unknown): e is HoustonEngineError {
-  return e instanceof HoustonEngineError;
+export function isNexoEngineError(e: unknown): e is NexoEngineError {
+  return e instanceof NexoEngineError;
 }
 
 /**
- * Drop-in replacement for `@houston-ai/engine-client`'s HoustonClient, backed by
+ * Drop-in replacement for `@nexo-ai/engine-client`'s NexoClient, backed by
  * the new TS engine. Boot/chat/auth map to the new engine; a single synthetic
  * workspace holds localStorage-backed agents, their `.houston/**` files, and
  * their boards; unsupported domains are stubbed (empty) by the Proxy fallback so
  * navigation never hits an undefined method.
  */
-export class HoustonClient {
-  private engine: HoustonEngineClient;
+export class NexoClient {
+  private engine: NexoEngineClient;
   private baseUrl: string;
   private token: string;
   /** Non-null in cloud mode: agents + chat go through the control plane. */
@@ -92,7 +92,7 @@ export class HoustonClient {
   /** Per-provider auth-status pollers that translate login completion into events (local mode). */
   private loginWatchers = new Map<string, ReturnType<typeof setInterval>>();
 
-  constructor(opts: HoustonClientOptions) {
+  constructor(opts: NexoClientOptions) {
     this.baseUrl = opts.baseUrl.replace(/\/+$/, "");
     this.token = opts.token;
     const useCp =
@@ -101,27 +101,27 @@ export class HoustonClient {
     this.cp = useCp
       ? { baseUrl: opts.baseUrl.replace(/\/+$/, ""), token: opts.token }
       : null;
-    this.engine = new HoustonEngineClient({
+    this.engine = new NexoEngineClient({
       baseUrl: opts.baseUrl,
       token: opts.token || undefined,
     });
     // Mark the new TS engine as the active backend so the frontend can surface
     // new-engine-only capabilities (e.g. API-key providers like OpenCode). The
-    // Rust engine uses the real `@houston-ai/engine-client`, never this adapter,
+    // Rust engine uses the real `@nexo-ai/engine-client`, never this adapter,
     // so the flag stays unset there.
     if (typeof window !== "undefined") {
       (
         window as unknown as { __HOUSTON_NEW_ENGINE__?: boolean }
       ).__HOUSTON_NEW_ENGINE__ = true;
     }
-    // biome-ignore lint/correctness/noConstructorReturn: Proxy provides transparent fallback stubs for unsupported HoustonClient methods; callers use `new HoustonClient()` directly so a static factory would require changes across many files outside this module.
+    // biome-ignore lint/correctness/noConstructorReturn: Proxy provides transparent fallback stubs for unsupported NexoClient methods; callers use `new NexoClient()` directly so a static factory would require changes across many files outside this module.
     return new Proxy(this, {
       get(target, prop, recv) {
         if (prop in target || typeof prop === "symbol")
           return Reflect.get(target, prop, recv);
         return async () => {
           console.warn(
-            `[engine-adapter] unsupported HoustonClient.${String(prop)}() → []`,
+            `[engine-adapter] unsupported NexoClient.${String(prop)}() → []`,
           );
           return [];
         };
@@ -181,7 +181,7 @@ export class HoustonClient {
   }
   /** Runtime client for provider/auth calls: the selected agent's sandbox in cloud
    *  (null until an agent is selected), the single runtime locally. */
-  private providerEngine(): HoustonEngineClient | null {
+  private providerEngine(): NexoEngineClient | null {
     if (!this.cp) return this.engine;
     const id = this.currentAgentId();
     return id ? controlPlane.runtimeClientFor(this.cp, id) : null;
@@ -206,7 +206,7 @@ export class HoustonClient {
     });
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
-      throw new HoustonEngineError(res.status, body);
+      throw new NexoEngineError(res.status, body);
     }
     return (await res.json()) as Capabilities;
   }
@@ -500,10 +500,7 @@ export class HoustonClient {
       },
     );
     if (!res.ok)
-      throw new HoustonEngineError(
-        res.status,
-        await res.json().catch(() => ({})),
-      );
+      throw new NexoEngineError(res.status, await res.json().catch(() => ({})));
     return res;
   }
   async listProjectFiles(agentPath: string): Promise<ProjectFile[]> {

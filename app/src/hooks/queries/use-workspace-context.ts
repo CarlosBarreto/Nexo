@@ -1,4 +1,4 @@
-import type { WorkspaceContext } from "@houston-ai/engine-client";
+import type { WorkspaceContext } from "@nexo-ai/engine-client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { tauriWorkspaces } from "../../lib/tauri";
 

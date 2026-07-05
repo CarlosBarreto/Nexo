@@ -7,7 +7,7 @@
  * All visible text arrives via props so the package stays i18n-agnostic;
  * weekday names come from `Intl` in the given `locale`.
  */
-import { cn } from "@houston-ai/core";
+import { cn } from "@nexo-ai/core";
 import { longWeekdayNames, narrowWeekdayNames } from "./schedule-format.ts";
 
 const inputClass = cn(

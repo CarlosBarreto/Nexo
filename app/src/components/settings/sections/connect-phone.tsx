@@ -1,4 +1,4 @@
-import { Badge, Button, ConfirmDialog } from "@houston-ai/core";
+import { Badge, Button, ConfirmDialog } from "@nexo-ai/core";
 import { QRCodeSVG } from "qrcode.react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";

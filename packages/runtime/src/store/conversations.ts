@@ -6,7 +6,7 @@ import type {
   ConversationSummary,
   TokenUsage,
   ToolCallRecord,
-} from "@houston/runtime-client";
+} from "@nexo/runtime-client";
 import { config } from "../config";
 import {
   appendAssistantMessageAt,

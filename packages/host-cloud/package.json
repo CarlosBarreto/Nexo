@@ -1,5 +1,5 @@
 {
-  "name": "@houston/host-cloud",
+  "name": "@nexo/host-cloud",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -14,9 +14,9 @@
   },
   "dependencies": {
     "@google-cloud/storage": "^7.14.0",
-    "@houston/host": "workspace:*",
-    "@houston/protocol": "workspace:*",
-    "@houston/runtime-client": "workspace:*",
+    "@nexo/host": "workspace:*",
+    "@nexo/protocol": "workspace:*",
+    "@nexo/runtime-client": "workspace:*",
     "@kubernetes/client-node": "^0.22.3",
     "ioredis": "^5.11.1",
     "jose": "^5.9.6",

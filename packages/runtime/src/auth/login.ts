@@ -4,7 +4,7 @@ import {
   OPENAI_CODEX_BROWSER_LOGIN_METHOD,
   OPENAI_CODEX_DEVICE_CODE_LOGIN_METHOD,
 } from "@earendil-works/pi-ai/oauth";
-import type { LoginInfo } from "@houston/runtime-client";
+import type { LoginInfo } from "@nexo/runtime-client";
 import {
   type CustomEndpointInput,
   clearCustomEndpointConfig,

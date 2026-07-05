@@ -45,8 +45,8 @@ COPY packages/domain/ /app/packages/domain/
 COPY packages/runtime/ /app/packages/runtime/
 COPY packages/host/ /app/packages/host/
 RUN pnpm install --frozen-lockfile --prod \
-      --filter @houston/runtime... \
-      --filter @houston/host...
+      --filter @nexo/runtime... \
+      --filter @nexo/host...
 
 # The whole ~/.houston equivalent (workspaces + credentials + db) lives here so a
 # single named volume persists everything. Owned by the non-root node user so a

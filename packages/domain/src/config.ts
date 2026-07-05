@@ -1,4 +1,4 @@
-import type { AgentConfig, Learning } from "@houston/protocol";
+import type { AgentConfig, Learning } from "@nexo/protocol";
 import { docKey } from "./layout";
 import {
   type DocDiagnostic,

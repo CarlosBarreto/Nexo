@@ -23,12 +23,12 @@
  * flicker back to idle mid-relaunch.
  */
 
-import type { ProviderError } from "@houston-ai/chat";
-import type { HoustonEvent } from "@houston-ai/core";
+import type { ProviderError } from "@nexo-ai/chat";
+import type { NexoEvent } from "@nexo-ai/core";
 import { CheckCircle2Icon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { subscribeHoustonEvents } from "../../../lib/events";
+import { subscribeNexoEvents } from "../../../lib/events";
 import { tauriProvider } from "../../../lib/tauri";
 import { useUIStore } from "../../../stores/ui";
 import { RowCard } from "../../cards/row-card";
@@ -55,7 +55,7 @@ export function UnauthenticatedCard({
   const provider = providerLabel(error.provider);
 
   useEffect(() => {
-    return subscribeHoustonEvents((ev: HoustonEvent) => {
+    return subscribeNexoEvents((ev: NexoEvent) => {
       if (ev.type !== "ProviderLoginComplete") return;
       if (ev.data.provider !== error.provider) return;
       if (ev.data.success) {

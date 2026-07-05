@@ -13,8 +13,8 @@ import {
   saveRoutines,
   upsertById,
   validateSchedule,
-} from "@houston/domain";
-import type { HoustonEvent, NewRoutine } from "@houston/protocol";
+} from "@nexo/domain";
+import type { NewRoutine, NexoEvent } from "@nexo/protocol";
 import type { Agent, Workspace } from "../domain/types";
 import type { WorkspacePaths } from "../paths";
 import type { Vfs } from "../vfs";
@@ -27,7 +27,7 @@ import { json, readJson } from "./http";
 export { workspaceRoot } from "../paths";
 
 /** Each typed family's reactivity event — emitted after a successful mutation. */
-const FAMILY_EVENT: Record<string, (agentPath: string) => HoustonEvent> = {
+const FAMILY_EVENT: Record<string, (agentPath: string) => NexoEvent> = {
   activities: (agentPath) => ({ type: "ActivityChanged", agentPath }),
   routines: (agentPath) => ({ type: "RoutinesChanged", agentPath }),
   routine_runs: (agentPath) => ({ type: "RoutineRunsChanged", agentPath }),
@@ -53,7 +53,7 @@ export async function handleAgentData(
   rest: string,
   req: IncomingMessage,
   res: ServerResponse,
-  emit?: (event: HoustonEvent) => void,
+  emit?: (event: NexoEvent) => void,
   // The authenticated caller's id — recorded as a new routine's `created_by`
   // so a fired routine turn can act as its creator (C2). Absent in callers that
   // don't carry identity (local single-user); the field then stays absent.

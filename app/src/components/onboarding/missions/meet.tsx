@@ -2,10 +2,10 @@ import {
   AGENT_COLORS,
   cn,
   colorHex,
-  HoustonAvatar,
   Input,
+  NexoAvatar,
   resolveAgentColor,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { Check } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { SetupCard } from "../setup-card";
@@ -55,7 +55,7 @@ export function MeetMission({
       nextLoading={creating}
     >
       <div className="flex flex-1 flex-col items-center justify-center gap-6">
-        <HoustonAvatar color={resolveAgentColor(color)} diameter={88} />
+        <NexoAvatar color={resolveAgentColor(color)} diameter={88} />
         <Input
           autoFocus
           value={name}

@@ -36,8 +36,8 @@
     "nativeTriggeredDescription": "Check Sentry for sentry-native-stack-smoke-test."
   },
   "errorToast": {
-    "problemTitle": "Houston, we have a problem!",
-    "reportSentTitle": "Houston, report sent",
+    "problemTitle": "Nexo ran into a problem",
+    "reportSentTitle": "Report sent",
     "reportSentDescription": "Reference #{{id}}.",
     "copyId": "Copy code"
   },
@@ -125,7 +125,7 @@
     "reloadNow": "Reload now"
   },
   "authReconnect": {
-    "heading": "Houston, we have a problem",
+    "heading": "Reconnect to continue",
     "body": "Your {{provider}} session expired. Sign in again to keep your agents running.",
     "waiting": "Waiting for browser sign-in...",
     "signInWith": "Sign in with {{provider}}"
@@ -144,7 +144,7 @@
     "report": "Report bug",
     "reporting": "Sending report...",
     "reportSuccessTitle": "Report sent",
-    "reportSuccessDescription": "Houston received the logs.",
+    "reportSuccessDescription": "Nexo received the logs.",
     "reportErrorTitle": "Could not send report",
     "reportErrorDescription": "Try again in a moment.",
     "retryErrorTitle": "Could not try again",
@@ -158,19 +158,19 @@
     }
   },
   "updateChecker": {
-    "cardLabel": "Houston update available",
-    "title": "Houston, we have an update!",
+    "cardLabel": "Nexo update available",
+    "title": "A new version is ready",
     "availableDescription": "Version {{version}} is ready. You're on v{{currentVersion}}.",
     "downloading": "Downloading and installing update...",
     "downloadingProgress": "Downloading and installing... {{progress}}%",
-    "ready": "Update installed. Relaunch Houston to finish.",
-    "errorInstall": "Houston couldn't install the update. Try again in a moment.",
-    "errorRelaunch": "Update installed, but Houston couldn't relaunch itself. Relaunch manually or try again.",
+    "ready": "Update installed. Relaunch Nexo to finish.",
+    "errorInstall": "Nexo couldn't install the update. Try again in a moment.",
+    "errorRelaunch": "Update installed, but Nexo couldn't relaunch itself. Relaunch manually or try again.",
     "detailsHeading": "What's new",
     "noDetails": "This update includes the latest fixes and improvements.",
     "primaryAction": "Update and relaunch",
     "installingAction": "Installing update...",
-    "relaunchAction": "Relaunch Houston",
+    "relaunchAction": "Relaunch Nexo",
     "retryAction": "Try again",
     "dismissAction": "Dismiss update for now"
   },
@@ -366,10 +366,10 @@
     "continueButton": "Continue"
   },
   "engineGate": {
-    "starting": "Starting Houston engine…",
+    "starting": "Starting Nexo engine…",
     "loadFailed": "Couldn't load your available AI models. Check your connection and try again.",
     "authRequiredTitle": "Sign-in required",
-    "authRequiredBody": "This build connects to Houston's hosted engine, but no sign-in is configured. Set SUPABASE_URL and SUPABASE_ANON_KEY for this build to enable Google sign-in."
+    "authRequiredBody": "This build connects to Nexo's hosted engine, but no sign-in is configured. Set SUPABASE_URL and SUPABASE_ANON_KEY for this build to enable Google sign-in."
   },
   "providerError": {
     "rateLimited": {
@@ -401,10 +401,10 @@
     "unauthenticated": {
       "title": "Sign in to {{provider}} again",
       "bodyTokenExpired": "Your {{provider}} session expired. Reconnect to continue.",
-      "bodyNoCredentials": "Houston needs you to sign in to {{provider}} before it can answer.",
-      "bodyInvalidApiKey": "The {{provider}} API key Houston has is no longer valid. Update it and try again.",
+      "bodyNoCredentials": "Nexo needs you to sign in to {{provider}} before it can answer.",
+      "bodyInvalidApiKey": "The {{provider}} API key Nexo has is no longer valid. Update it and try again.",
       "bodyTokenRevoked": "Your {{provider}} access was revoked. Sign in again to continue.",
-      "bodyUnknown": "Houston could not authenticate with {{provider}}. Reconnect and try again.",
+      "bodyUnknown": "Nexo could not authenticate with {{provider}}. Reconnect and try again.",
       "reconnect": "Reconnect",
       "waiting": "Finish signing in using your browser",
       "reconnectedTitle": "Reconnected to {{provider}}",
@@ -414,7 +414,7 @@
     },
     "networkUnreachable": {
       "title": "Cannot reach {{provider}}",
-      "body": "Houston could not reach the {{provider}} API. Check your internet, then try again.",
+      "body": "Nexo could not reach the {{provider}} API. Check your internet, then try again.",
       "retry": "Try again",
       "checkStatus": "Check status page"
     },
@@ -426,7 +426,7 @@
     },
     "sessionResumeMissing": {
       "title": "Session restarted",
-      "body": "The previous {{provider}} conversation could not be reopened, so Houston restarted it. Your message was sent again and the assistant is responding below.",
+      "body": "The previous {{provider}} conversation could not be reopened, so Nexo restarted it. Your message was sent again and the assistant is responding below.",
       "tryAgain": "Try again"
     },
     "malformedResponse": {
@@ -436,20 +436,20 @@
     },
     "spawnFailed": {
       "title": "Could not start {{provider}}",
-      "body": "Houston could not start {{provider}}. Try reinstalling, then report it if it keeps happening.",
+      "body": "Nexo could not start {{provider}}. Try reinstalling, then report it if it keeps happening.",
       "reinstall": "Reinstall {{provider}}",
       "reportBug": "Report bug"
     },
     "unknown": {
       "title": "Something unexpected happened",
-      "body": "Houston could not classify this {{provider}} error. Report it so we can teach Houston to handle it next time.",
+      "body": "Nexo could not classify this {{provider}} error. Report it so we can teach Nexo to handle it next time.",
       "reportBug": "Report bug",
       "rawLabel": "Raw output"
     }
   },
   "palette": {
     "title": "Command palette",
-    "description": "Jump anywhere in Houston",
+    "description": "Jump anywhere in Nexo",
     "placeholder": "Search agents, missions, actions...",
     "empty": "Nothing matched. Try a different word.",
     "groups": {
@@ -467,7 +467,7 @@
   },
   "cheatsheet": {
     "title": "Keyboard shortcuts",
-    "description": "Run Houston without touching the mouse.",
+    "description": "Run Nexo without touching the mouse.",
     "sections": {
       "navigation": "Navigation",
       "cycle": "Cycle",

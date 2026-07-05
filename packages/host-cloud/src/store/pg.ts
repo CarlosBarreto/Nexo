@@ -5,8 +5,8 @@ import type {
   Workspace,
   WorkspaceId,
   WorkspaceRuntime,
-} from "@houston/host/src/domain/types";
-import type { WorkspaceStore } from "@houston/host/src/ports";
+} from "@nexo/host/src/domain/types";
+import type { WorkspaceStore } from "@nexo/host/src/ports";
 import type { Pool } from "pg";
 
 /** DNS-safe slug for a workspace (used for the K8s namespace). Matches MemoryWorkspaceStore. */

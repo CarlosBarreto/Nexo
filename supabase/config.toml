@@ -147,15 +147,15 @@ max_indexes = 5
 enabled = true
 # The base URL of your website. Used as an allow-list for redirects and for constructing URLs used
 # in emails.
-site_url = "https://gethouston.ai/auth/callback/"
+site_url = "https://getnexo.ai/auth/callback/"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
-# Houston ships as a desktop app — OAuth completes on the gethouston.ai HTTPS
+# Houston ships as a desktop app — OAuth completes on the getnexo.ai HTTPS
 # bridge page, which then hands the PKCE code to the `houston://auth-callback`
 # deep link. The custom scheme is kept in the allow-list so direct deep-link
 # flows (eg. CLI testing) still work.
 additional_redirect_urls = [
-  "https://gethouston.ai/auth/callback/",
-  "https://www.gethouston.ai/auth/callback/",
+  "https://getnexo.ai/auth/callback/",
+  "https://www.getnexo.ai/auth/callback/",
   "houston://auth-callback",
   "houston://**",
 ]

@@ -4,10 +4,10 @@ import {
   cn,
   colorHex,
   DialogTitle,
-  HoustonAvatar,
   Input,
+  NexoAvatar,
   resolveAgentColor,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { ArrowLeft, Check, ChevronDown, FolderOpen } from "lucide-react";
 import type { FormEvent } from "react";
 import { useCallback, useEffect, useState } from "react";
@@ -78,7 +78,7 @@ export function NamingStep({
 
       {/* Avatar preview */}
       <div className="flex flex-col items-center gap-4 mb-8">
-        <HoustonAvatar color={resolvedColor} diameter={80} />
+        <NexoAvatar color={resolvedColor} diameter={80} />
 
         <div className="text-center">
           <p className="text-lg font-semibold">{selectedName}</p>

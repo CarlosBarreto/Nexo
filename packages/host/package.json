@@ -1,5 +1,5 @@
 {
-  "name": "@houston/host",
+  "name": "@nexo/host",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -21,9 +21,9 @@
   "dependencies": {
     "@earendil-works/pi-ai": "0.78.1",
     "@earendil-works/pi-coding-agent": "0.78.1",
-    "@houston/domain": "workspace:*",
-    "@houston/protocol": "workspace:*",
-    "@houston/runtime-client": "workspace:*",
+    "@nexo/domain": "workspace:*",
+    "@nexo/protocol": "workspace:*",
+    "@nexo/runtime-client": "workspace:*",
     "tsx": "^4.21.0"
   },
   "devDependencies": {

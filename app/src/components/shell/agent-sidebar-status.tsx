@@ -1,4 +1,4 @@
-import { Badge, cn, HoustonAvatar, resolveAgentColor } from "@houston-ai/core";
+import { Badge, cn, NexoAvatar, resolveAgentColor } from "@nexo-ai/core";
 import type { CSSProperties } from "react";
 
 interface AgentSidebarIconProps {
@@ -12,9 +12,7 @@ export function AgentSidebarIcon({
   running,
   runningLabel,
 }: AgentSidebarIconProps) {
-  const avatar = (
-    <HoustonAvatar color={resolveAgentColor(color)} diameter={20} />
-  );
+  const avatar = <NexoAvatar color={resolveAgentColor(color)} diameter={20} />;
 
   if (!running) return avatar;
 

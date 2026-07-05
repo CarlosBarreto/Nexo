@@ -1,4 +1,4 @@
-import { ConfirmDialog, Spinner, Switch } from "@houston-ai/core";
+import { ConfirmDialog, Spinner, Switch } from "@nexo-ai/core";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useOrg, useSetAgentAssignments } from "../../hooks/queries";

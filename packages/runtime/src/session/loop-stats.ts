@@ -1,5 +1,5 @@
 import type { AgentSessionEvent } from "@earendil-works/pi-coding-agent";
-import type { LoopStats, ToolCallRecord } from "@houston/runtime-client";
+import type { LoopStats, ToolCallRecord } from "@nexo/runtime-client";
 
 /**
  * Per-prompt ReAct-loop telemetry, aggregated from events pi already emits.

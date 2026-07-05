@@ -3,9 +3,9 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@houston-ai/core";
-import type { SuggestedRoutine } from "@houston-ai/engine-client";
-import type { RoutineFormData } from "@houston-ai/routines";
+} from "@nexo-ai/core";
+import type { SuggestedRoutine } from "@nexo-ai/engine-client";
+import type { RoutineFormData } from "@nexo-ai/routines";
 import { type FormEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DEFAULT_TAB_ID } from "../../agents/standard-tabs";
@@ -129,7 +129,7 @@ export function CreateAgentDialog() {
       await tauriProvider.setLastUsed(provider, model);
       if (routineAccepted && routineForm) {
         // The agent is brand new, so its scheduler was never started
-        // (create() doesn't go through setCurrent, and use-houston-init
+        // (create() doesn't go through setCurrent, and use-nexo-init
         // only starts schedulers that existed at launch). startScheduler
         // is idempotent and picks up the just-written routine; plain
         // syncScheduler would be a no-op for an unstarted agent.

@@ -12,7 +12,7 @@
  */
 
 /** `agentPath` is the agent's opaque key (the v1 folderPath; cloud synthesizes a stable key). */
-export type HoustonEvent =
+export type NexoEvent =
   | { type: "ActivityChanged"; agentPath: string }
   | { type: "RoutinesChanged"; agentPath: string }
   | { type: "RoutineRunsChanged"; agentPath: string }
@@ -29,4 +29,4 @@ export type HoustonEvent =
   | { type: "CompletionToast"; agentPath: string; title: string; body: string }
   | { type: "AuthRequired"; provider: string };
 
-export type HoustonEventType = HoustonEvent["type"];
+export type NexoEventType = NexoEvent["type"];

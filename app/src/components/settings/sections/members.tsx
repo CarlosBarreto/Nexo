@@ -1,4 +1,4 @@
-import { Spinner } from "@houston-ai/core";
+import { Spinner } from "@nexo-ai/core";
 import { useTranslation } from "react-i18next";
 import { useOrg } from "../../../hooks/queries";
 import { useCapabilities } from "../../../hooks/use-capabilities";

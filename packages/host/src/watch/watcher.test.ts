@@ -1,7 +1,7 @@
 import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { HoustonEvent } from "@houston/protocol";
+import type { NexoEvent } from "@nexo/protocol";
 import { expect, test } from "vitest";
 import { FsWatcher } from "./watcher";
 
@@ -14,7 +14,7 @@ test("a write under an agent's .houston surfaces a debounced ActivityChanged", a
   const agentDir = join(root, "Work", "Sales", ".houston", "activity");
   mkdirSync(agentDir, { recursive: true });
 
-  const events: HoustonEvent[] = [];
+  const events: NexoEvent[] = [];
   const watcher = new FsWatcher(root, (e) => events.push(e), 50);
   watcher.start();
 
@@ -47,7 +47,7 @@ test("a write under an agent's .houston surfaces a debounced ActivityChanged", a
 test("stop() halts delivery", async () => {
   const root = mkdtempSync(join(tmpdir(), "houston-watch-"));
   mkdirSync(join(root, "W", "A"), { recursive: true });
-  const events: HoustonEvent[] = [];
+  const events: NexoEvent[] = [];
   const watcher = new FsWatcher(root, (e) => events.push(e), 20);
   watcher.start();
   watcher.stop();

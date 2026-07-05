@@ -1,11 +1,11 @@
-import { cn } from "@houston-ai/core";
+import { cn } from "@nexo-ai/core";
 import confetti from "canvas-confetti";
 import type { LucideIcon } from "lucide-react";
 import { Bot, Check, LayoutGrid, Mail, Send, Sparkles } from "lucide-react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import type { SetupSection } from "../../lib/setup-steps";
-import { HoustonLogo } from "../shell/experience-card";
+import { NexoLogo } from "../shell/experience-card";
 import { SetupCard } from "./setup-card";
 
 export type Milestone = "ai" | "apps" | "agent" | "email" | "send";
@@ -104,7 +104,7 @@ export function SetupProgress({
     <SetupCard onNext={onContinue} nextLabel={ctaLabel}>
       <div className="flex flex-1 flex-col items-center justify-center gap-8 text-center">
         <div className="flex flex-col items-center gap-4">
-          <HoustonLogo size={52} />
+          <NexoLogo size={52} />
           <div className="flex flex-col items-center gap-2">
             <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
             <p className="max-w-md text-sm text-muted-foreground">{message}</p>

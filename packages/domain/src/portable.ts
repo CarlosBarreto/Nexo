@@ -4,7 +4,7 @@ import {
   type PortableInventory,
   type PortableManifest,
   type Routine,
-} from "@houston/protocol";
+} from "@nexo/protocol";
 import { strFromU8, strToU8, unzipSync, zipSync } from "fflate";
 
 /**

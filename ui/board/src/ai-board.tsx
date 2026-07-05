@@ -2,9 +2,9 @@ import type {
   ChatPanelProps,
   FeedItem,
   ToolsAndCardsProps,
-} from "@houston-ai/chat";
-import { ChatPanel } from "@houston-ai/chat";
-import { SplitView } from "@houston-ai/layout";
+} from "@nexo-ai/chat";
+import { ChatPanel } from "@nexo-ai/chat";
+import { SplitView } from "@nexo-ai/layout";
 import type { ReactNode } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -101,12 +101,12 @@ export interface AIBoardProps {
   /** Custom tool name → human label mappings. */
   toolLabels?: ToolsAndCardsProps["toolLabels"];
   /** Render prop for an end-of-turn summary (e.g., list of edited files). Forwarded to ChatPanel. */
-  renderTurnSummary?: import("@houston-ai/chat").ChatPanelProps["renderTurnSummary"];
+  renderTurnSummary?: import("@nexo-ai/chat").ChatPanelProps["renderTurnSummary"];
   /** Custom renderer for system messages. Forwarded to ChatPanel. */
-  renderSystemMessage?: import("@houston-ai/chat").ChatPanelProps["renderSystemMessage"];
+  renderSystemMessage?: import("@nexo-ai/chat").ChatPanelProps["renderSystemMessage"];
   /** Static glyph shown after the agent's reply once the turn settles
    *  (e.g. a non-blinking Houston helmet). Forwarded to ChatPanel. */
-  endOfTurnIndicator?: import("@houston-ai/chat").ChatPanelProps["endOfTurnIndicator"];
+  endOfTurnIndicator?: import("@nexo-ai/chat").ChatPanelProps["endOfTurnIndicator"];
   /** Map active feed items before rendering. */
   mapFeedItems?: (ctx: { sessionKey: string; items: FeedItem[] }) => FeedItem[];
   /** Node rendered after the last chat message. */
@@ -114,21 +114,21 @@ export interface AIBoardProps {
     | ReactNode
     | ((ctx: { sessionKey: string; feedItems: FeedItem[] }) => ReactNode);
   /** Custom renderer for user messages. Forwarded to ChatPanel. */
-  renderUserMessage?: import("@houston-ai/chat").ChatPanelProps["renderUserMessage"];
+  renderUserMessage?: import("@nexo-ai/chat").ChatPanelProps["renderUserMessage"];
   /** Emitted by ChatPanel to surface short notices to the user
    *  (e.g. duplicate-file drop). Forwarded as-is; app decides display. */
   onNotice?: (message: string) => void;
   /** Lets apps reject unsupported files before they enter the composer draft. */
-  prepareAttachments?: import("@houston-ai/chat").ChatPanelProps["prepareAttachments"];
+  prepareAttachments?: import("@nexo-ai/chat").ChatPanelProps["prepareAttachments"];
   /** Emitted when `prepareAttachments` rejects any incoming files. */
-  onAttachmentRejections?: import("@houston-ai/chat").ChatPanelProps["onAttachmentRejections"];
+  onAttachmentRejections?: import("@nexo-ai/chat").ChatPanelProps["onAttachmentRejections"];
   /** Called when the user clicks the open button on an inline link. Forwarded to ChatPanel. */
-  onOpenLink?: import("@houston-ai/chat").ChatPanelProps["onOpenLink"];
+  onOpenLink?: import("@nexo-ai/chat").ChatPanelProps["onOpenLink"];
   /** Custom renderer for markdown links. Forwarded to ChatPanel. */
-  renderLink?: import("@houston-ai/chat").ChatPanelProps["renderLink"];
+  renderLink?: import("@nexo-ai/chat").ChatPanelProps["renderLink"];
   /** Transform an assistant message's content before render, optionally
    *  appending an `extra` node after it. Forwarded to ChatPanel. */
-  transformContent?: import("@houston-ai/chat").ChatPanelProps["transformContent"];
+  transformContent?: import("@nexo-ai/chat").ChatPanelProps["transformContent"];
   /**
    * Composer footer content. When a function, called with `{ hasMessages }` so
    * the consumer can lock the provider for active conversations.

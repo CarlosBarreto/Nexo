@@ -1,5 +1,5 @@
 import type { Server } from "node:http";
-import type { Capabilities, HoustonEvent } from "@houston/protocol";
+import type { Capabilities, NexoEvent } from "@nexo/protocol";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import { ProxyChannel } from "../channel/proxy";
 import { MemoryCredentialStore } from "../credentials/store";
@@ -12,7 +12,7 @@ import { MemoryVfs } from "../vfs";
 
 /**
  * The global /v1/events SSE channel end to end: a mutation on the host emits a
- * HoustonEvent that arrives on the owner's stream — and NEVER on another
+ * NexoEvent that arrives on the owner's stream — and NEVER on another
  * tenant's. This is the reactivity keystone the UI's query-invalidation map
  * rides on.
  */
@@ -93,7 +93,7 @@ afterAll(async () => {
 });
 
 /**
- * Open an SSE stream and resolve with the FIRST `data:` HoustonEvent that
+ * Open an SSE stream and resolve with the FIRST `data:` NexoEvent that
  * arrives (or reject on timeout). Aborts the request on settle so the server
  * unsubscribes. `onConnected` fires once the comment preamble is seen, so the
  * caller can trigger the mutation only after the subscription is live.
@@ -102,7 +102,7 @@ async function firstEvent(
   who: string,
   onConnected: () => Promise<void>,
   timeoutMs = 2000,
-): Promise<HoustonEvent | "timeout"> {
+): Promise<NexoEvent | "timeout"> {
   const ac = new AbortController();
   const res = await fetch(`${base}/v1/events`, {
     headers: { Authorization: `Bearer tok:${who}` },
@@ -129,8 +129,7 @@ async function firstEvent(
       }
       for (const frame of buffer.split("\n\n")) {
         const line = frame.split("\n").find((l) => l.startsWith("data: "));
-        if (line)
-          return JSON.parse(line.slice("data: ".length)) as HoustonEvent;
+        if (line) return JSON.parse(line.slice("data: ".length)) as NexoEvent;
       }
     }
   } catch {

@@ -1,4 +1,4 @@
-import type { ChatCompactionInfo } from "@houston-ai/chat";
+import type { ChatCompactionInfo } from "@nexo-ai/chat";
 import { useTranslation } from "react-i18next";
 import { getProvider } from "../lib/providers";
 

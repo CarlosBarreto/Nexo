@@ -22,7 +22,7 @@ import {
  *
  * The CLOSED GkeLauncher needs a live Kubernetes apiserver (one Deployment +
  * Service + PVC per agent); it runs the SAME contract + an apiserver-object
- * reconcile/idempotency suite in `@houston/host-cloud`
+ * reconcile/idempotency suite in `@nexo/host-cloud`
  * (launcher/gke.integration.test.ts), gated on HOUSTON_GKE_TEST and pointed at a
  * real or `kind` cluster. The contract function lives on the open side of the
  * seam; only the adapters differ.
@@ -68,10 +68,10 @@ runRuntimeLauncherContract("ProcessLauncher", () => makeProcessLauncher());
 // (one Deployment + Service + PVC per agent). It CANNOT run in this sandbox — no
 // cluster, no docker. It is NOT faked: the real GkeLauncher runs this same
 // contract + an apiserver-object reconcile/idempotency suite in
-// @houston/host-cloud's launcher/gke.integration.test.ts, gated on
+// @nexo/host-cloud's launcher/gke.integration.test.ts, gated on
 // HOUSTON_GKE_TEST and pointed at a real or `kind` cluster. This marker stays so
 // the boundary is explicit here in the open contract file.
-test.todo("RuntimeLauncher contract: GkeLauncher → @houston/host-cloud launcher/gke.integration.test.ts (HOUSTON_GKE_TEST + a cluster)", () => {});
+test.todo("RuntimeLauncher contract: GkeLauncher → @nexo/host-cloud launcher/gke.integration.test.ts (HOUSTON_GKE_TEST + a cluster)", () => {});
 // CloudRun: per-turn runtimes have NO launcher (nothing stands between turns);
 // the TurnChannel + dispatchTurn path replaces it. Recorded so the absence is
 // an explicit design fact, not an overlooked adapter.

@@ -9,12 +9,12 @@
  *
  *   - `packages/host-cloud/**` is the CLOSED package (the concrete cloud adapters
  *     pg / GCS / GKE / Redis / BigQuery, the operator-admin surface, and the
- *     cloud `main.ts`). It MAY import `@houston/host` and cloud libs freely.
+ *     cloud `main.ts`). It MAY import `@nexo/host` and cloud libs freely.
  *   - `packages/host/**` is OPEN (the server builder, ports, every domain route
  *     handler, the open adapters, and the LOCAL entry). It must NEVER import a
- *     cloud lib or `@houston/host-cloud`.
+ *     cloud lib or `@nexo/host-cloud`.
  *   - The other open packages (protocol/domain/runtime/runtime-client, ui) must
- *     NEVER import a cloud lib or `@houston/host-cloud`.
+ *     NEVER import a cloud lib or `@nexo/host-cloud`.
  *
  * The one-way rule: CLOSED may import OPEN; OPEN must NEVER import CLOSED.
  *
@@ -22,7 +22,7 @@
  *
  *   Rule A — no OPEN-package file reaches the closed package or a cloud lib. A
  *     reach is ANY of:
- *       (a) a bare `@houston/host-cloud` (or subpath) specifier;
+ *       (a) a bare `@nexo/host-cloud` (or subpath) specifier;
  *       (b) a relative/absolute import that, resolved on disk, lands inside
  *           `packages/host-cloud/` — host and host-cloud are on-disk siblings and
  *           host-cloud has no `exports` field, so `../../host-cloud/src/...`
@@ -108,7 +108,7 @@ const CLOUD_LIBS = [
 ];
 
 /** The closed package's import specifier — OPEN code may never import it. */
-const CLOSED_PACKAGE_SPEC = "@houston/host-cloud";
+const CLOSED_PACKAGE_SPEC = "@nexo/host-cloud";
 
 /**
  * Files allowed to import a cloud lib from WITHIN an open package. The only one
@@ -349,7 +349,7 @@ for (const pkg of OPEN_PACKAGES) {
       // (a) the closed package's own specifier — never, no allowlist.
       if (isClosedPackageSpec(spec)) {
         violations.push(
-          `[A] ${repoRel(abs)} -> closed package "${spec}" (open code must never import @houston/host-cloud)`,
+          `[A] ${repoRel(abs)} -> closed package "${spec}" (open code must never import @nexo/host-cloud)`,
         );
         continue;
       }
@@ -385,7 +385,7 @@ for (const pkg of OPEN_PACKAGES) {
 }
 
 // Rule B — the closed package is wholesale CLOSED: it may import cloud libs and
-// @houston/host (the one-way dependency). We walk it only to count its files and
+// @nexo/host (the one-way dependency). We walk it only to count its files and
 // confirm it carries the cloud adapters (so a stray empty dir can't pass as
 // "extracted"). Its cloud imports are all legitimate crossings.
 for (const abs of walk(join(root, CLOSED_PACKAGE, "src"))) {
@@ -420,7 +420,7 @@ for (const pkg of OPEN_PACKAGES) {
         if (allow.has(dep)) continue;
         if (isClosedPackageSpec(dep)) {
           violations.push(
-            `[C] ${rel} (${bucket}) declares the closed package "${dep}" — open packages must not depend on @houston/host-cloud`,
+            `[C] ${rel} (${bucket}) declares the closed package "${dep}" — open packages must not depend on @nexo/host-cloud`,
           );
         } else if (isCloudLib(dep)) {
           violations.push(
@@ -441,7 +441,7 @@ if (violations.length > 0) {
   for (const v of violations.sort()) console.error(`  ${v}`);
   console.error(
     `\n${violations.length} violation(s). See BOUNDARY.md for the manifest.\n` +
-      "Open code must never import or declare a cloud lib or @houston/host-cloud; route the dependency through a port.",
+      "Open code must never import or declare a cloud lib or @nexo/host-cloud; route the dependency through a port.",
   );
   process.exit(1);
 }

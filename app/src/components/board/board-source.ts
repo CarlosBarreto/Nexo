@@ -1,5 +1,5 @@
-import type { KanbanItem, NewPanelOpener } from "@houston-ai/board";
-import type { FeedItem } from "@houston-ai/chat";
+import type { KanbanItem, NewPanelOpener } from "@nexo-ai/board";
+import type { FeedItem } from "@nexo-ai/chat";
 import type { ReactNode } from "react";
 import type { Agent, AgentDefinition } from "../../lib/types";
 

@@ -3,10 +3,10 @@
 //!
 //! Storage layout per OS:
 //! - **macOS**: `keyring` crate writes to the user's Keychain under
-//!   `com.houston.app.auth`. Apple Keychain has no per-blob size limit
+//!   `com.nexo.app.auth`. Apple Keychain has no per-blob size limit
 //!   that matters for our session sizes, so this Just Works.
 //! - **Windows**: per-user **DPAPI-encrypted file** under
-//!   `%LOCALAPPDATA%\com.houston.app\auth\<key>.dpapi`. We do NOT use
+//!   `%LOCALAPPDATA%\com.nexo.app\auth\<key>.dpapi`. We do NOT use
 //!   Credential Manager here because its `CredentialBlob` field caps at
 //!   ~2560 bytes, and a Supabase session — a JWT access_token plus
 //!   user metadata plus refresh_token plus provider_token — is
@@ -20,10 +20,10 @@
 //!
 //! Deep-link flow:
 //!   1. Frontend calls `supabase.auth.signInWithOAuth({ provider: "google",
-//!      options: { redirectTo: "houston://auth-callback" } })`.
+//!      options: { redirectTo: "nexo://auth-callback" } })`.
 //!   2. User completes consent in their system browser.
-//!   3. Supabase redirects to `houston://auth-callback?code=...` (PKCE) or
-//!      `houston://auth-callback/#access_token=...` (implicit).
+//!   3. Supabase redirects to `nexo://auth-callback?code=...` (PKCE) or
+//!      `nexo://auth-callback/#access_token=...` (implicit).
 //!   4. macOS hands the URL to the running app via tauri-plugin-deep-link;
 //!      Windows hands it via tauri-plugin-single-instance argv forwarding
 //!      into the same plugin (see `lib.rs`).
@@ -36,7 +36,7 @@
 use tauri::{AppHandle, Emitter};
 
 #[cfg(not(target_os = "windows"))]
-const SERVICE: &str = "com.houston.app.auth";
+const SERVICE: &str = "com.nexo.app.auth";
 
 /// Reject keys that try to escape the storage directory. Supabase only
 /// ever passes its own well-formed storage keys, but the API surface is
@@ -64,7 +64,7 @@ mod storage {
     fn auth_dir() -> Result<PathBuf, String> {
         let local =
             dirs::data_local_dir().ok_or_else(|| "no LocalAppData dir".to_string())?;
-        let dir = local.join("com.houston.app").join("auth");
+        let dir = local.join("com.nexo.app").join("auth");
         std::fs::create_dir_all(&dir)
             .map_err(|e| format!("create auth dir {}: {e}", dir.display()))?;
         Ok(dir)

@@ -15,7 +15,7 @@
     "cancel": "Cancelar"
   },
   "setup": {
-    "installHint": "Instala la CLI de {{cli}} en tu computador. Houston la detecta sola.",
+    "installHint": "Instala la CLI de {{cli}} en tu computador. Nexo la detecta sola.",
     "installGuide": "Guía de instalación",
     "signInWith": "Iniciar sesión",
     "waiting": "Esperando a que termines de iniciar sesión en tu navegador...",
@@ -24,7 +24,7 @@
   },
   "signOutConfirm": {
     "title": "¿Cerrar sesión de {{provider}}?",
-    "description": "Houston dejará de usar {{provider}} hasta que vuelvas a iniciar sesión. Las misiones existentes pueden terminar su turno actual.",
+    "description": "Nexo dejará de usar {{provider}} hasta que vuelvas a iniciar sesión. Las misiones existentes pueden terminar su turno actual.",
     "confirm": "Cerrar sesión",
     "cancel": "Cancelar"
   },
@@ -60,7 +60,7 @@
   },
   "apiKey": {
     "title": "Conectar {{name}}",
-    "description": "Pega tu clave de API de {{name}}. Houston la guarda de forma segura y la usa para tus chats.",
+    "description": "Pega tu clave de API de {{name}}. Nexo la guarda de forma segura y la usa para tus chats.",
     "getKey": "Obtén tu clave de API",
     "label": "Clave de API",
     "placeholder": "Pega tu clave de API",
@@ -86,7 +86,7 @@
   },
   "openaiCompatible": {
     "title": "Conecta un modelo local",
-    "description": "Apunta Houston a un modelo que corre en tu computador, como Ollama, LM Studio o vLLM.",
+    "description": "Apunta Nexo a un modelo que corre en tu computador, como Ollama, LM Studio o vLLM.",
     "baseUrlLabel": "Dirección del servidor",
     "baseUrlPlaceholder": "http://localhost:11434/v1",
     "baseUrlHelp": "La dirección donde escucha tu servidor local. Para Ollama suele ser http://localhost:11434/v1.",

@@ -92,7 +92,7 @@ function writeTranscript(dir: string, conv: StoredConversation): void {
  * later `continueRecent()` rehydrates them into the agent's context. We import
  * SessionManager DIRECTLY from @earendil-works/pi-coding-agent (already a
  * dependency of this host — the same package the runtime uses), so there is no
- * need to depend on @houston/runtime.
+ * need to depend on @nexo/runtime.
  *
  * pi persists a session only once it holds an assistant message, so we only
  * synthesize a session when at least one non-empty assistant turn exists.

@@ -1,4 +1,4 @@
-import { cn } from "@houston-ai/core";
+import { cn } from "@nexo-ai/core";
 import { ArrowUp, Loader2 } from "lucide-react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";

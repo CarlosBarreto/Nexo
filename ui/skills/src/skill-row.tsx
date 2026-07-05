@@ -11,7 +11,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { MoreHorizontal, Trash2 } from "lucide-react";
 import type { Skill } from "./types";
 

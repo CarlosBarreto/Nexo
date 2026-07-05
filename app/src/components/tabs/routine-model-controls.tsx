@@ -1,4 +1,4 @@
-import type { RoutineFormData } from "@houston-ai/routines";
+import type { RoutineFormData } from "@nexo-ai/routines";
 import { useCallback } from "react";
 import { useAgentConfig } from "../../hooks/queries";
 import { ChatEffortSelector } from "../chat-effort-selector";

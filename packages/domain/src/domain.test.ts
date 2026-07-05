@@ -1,4 +1,4 @@
-import type { RoutineUpdate } from "@houston/protocol";
+import type { RoutineUpdate } from "@nexo/protocol";
 import { expect, test } from "vitest";
 import {
   applyActivityUpdate,

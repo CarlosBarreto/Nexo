@@ -1,5 +1,5 @@
-import { HoustonAvatar, resolveAgentColor } from "@houston-ai/core";
+import { NexoAvatar, resolveAgentColor } from "@nexo-ai/core";
 
 export function AgentCardAvatar({ color }: { color?: string }) {
-  return <HoustonAvatar color={resolveAgentColor(color)} diameter={16} />;
+  return <NexoAvatar color={resolveAgentColor(color)} diameter={16} />;
 }

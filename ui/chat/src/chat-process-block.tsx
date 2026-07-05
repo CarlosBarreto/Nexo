@@ -3,7 +3,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
   cn,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { ChevronDownIcon } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useStickToBottom } from "use-stick-to-bottom";

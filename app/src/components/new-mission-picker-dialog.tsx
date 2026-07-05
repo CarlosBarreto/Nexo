@@ -4,7 +4,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSkills } from "../hooks/queries";

@@ -1,4 +1,4 @@
-import type { FeedItem } from "@houston-ai/chat";
+import type { FeedItem } from "@nexo-ai/chat";
 
 const AUTH_PATTERNS = [
   "401",

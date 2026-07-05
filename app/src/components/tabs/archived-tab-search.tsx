@@ -1,10 +1,10 @@
-import { KanbanListRail } from "@houston-ai/board";
+import { KanbanListRail } from "@nexo-ai/board";
 import {
   Empty,
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { Archive } from "lucide-react";
 import { useTranslation } from "react-i18next";
 

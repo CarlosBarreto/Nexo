@@ -1,4 +1,4 @@
-import { Button, cn, Spinner } from "@houston-ai/core";
+import { Button, cn, Spinner } from "@nexo-ai/core";
 import { AlertCircle, Search } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { RepoDoneState } from "./add-skill-dialog-repo-done";

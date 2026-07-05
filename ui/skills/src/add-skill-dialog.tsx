@@ -13,7 +13,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { useEffect, useState } from "react";
 import type { RepoViewLabels } from "./add-skill-dialog-repo-labels";
 import { RepoView } from "./add-skill-dialog-repo-view";

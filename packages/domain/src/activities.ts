@@ -1,4 +1,4 @@
-import type { Activity, ActivityUpdate, NewActivity } from "@houston/protocol";
+import type { Activity, ActivityUpdate, NewActivity } from "@nexo/protocol";
 import { docKey } from "./layout";
 import {
   type DocDiagnostic,

@@ -1,4 +1,4 @@
-import type { NewPanelOpener } from "@houston-ai/board";
+import type { NewPanelOpener } from "@nexo-ai/board";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { AgentDefinition } from "../../lib/types";
 import { useUIStore } from "../../stores/ui";

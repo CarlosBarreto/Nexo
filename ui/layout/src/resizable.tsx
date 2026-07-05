@@ -1,4 +1,4 @@
-import { cn } from "@houston-ai/core";
+import { cn } from "@nexo-ai/core";
 import { GripVerticalIcon } from "lucide-react";
 import * as ResizablePrimitive from "react-resizable-panels";
 

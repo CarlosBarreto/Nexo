@@ -1,7 +1,4 @@
-import type {
-  AttachmentInvocation,
-  AttachmentReference,
-} from "@houston-ai/chat";
+import type { AttachmentInvocation, AttachmentReference } from "@nexo-ai/chat";
 
 const MARKER_PREFIX = "<!--houston:attachments ";
 const MARKER_SUFFIX = "-->";

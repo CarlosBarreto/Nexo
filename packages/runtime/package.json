@@ -1,5 +1,5 @@
 {
-  "name": "@houston/runtime",
+  "name": "@nexo/runtime",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -16,7 +16,7 @@
     "@earendil-works/pi-ai": "0.78.1",
     "@earendil-works/pi-coding-agent": "0.78.1",
     "@google-cloud/storage": "^7.14.0",
-    "@houston/runtime-client": "workspace:*",
+    "@nexo/runtime-client": "workspace:*",
     "typebox": "1.1.38",
     "tsx": "^4.21.0"
   },

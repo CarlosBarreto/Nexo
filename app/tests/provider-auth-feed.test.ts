@@ -1,6 +1,6 @@
 import { strictEqual } from "node:assert";
 import { describe, it } from "node:test";
-import type { FeedItem } from "@houston-ai/chat";
+import type { FeedItem } from "@nexo-ai/chat";
 import {
   filterProviderAuthFeedItems,
   isProviderAuthMessage,

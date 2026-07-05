@@ -2,7 +2,7 @@
  * Pure class-name constants for the chat "process" block (reasoning + tool
  * calls). Kept dependency-free (no React, no CSS imports) so the layout
  * decisions can be asserted in a `node:test` unit test the same way
- * `sidebar-classes.ts` is, and the way the other `@houston-ai/*` packages run
+ * `sidebar-classes.ts` is, and the way the other `@nexo-ai/*` packages run
  * their `node --test` suites — see `tests/chat-process-pane.test.ts`.
  */
 

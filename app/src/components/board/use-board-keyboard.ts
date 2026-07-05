@@ -1,4 +1,4 @@
-import type { KanbanColumnConfig, KanbanItem } from "@houston-ai/board";
+import type { KanbanColumnConfig, KanbanItem } from "@nexo-ai/board";
 import { useCallback, useEffect, useRef } from "react";
 import { navigateBoard } from "../../lib/board-navigate";
 import { useUIStore } from "../../stores/ui";

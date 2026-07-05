@@ -1,5 +1,5 @@
 /**
- * @houston-ai/engine-client — TypeScript SDK for the Houston Engine.
+ * @nexo-ai/engine-client — TypeScript SDK for the Houston Engine.
  *
  * Consumed by:
  * - Houston desktop app (`app/src/`) via `window.__HOUSTON_ENGINE__`

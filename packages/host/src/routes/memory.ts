@@ -10,8 +10,8 @@ import {
   retrieveDocs,
   saveMemory,
   slugify,
-} from "@houston/domain";
-import type { HoustonEvent, MemoryHit } from "@houston/protocol";
+} from "@nexo/domain";
+import type { MemoryHit, NexoEvent } from "@nexo/protocol";
 import type { Agent, Workspace } from "../domain/types";
 import type { WorkspacePaths } from "../paths";
 import type { Vfs } from "../vfs";
@@ -33,7 +33,7 @@ export async function handleMemory(
   req: IncomingMessage,
   res: ServerResponse,
   searchParams: URLSearchParams,
-  emit?: (event: HoustonEvent) => void,
+  emit?: (event: NexoEvent) => void,
 ): Promise<boolean> {
   const m = rest.match(/^memory(?:\/(.+))?$/);
   if (!m) return false;

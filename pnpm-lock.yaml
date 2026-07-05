@@ -47,40 +47,40 @@ importers:
 
   app:
     dependencies:
-      '@houston-ai/agent':
+      '@nexo-ai/agent':
         specifier: workspace:*
         version: link:../ui/agent
-      '@houston-ai/agent-schemas':
+      '@nexo-ai/agent-schemas':
         specifier: workspace:*
         version: link:../ui/agent-schemas
-      '@houston-ai/board':
+      '@nexo-ai/board':
         specifier: workspace:*
         version: link:../ui/board
-      '@houston-ai/chat':
+      '@nexo-ai/chat':
         specifier: workspace:*
         version: link:../ui/chat
-      '@houston-ai/core':
+      '@nexo-ai/core':
         specifier: workspace:*
         version: link:../ui/core
-      '@houston-ai/engine-client':
+      '@nexo-ai/engine-client':
         specifier: workspace:*
         version: link:../ui/engine-client
-      '@houston-ai/events':
+      '@nexo-ai/events':
         specifier: workspace:*
         version: link:../ui/events
-      '@houston-ai/layout':
+      '@nexo-ai/layout':
         specifier: workspace:*
         version: link:../ui/layout
-      '@houston-ai/review':
+      '@nexo-ai/review':
         specifier: workspace:*
         version: link:../ui/review
-      '@houston-ai/routines':
+      '@nexo-ai/routines':
         specifier: workspace:*
         version: link:../ui/routines
-      '@houston-ai/skills':
+      '@nexo-ai/skills':
         specifier: workspace:*
         version: link:../ui/skills
-      '@houston/runtime-client':
+      '@nexo/runtime-client':
         specifier: workspace:*
         version: link:../packages/runtime-client
       '@sentry/browser':
@@ -190,10 +190,10 @@ importers:
 
   packages/domain:
     dependencies:
-      '@houston-ai/agent-schemas':
+      '@nexo-ai/agent-schemas':
         specifier: workspace:*
         version: link:../../ui/agent-schemas
-      '@houston/protocol':
+      '@nexo/protocol':
         specifier: workspace:*
         version: link:../protocol
       croner:
@@ -230,13 +230,13 @@ importers:
       '@earendil-works/pi-coding-agent':
         specifier: 0.78.1
         version: 0.78.1(ws@8.20.0)(zod@4.3.6)
-      '@houston/domain':
+      '@nexo/domain':
         specifier: workspace:*
         version: link:../domain
-      '@houston/protocol':
+      '@nexo/protocol':
         specifier: workspace:*
         version: link:../protocol
-      '@houston/runtime-client':
+      '@nexo/runtime-client':
         specifier: workspace:*
         version: link:../runtime-client
       tsx:
@@ -258,18 +258,18 @@ importers:
       '@google-cloud/storage':
         specifier: ^7.14.0
         version: 7.21.0
-      '@houston/host':
-        specifier: workspace:*
-        version: link:../host
-      '@houston/protocol':
-        specifier: workspace:*
-        version: link:../protocol
-      '@houston/runtime-client':
-        specifier: workspace:*
-        version: link:../runtime-client
       '@kubernetes/client-node':
         specifier: ^0.22.3
         version: 0.22.3
+      '@nexo/host':
+        specifier: workspace:*
+        version: link:../host
+      '@nexo/protocol':
+        specifier: workspace:*
+        version: link:../protocol
+      '@nexo/runtime-client':
+        specifier: workspace:*
+        version: link:../runtime-client
       ioredis:
         specifier: ^5.11.1
         version: 5.11.1
@@ -325,7 +325,7 @@ importers:
       '@google-cloud/storage':
         specifier: ^7.14.0
         version: 7.21.0
-      '@houston/runtime-client':
+      '@nexo/runtime-client':
         specifier: workspace:*
         version: link:../runtime-client
       tsx:
@@ -347,7 +347,7 @@ importers:
 
   packages/runtime-client:
     dependencies:
-      '@houston/protocol':
+      '@nexo/protocol':
         specifier: workspace:*
         version: link:../protocol
     devDependencies:
@@ -360,43 +360,43 @@ importers:
 
   packages/web:
     dependencies:
-      '@houston-ai/agent':
+      '@nexo-ai/agent':
         specifier: workspace:*
         version: link:../../ui/agent
-      '@houston-ai/agent-schemas':
+      '@nexo-ai/agent-schemas':
         specifier: workspace:*
         version: link:../../ui/agent-schemas
-      '@houston-ai/board':
+      '@nexo-ai/board':
         specifier: workspace:*
         version: link:../../ui/board
-      '@houston-ai/chat':
+      '@nexo-ai/chat':
         specifier: workspace:*
         version: link:../../ui/chat
-      '@houston-ai/core':
+      '@nexo-ai/core':
         specifier: workspace:*
         version: link:../../ui/core
-      '@houston-ai/engine-client':
+      '@nexo-ai/engine-client':
         specifier: workspace:*
         version: link:../../ui/engine-client
-      '@houston-ai/events':
+      '@nexo-ai/events':
         specifier: workspace:*
         version: link:../../ui/events
-      '@houston-ai/layout':
+      '@nexo-ai/layout':
         specifier: workspace:*
         version: link:../../ui/layout
-      '@houston-ai/review':
+      '@nexo-ai/review':
         specifier: workspace:*
         version: link:../../ui/review
-      '@houston-ai/routines':
+      '@nexo-ai/routines':
         specifier: workspace:*
         version: link:../../ui/routines
-      '@houston-ai/skills':
+      '@nexo-ai/skills':
         specifier: workspace:*
         version: link:../../ui/skills
-      '@houston/domain':
+      '@nexo/domain':
         specifier: workspace:*
         version: link:../domain
-      '@houston/runtime-client':
+      '@nexo/runtime-client':
         specifier: workspace:*
         version: link:../runtime-client
       '@sentry/browser':
@@ -478,7 +478,7 @@ importers:
 
   ui/agent:
     dependencies:
-      '@houston-ai/core':
+      '@nexo-ai/core':
         specifier: workspace:*
         version: link:../core
       lucide-react:
@@ -495,13 +495,13 @@ importers:
 
   ui/board:
     dependencies:
-      '@houston-ai/chat':
+      '@nexo-ai/chat':
         specifier: workspace:*
         version: link:../chat
-      '@houston-ai/core':
+      '@nexo-ai/core':
         specifier: workspace:*
         version: link:../core
-      '@houston-ai/layout':
+      '@nexo-ai/layout':
         specifier: workspace:*
         version: link:../layout
       framer-motion:
@@ -519,7 +519,7 @@ importers:
 
   ui/chat:
     dependencies:
-      '@houston-ai/core':
+      '@nexo-ai/core':
         specifier: workspace:*
         version: link:../core
       '@radix-ui/react-use-controllable-state':
@@ -624,7 +624,7 @@ importers:
 
   ui/events:
     dependencies:
-      '@houston-ai/core':
+      '@nexo-ai/core':
         specifier: workspace:*
         version: link:../core
       framer-motion:
@@ -642,7 +642,7 @@ importers:
 
   ui/layout:
     dependencies:
-      '@houston-ai/core':
+      '@nexo-ai/core':
         specifier: workspace:*
         version: link:../core
       lucide-react:
@@ -660,7 +660,7 @@ importers:
 
   ui/review:
     dependencies:
-      '@houston-ai/core':
+      '@nexo-ai/core':
         specifier: workspace:*
         version: link:../core
       lucide-react:
@@ -678,7 +678,7 @@ importers:
 
   ui/routines:
     dependencies:
-      '@houston-ai/core':
+      '@nexo-ai/core':
         specifier: workspace:*
         version: link:../core
       framer-motion:
@@ -696,7 +696,7 @@ importers:
 
   ui/skills:
     dependencies:
-      '@houston-ai/core':
+      '@nexo-ai/core':
         specifier: workspace:*
         version: link:../core
       lucide-react:

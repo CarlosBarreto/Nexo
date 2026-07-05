@@ -1,4 +1,4 @@
-import type { Agent, Workspace } from "@houston/host/src/domain/types";
+import type { Agent, Workspace } from "@nexo/host/src/domain/types";
 import { expect, test } from "vitest";
 import type { AutopilotRates } from "./billing";
 import type { ClusterSnapshot, PodInfo, VolumeInfo } from "./cluster";

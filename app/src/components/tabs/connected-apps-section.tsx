@@ -1,7 +1,7 @@
 import type {
   IntegrationConnection,
   IntegrationToolkit,
-} from "@houston-ai/engine-client";
+} from "@nexo-ai/engine-client";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDisconnectIntegration } from "../../hooks/queries";

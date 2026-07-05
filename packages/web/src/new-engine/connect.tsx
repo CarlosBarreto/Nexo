@@ -1,8 +1,8 @@
 import type {
-  HoustonEngineClient,
+  NexoEngineClient,
   ProviderId,
   ProviderInfo,
-} from "@houston/runtime-client";
+} from "@nexo/runtime-client";
 import { useEffect, useState } from "react";
 import { ui } from "./styles";
 
@@ -17,7 +17,7 @@ export function ConnectView({
   client,
   onConnected,
 }: {
-  client: HoustonEngineClient;
+  client: NexoEngineClient;
   onConnected: () => void;
 }) {
   const [providers, setProviders] = useState<ProviderInfo[]>([]);

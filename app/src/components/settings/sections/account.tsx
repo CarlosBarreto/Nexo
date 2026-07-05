@@ -1,4 +1,4 @@
-import { Button } from "@houston-ai/core";
+import { Button } from "@nexo-ai/core";
 import { User } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useSession } from "../../../hooks/use-session";

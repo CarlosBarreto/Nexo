@@ -3,7 +3,7 @@
  *
  *  - **New TS engine host** (`VITE_NEW_ENGINE` truthy, or a URL baked via
  *    `VITE_NEW_ENGINE_URL`): boots the FULL desktop UI (app/src) against the new
- *    Houston host. vite.config aliases `@houston-ai/engine-client` to the
+ *    Houston host. vite.config aliases `@nexo-ai/engine-client` to the
  *    new-engine adapter, so app/src runs unchanged. The engine URL + token are
  *    entered at runtime via the new-engine Connect screen (`<NewEngineRoot>`),
  *    or pre-seeded from `VITE_NEW_ENGINE_URL` / `VITE_NEW_ENGINE_TOKEN`.

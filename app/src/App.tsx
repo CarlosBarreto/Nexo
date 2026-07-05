@@ -1,17 +1,18 @@
 import "./styles/globals.css";
-import type { Toast } from "@houston-ai/core";
+import type { Toast } from "@nexo-ai/core";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { SignInScreen } from "./components/auth/sign-in-screen";
 import { MigrationReconnectScreen } from "./components/onboarding/migration-reconnect-screen";
 import { PersonalAssistantOnboarding } from "./components/onboarding/personal-assistant-onboarding";
+import { LoadingSplash } from "./components/shell/loading-splash";
 import { WorkspaceShell } from "./components/shell/workspace-shell";
 import { useAgentInvalidation } from "./hooks/use-agent-invalidation";
 import { useAnalyticsSubscriber } from "./hooks/use-analytics-subscriber";
 import { useCanCreateAgents } from "./hooks/use-can-create-agents";
-import { useHoustonInit } from "./hooks/use-houston-init";
 import { useIntegrationSessionSync } from "./hooks/use-integration-session-sync";
 import { useMigrationReconnect } from "./hooks/use-migration-reconnect";
+import { useNexoInit } from "./hooks/use-nexo-init";
 import { useSession } from "./hooks/use-session";
 import { useSessionEvents } from "./hooks/use-session-events";
 import { analytics } from "./lib/analytics";
@@ -28,7 +29,7 @@ import { useUIStore } from "./stores/ui";
 import { useWorkspaceStore } from "./stores/workspaces";
 
 export default function App() {
-  useHoustonInit();
+  useNexoInit();
   useSessionEvents();
   useAgentInvalidation();
   useAnalyticsSubscriber();
@@ -167,17 +168,11 @@ export default function App() {
   // transient Supabase blip (access token still valid in Keychain)
   // is unlikely because getSession() reads locally, not remotely.
   if (isAuthConfigured() && sessionLoading) {
-    return (
-      <div className="h-screen flex items-center justify-center bg-background text-foreground">
-        <p className="text-muted-foreground text-sm">
-          {t("engineGate.starting")}
-        </p>
-      </div>
-    );
+    return <LoadingSplash>{t("engineGate.starting")}</LoadingSplash>;
   }
   if (isAuthConfigured() && !session) {
     // Local account login. Keep the dev-only paste-the-code fallback (#146) — a
-    // dev build's `houston://` callback opens the installed prod app, so without
+    // dev build's `nexo://` callback opens the installed prod app, so without
     // it dev sign-in strands. Production standalone gets no paste box (HOU-621).
     return <SignInScreen allowManualCallback={import.meta.env.DEV} />;
   }
@@ -198,13 +193,7 @@ export default function App() {
   }
 
   if (agentLoading || wsLoading || capabilitiesLoading) {
-    return (
-      <div className="h-screen flex items-center justify-center bg-background text-foreground">
-        <p className="text-muted-foreground text-sm">
-          {t("engineGate.starting")}
-        </p>
-      </div>
-    );
+    return <LoadingSplash>{t("engineGate.starting")}</LoadingSplash>;
   }
 
   if (workspaces.length === 0 && canCreateAgents && !capabilitiesError) {

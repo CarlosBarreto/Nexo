@@ -7,7 +7,7 @@ import {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { useTranslation } from "react-i18next";
 
 export const AGENT_COLOR_LABEL_KEYS: Record<string, AgentColorLabelKey> = {

@@ -7,7 +7,7 @@
  * in the entry chunk, before the app's Tailwind/i18n stack loads.
  */
 
-import { HoustonEngineClient } from "@houston/runtime-client";
+import { NexoEngineClient } from "@nexo/runtime-client";
 import { type FormEvent, useState } from "react";
 import type { EngineConfig } from "../engine-config";
 import { ui } from "./styles";
@@ -35,7 +35,7 @@ export function EngineConnectScreen({
     setError(null);
     try {
       // Validates reachability (HTTPS + CORS) AND the token (401 throws).
-      await new HoustonEngineClient({
+      await new NexoEngineClient({
         baseUrl: url,
         token: tok || undefined,
       }).authStatus();

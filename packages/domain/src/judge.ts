@@ -1,4 +1,4 @@
-import type { Routine } from "@houston/protocol";
+import type { Routine } from "@nexo/protocol";
 
 /**
  * AI-as-a-Judge (Axie): after a routine run completes, a SECOND turn — fired

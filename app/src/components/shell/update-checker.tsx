@@ -1,7 +1,7 @@
 import { AlertCircle, DownloadCloud, Loader2, RotateCw, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import houstonBlack from "../../assets/houston-black.svg";
-import houstonWhite from "../../assets/houston-icon-white.svg";
+import houstonBlack from "../../assets/nexo-black.svg";
+import houstonWhite from "../../assets/nexo-icon-white.svg";
 import { useUpdateChecker } from "../../hooks/use-update-checker";
 import { selectUpdateNotes } from "../../lib/update-details";
 import { UpdateNotes } from "./update-notes";

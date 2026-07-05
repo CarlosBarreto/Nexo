@@ -1,44 +1,44 @@
-import { CLOUD_CAPABILITIES } from "@houston/host/src/capabilities";
-import { ProxyChannel } from "@houston/host/src/channel/proxy";
-import { TurnChannel } from "@houston/host/src/channel/turn";
-import { config } from "@houston/host/src/config";
-import { refreshCredential } from "@houston/host/src/credentials/refresh";
-import { MemoryCredentialStore } from "@houston/host/src/credentials/store";
-import { EnvCredentialVault } from "@houston/host/src/credentials/vault";
-import type { Agent } from "@houston/host/src/domain/types";
-import { BusEventHub } from "@houston/host/src/events/hub";
+import { KubeConfig } from "@kubernetes/client-node";
+import { CLOUD_CAPABILITIES } from "@nexo/host/src/capabilities";
+import { ProxyChannel } from "@nexo/host/src/channel/proxy";
+import { TurnChannel } from "@nexo/host/src/channel/turn";
+import { config } from "@nexo/host/src/config";
+import { refreshCredential } from "@nexo/host/src/credentials/refresh";
+import { MemoryCredentialStore } from "@nexo/host/src/credentials/store";
+import { EnvCredentialVault } from "@nexo/host/src/credentials/vault";
+import type { Agent } from "@nexo/host/src/domain/types";
+import { BusEventHub } from "@nexo/host/src/events/hub";
 import {
   type FeedbackSender,
   LinearFeedbackSender,
-} from "@houston/host/src/feedback";
-import { ComposioProvider } from "@houston/host/src/integrations/composio";
-import { IntegrationRegistry } from "@houston/host/src/integrations/registry";
-import { FakeLauncher } from "@houston/host/src/launcher/fake";
-import { CloudPaths } from "@houston/host/src/paths";
+} from "@nexo/host/src/feedback";
+import { ComposioProvider } from "@nexo/host/src/integrations/composio";
+import { IntegrationRegistry } from "@nexo/host/src/integrations/registry";
+import { FakeLauncher } from "@nexo/host/src/launcher/fake";
+import { CloudPaths } from "@nexo/host/src/paths";
 import type {
   CredentialStore,
   CredentialVault,
   RuntimeLauncher,
   WorkspaceStore,
-} from "@houston/host/src/ports";
-import { forward } from "@houston/host/src/proxy/route";
-import type { IntegrationDeps } from "@houston/host/src/routes/integrations";
-import { ChannelRoutineFirer } from "@houston/host/src/schedule/firer";
-import { Scheduler } from "@houston/host/src/schedule/scheduler";
+} from "@nexo/host/src/ports";
+import { forward } from "@nexo/host/src/proxy/route";
+import type { IntegrationDeps } from "@nexo/host/src/routes/integrations";
+import { ChannelRoutineFirer } from "@nexo/host/src/schedule/firer";
+import { Scheduler } from "@nexo/host/src/schedule/scheduler";
 import {
   type ControlPlaneDeps,
   createControlPlaneServer,
-} from "@houston/host/src/server";
-import { installGracefulShutdown } from "@houston/host/src/shutdown";
-import { MemoryWorkspaceStore } from "@houston/host/src/store/memory";
-import { MemoryTurnBus, type TurnBus } from "@houston/host/src/turn/bus";
-import { ConnectManager } from "@houston/host/src/turn/connect";
-import type { TurnDeps } from "@houston/host/src/turn/deps";
-import { makeIdTokenProvider } from "@houston/host/src/turn/id-token";
-import { TurnQuota } from "@houston/host/src/turn/quota";
-import { TurnRelay } from "@houston/host/src/turn/relay";
-import { MemoryVfs, type Vfs } from "@houston/host/src/vfs";
-import { KubeConfig } from "@kubernetes/client-node";
+} from "@nexo/host/src/server";
+import { installGracefulShutdown } from "@nexo/host/src/shutdown";
+import { MemoryWorkspaceStore } from "@nexo/host/src/store/memory";
+import { MemoryTurnBus, type TurnBus } from "@nexo/host/src/turn/bus";
+import { ConnectManager } from "@nexo/host/src/turn/connect";
+import type { TurnDeps } from "@nexo/host/src/turn/deps";
+import { makeIdTokenProvider } from "@nexo/host/src/turn/id-token";
+import { TurnQuota } from "@nexo/host/src/turn/quota";
+import { TurnRelay } from "@nexo/host/src/turn/relay";
+import { MemoryVfs, type Vfs } from "@nexo/host/src/vfs";
 import { Pool } from "pg";
 import { type AutopilotRates, BigQueryBillingReader } from "./admin/billing";
 import { FakeClusterReader, GkeClusterReader } from "./admin/cluster";
@@ -52,7 +52,7 @@ import { GcsVfs } from "./vfs/gcs";
 
 /**
  * The CLOUD wiring point (CLOSED) — Houston Cloud. Boots the host
- * (`createControlPlaneServer` from `@houston/host`) with the cloud adapter
+ * (`createControlPlaneServer` from `@nexo/host`) with the cloud adapter
  * profile: Postgres stores, GCS workspace files, GKE sandbox lifecycle, Redis
  * shared-state, BigQuery billing, the Supabase verifier, and the operator-admin
  * surface (injected behind the `mountAdmin` seam). One frontend-facing API

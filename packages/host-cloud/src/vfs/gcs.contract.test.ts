@@ -1,13 +1,10 @@
-import {
-  prefixed,
-  runVfsContract,
-} from "@houston/host/src/testing/vfs-contract";
+import { prefixed, runVfsContract } from "@nexo/host/src/testing/vfs-contract";
 import { test } from "vitest";
 import { GcsVfs } from "./gcs";
 
 /**
  * GcsVfs (CLOSED) run through the SAME Vfs contract the open Memory/Fs adapters
- * pass (runVfsContract is exported from `@houston/host`), against a REAL object
+ * pass (runVfsContract is exported from `@nexo/host`), against a REAL object
  * store. The @google-cloud/storage client speaks the JSON API to either a live
  * GCS bucket or a local emulator (fsouza/fake-gcs-server via Testcontainers /
  * docker run) — both external infra, so this run is env-gated on

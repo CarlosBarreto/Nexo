@@ -4,7 +4,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { ListChecks, MoreHorizontal } from "lucide-react";
 
 export interface ColumnActionsMenuProps {

@@ -7,7 +7,7 @@
  * is the expected "unforged" state, not an error.
  */
 
-import schema from "@houston-ai/agent-schemas/soul.schema.json";
+import schema from "@nexo-ai/agent-schemas/soul.schema.json";
 import { readAgentJson } from "./agent-file";
 
 export type SoulElement = "fire" | "water" | "earth" | "air";

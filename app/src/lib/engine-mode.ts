@@ -3,9 +3,9 @@
  * of the Tauri-spawned Rust engine.
  *
  * This MUST mirror `useHost` in `app/vite.config.ts`, which aliases
- * `@houston-ai/engine-client` to the host adapter exactly when one of
+ * `@nexo-ai/engine-client` to the host adapter exactly when one of
  * these flags is set. The adapter decides its protocol (v3 host vs the
- * Rust wire) from `window.__HOUSTON_CP__` at HoustonClient *construction* time,
+ * Rust wire) from `window.__HOUSTON_CP__` at NexoClient *construction* time,
  * so the flag has to be a deterministic build constant set before any client is
  * built — NOT a value injected by the Tauri host handshake, which can lose the
  * race against the `get_engine_handshake` poll / `houston-engine-ready` event

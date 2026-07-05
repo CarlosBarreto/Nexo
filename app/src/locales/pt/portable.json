@@ -4,7 +4,7 @@
     "fromFriendCard": "De um amigo",
     "fromFriendDescription": "Envie um arquivo que alguém te compartilhou e traga o agente para seu espaço."
   },
-  "flagged": "Houston marcou este para você dar uma olhada.",
+  "flagged": "Nexo marcou este para você dar uma olhada.",
   "export": {
     "eyebrow": "Compartilhando {{name}}",
     "loading": "Carregando seu agente.",
@@ -20,13 +20,13 @@
     },
     "step2": {
       "title": "Quer anonimizar antes?",
-      "body": "Houston pode remover informações pessoais óbvias como e-mails e caminhos. Você vê o que mudou antes de salvar.",
+      "body": "Nexo pode remover informações pessoais óbvias como e-mails e caminhos. Você vê o que mudou antes de salvar.",
       "asIsTitle": "Compartilhar como está",
       "asIsBody": "Manter tudo como está.",
       "anonymizeTitle": "Me ajude a anonimizar",
       "anonymizeBody": "Remove e-mails, caminhos e outros dados pessoais óbvios.",
       "reviewLabel": "Veja o que mudou",
-      "working": "Houston está revisando seu conteúdo.",
+      "working": "Nexo está revisando seu conteúdo.",
       "diffInstructions": "Instruções",
       "before": "Antes",
       "after": "Depois",
@@ -38,7 +38,7 @@
     },
     "step3": {
       "title": "Pronto para compartilhar",
-      "body": "Houston empacota {{name}} em um arquivo único que você pode enviar por qualquer app.",
+      "body": "Nexo empacota {{name}} em um arquivo único que você pode enviar por qualquer app.",
       "skillsLabel": "Habilidades",
       "routinesLabel": "Rotinas",
       "learningsLabel": "Aprendizados",
@@ -68,23 +68,23 @@
   },
   "import": {
     "eyebrow": "De um amigo",
-    "flagged": "Houston marcou este para você dar uma olhada.",
+    "flagged": "Nexo marcou este para você dar uma olhada.",
     "step1": {
       "title": "Envie o arquivo que seu amigo mandou",
-      "body": "Houston lê na sua máquina. Nada é enviado para a internet.",
+      "body": "Nexo lê na sua máquina. Nada é enviado para a internet.",
       "pickFile": "Escolher arquivo",
       "uploadedFrom": "Compartilhado por {{name}}",
       "anonymous": "seu amigo",
       "counts": "{{skills}} habilidades, {{routines}} rotinas, {{learnings}} aprendizados",
       "anonymizedFlag": "Anonimizado antes do compartilhamento.",
-      "scanChoiceLabel": "Quer que o Houston dê uma olhada?",
+      "scanChoiceLabel": "Quer que o Nexo dê uma olhada?",
       "scanYesTitle": "Sim, revisar primeiro",
-      "scanYesBody": "Houston procura riscos óbvios. Não é garantia, é uma leitura atenta.",
+      "scanYesBody": "Nexo procura riscos óbvios. Não é garantia, é uma leitura atenta.",
       "scanNoTitle": "Não, confio",
       "scanNoBody": "Pular a revisão e continuar.",
       "scanning": "Revisando o pacote.",
-      "scanClean": "Houston não marcou nada.",
-      "scanFlagged": "Houston marcou {{count}} item(ns). Revise enquanto continua."
+      "scanClean": "Nexo não marcou nada.",
+      "scanFlagged": "Nexo marcou {{count}} item(ns). Revise enquanto continua."
     },
     "step2": {
       "title": "Dê um nome ao novo agente",

@@ -1,4 +1,4 @@
-import { cn, Spinner } from "@houston-ai/core";
+import { cn, Spinner } from "@nexo-ai/core";
 import type { ReactNode } from "react";
 import { SkillIcon } from "./skill-icon";
 

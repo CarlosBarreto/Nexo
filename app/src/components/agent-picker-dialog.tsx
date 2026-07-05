@@ -4,9 +4,9 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  HoustonAvatar,
+  NexoAvatar,
   resolveAgentColor,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { useTranslation } from "react-i18next";
 import type { Agent } from "../lib/types";
 
@@ -54,7 +54,7 @@ export function AgentPickerDialog({
                   }}
                   className="flex items-center gap-4 rounded-2xl bg-secondary p-4 text-left transition-colors duration-200 hover:bg-accent w-full"
                 >
-                  <HoustonAvatar color={color} diameter={48} />
+                  <NexoAvatar color={color} diameter={48} />
                   <span className="text-sm font-semibold text-foreground">
                     {a.name}
                   </span>

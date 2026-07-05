@@ -10,8 +10,8 @@ import {
   saveActivities,
   saveRoutineRuns,
   upsertById,
-} from "@houston/domain";
-import type { ChatMessage, RoutineRun } from "@houston/protocol";
+} from "@nexo/domain";
+import type { ChatMessage, RoutineRun } from "@nexo/protocol";
 import type { Agent, Workspace } from "../domain/types";
 import type { EventHub } from "../events/hub";
 import { conversationKey, type WorkspacePaths } from "../paths";

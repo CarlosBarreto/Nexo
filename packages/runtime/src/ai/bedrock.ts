@@ -27,7 +27,7 @@ export function bedrockOptionsWithBearerToken<T extends StreamOptions>(
 }
 
 /** Override pi-ai's Bedrock API handler with Houston's credential bridge. */
-export function registerHoustonBedrockProvider(): void {
+export function registerNexoBedrockProvider(): void {
   registerApiProvider(
     {
       api: "bedrock-converse-stream",

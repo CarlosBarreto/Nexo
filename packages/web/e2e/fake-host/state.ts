@@ -15,8 +15,8 @@
  * typecheck here instead of silently drifting the mock.
  */
 
-import type { ChatMessage, TokenUsage } from "@houston/runtime-client";
-import type { Activity } from "@houston-ai/engine-client";
+import type { ChatMessage, TokenUsage } from "@nexo/runtime-client";
+import type { Activity } from "@nexo-ai/engine-client";
 import { SEED_AGENT_ID, SEED_AGENT_NAME, SEED_WORKSPACE_ID } from "./ports";
 
 /** The host's agent wire model, mapped to the UI `Agent` by control-plane.ts. */

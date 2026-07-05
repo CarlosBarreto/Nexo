@@ -7,8 +7,8 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@houston-ai/core";
-import type { IntegrationToolkit } from "@houston-ai/engine-client";
+} from "@nexo-ai/core";
+import type { IntegrationToolkit } from "@nexo-ai/engine-client";
 import { Check, ChevronDown, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";

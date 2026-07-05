@@ -1,5 +1,5 @@
 import type { Server } from "node:http";
-import type { Capabilities } from "@houston/protocol";
+import type { Capabilities } from "@nexo/protocol";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import { SingleUserVerifier } from "./auth/verify";
 import { ProxyChannel, type RuntimeProxy } from "./channel/proxy";
@@ -414,7 +414,7 @@ test("a different user CANNOT forget someone else's credential → 403", async (
 // The operator dashboard (`/admin/*`) is the CLOSED admin surface, injected via
 // the `mountAdmin` seam. Its end-to-end tests (404 when unmounted, the
 // non-admin/admin 403/200 split, billing days, the 405s) live in
-// `@houston/host-cloud` (routes/admin.test.ts), which wires `handleAdmin` into
+// `@nexo/host-cloud` (routes/admin.test.ts), which wires `handleAdmin` into
 // this same server through `mountAdmin`. The open server only proves the seam is
 // absent by default — see the "unmounted → 404" case below.
 
@@ -440,7 +440,7 @@ async function startServer(
 test("/admin/* 404s when no admin surface is injected (the local-profile default)", async () => {
   // The module-level server was built without `mountAdmin` — exactly the local
   // profile. The full admin behavior (403/200, billing, 405s) is exercised in
-  // @houston/host-cloud's routes/admin.test.ts, which injects `handleAdmin`.
+  // @nexo/host-cloud's routes/admin.test.ts, which injects `handleAdmin`.
   const r = await fetch(`${base}/admin/overview`, { headers: auth("alice") });
   expect(r.status).toBe(404);
 });

@@ -3,7 +3,7 @@ import {
   EMPTY_SNAPSHOT,
   reduceSnapshot,
   type WireEvent,
-} from "@houston/runtime-client";
+} from "@nexo/runtime-client";
 import { MemoryTurnBus, type TurnBus } from "./bus";
 
 /**

@@ -1,6 +1,6 @@
 /** `.houston/learnings/learnings.json` — persistent lessons the agent has recorded. */
 
-import schema from "@houston-ai/agent-schemas/learnings.schema.json";
+import schema from "@nexo-ai/agent-schemas/learnings.schema.json";
 import { newId, now, readAgentJson, writeAgentJson } from "./agent-file";
 
 export interface Learning {

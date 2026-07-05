@@ -6,7 +6,7 @@ import {
   CollapsibleTrigger,
   cn,
   ErrorBoundary,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { cjk } from "@streamdown/cjk";
 import { code } from "@streamdown/code";

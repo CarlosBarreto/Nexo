@@ -1,4 +1,4 @@
-import type { FileChangeEntry, ToolEntry } from "@houston-ai/chat";
+import type { FileChangeEntry, ToolEntry } from "@nexo-ai/chat";
 
 export type SemanticUpdateKind = "instructions" | "skills" | "learnings";
 export type FileUpdateKind = "created" | "modified";

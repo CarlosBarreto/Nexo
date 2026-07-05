@@ -141,7 +141,7 @@ describe("resolveEffectiveProvider — frozen once a conversation has messages",
     );
   });
 
-  // Preserved from public (gethouston/houston): on a frozen (in-progress) chat,
+  // Preserved from public (getnexo/nexo): on a frozen (in-progress) chat,
   // an explicit activity/agent provider stays put even when its provider is
   // logged out. The send then surfaces the reconnect card instead of silently
   // auto-switching to a connected provider. Under the new contract this is the

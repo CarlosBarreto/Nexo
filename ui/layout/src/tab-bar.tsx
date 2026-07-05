@@ -1,4 +1,4 @@
-import { cn } from "@houston-ai/core";
+import { cn } from "@nexo-ai/core";
 import type { ReactNode } from "react";
 
 export interface TabBarProps {

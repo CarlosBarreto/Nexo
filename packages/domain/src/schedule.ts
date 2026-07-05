@@ -1,4 +1,4 @@
-import type { Activity, Routine, RoutineRun } from "@houston/protocol";
+import type { Activity, Routine, RoutineRun } from "@nexo/protocol";
 import { Cron } from "croner";
 
 /**

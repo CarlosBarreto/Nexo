@@ -1,4 +1,4 @@
-import { cn, HoustonHelmet } from "@houston-ai/core";
+import { cn, NexoHelmet } from "@nexo-ai/core";
 import { Shimmer } from "./ai-elements/shimmer";
 
 export interface ChatStatusLineProps {
@@ -41,7 +41,7 @@ export function ChatStatusLine({
         className,
       )}
     >
-      <HoustonHelmet color="currentColor" size={iconSize} />
+      <NexoHelmet color="currentColor" size={iconSize} />
       <span className="min-w-0 truncate text-left">
         {active ? <Shimmer duration={1}>{label}</Shimmer> : label}
       </span>

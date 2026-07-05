@@ -8,7 +8,7 @@
  * the live message and reloaded history.
  *
  * The marker is intentionally framework-agnostic: parsing lives in
- * `@houston-ai/chat` so any consumer (desktop app, mobile, future
+ * `@nexo-ai/chat` so any consumer (desktop app, mobile, future
  * embedded chats) can decode + render the same way without inheriting
  * the desktop's skill/agent code.
  *

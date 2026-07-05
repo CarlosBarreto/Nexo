@@ -4,8 +4,8 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@houston-ai/core";
-import type { IntegrationConnection } from "@houston-ai/engine-client";
+} from "@nexo-ai/core";
+import type { IntegrationConnection } from "@nexo-ai/engine-client";
 import { Loader2, MoreHorizontal, RotateCw, Unplug } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { type AppDisplay, Logo } from "./integrations-app-display";

@@ -101,7 +101,7 @@ export function formatIssueDescription(
 // ---------------------------------------------------------------------------
 
 const ISSUE_CREATE_MUTATION = `
-mutation HoustonBugReportCreate($input: IssueCreateInput!) {
+mutation NexoBugReportCreate($input: IssueCreateInput!) {
   issueCreate(input: $input) {
     success
     issue { id identifier url }
@@ -110,7 +110,7 @@ mutation HoustonBugReportCreate($input: IssueCreateInput!) {
 `;
 
 const LABEL_QUERY = `
-query HoustonBugReportLabel($teamId: String!, $labelName: String!) {
+query NexoBugReportLabel($teamId: String!, $labelName: String!) {
   team(id: $teamId) {
     labels(first: 10, filter: { name: { eq: $labelName } }) {
       nodes { id name }

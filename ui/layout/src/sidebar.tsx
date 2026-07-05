@@ -4,7 +4,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { PanelLeftClose, PanelLeftOpen, Plus } from "lucide-react";
 import { type KeyboardEvent, type ReactNode, useState } from "react";
 import { sidebarClasses } from "./sidebar-classes";

@@ -1,7 +1,7 @@
 import type {
   IntegrationConnection,
   IntegrationToolkit,
-} from "@houston-ai/engine-client";
+} from "@nexo-ai/engine-client";
 
 /**
  * The integrations provider (platform mode): Houston holds the platform key

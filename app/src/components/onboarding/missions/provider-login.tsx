@@ -1,4 +1,4 @@
-import { AsyncButton } from "@houston-ai/core";
+import { AsyncButton } from "@nexo-ai/core";
 import { ExternalLink, Loader2 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";

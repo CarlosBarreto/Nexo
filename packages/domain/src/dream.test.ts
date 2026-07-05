@@ -1,4 +1,4 @@
-import type { Routine } from "@houston/protocol";
+import type { Routine } from "@nexo/protocol";
 import { expect, test } from "vitest";
 import { dreamRoutineTemplate, idleDueAt } from "./dream";
 import { createRoutine } from "./routines";

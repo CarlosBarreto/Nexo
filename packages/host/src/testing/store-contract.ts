@@ -8,9 +8,9 @@ import type { WorkspaceStore } from "../ports";
  * personal-workspace provisioning, agent CRUD, owner-sees-all listing,
  * cross-workspace isolation, and error-on-unknown (no silent no-ops).
  *
- * Exported from `@houston/host` (OPEN) so BOTH the open adapter suite
+ * Exported from `@nexo/host` (OPEN) so BOTH the open adapter suite
  * (store/contract.test.ts: Memory/Local) AND the closed adapter suite in
- * `@houston/host-cloud` (store/pg.contract.test.ts: PgWorkspaceStore over pg-mem)
+ * `@nexo/host-cloud` (store/pg.contract.test.ts: PgWorkspaceStore over pg-mem)
  * run the SAME assertions. The shared contract lives on the open side of the
  * seam; only the adapters it is pointed at differ.
  *

@@ -1,4 +1,4 @@
-import type { AIBoardProps } from "@houston-ai/board";
+import type { AIBoardProps } from "@nexo-ai/board";
 import { useCallback, useMemo } from "react";
 import { useSessionMessageQueue } from "../../hooks/use-session-message-queue";
 import type { SendOverrides } from "./board-source";

@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import type { CustomEndpoint } from "@houston/protocol";
+import type { CustomEndpoint } from "@nexo/protocol";
 import type {
   CaptureResult,
   ChannelCtx,

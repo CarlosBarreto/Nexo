@@ -1,4 +1,4 @@
-import type { KanbanColumnConfig, KanbanItem } from "@houston-ai/board";
+import type { KanbanColumnConfig, KanbanItem } from "@nexo-ai/board";
 
 export type BoardDir = "up" | "down" | "left" | "right";
 

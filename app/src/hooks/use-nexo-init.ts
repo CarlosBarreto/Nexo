@@ -10,7 +10,7 @@ import { useWorkspaceStore } from "../stores/workspaces";
 /**
  * App initialization hook. Called once in App.tsx.
  */
-export function useHoustonInit() {
+export function useNexoInit() {
   const initRef = useRef(false);
   const loadConfigs = useAgentCatalogStore((s) => s.loadConfigs);
   const loadWorkspaces = useWorkspaceStore((s) => s.loadWorkspaces);

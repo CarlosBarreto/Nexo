@@ -5,7 +5,7 @@ import {
   ConfirmDialog,
   cn,
   colorHex,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { Share2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

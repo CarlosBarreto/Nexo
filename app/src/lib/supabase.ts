@@ -125,7 +125,7 @@ export const supabase: SupabaseClient = createClient(
       storageKey: authStorageConfig.storageKey,
       autoRefreshToken: true,
       persistSession: true,
-      // Desktop catches the OAuth code via the `houston://` deep link and calls
+      // Desktop catches the OAuth code via the `nexo://` deep link and calls
       // `exchangeCodeForSession` itself, so its URL sniffer stays off. The web
       // build has no deep link — it lands on `/auth/callback?code=…` and relies
       // on Supabase to consume it, so enable the sniffer in browsers only.

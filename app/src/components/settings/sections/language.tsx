@@ -4,7 +4,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { useTranslation } from "react-i18next";
 import {
   changeLocale,

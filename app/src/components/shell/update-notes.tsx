@@ -1,4 +1,4 @@
-import { MessageResponse } from "@houston-ai/chat";
+import { MessageResponse } from "@nexo-ai/chat";
 
 // Renders the updater's "What's new" release notes as markdown. Reuses the
 // app's shared Streamdown renderer (the same `MessageResponse` already used for

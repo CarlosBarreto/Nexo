@@ -199,7 +199,7 @@ pub fn run() {
     // Single-instance plugin — MUST be registered before the deep-link
     // plugin on Windows / Linux so its second-instance argv-forwarding
     // is the one the deep-link plugin attaches to. Without this, every
-    // `houston://auth-callback?...` from the Google OAuth flow launches
+    // `nexo://auth-callback?...` from the Google OAuth flow launches
     // a fresh houston-app.exe (the OS protocol handler does this by
     // design — Start-menu launches resolve to `C:\Program Files\Houston\…`
     // and protocol-handler launches resolve to the 8.3 short form
@@ -210,7 +210,7 @@ pub fn run() {
     // The callback below also raises the primary window so the user
     // sees the auth state transition (browser → app) immediately.
     //
-    // No-op on macOS — NSWorkspace delivers `houston://` URLs to the
+    // No-op on macOS — NSWorkspace delivers `nexo://` URLs to the
     // running app natively, no second instance is ever spawned.
     #[cfg(any(target_os = "windows", target_os = "linux"))]
     {
@@ -235,7 +235,7 @@ pub fn run() {
         .plugin(tauri_plugin_deep_link::init())
         .setup(move |app| {
             // Deep-link handler for Google-OAuth callbacks
-            // (`houston://auth-callback?code=...`). Forwards the URL to the
+            // (`nexo://auth-callback?code=...`). Forwards the URL to the
             // frontend; Supabase's PKCE exchange runs in JS so the verifier
             // stays in Keychain-backed storage end-to-end.
             {
@@ -245,11 +245,11 @@ pub fn run() {
                     for url in event.urls() {
                         // Any deep link brings Houston forward — e.g. the
                         // "Open Houston" button on the sign-in success page
-                        // (`houston://open`), or the `houston://auth-callback`
+                        // (`nexo://open`), or the `nexo://auth-callback`
                         // fallback when the loopback couldn't bind.
                         window_focus::bring_to_front(&handle);
                         // Only the OAuth callback carries a code/error for the
-                        // webview to exchange; a bare `houston://open` is
+                        // webview to exchange; a bare `nexo://open` is
                         // focus-only (routing it through the auth path would
                         // surface a spurious "missing authorization code").
                         if url.host_str() == Some("auth-callback") {
@@ -499,7 +499,7 @@ fn spawn_rust_engine(
     }
     // Pass through `HOUSTON_TUNNEL_URL` for local relay dev
     // (`wrangler dev` on localhost:8787). Production uses the
-    // engine's baked-in default (`tunnel.gethouston.ai`).
+    // engine's baked-in default (`tunnel.getnexo.ai`).
     if let Ok(v) = std::env::var("HOUSTON_TUNNEL_URL") {
         if !v.is_empty() {
             engine_env.push(("HOUSTON_TUNNEL_URL".into(), v));

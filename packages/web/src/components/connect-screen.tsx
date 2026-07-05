@@ -11,7 +11,7 @@
  * loads, so it can't use `t()` or Tailwind classes.
  */
 
-import { HoustonClient } from "@houston-ai/engine-client";
+import { NexoClient } from "@nexo-ai/engine-client";
 import { type CSSProperties, type FormEvent, useState } from "react";
 import type { EngineConfig } from "../engine-config";
 
@@ -100,7 +100,7 @@ export function ConnectScreen({
     setError(null);
     try {
       // Validates reachability (CORS + network) AND the token (401 throws).
-      await new HoustonClient({ baseUrl: url, token: tok }).listWorkspaces();
+      await new NexoClient({ baseUrl: url, token: tok }).listWorkspaces();
       onConnect({ baseUrl: url, token: tok });
     } catch (err) {
       setError(err instanceof Error ? t.failed(err.message) : t.failedGeneric);

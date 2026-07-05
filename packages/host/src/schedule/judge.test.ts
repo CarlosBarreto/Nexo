@@ -5,8 +5,8 @@ import {
   loadRoutineRuns,
   saveRoutineRuns,
   saveRoutines,
-} from "@houston/domain";
-import type { Routine, RoutineRun } from "@houston/protocol";
+} from "@nexo/domain";
+import type { Routine, RoutineRun } from "@nexo/protocol";
 import { expect, test } from "vitest";
 import { CloudPaths } from "../paths";
 import { workspaceRoot } from "../routes/agent-data";

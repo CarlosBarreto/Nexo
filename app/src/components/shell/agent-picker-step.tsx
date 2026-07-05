@@ -1,4 +1,4 @@
-import { Input } from "@houston-ai/core";
+import { Input } from "@nexo-ai/core";
 import { Gift, Search } from "lucide-react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";

@@ -263,7 +263,7 @@ function SignIn({ supabase, ready }: { supabase: SupaClient; ready: boolean }) {
           <input
             style={input}
             type="email"
-            placeholder="you@gethouston.ai"
+            placeholder="you@getnexo.ai"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="email"

@@ -1,8 +1,8 @@
 import type {
   ChatMessage,
-  HoustonEngineClient,
+  NexoEngineClient,
   WireEvent,
-} from "@houston/runtime-client";
+} from "@nexo/runtime-client";
 import { expect, test } from "vitest";
 import { bus } from "../src/engine-adapter/bus";
 import { historyToFeed, streamTurn } from "../src/engine-adapter/translate";
@@ -17,13 +17,13 @@ type FinalResult = {
  * synchronously, then closes. `sendMessage` is a no-op. Enough to drive one turn
  * through `streamTurn` without a real engine.
  */
-function fakeEngine(events: WireEvent[]): HoustonEngineClient {
+function fakeEngine(events: WireEvent[]): NexoEngineClient {
   return {
     async streamEvents(_id: string, opts: { onEvent: (e: WireEvent) => void }) {
       for (const ev of events) opts.onEvent(ev);
     },
     async sendMessage() {},
-  } as unknown as HoustonEngineClient;
+  } as unknown as NexoEngineClient;
 }
 
 /** Collect every feed item the turn emits on the in-process bus. */

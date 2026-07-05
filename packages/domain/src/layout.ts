@@ -1,10 +1,10 @@
-import activitySchema from "@houston-ai/agent-schemas/activity.schema.json";
-import configSchema from "@houston-ai/agent-schemas/config.schema.json";
-import learningsSchema from "@houston-ai/agent-schemas/learnings.schema.json";
-import memorySchema from "@houston-ai/agent-schemas/memory.schema.json";
-import routineRunsSchema from "@houston-ai/agent-schemas/routine_runs.schema.json";
-import routinesSchema from "@houston-ai/agent-schemas/routines.schema.json";
-import soulSchema from "@houston-ai/agent-schemas/soul.schema.json";
+import activitySchema from "@nexo-ai/agent-schemas/activity.schema.json";
+import configSchema from "@nexo-ai/agent-schemas/config.schema.json";
+import learningsSchema from "@nexo-ai/agent-schemas/learnings.schema.json";
+import memorySchema from "@nexo-ai/agent-schemas/memory.schema.json";
+import routineRunsSchema from "@nexo-ai/agent-schemas/routine_runs.schema.json";
+import routinesSchema from "@nexo-ai/agent-schemas/routines.schema.json";
+import soulSchema from "@nexo-ai/agent-schemas/soul.schema.json";
 import { saveJson, type TextStore } from "./store";
 
 /**
@@ -13,7 +13,7 @@ import { saveJson, type TextStore } from "./store";
  * in cloud it is the agent's object prefix + "/workspace". Each typed family
  * lives at `.houston/<family>/<family>.json` beside its seeded JSON schema.
  */
-export type HoustonFamily =
+export type NexoFamily =
   | "activity"
   | "routines"
   | "routine_runs"
@@ -22,7 +22,7 @@ export type HoustonFamily =
   | "memory"
   | "soul";
 
-export const FAMILIES: HoustonFamily[] = [
+export const FAMILIES: NexoFamily[] = [
   "activity",
   "routines",
   "routine_runs",
@@ -32,16 +32,16 @@ export const FAMILIES: HoustonFamily[] = [
   "soul",
 ];
 
-export const docKey = (root: string, family: HoustonFamily) =>
+export const docKey = (root: string, family: NexoFamily) =>
   `${root}/.houston/${family}/${family}.json`;
 
-export const schemaKey = (root: string, family: HoustonFamily) =>
+export const schemaKey = (root: string, family: NexoFamily) =>
   `${root}/.houston/${family}/${family}.schema.json`;
 
 /** Skills live beside `.houston`, in the Agent Skills standard layout. */
 export const skillsDirKey = (root: string) => `${root}/.agents/skills`;
 
-const SCHEMAS: Record<HoustonFamily, unknown> = {
+const SCHEMAS: Record<NexoFamily, unknown> = {
   activity: activitySchema,
   routines: routinesSchema,
   routine_runs: routineRunsSchema,

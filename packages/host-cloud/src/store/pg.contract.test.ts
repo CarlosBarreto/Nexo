@@ -1,11 +1,11 @@
-import { runWorkspaceStoreContract } from "@houston/host/src/testing/store-contract";
+import { runWorkspaceStoreContract } from "@nexo/host/src/testing/store-contract";
 import { PgWorkspaceStore } from "./pg";
 import { newWorkspacePool } from "./pg-mem-harness";
 
 /**
  * PgWorkspaceStore (CLOSED) run through the SAME WorkspaceStore contract the open
  * Memory/Local adapters pass (runWorkspaceStoreContract is exported from
- * `@houston/host`), backed by an in-process Postgres (pg-mem) preloaded with the
+ * `@nexo/host`), backed by an in-process Postgres (pg-mem) preloaded with the
  * real cloud schema (store/pg-mem-harness.ts). It executes REAL SQL — round-trips,
  * snake_case↔domain mapping, RETURNING-driven unknown-id throws, DELETE rowCount.
  *

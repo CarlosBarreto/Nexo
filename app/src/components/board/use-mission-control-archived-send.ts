@@ -1,4 +1,4 @@
-import type { KanbanItem } from "@houston-ai/board";
+import type { KanbanItem } from "@nexo-ai/board";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { analytics } from "../../lib/analytics";

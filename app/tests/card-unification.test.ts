@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 
 /**
- * HOU-467 / HOU-529 (gethouston/houston PR #542, ported into houston-web) —
+ * HOU-467 / HOU-529 (getnexo/nexo PR #542, ported into houston-web) —
  * card unification. These guard the user-visible contract of the refactor by
  * asserting on component source (the repo's React-test idiom; the node test
  * runner has no DOM). Four issue requirements + one latent bug:

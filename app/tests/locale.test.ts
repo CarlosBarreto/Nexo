@@ -121,7 +121,7 @@ describe("localeGateIsLoading", () => {
     strictEqual(localeGateIsLoading(false, true), false); // loaded + applied -> paint
   });
 
-  it("does NOT depend on the best-effort workspace override query (gethouston/houston#439)", () => {
+  it("does NOT depend on the best-effort workspace override query (getnexo/nexo#439)", () => {
     // The predicate takes no workspace-query argument by design: a non-settling
     // GET /workspaces must never hold the gate. Once the global preference is
     // loaded and applied, the gate releases — there is no third input that a

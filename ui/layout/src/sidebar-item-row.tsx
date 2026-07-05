@@ -4,7 +4,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { MoreHorizontal } from "lucide-react";
 import { type KeyboardEvent, useState } from "react";
 import type { SidebarItem } from "./sidebar";

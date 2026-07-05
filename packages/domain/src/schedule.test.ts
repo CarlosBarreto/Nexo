@@ -1,4 +1,4 @@
-import type { Routine } from "@houston/protocol";
+import type { Routine } from "@nexo/protocol";
 import { expect, test } from "vitest";
 import { createRoutine } from "./routines";
 import {

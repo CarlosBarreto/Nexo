@@ -1,5 +1,5 @@
-import type { ToolRuntimeErrorEntry } from "@houston-ai/chat";
-import { Button, Spinner } from "@houston-ai/core";
+import type { ToolRuntimeErrorEntry } from "@nexo-ai/chat";
+import { Button, Spinner } from "@nexo-ai/core";
 import {
   ArrowRightLeftIcon,
   BugIcon,

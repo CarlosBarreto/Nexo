@@ -3,8 +3,8 @@ import {
   loadRoutineRuns,
   saveRoutines,
   setPreference,
-} from "@houston/domain";
-import type { Routine } from "@houston/protocol";
+} from "@nexo/domain";
+import type { Routine } from "@nexo/protocol";
 import { expect, test } from "vitest";
 import { CloudPaths, conversationKey } from "../paths";
 import { workspaceRoot } from "../routes/agent-data";

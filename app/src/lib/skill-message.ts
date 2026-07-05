@@ -1,7 +1,7 @@
 /**
  * App-side helpers for the encoded "user ran a Skill" chat message.
  *
- * Decoding + types are owned by `@houston-ai/chat` so the desktop and
+ * Decoding + types are owned by `@nexo-ai/chat` so the desktop and
  * mobile UIs render the same card. This file keeps the encoder and the
  * Claude-prompt assembler — pieces only the desktop needs since mobile
  * doesn't currently send Skills, only display them.
@@ -20,7 +20,7 @@ import {
   decodeSkillMessage as decodeSkillMessageFromChat,
   type SkillInvocation,
   type SkillInvocationField,
-} from "@houston-ai/chat";
+} from "@nexo-ai/chat";
 import { humanizeSkillName } from "./humanize-skill-name";
 import type { SkillSummary } from "./types";
 

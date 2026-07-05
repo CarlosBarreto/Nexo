@@ -9,7 +9,7 @@
  * exactly what their skill will be called inside Houston — no surprises.
  */
 
-import { Button, cn } from "@houston-ai/core";
+import { Button, cn } from "@nexo-ai/core";
 import { Loader2 } from "lucide-react";
 import {
   cloneElement,

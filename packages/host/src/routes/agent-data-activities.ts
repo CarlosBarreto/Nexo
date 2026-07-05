@@ -7,8 +7,8 @@ import {
   saveActivities,
   type TextStore,
   upsertById,
-} from "@houston/domain";
-import type { HoustonEvent, NewActivity } from "@houston/protocol";
+} from "@nexo/domain";
+import type { NewActivity, NexoEvent } from "@nexo/protocol";
 import { json, readJson } from "./http";
 
 export async function handleActivitiesData(
@@ -19,7 +19,7 @@ export async function handleActivitiesData(
   itemId: string | null,
   req: IncomingMessage,
   res: ServerResponse,
-  emit?: (event: HoustonEvent) => void,
+  emit?: (event: NexoEvent) => void,
 ): Promise<void> {
   const fireChange = () =>
     emit?.({ type: "ActivityChanged", agentPath: agentId });

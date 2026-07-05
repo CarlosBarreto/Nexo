@@ -25,8 +25,8 @@
       "@tauri-apps/plugin-notification": [
         "./src/shims/tauri-plugin-notification.ts"
       ],
-      "@houston/app/*": ["../../app/src/*"],
-      "@houston/app": ["../../app/src"]
+      "@nexo/app/*": ["../../app/src/*"],
+      "@nexo/app": ["../../app/src"]
     }
   },
   "include": ["src"],

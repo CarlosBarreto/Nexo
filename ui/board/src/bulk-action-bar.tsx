@@ -5,7 +5,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { Archive, ChevronDown, Trash2, X } from "lucide-react";
 import { useState } from "react";
 

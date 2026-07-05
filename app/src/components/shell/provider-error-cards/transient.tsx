@@ -7,7 +7,7 @@
  * the unified `RowCard` (HOU-467).
  */
 
-import type { ProviderError } from "@houston-ai/chat";
+import type { ProviderError } from "@nexo-ai/chat";
 import {
   AlertTriangleIcon,
   Clock,

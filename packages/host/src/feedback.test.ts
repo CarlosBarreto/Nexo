@@ -85,7 +85,7 @@ test("LinearFeedbackSender resolves the label then files the issue", async () =>
     const body = JSON.parse(Buffer.concat(chunks).toString("utf8"));
     requests.push({ auth: req.headers.authorization, body });
     res.writeHead(200, { "Content-Type": "application/json" });
-    if (body.query.includes("HoustonBugReportLabel")) {
+    if (body.query.includes("NexoBugReportLabel")) {
       res.end(
         JSON.stringify({
           data: {
@@ -160,7 +160,7 @@ test("LinearFeedbackSender surfaces GraphQL errors instead of swallowing", async
 // Route-level: POST /feedback on the control-plane server
 // ---------------------------------------------------------------------------
 
-import type { Capabilities } from "@houston/protocol";
+import type { Capabilities } from "@nexo/protocol";
 import { ProxyChannel } from "./channel/proxy";
 import { MemoryCredentialStore } from "./credentials/store";
 import type { RuntimeEndpoint, RuntimeLauncher, TokenVerifier } from "./ports";

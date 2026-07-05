@@ -1,11 +1,11 @@
 import type { Server } from "node:http";
-import { saveLearnings } from "@houston/domain";
+import { saveLearnings } from "@nexo/domain";
 import type {
   AgentMemory,
   Capabilities,
   EpisodeDetail,
   MemoryHit,
-} from "@houston/protocol";
+} from "@nexo/protocol";
 import { beforeEach, expect, test } from "vitest";
 import { MemoryCredentialStore } from "../credentials/store";
 import type { RuntimeChannel, TokenVerifier } from "../ports";

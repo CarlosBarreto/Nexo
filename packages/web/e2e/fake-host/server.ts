@@ -12,7 +12,7 @@
 
 import { createServer } from "node:http";
 import { Readable } from "node:stream";
-import type { Capabilities } from "@houston-ai/engine-client";
+import type { Capabilities } from "@nexo-ai/engine-client";
 import { clearChatStreams } from "./chat";
 import { CORS, json, noContent } from "./http";
 import { FAKE_HOST_PORT } from "./ports";

@@ -4,7 +4,7 @@ import { tauriFiles, tauriSystem } from "./tauri";
 /**
  * Open a link the agent emitted in chat. Two shapes land here:
  *
- *   1. Absolute URLs — `https://...`, `http://...`, `mailto:...`, `houston://...`,
+ *   1. Absolute URLs — `https://...`, `http://...`, `mailto:...`, `nexo://...`,
  *      etc. These go to the system browser via `tauriSystem.openUrl`.
  *
  *   2. Relative or bare paths — e.g. `perfil.md`, `subfolder/output.docx`,

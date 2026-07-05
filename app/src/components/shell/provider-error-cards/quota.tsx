@@ -8,7 +8,7 @@
  * the card's action slot.
  */
 
-import type { ProviderError } from "@houston-ai/chat";
+import type { ProviderError } from "@nexo-ai/chat";
 import { AlertTriangleIcon, XCircleIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { RowCard } from "../../cards/row-card";

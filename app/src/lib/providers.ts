@@ -1,4 +1,4 @@
-import type { Capabilities } from "@houston-ai/engine-client";
+import type { Capabilities } from "@nexo-ai/engine-client";
 
 /**
  * Reasoning-effort levels, ordered low→high. The set a given model accepts

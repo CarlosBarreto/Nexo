@@ -1,4 +1,4 @@
-import { cn } from "@houston-ai/core";
+import { cn } from "@nexo-ai/core";
 import { AnimatePresence, motion } from "framer-motion";
 import type { KanbanCardLabels } from "./kanban-card";
 import { KanbanListItem } from "./kanban-list-item";

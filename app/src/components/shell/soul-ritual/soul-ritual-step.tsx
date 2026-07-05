@@ -1,4 +1,4 @@
-import { Button, cn, DialogTitle } from "@houston-ai/core";
+import { Button, cn, DialogTitle } from "@nexo-ai/core";
 import { ArrowLeft, Droplets, Flame, Mountain, Wind } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";

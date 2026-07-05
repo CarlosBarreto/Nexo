@@ -1,6 +1,6 @@
-import type { KanbanItem } from "@houston-ai/board";
-import type { FeedItem } from "@houston-ai/chat";
-import { mergeFeedHistory, messagePreviewText } from "@houston-ai/chat";
+import type { KanbanItem } from "@nexo-ai/board";
+import type { FeedItem } from "@nexo-ai/chat";
+import { mergeFeedHistory, messagePreviewText } from "@nexo-ai/chat";
 import { useQueryClient } from "@tanstack/react-query";
 import { createElement, useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";

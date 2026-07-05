@@ -1,11 +1,11 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { ensureSoul, loadRoutines, seedSchemas } from "@houston/domain";
+import { ensureSoul, loadRoutines, seedSchemas } from "@nexo/domain";
 import {
   type Capabilities,
   type CustomEndpoint,
-  type HoustonEvent,
   isSoulElement,
-} from "@houston/protocol";
+  type NexoEvent,
+} from "@nexo/protocol";
 import { canUseAgent } from "../domain/access";
 import type {
   Agent,
@@ -476,7 +476,7 @@ export async function handleAgents(
     const ctx = { workspace: authz.workspace, agent: authz.agent };
     // Reactivity emits target the workspace owner (the only member, personal tier).
     const emit = deps.events
-      ? (event: HoustonEvent) =>
+      ? (event: NexoEvent) =>
           deps.events?.emit(authz.workspace.ownerUserId, event)
       : undefined;
 

@@ -11,6 +11,7 @@ import { hostedGateState } from "../../lib/engine-mode";
 import i18n from "../../lib/i18n";
 import { isAuthConfigured } from "../../lib/supabase";
 import { SignInScreen } from "../auth/sign-in-screen";
+import { LoadingSplash } from "./loading-splash";
 
 /**
  * Blocks app rendering until the selected engine transport is ready. The hosted
@@ -81,7 +82,7 @@ function SidecarEngineGate({ children }: { children: ReactNode }) {
 }
 
 function EngineStarting() {
-  return <GateMessage>{i18n.t("shell:engineGate.starting")}</GateMessage>;
+  return <LoadingSplash>{i18n.t("shell:engineGate.starting")}</LoadingSplash>;
 }
 
 function HostedAuthMisconfigured() {
@@ -99,21 +100,7 @@ function HostedAuthMisconfigured() {
 
 function GateMessage({ children }: { children: ReactNode }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center",
-        height: "100vh",
-        padding: "0 24px",
-        fontFamily: "system-ui, sans-serif",
-        color: "#888",
-        fontSize: 14,
-        lineHeight: 1.5,
-      }}
-    >
+    <div className="flex h-screen flex-col items-center justify-center gap-4 bg-background px-6 text-center text-sm leading-relaxed text-muted-foreground">
       {children}
     </div>
   );

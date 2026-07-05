@@ -1,7 +1,7 @@
 import type {
   IntegrationConnection,
   IntegrationToolkit,
-} from "@houston-ai/engine-client";
+} from "@nexo-ai/engine-client";
 import { useState } from "react";
 
 /**

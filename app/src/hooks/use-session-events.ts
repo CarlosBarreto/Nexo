@@ -1,9 +1,9 @@
-import type { FeedItem } from "@houston-ai/chat";
-import type { HoustonEvent } from "@houston-ai/core";
+import type { FeedItem } from "@nexo-ai/chat";
+import type { NexoEvent } from "@nexo-ai/core";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { hasToolRuntimeError } from "../components/tool-runtime-feed";
-import { listenOsEvent, subscribeHoustonEvents } from "../lib/events";
+import { listenOsEvent, subscribeNexoEvents } from "../lib/events";
 import { logger } from "../lib/logger";
 import {
   resolveNotificationTarget,
@@ -60,7 +60,7 @@ export function useSessionEvents() {
       Notification.requestPermission();
     }
 
-    const unlisten = subscribeHoustonEvents((payload: HoustonEvent) => {
+    const unlisten = subscribeNexoEvents((payload: NexoEvent) => {
       const h = handlersRef.current;
 
       switch (payload.type) {
@@ -118,7 +118,7 @@ export function useSessionEvents() {
           }
           if (status === "completed") {
             const workspace = h.getWorkspace();
-            const workspaceName = workspace?.name ?? "Houston";
+            const workspaceName = workspace?.name ?? "Nexo";
 
             // Activity status flip (→ "needs_you") is owned by the
             // engine now — `sessions::start` spawns a task that writes

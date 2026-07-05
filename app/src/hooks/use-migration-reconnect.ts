@@ -1,4 +1,4 @@
-import { MIGRATION_RECONNECT_DISMISSED_KEY } from "@houston-ai/engine-client";
+import { MIGRATION_RECONNECT_DISMISSED_KEY } from "@nexo-ai/engine-client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { newEngineActive } from "../lib/engine";

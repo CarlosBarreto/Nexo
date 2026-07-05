@@ -1,5 +1,5 @@
-import { ConfirmDialog } from "@houston-ai/core";
-import { AppSidebar, WorkspaceSwitcher } from "@houston-ai/layout";
+import { ConfirmDialog } from "@nexo-ai/core";
+import { AppSidebar, WorkspaceSwitcher } from "@nexo-ai/layout";
 import { BookOpen, LayoutDashboard, Settings } from "lucide-react";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";

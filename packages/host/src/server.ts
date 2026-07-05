@@ -4,7 +4,7 @@ import {
   type Server,
   type ServerResponse,
 } from "node:http";
-import { type Capabilities, PROTOCOL_VERSION } from "@houston/protocol";
+import { type Capabilities, PROTOCOL_VERSION } from "@nexo/protocol";
 import type { UserId, WorkspaceRuntime } from "./domain/types";
 import type { EventHub } from "./events/hub";
 import {
@@ -36,7 +36,7 @@ import type { Vfs } from "./vfs";
 export type { RuntimeProxy } from "./channel/proxy";
 
 /**
- * The operator-admin surface is CLOSED (it ships in `@houston/host-cloud`). The
+ * The operator-admin surface is CLOSED (it ships in `@nexo/host-cloud`). The
  * open server never imports the admin route; instead it accepts an INJECTED
  * request hook here and calls it after the events stream. The cloud entry point
  * builds the hook (binding `handleAdmin` + its `AdminDeps` + the store) and passes

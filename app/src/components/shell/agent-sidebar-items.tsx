@@ -1,5 +1,5 @@
-import { DropdownMenuItem } from "@houston-ai/core";
-import type { SidebarItem } from "@houston-ai/layout";
+import { DropdownMenuItem } from "@nexo-ai/core";
+import type { SidebarItem } from "@nexo-ai/layout";
 import type { Agent } from "../../lib/types";
 import type { AgentActivitySummary } from "./agent-activity-summary-model";
 import { AgentSidebarColorMenu } from "./agent-sidebar-color-menu";

@@ -4,7 +4,7 @@
 //! Used wherever a flow finishes in the user's system browser and we want the
 //! app to surface itself instead of leaving the user to hunt for it. This is
 //! the "stranded after sign-in" problem generalized to every return-to-app
-//! moment: the Google OAuth loopback success, the `houston://` deep links, OS
+//! moment: the Google OAuth loopback success, the `nexo://` deep links, OS
 //! resume, and a Composio integration connection landing.
 
 use tauri::{AppHandle, Manager};
