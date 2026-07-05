@@ -60,7 +60,7 @@ export interface ClusterSnapshot {
 }
 
 export interface ClusterReader {
-  /** Every Houston-managed agent pod + PVC across the cluster, in two apiserver calls. */
+  /** Every Nexo-managed agent pod + PVC across the cluster, in two apiserver calls. */
   snapshot(): Promise<ClusterSnapshot>;
 }
 

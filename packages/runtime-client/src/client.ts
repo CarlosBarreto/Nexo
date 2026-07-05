@@ -37,7 +37,7 @@ export interface SendOptions {
 }
 
 /**
- * Typed client for the Houston engine. Zero dependencies; uses fetch + SSE.
+ * Typed client for the Nexo engine. Zero dependencies; uses fetch + SSE.
  *
  * Conversations are fully isolated. Subscribe to ONE conversation's events with
  * `streamEvents(id)`; trigger a turn with `sendMessage(id, text)`. A conversation's

@@ -2,7 +2,7 @@ import { cn, NexoHelmet } from "@nexo-ai/core";
 import { Shimmer } from "./ai-elements/shimmer";
 
 export interface ChatStatusLineProps {
-  /** The status text shown next to the Houston helmet glyph. */
+  /** The status text shown next to the Nexo helmet glyph. */
   label: string;
   /**
    * When true the label shimmers to signal an ongoing / pending state —
@@ -18,7 +18,7 @@ export interface ChatStatusLineProps {
 }
 
 /**
- * The little Houston-helmet + muted-label status line. It is the visual
+ * The little Nexo-helmet + muted-label status line. It is the visual
  * identity of the chat's "Mission log" / "Mission in progress..." row, lifted
  * out of `ChatProcessBlock` so the exact same line can stand alone elsewhere
  * (e.g. a "Waiting for you to connect" prompt on a Composio card) without

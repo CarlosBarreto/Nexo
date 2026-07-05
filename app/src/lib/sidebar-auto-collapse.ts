@@ -1,7 +1,7 @@
 /**
  * Decide whether a window-width change should auto-toggle the sidebar.
  *
- * The rail auto-collapses when the window narrows past a threshold (e.g. Houston
+ * The rail auto-collapses when the window narrows past a threshold (e.g. Nexo
  * docked to half the screen) and auto-expands when it widens back. The decision
  * is made only on the threshold CROSSING — between crossings the user's manual
  * toggle is left untouched, so a deliberate expand on a narrow window sticks.

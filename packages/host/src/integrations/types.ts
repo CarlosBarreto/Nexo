@@ -6,8 +6,8 @@
  * second provider later means a new `IntegrationProvider` adapter that maps ITS
  * wire onto these — nothing above the port changes.
  *
- * Credential model (platform): Houston holds ONE platform API key with the
- * provider; end users are plain opaque `userId` strings (the verified Houston
+ * Credential model (platform): Nexo holds ONE platform API key with the
+ * provider; end users are plain opaque `userId` strings (the verified Nexo
  * identity). There is no per-user provider account and no per-user credential
  * to store — a user's state (which apps they connected) lives with the
  * provider, keyed by that userId.
@@ -57,23 +57,23 @@ export interface ActionResult {
 /**
  * Whether the provider can serve this deployment's user right now. A direct
  * (platform-key) adapter is always ready; the desktop gateway adapter is ready
- * only once the user is signed in to Houston (it forwards with their session).
+ * only once the user is signed in to Nexo (it forwards with their session).
  */
 export interface ProviderReadiness {
   ready: boolean;
-  /** Why not ready — "signin" ⇒ the UI prompts a Houston sign-in. */
+  /** Why not ready — "signin" ⇒ the UI prompts a Nexo sign-in. */
   reason?: "signin";
 }
 
 /**
  * Thrown by an adapter when the call cannot proceed until the user signs in to
- * Houston (the desktop gateway has no session token to forward). Routes map it
+ * Nexo (the desktop gateway has no session token to forward). Routes map it
  * to 409 + code "signin_required" so the UI/agent get an actionable reason, not
  * a generic failure.
  */
 export class IntegrationSigninRequiredError extends Error {
   constructor() {
-    super("sign in to Houston to use integrations");
+    super("sign in to Nexo to use integrations");
     this.name = "IntegrationSigninRequiredError";
   }
 }

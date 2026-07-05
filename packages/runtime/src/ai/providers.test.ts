@@ -71,7 +71,7 @@ test("MiniMax uses pi-ai's global minimax provider and model catalog", () => {
   ).toBe("MiniMax-M3");
 });
 
-test("bedrockOptionsWithBearerToken maps Houston's stored key to Bedrock bearer auth", () => {
+test("bedrockOptionsWithBearerToken maps Nexo's stored key to Bedrock bearer auth", () => {
   expect(bedrockOptionsWithBearerToken(undefined)).toBeUndefined();
   expect(bedrockOptionsWithBearerToken({ apiKey: "br_test" })).toEqual({
     apiKey: "br_test",

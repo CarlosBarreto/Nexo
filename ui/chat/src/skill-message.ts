@@ -1,7 +1,7 @@
 /**
  * Skill-invocation message marker.
  *
- * When a user runs a Houston Skill the selected Skill is shown above
+ * When a user runs a Nexo Skill the selected Skill is shown above
  * the composer; the message body sent to Claude is wrapped in an
  * HTML-comment marker carrying the Skill's display metadata so the
  * chat renderer can show a card (instead of the raw prompt) for both

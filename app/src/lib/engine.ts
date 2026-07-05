@@ -1,4 +1,4 @@
-/** Engine client bootstrap for the Houston desktop app. */
+/** Engine client bootstrap for the Nexo desktop app. */
 
 import { EngineWebSocket, NexoClient } from "@nexo-ai/engine-client";
 import { isTauri } from "@tauri-apps/api/core";
@@ -18,7 +18,7 @@ declare global {
 
 /**
  * Cutover switch. When `VITE_NEW_ENGINE_URL` is set, the desktop frontend talks
- * to the v3 Houston host (host mode) instead of the Tauri-spawned Rust
+ * to the v3 Nexo host (host mode) instead of the Tauri-spawned Rust
  * engine — mirroring packages/web's same flag. The host URL + token come from
  * the env (the host runs as the sidecar, or by hand in dev). Unset → the Rust
  * path below is completely untouched, so the default build stays releasable and

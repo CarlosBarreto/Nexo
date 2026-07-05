@@ -1,9 +1,9 @@
 /**
- * NexoAvatar — the colored Houston helmet glyph, optionally wrapped in
+ * NexoAvatar — the colored Nexo helmet glyph, optionally wrapped in
  * the "card-running-glow" comet halo when an agent is actively working.
  *
  * This is the single source of truth for rendering an agent's avatar
- * across every Houston surface (desktop, mobile, any third-party
+ * across every Nexo surface (desktop, mobile, any third-party
  * frontend built on `houston-engine`). Old local copies in `app/` and
  * `mobile/` duplicated the SVG path data + the running-glow wrapper;
  * every tweak had to be done twice. Not anymore.
@@ -19,14 +19,14 @@ import { cn } from "../utils";
 const HOUSTON_GRAY = "#9b9b9b";
 
 interface HelmetProps {
-  /** Hex fill color. Defaults to Houston gray. */
+  /** Hex fill color. Defaults to Nexo gray. */
   color?: string;
   /** Pixel size (width + height). */
   size?: number;
   className?: string;
 }
 
-/** Bare Houston helmet SVG. No container, no halo — just the glyph. */
+/** Bare Nexo helmet SVG. No container, no halo — just the glyph. */
 export function NexoHelmet({
   color = HOUSTON_GRAY,
   size = 24,
@@ -69,7 +69,7 @@ interface NexoAvatarProps {
   className?: string;
 }
 
-/** Agent avatar badge: colored circle + Houston helmet. Flip `running`
+/** Agent avatar badge: colored circle + Nexo helmet. Flip `running`
  *  to `true` and the badge grows a spinning comet border without any
  *  other code change required. */
 export function NexoAvatar({

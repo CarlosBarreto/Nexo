@@ -6,9 +6,9 @@ import { nexoSystemPrompt } from "./nexo-prompt";
  * app/src-tauri/src/houston_prompt/mod.rs so the agent's behavior matches the
  * desktop. The key bit for QA: it tells the agent HOW to create routines/skills.
  */
-test("the prompt carries the interaction gates + Houston context", () => {
+test("the prompt carries the interaction gates + Nexo context", () => {
   const p = nexoSystemPrompt();
-  expect(p).toContain("# Houston Context");
+  expect(p).toContain("# Nexo Context");
   expect(p).toContain("# Interaction Procedure");
   expect(p).toContain("# Load Relevant Guidance");
   expect(p).toContain("Classify the request");

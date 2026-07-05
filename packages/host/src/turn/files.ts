@@ -14,7 +14,7 @@ import { json, readJson } from "./deps";
  * there during a turn; these endpoints list, read, download, rename, delete, and
  * create folders against it.
  *
- * Internal Houston state — the top-level `.houston/` (typed data) and `.agents/`
+ * Internal Nexo state — the top-level `.houston/` (typed data) and `.agents/`
  * (skills) dot-directories — is hidden from the listing and refused by every
  * path op, so the Files tab can neither show nor clobber it.
  *
@@ -56,7 +56,7 @@ function safeRel(rel: string): string {
   ) {
     throw new FilePathError(rel);
   }
-  // Internal Houston state lives in top-level dot-dirs (.houston, .agents). The
+  // Internal Nexo state lives in top-level dot-dirs (.houston, .agents). The
   // Files tab must never read or write there.
   if (norm.split("/")[0]?.startsWith(".")) throw new FilePathError(rel);
   return norm;
@@ -123,7 +123,7 @@ export async function listWorkspace(
     const rel = s.key.slice(root.length + 1);
     if (!rel) continue;
     const segments = rel.split("/");
-    // Hide internal Houston state (top-level .houston / .agents) from the browser.
+    // Hide internal Nexo state (top-level .houston / .agents) from the browser.
     if (segments[0]?.startsWith(".")) continue;
     // Record every ancestor directory (with the freshest mtime beneath it).
     for (let i = 1; i < segments.length; i++) {

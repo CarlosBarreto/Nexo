@@ -1,5 +1,5 @@
 /**
- * i18next setup for the Houston desktop app.
+ * i18next setup for the Nexo desktop app.
  *
  * Source of truth for the user's locale = engine preference `locale`.
  * localStorage is only a boot-time cache so the first paint doesn't flash

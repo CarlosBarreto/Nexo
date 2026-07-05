@@ -134,7 +134,7 @@ impl EngineSubprocess {
     /// Spawn `houston-engine` and wait up to `timeout` for the banner.
     ///
     /// `env` is merged on top of the inherited environment — used by the
-    /// Houston app to pass product-layer prompts (`HOUSTON_APP_SYSTEM_PROMPT`,
+    /// Nexo app to pass product-layer prompts (`HOUSTON_APP_SYSTEM_PROMPT`,
     /// `HOUSTON_APP_ONBOARDING_PROMPT`) into the engine at boot so the engine
     /// itself carries no product copy.
     pub fn spawn(
@@ -212,7 +212,7 @@ impl EngineSubprocess {
             // which compiles with Rust's default `console` PE
             // subsystem so its tracing output stays inspectable when
             // launched from a terminal — pops a visible cmd window
-            // every time Houston launches. Tauri's own `Sidecar`
+            // every time Nexo launches. Tauri's own `Sidecar`
             // helper sets this flag for us; we don't use it
             // (engine_supervisor speaks raw std::process::Command
             // for the stdin-watchdog trick), so we have to set it
@@ -389,7 +389,7 @@ impl Drop for EngineSubprocess {
 ///    engine crate).
 /// 3. Sibling of the current executable — this is where Tauri's
 ///    `externalBin` places sidecars in shipped app bundles:
-///      - macOS: `Houston.app/Contents/MacOS/houston-engine`
+///      - macOS: `Nexo.app/Contents/MacOS/houston-engine`
 ///      - Windows: next to `houston-app.exe`
 ///      - Linux AppImage: inside the mounted AppImage root
 ///    Authoritative for release builds. (Tauri's `resource_dir()` points

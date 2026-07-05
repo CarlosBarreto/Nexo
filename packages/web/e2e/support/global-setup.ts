@@ -4,7 +4,7 @@
  * playwright.config starts vite as a `webServer`, but Playwright only waits for
  * the PORT to open — not for vite to compile anything. vite dev transforms
  * modules on demand, so the FIRST navigation that reaches the lazily-imported
- * desktop graph (`../app-tree`, behind the "Loading Houston…" Suspense boundary
+ * desktop graph (`../app-tree`, behind the "Loading Nexo…" Suspense boundary
  * in src/new-engine) pays the entire cold-compile cost in one shot. On a cold CI
  * runner that compile blew past the 10s assertion timeout, so the run's first
  * test failed waiting for the shell ("Your Agents"). It passed on retry (vite was

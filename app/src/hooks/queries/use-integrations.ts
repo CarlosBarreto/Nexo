@@ -7,7 +7,7 @@ import {
   reverseGrantChange,
 } from "./grant-set";
 
-/** Per-provider readiness (usable now? needs a Houston sign-in?). User-level. */
+/** Per-provider readiness (usable now? needs a Nexo sign-in?). User-level. */
 export function useIntegrationStatus() {
   return useQuery({
     queryKey: queryKeys.integrationStatus(),

@@ -3,7 +3,7 @@
  *
  *  - **New TS engine host** (`VITE_NEW_ENGINE` truthy, or a URL baked via
  *    `VITE_NEW_ENGINE_URL`): boots the FULL desktop UI (app/src) against the new
- *    Houston host. vite.config aliases `@nexo-ai/engine-client` to the
+ *    Nexo host. vite.config aliases `@nexo-ai/engine-client` to the
  *    new-engine adapter, so app/src runs unchanged. The engine URL + token are
  *    entered at runtime via the new-engine Connect screen (`<NewEngineRoot>`),
  *    or pre-seeded from `VITE_NEW_ENGINE_URL` / `VITE_NEW_ENGINE_TOKEN`.
@@ -43,7 +43,7 @@ if (controlPlaneUrl && window.location.pathname.startsWith("/admin")) {
   // boots in host mode. app/src/lib/engine.ts reads these globals at
   // module-eval (which fires as soon as cloud-login statically imports the app
   // tree), so they MUST be set before that import — otherwise EngineGate hangs
-  // on "Starting Houston engine". CloudApp keeps the token in sync with the
+  // on "Starting Nexo engine". CloudApp keeps the token in sync with the
   // live session; the engine adapter reads it live per request.
   window.__HOUSTON_CP__ = true;
   window.__HOUSTON_ENGINE__ = { baseUrl: controlPlaneUrl, token: "" };

@@ -1,5 +1,5 @@
 /**
- * Houston backend adapter.
+ * Nexo backend adapter.
  *
  * Every domain call (workspaces, agents, chat, skills, store, sync, …) flows
  * through `@nexo-ai/engine-client` to the `houston-engine` subprocess the
@@ -49,13 +49,13 @@ interface EngineCallOptions {
    *  user-initiated failures always reach crash reporting; set false only for
    *  genuinely fire-and-forget calls or ones with their own report path. */
   capture?: boolean;
-  /** Engine error `kind`s that are expected + explainable (not Houston bugs).
+  /** Engine error `kind`s that are expected + explainable (not Nexo bugs).
    *  Matching errors are logged but get NO red bug toast and NO Sentry report;
    *  the caller surfaces them inline. Use sparingly, only for kinds a user can
    *  understand and act on (e.g. the legacy Rust engine's typed
    *  `composio_login_timeout` / `composio_already_connected`). */
   silenceKinds?: string[];
-  /** Classifier for errors that are expected + explainable (not Houston bugs).
+  /** Classifier for errors that are expected + explainable (not Nexo bugs).
    *  A matching error is logged but gets NO red bug toast and NO Sentry report;
    *  the caller surfaces it inline. Use sparingly, only for failures a user can
    *  understand and act on (e.g. a skill that was renamed or removed). The TS
@@ -482,7 +482,7 @@ export const tauriConnections = {
         };
       },
       { toolkit },
-      // "Already connected" is an expected state, not a Houston bug: the
+      // "Already connected" is an expected state, not a Nexo bug: the
       // caller refreshes the connected-toolkits list so the card flips to
       // connected (HOU-463). Silence it so it gets no red bug toast and no
       // Sentry report — the prior over-reporting was the source of this issue.
@@ -977,7 +977,7 @@ export const tauriProvider = {
    * tab, stuck spinner). Kills the CLI subprocess on the engine and
    * frees the slot so the next `launchLogin` isn't rejected as
    * "already pending" — the user can retry immediately instead of
-   * restarting Houston (#237). Idempotent and benign: the engine emits
+   * restarting Nexo (#237). Idempotent and benign: the engine emits
    * a `ProviderLoginComplete` with `success: false` and no `error`, so
    * pending spinners clear without an error toast.
    */
@@ -1053,7 +1053,7 @@ export type ClaudeStatus = EngineClaudeStatus;
  *
  *  Distinct from `tauriProvider`: provider-level concerns (auth, CLI
  *  spawn) sit on `tauriProvider`; the *install* of Anthropic's CLI is
- *  Houston-managed (we download it because the license forbids
+ *  Nexo-managed (we download it because the license forbids
  *  bundling) and exposed here so the onboarding card can show a
  *  specific "couldn't reach Anthropic — Retry" affordance — issue #231.
  */
@@ -1110,7 +1110,7 @@ export const tauriTunnel = {
 
 /**
  * Integrations (Composio, platform mode). The user never creates a provider
- * account — they only OAuth apps (Gmail, Slack…); Houston's platform key lives
+ * account — they only OAuth apps (Gmail, Slack…); Nexo's platform key lives
  * server-side. Host-only — these reach the v3 host's /v1/integrations routes;
  * the tab is gated to the control-plane build so they never run on the legacy
  * Rust wire. Types flow by inference.

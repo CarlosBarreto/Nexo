@@ -41,7 +41,7 @@ export interface ChatMessagesProps {
   status: "ready" | "streaming" | "submitted";
   thinkingIndicator: ReactNode;
   /** Static glyph rendered after the agent's reply once the turn settles
-   *  (e.g. a non-blinking Houston helmet). Omitted → nothing renders. */
+   *  (e.g. a non-blinking Nexo helmet). Omitted → nothing renders. */
   endOfTurnIndicator?: ReactNode;
   transformContent?: (content: string) => {
     content: string;

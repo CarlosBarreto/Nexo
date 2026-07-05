@@ -253,7 +253,7 @@ Run on the VPS from repo root `houston-web/`:
 
 ```sh
 pnpm install
-VITE_NEW_ENGINE=1 pnpm --filter houston-web build
+VITE_NEW_ENGINE=1 pnpm --filter nexo-web build
 mkdir -p selfhost/web
 cp -R packages/web/dist/. selfhost/web/
 cd selfhost

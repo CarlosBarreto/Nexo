@@ -178,7 +178,7 @@ export function useSessionEvents() {
     // notification clicks navigate via the `app-activated` / focus path below
     // (macOS: OS app-activation on click; Linux/Windows: the Rust command in
     // notification.rs raises the window and emits `app-activated`). Kept for
-    // when Houston ships a mobile shell.
+    // when Nexo ships a mobile shell.
     let unlistenNotificationAction: (() => void) | undefined;
     import("@tauri-apps/plugin-notification").then(({ onAction }) => {
       onAction((action) => {
@@ -209,7 +209,7 @@ export function useSessionEvents() {
     //    desktop click event and a click is indistinguishable from activation.
     //    On Linux/Windows a real click arrives as the distinct
     //    `notification-clicked` event below, so navigating here would yank the
-    //    user back to a finished mission whenever they refocus Houston for any
+    //    user back to a finished mission whenever they refocus Nexo for any
     //    reason — the bug we're fixing.
     //  - Agent-list refresh: always, so external changes (e.g. Finder delete)
     //    are picked up when the window comes forward.

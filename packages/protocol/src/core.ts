@@ -1,5 +1,5 @@
 /**
- * Protocol v3 — the ONE wire contract for the Houston host, every deployment.
+ * Protocol v3 — the ONE wire contract for the Nexo host, every deployment.
  * The frontend talks ONLY to the host (local profile on 127.0.0.1, cloud
  * profile behind the host URL); the host talks to runtimes. The
  * conversation core (conversation.ts) is runtime v2 verbatim, nested under

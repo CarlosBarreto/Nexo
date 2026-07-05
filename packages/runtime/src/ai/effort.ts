@@ -1,6 +1,6 @@
 /**
  * pi's reasoning levels (a mirror of pi-ai's `ThinkingLevel`). pi's ceiling is
- * "xhigh"; it has no Houston "max". Kept as a local literal so we don't depend
+ * "xhigh"; it has no Nexo "max". Kept as a local literal so we don't depend
  * on pi-ai's type being re-exported, while staying structurally assignable to
  * the `thinkingLevel` that `createAgentSession` / `session.setThinkingLevel`
  * accept.
@@ -18,9 +18,9 @@ export type PiThinkingLevel = "minimal" | "low" | "medium" | "high" | "xhigh";
 export const DEFAULT_REASONING_EFFORT = "medium";
 
 /**
- * Map a Houston effort value to pi's `thinkingLevel`.
+ * Map a Nexo effort value to pi's `thinkingLevel`.
  *
- * Houston's effort vocabulary (agent config + routine pin) is
+ * Nexo's effort vocabulary (agent config + routine pin) is
  * `low | medium | high | xhigh | max`; pi's is `minimal | low | medium | high |
  * xhigh`. Only "max" has no direct counterpart — it denotes "the most reasoning
  * this model offers", which in pi is "xhigh", so it maps there; pi then clamps
@@ -44,7 +44,7 @@ export function toThinkingLevel(
       return "high";
     case "xhigh":
       return "xhigh";
-    // Houston's top level; pi's ceiling is "xhigh" (it then clamps per model).
+    // Nexo's top level; pi's ceiling is "xhigh" (it then clamps per model).
     case "max":
       return "xhigh";
     default:

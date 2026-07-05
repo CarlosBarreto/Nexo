@@ -51,7 +51,7 @@ import { historyToFeed, streamTurn } from "./translate";
 export interface NexoClientOptions {
   baseUrl: string;
   token: string;
-  /** When true, route agents + chat through the Houston control plane (cloud). */
+  /** When true, route agents + chat through the Nexo control plane (cloud). */
   controlPlane?: boolean;
 }
 
@@ -223,7 +223,7 @@ export class NexoClient {
     const { provider, model } = await this.activeOld();
     return {
       ...syntheticWorkspace(provider, model),
-      name: req?.name || "Houston",
+      name: req?.name || "Nexo",
     };
   }
   async renameWorkspace(): Promise<Workspace> {
@@ -309,7 +309,7 @@ export class NexoClient {
   }
   async getAgentConfig(): Promise<ProjectConfig> {
     const { provider, model } = await this.activeOld();
-    return { name: "Houston", provider, model, effort: "medium" };
+    return { name: "Nexo", provider, model, effort: "medium" };
   }
   async setAgentConfig(
     agentPath: string,
@@ -568,7 +568,7 @@ export class NexoClient {
 
   // ---- conversations / routines / skills (mostly empty) ----
   async listConversations(agentPath: string): Promise<ConversationEntry[]> {
-    const agentName = agents.agentNameByPath(agentPath) ?? "Houston";
+    const agentName = agents.agentNameByPath(agentPath) ?? "Nexo";
     // The board/missions list is derived from activities; in cloud those live on
     // the host (this.listActivities un-fakes it), not localStorage.
     const acts = await this.listActivities(agentPath);

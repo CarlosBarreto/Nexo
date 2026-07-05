@@ -1,5 +1,5 @@
 /**
- * Pure locale value-logic for the Houston desktop app — no i18next, no DOM, no
+ * Pure locale value-logic for the Nexo desktop app — no i18next, no DOM, no
  * JSON-module imports, so it loads under the bare Node test runner and stays
  * unit-testable. The i18next runtime wiring (init, changeLanguage, the
  * localStorage flash-cache, applying the engine value) lives in `./i18n`, which

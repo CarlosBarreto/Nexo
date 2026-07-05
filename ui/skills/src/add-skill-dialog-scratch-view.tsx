@@ -6,7 +6,7 @@
  *
  * The on-disk skill name is a kebab-case slug derived from the title.
  * We render the derived slug below the title field so the user sees
- * exactly what their skill will be called inside Houston — no surprises.
+ * exactly what their skill will be called inside Nexo — no surprises.
  */
 
 import { Button, cn } from "@nexo-ai/core";
@@ -41,7 +41,7 @@ export interface ScratchViewLabels {
 const DEFAULT_LABELS: Required<ScratchViewLabels> = {
   titleLabel: "What should this skill do?",
   titlePlaceholder: "Draft a contract",
-  titleHint: "Use the phrase you'd say in chat. Houston turns it into a slug.",
+  titleHint: "Use the phrase you'd say in chat. Nexo turns it into a slug.",
   slugPreviewPrefix: "Saved as",
   descriptionLabel: "One-line description",
   descriptionPlaceholder: "Drafts a starter contract you can review and sign.",
@@ -253,7 +253,7 @@ function Field({
 
 /**
  * Convert a free-form title ("Draft a contract") into a kebab-case slug
- * Houston stores on disk ("draft-a-contract"). Strips non-ASCII, collapses
+ * Nexo stores on disk ("draft-a-contract"). Strips non-ASCII, collapses
  * runs of separators, trims leading/trailing dashes.
  */
 function toSlug(input: string): string {

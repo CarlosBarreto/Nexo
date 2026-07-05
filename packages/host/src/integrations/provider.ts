@@ -32,10 +32,10 @@ export interface ActingContext {
  * agent's generic tools depend ONLY on this; no provider's wire types or SDK
  * leak past its adapter.
  *
- * Credential model (platform): Houston holds ONE platform API key; users never
+ * Credential model (platform): Nexo holds ONE platform API key; users never
  * create a provider account. Every scoped method takes the caller's verified
- * Houston `userId` — the provider keys that user's connections by it. On the
- * desktop the adapter is a thin gateway that forwards to Houston's cloud host
+ * Nexo `userId` — the provider keys that user's connections by it. On the
+ * desktop the adapter is a thin gateway that forwards to Nexo's cloud host
  * (which holds the key and re-derives the userId from the Supabase JWT), so the
  * platform key never ships in a client binary. Self-hosters point the direct
  * adapter at their own provider key instead.
@@ -50,7 +50,7 @@ export interface IntegrationProvider {
   /** Can this deployment serve the user right now (gateway needs a session)? */
   readiness(): Promise<ProviderReadiness>;
 
-  // ── Toolkits + connections (scoped to one Houston user) ───────────────────
+  // ── Toolkits + connections (scoped to one Nexo user) ───────────────────
   /** The catalog of connectable apps. */
   listToolkits(): Promise<Toolkit[]>;
   /** The toolkits this user has connected. */

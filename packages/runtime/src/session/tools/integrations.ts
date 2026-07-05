@@ -85,11 +85,11 @@ export function makeIntegrationTools(opts: IntegrationToolOptions) {
     if (!res.ok) {
       const detail = await res.text().catch(() => "");
       // 409 = integrations can't act for this user yet (on desktop: they're
-      // signed out of Houston, so the gateway has no session to forward) — a
+      // signed out of Nexo, so the gateway has no session to forward) — a
       // normal, actionable state the agent should relay, not a crash.
       if (res.status === 409) {
         throw new Error(
-          "Connected apps aren't available yet: the user needs to sign in to Houston (Settings), then connect their apps in Integrations. Ask them to do that, then try again.",
+          "Connected apps aren't available yet: the user needs to sign in to Nexo (Settings), then connect their apps in Integrations. Ask them to do that, then try again.",
         );
       }
       throw new Error(

@@ -1,7 +1,7 @@
 /**
  * Chat helper components -- tool activity display.
  *
- * Generic version: no Houston-specific tool detection. Consumers can provide
+ * Generic version: no Nexo-specific tool detection. Consumers can provide
  * custom tool mappings or a renderToolResult render prop to handle
  * application-specific tool results.
  */

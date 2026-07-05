@@ -27,7 +27,7 @@ export function syntheticWorkspace(
 ): Workspace {
   return {
     id: DEFAULT_WORKSPACE_ID,
-    name: "Houston",
+    name: "Nexo",
     isDefault: true,
     createdAt: EPOCH,
     locale: null,
@@ -39,7 +39,7 @@ export function syntheticWorkspace(
 export function syntheticAgent(): Agent {
   return {
     id: DEFAULT_AGENT_ID,
-    name: "Houston",
+    name: "Nexo",
     folderPath: DEFAULT_AGENT_PATH,
     configId: DEFAULT_AGENT_CONFIG_ID,
     color: DEFAULT_AGENT_COLOR,
@@ -96,7 +96,7 @@ export type NewProviderId = NonNullable<ReturnType<typeof toNewProvider>>;
 /**
  * OpenCode's two gateways — `opencode` (Zen, pay-as-you-go) and `opencode-go`
  * (Go, $10/mo subscription) — share ONE opencode.ai key: pi reads
- * `OPENCODE_API_KEY` for both. Houston connects them as a single "OpenCode"
+ * `OPENCODE_API_KEY` for both. Nexo connects them as a single "OpenCode"
  * account, so a credential write or clear must fan out to both ids. Keep in sync
  * with the frontend's merged connect card (`getConnectProviders` gatewayIds).
  */

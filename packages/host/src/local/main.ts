@@ -82,7 +82,7 @@ const host = buildLocalHost({
       ? MANAGED_CLOUD_CAPABILITIES
       : LOCAL_CAPABILITIES,
   // Platform-mode integrations: desktops get HOUSTON_INTEGRATIONS_URL (the
-  // cloud gateway holding Houston's Composio key); self-host + the managed pod
+  // cloud gateway holding Nexo's Composio key); self-host + the managed pod
   // set their own COMPOSIO_API_KEY and go direct. Neither → integrations off.
   integrations: {
     composioApiKey: process.env.COMPOSIO_API_KEY || undefined,

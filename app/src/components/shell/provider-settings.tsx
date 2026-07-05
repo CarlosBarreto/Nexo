@@ -31,12 +31,12 @@ import { useCopilotConnect } from "./use-copilot-connect";
 /**
  * Settings-screen variant of the AI provider UI: accounts only.
  *
- * Houston used to also expose a workspace-level "default provider" picker
+ * Nexo used to also expose a workspace-level "default provider" picker
  * here, but the workspace layer was retired in favor of per-agent storage.
  * The agent-creation dialog reads its picker default from
  * `tauriProvider.getLastUsed()`, and the chat-tab picker persists straight
  * to the agent's config — so this screen has only one job left: sign in or
- * sign out of the providers Houston knows about.
+ * sign out of the providers Nexo knows about.
  *
  * Setup/onboarding still uses `<ProviderPicker>` — there the user has zero
  * connections and the goal is exactly one decision (pick + connect).

@@ -135,9 +135,9 @@ export interface TokenUsage {
 
 /**
  * Per-prompt ReAct-loop telemetry (Axie loop observability). Terminology
- * caution: pi calls ONE loop iteration a "turn", Houston calls the whole
+ * caution: pi calls ONE loop iteration a "turn", Nexo calls the whole
  * prompt a turn — `steps` counts pi's iterations (one per model request)
- * during one Houston turn. Aggregated by the runtime from events pi already
+ * during one Nexo turn. Aggregated by the runtime from events pi already
  * emits, so no provider or pi changes are involved.
  */
 export interface LoopStats {

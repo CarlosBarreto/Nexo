@@ -14,7 +14,7 @@ import {
  * The gateway adapter — the desktop's IntegrationProvider. The platform API key
  * must never ship in a client binary (anyone could extract it and execute tools
  * as any user_id), so the local host holds NO provider key: every port call is
- * forwarded to Houston's cloud host `/v1/integrations/*` routes with the user's
+ * forwarded to Nexo's cloud host `/v1/integrations/*` routes with the user's
  * Supabase session token. The upstream verifies the JWT and derives the Composio
  * `user_id` from its `sub` — a client can never act as someone else, and a
  * user's connections follow them across desktop and cloud.
@@ -38,7 +38,7 @@ import {
 export interface RemoteIntegrationOptions {
   /** Provider id served upstream (and reported locally), e.g. "composio". */
   id: string;
-  /** Base URL of Houston's cloud host, e.g. "https://engine.getnexo.ai". */
+  /** Base URL of Nexo's cloud host, e.g. "https://engine.getnexo.ai". */
   upstreamUrl: string;
   /** The user's current Supabase access token; null when signed out. */
   token: () => string | null;

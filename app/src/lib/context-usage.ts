@@ -107,7 +107,7 @@ export function shouldAutocompact(opts: {
  * compacts). Not a user setting — a tuning constant with an optional
  * build-time override via `VITE_AUTOCOMPACT_THRESHOLD` (read in
  * `lib/autocompact.ts`). Defaults to 93, just below the provider CLIs' own
- * ~95% auto-compaction so Houston compacts cleanly at a turn boundary first.
+ * ~95% auto-compaction so Nexo compacts cleanly at a turn boundary first.
  */
 export const DEFAULT_AUTOCOMPACT_THRESHOLD = 93;
 export const MIN_AUTOCOMPACT_THRESHOLD = 1;

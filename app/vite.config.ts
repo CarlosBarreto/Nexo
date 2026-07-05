@@ -36,7 +36,7 @@ export default defineConfig(({ mode }) => {
   const authStorageMode = resolveAuthStorageMode(mode, env);
   // Cutover: when VITE_NEW_ENGINE_URL (or VITE_NEW_ENGINE=1) is set, swap the
   // engine client for the new-engine adapter so the desktop UI runs on the v3
-  // Houston host instead of the Rust engine. Mirrors packages/web. Unset → the
+  // Nexo host instead of the Rust engine. Mirrors packages/web. Unset → the
   // real @nexo-ai/engine-client (v1 → Rust engine) is untouched.
   const useHost =
     Boolean(env.VITE_NEW_ENGINE_URL) ||

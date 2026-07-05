@@ -1,5 +1,5 @@
 /**
- * The Houston app tree, composed for the web.
+ * The Nexo app tree, composed for the web.
  *
  * This mirrors app/src/main.tsx's provider/gate nesting but is web-owned so it
  * can be lazy-loaded only after the engine config is in place (see root.tsx).

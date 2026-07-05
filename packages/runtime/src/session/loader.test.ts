@@ -8,7 +8,7 @@ import { buildAgentLoader } from "./resource-loader";
  * The loader is the seam deciding what an agent sees: OUR system prompt, the
  * workspace's OWN context file, and SKILL.md skills from the workspace's
  * skills dir — and nothing else from disk. Two invariants matter:
- *  - Houston's existing .agents/skills/<slug>/SKILL.md layout loads AS-IS
+ *  - Nexo's existing .agents/skills/<slug>/SKILL.md layout loads AS-IS
  *    (the convergence bet: no skills migration).
  *  - Context files come from the workspace root ONLY. pi's own discovery walks
  *    every ancestor up to /, which would leak files from outside the clamp.
@@ -35,7 +35,7 @@ function seedSkill(
       "---",
       `name: ${name}`,
       `description: ${description}`,
-      "category: research", // Houston-specific frontmatter must be tolerated
+      "category: research", // Nexo-specific frontmatter must be tolerated
       "featured: yes",
       "image: magnifying-glass-tilted-left",
       "---",
@@ -50,10 +50,10 @@ const loaderFor = (ws: string) =>
   buildAgentLoader({
     cwd: ws,
     skillsDir: join(ws, ".agents", "skills"),
-    systemPrompt: "You are Houston.",
+    systemPrompt: "You are Nexo.",
   });
 
-test("Houston's existing .agents/skills SKILL.md layout loads as-is", async () => {
+test("Nexo's existing .agents/skills SKILL.md layout loads as-is", async () => {
   const { ws } = freshWorkspace();
   seedSkill(
     ws,
@@ -109,5 +109,5 @@ test("no skills dir, no context file: loader stays empty (nothing discovered fro
 
   expect(loader.getSkills().skills).toHaveLength(0);
   expect(loader.getAgentsFiles().agentsFiles).toHaveLength(0);
-  expect(loader.getSystemPrompt()).toBe("You are Houston.");
+  expect(loader.getSystemPrompt()).toBe("You are Nexo.");
 });

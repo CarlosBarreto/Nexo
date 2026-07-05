@@ -1,7 +1,7 @@
 /**
  * Shared constants for the Playwright UI-test harness.
  *
- * The web dev server (vite) and the fake Houston host (a Node process) both run
+ * The web dev server (vite) and the fake Nexo host (a Node process) both run
  * during an e2e run; the browser is pointed at the fake host as its engine. Keep
  * these in one place so the Playwright config, the seed, and the server agree.
  */
@@ -22,5 +22,5 @@ export const FAKE_TOKEN = "e2e-token";
  *  shell opens straight onto it. Id doubles as the runtime-proxy route key
  *  (`/agents/<id>/conversations/...`). */
 export const SEED_AGENT_ID = "houston-assistant";
-export const SEED_AGENT_NAME = "Houston";
+export const SEED_AGENT_NAME = "Nexo";
 export const SEED_WORKSPACE_ID = "default";

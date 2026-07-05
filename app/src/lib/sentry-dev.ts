@@ -1,4 +1,4 @@
-// Dev-mode Sentry gate. Houston bakes the prod `SENTRY_DSN` into official
+// Dev-mode Sentry gate. Nexo bakes the prod `SENTRY_DSN` into official
 // builds, so a developer running `pnpm tauri dev` with that DSN exported (or
 // sitting in `app/.env.local`) would otherwise send development errors —
 // including the deliberate `Ctrl+Alt+Shift+J/N` smoke triggers — straight into

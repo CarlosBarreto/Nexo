@@ -2,8 +2,8 @@ import { expect, test } from "vitest";
 import { DEFAULT_REASONING_EFFORT, toThinkingLevel } from "./effort";
 
 /**
- * Houston's effort vocabulary → pi's thinkingLevel. The only non-identity case
- * is "max" (Houston's top) → "xhigh" (pi's ceiling); unknown/absent → undefined
+ * Nexo's effort vocabulary → pi's thinkingLevel. The only non-identity case
+ * is "max" (Nexo's top) → "xhigh" (pi's ceiling); unknown/absent → undefined
  * so callers omit the override instead of substituting a level.
  */
 test("identity levels pass through", () => {
@@ -14,7 +14,7 @@ test("identity levels pass through", () => {
   expect(toThinkingLevel("xhigh")).toBe("xhigh");
 });
 
-test("Houston 'max' maps to pi 'xhigh' (pi has no 'max')", () => {
+test("Nexo 'max' maps to pi 'xhigh' (pi has no 'max')", () => {
   expect(toThinkingLevel("max")).toBe("xhigh");
 });
 

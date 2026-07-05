@@ -92,7 +92,7 @@ export default function IntegrationsTab({ agent }: TabProps) {
   }, [token, ready, resynced, status.isLoading, composio, qc]);
   const sessionSyncPending = !!token && !!composio && !ready && !resynced;
 
-  // Desktop, signed out of Houston: the gateway has no session to forward.
+  // Desktop, signed out of Nexo: the gateway has no session to forward.
   // Signing in is the ONLY step — the session sync pushes the token and the
   // status query flips to ready on its own.
   const signIn = useCallback(async () => {

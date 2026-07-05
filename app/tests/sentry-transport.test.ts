@@ -7,7 +7,7 @@ import {
   resolveCapturedEventId,
 } from "../src/lib/sentry-transport.ts";
 
-// These pure helpers back Houston's "report sent" guarantee: the green toast +
+// These pure helpers back Nexo's "report sent" guarantee: the green toast +
 // event id appear ONLY when Sentry actually accepted the event over direct
 // HTTP. Pin that logic down so a regression can't reintroduce the old
 // dishonest toast (which fired on a queue-drain, not real delivery).

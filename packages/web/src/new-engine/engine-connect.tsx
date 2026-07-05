@@ -53,8 +53,8 @@ export function EngineConnectScreen({
   return (
     <div style={ui.page}>
       <form style={ui.card} onSubmit={submit}>
-        <div style={ui.brand}>🚀 Houston</div>
-        <p style={ui.subtitle}>Connect to your Houston engine</p>
+        <div style={ui.brand}>🚀 Nexo</div>
+        <p style={ui.subtitle}>Connect to your Nexo engine</p>
 
         <label style={ui.label}>
           Engine URL

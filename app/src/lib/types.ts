@@ -11,7 +11,7 @@ export interface Workspace {
   locale?: string | null;
 }
 
-/** Agent category for Houston Store filtering */
+/** Agent category for Nexo Store filtering */
 export type AgentCategory =
   | "productivity"
   | "development"

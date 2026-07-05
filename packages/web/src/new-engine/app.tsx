@@ -10,7 +10,7 @@ import {
 import { ConnectView } from "./connect";
 import { ui } from "./styles";
 
-// The full Houston desktop UI. Lazily imported so its module graph (and the
+// The full Nexo desktop UI. Lazily imported so its module graph (and the
 // engine-adapter behind @nexo-ai/engine-client) only evaluates after the
 // engine config global is set and a provider is connected.
 const AppTree = lazy(() => import("../app-tree"));
@@ -63,7 +63,7 @@ export function WebApp({
       <Suspense
         fallback={
           <div style={ui.page}>
-            <div style={ui.muted}>Loading Houston…</div>
+            <div style={ui.muted}>Loading Nexo…</div>
           </div>
         }
       >
@@ -109,7 +109,7 @@ export function WebApp({
     <Suspense
       fallback={
         <div style={ui.page}>
-          <div style={ui.muted}>Loading Houston…</div>
+          <div style={ui.muted}>Loading Nexo…</div>
         </div>
       }
     >

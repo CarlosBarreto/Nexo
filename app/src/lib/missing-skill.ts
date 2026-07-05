@@ -15,7 +15,7 @@
  * error envelope is ever upgraded to carry one (as the legacy Rust engine did
  * via `SkillError::NotFound` -> `CoreError::Labeled`).
  *
- * A missing skill is an expected, explainable state, NOT a Houston bug:
+ * A missing skill is an expected, explainable state, NOT a Nexo bug:
  * `tauriSkills.load` tags it so it skips the red "we have a problem" bug toast +
  * Sentry report (HOU-515 / HOU-441), while `useSkillSurface` surfaces it inline
  * (a calm info toast, clears the stale selection, and refetches the list so the

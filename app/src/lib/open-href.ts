@@ -50,7 +50,7 @@ function looksLikeUrl(value: string): boolean {
   // path separator immediately after the colon. Treat as path, not URL.
   if (rest.startsWith("\\")) return false;
   // `c:/foo` is ambiguous — could be a Windows path or a single-letter
-  // custom scheme. We side with "path" because no real Houston-emitted
+  // custom scheme. We side with "path" because no real Nexo-emitted
   // scheme is one letter.
   if (rest.startsWith("/") && schemeMatch[1].length === 1) return false;
   return true;

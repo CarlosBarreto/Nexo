@@ -43,7 +43,7 @@ export interface AddSkillDialogProps {
     skills: RepoSkill[],
   ) => Promise<string[]>;
   /** Creates a brand new skill from a user-authored title + description +
-   *  body. Returns the slug Houston stored it under. */
+   *  body. Returns the slug Nexo stored it under. */
   onCreateFromScratch?: (input: {
     name: string;
     description: string;

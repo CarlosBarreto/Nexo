@@ -906,7 +906,7 @@ export class NexoClient {
    * Persist a Gemini API key to `~/.gemini/.env`. The engine validates
    * the key shape, writes atomically, and chmods 0600 on Unix. The
    * next `providerStatus("gemini")` poll will return `Authenticated`
-   * without requiring a Houston restart.
+   * without requiring a Nexo restart.
    *
    * Gemini-specific: other providers use the CLI's own OAuth flow via
    * `providerLogin`. Do NOT generalize this route until a second

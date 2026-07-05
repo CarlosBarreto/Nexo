@@ -1,4 +1,4 @@
-//! Bring Houston's main window — and, on macOS, the whole app — to the
+//! Bring Nexo's main window — and, on macOS, the whole app — to the
 //! foreground.
 //!
 //! Used wherever a flow finishes in the user's system browser and we want the
@@ -23,7 +23,7 @@ pub fn bring_to_front(app: &AppHandle) {
         }
         // macOS: makeKeyAndOrderFront (what set_focus calls) does NOT pull the
         // app in front of the browser when activation is triggered
-        // programmatically — the user never clicked a Houston window. Activate
+        // programmatically — the user never clicked a Nexo window. Activate
         // the NSApplication so the window actually surfaces over the browser
         // the user just finished signing in / connecting in.
         #[cfg(target_os = "macos")]

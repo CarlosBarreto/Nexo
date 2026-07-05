@@ -14,16 +14,16 @@ export function normalizeUpdateNotes(
  * Marker the release pipeline appends to the updater notes to carry the
  * NON-English translations of a release's notes, e.g.
  *
- *   ## Houston 0.5.0
+ *   ## Nexo 0.5.0
  *   - English notes...
  *
- *   <!--houston-i18n:{"es":"## Houston 0.5.0\n- Notas...","pt":"..."}-->
+ *   <!--houston-i18n:{"es":"## Nexo 0.5.0\n- Notas...","pt":"..."}-->
  *
  * Why a trailing HTML comment: the Tauri updater hands the frontend exactly
  * ONE string (`latest.json` -> `notes` -> `update.body`), so every language
  * has to ride inside it. A comment degrades cleanly everywhere it is NOT
  * understood: the Streamdown renderer, GitHub's release page, and any older
- * Houston build all drop HTML comments, so they just show the English body.
+ * Nexo build all drop HTML comments, so they just show the English body.
  * New builds strip the comment, read the JSON, and swap in the user's
  * language. The payload is built by the `prep` job in `.github/workflows/release.yml`.
  */

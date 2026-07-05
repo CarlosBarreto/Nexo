@@ -41,7 +41,7 @@ export function Sidebar({ children }: { children: ReactNode }) {
   const toggleCollapsed = useUIStore((s) => s.toggleSidebarCollapsed);
   const setSidebarCollapsed = useUIStore((s) => s.setSidebarCollapsed);
 
-  // Auto-collapse the rail when the window gets narrow (e.g. Houston docked to
+  // Auto-collapse the rail when the window gets narrow (e.g. Nexo docked to
   // half the screen). Acts only when crossing the threshold, so a manual toggle
   // is otherwise respected; auto-expands again when it widens back across it.
   const prevWidth = useRef<number | null>(null);

@@ -8,7 +8,7 @@ import { useSession } from "./use-session";
 /**
  * Keeps the local host's integrations gateway supplied with the user's current
  * Supabase access token (platform-mode Composio: the desktop holds no provider
- * key — Houston's cloud host does — so every integration call is forwarded
+ * key — Nexo's cloud host does — so every integration call is forwarded
  * with this session and the cloud derives the user from the verified JWT).
  *
  * Pushes on sign-in, on Supabase's own token refresh, null on sign-out, and

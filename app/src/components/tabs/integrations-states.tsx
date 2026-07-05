@@ -40,7 +40,7 @@ export function LoadingState() {
   );
 }
 
-/** Desktop, signed out of Houston: one sign-in is the only step. */
+/** Desktop, signed out of Nexo: one sign-in is the only step. */
 export function SigninState({
   onSignIn,
   signingIn,

@@ -90,7 +90,7 @@ export function unpackAgent(bytes: Uint8Array): PortablePackage {
     throw new Error("manifest has no formatVersion");
   if (manifest.formatVersion > PORTABLE_FORMAT_VERSION) {
     throw new Error(
-      `this agent was shared from a newer Houston (format ${manifest.formatVersion}) — update to open it`,
+      `this agent was shared from a newer Nexo (format ${manifest.formatVersion}) — update to open it`,
     );
   }
 

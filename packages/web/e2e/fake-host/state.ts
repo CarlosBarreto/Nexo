@@ -1,5 +1,5 @@
 /**
- * In-memory state for the fake Houston host.
+ * In-memory state for the fake Nexo host.
  *
  * Models just enough of the host + per-agent runtime for the desktop
  * UI (app/src) to boot and run on the host adapter (host mode):

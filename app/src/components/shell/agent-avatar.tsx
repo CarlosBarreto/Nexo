@@ -62,7 +62,7 @@ export function isLightColor(hex?: string): boolean {
   return luminance(hex) >= 0.5;
 }
 
-/** Pick the right Houston logo SVG for a background color */
+/** Pick the right Nexo logo SVG for a background color */
 export function getNexoLogo(bgColor?: string): string {
   if (!bgColor) return nexoIcon;
   return isLightColor(bgColor) ? nexoIcon : nexoIconWhite;
@@ -112,7 +112,7 @@ export function AgentAvatar({ config, size = "md" }: AgentAvatarProps) {
   );
 }
 
-/** Houston helmet that inherits text color via currentColor.
+/** Nexo helmet that inherits text color via currentColor.
  *  Use this everywhere instead of <img src={nexoIcon}>. */
 export function NexoLogo({
   size = 20,

@@ -55,11 +55,11 @@ function providerOr404(
   return null;
 }
 
-/** 409 + code for "the user must sign in to Houston first" (shared with the
+/** 409 + code for "the user must sign in to Nexo first" (shared with the
  *  sandbox proxy in integrations-sandbox.ts). */
 export const signinRequired = (res: ServerResponse) =>
   json(res, 409, {
-    error: "sign in to Houston to use integrations",
+    error: "sign in to Nexo to use integrations",
     code: "signin_required",
   });
 

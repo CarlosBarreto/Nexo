@@ -30,7 +30,7 @@ interface Strings {
 
 const STRINGS: Record<"en" | "es" | "pt", Strings> = {
   en: {
-    subtitle: "Connect to your Houston engine",
+    subtitle: "Connect to your Nexo engine",
     urlLabel: "Engine URL",
     tokenLabel: "Engine token",
     tokenPlaceholder: "paste the engine token",
@@ -42,7 +42,7 @@ const STRINGS: Record<"en" | "es" | "pt", Strings> = {
     hint: "The engine prints its URL and token on startup:",
   },
   es: {
-    subtitle: "Conéctate a tu motor de Houston",
+    subtitle: "Conéctate a tu motor de Nexo",
     urlLabel: "URL del motor",
     tokenLabel: "Token del motor",
     tokenPlaceholder: "pega el token del motor",
@@ -54,7 +54,7 @@ const STRINGS: Record<"en" | "es" | "pt", Strings> = {
     hint: "El motor muestra su URL y token al iniciar:",
   },
   pt: {
-    subtitle: "Conecte-se ao seu motor do Houston",
+    subtitle: "Conecte-se ao seu motor do Nexo",
     urlLabel: "URL do motor",
     tokenLabel: "Token do motor",
     tokenPlaceholder: "cole o token do motor",
@@ -111,7 +111,7 @@ export function ConnectScreen({
   return (
     <div style={styles.page}>
       <form style={styles.card} onSubmit={submit}>
-        <div style={styles.brand}>Houston</div>
+        <div style={styles.brand}>Nexo</div>
         <p style={styles.subtitle}>{t.subtitle}</p>
 
         <label style={styles.label}>

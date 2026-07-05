@@ -1,5 +1,5 @@
 /**
- * Phase 0 de-risk spike for the Houston TS engine built on pi-coding-agent.
+ * Phase 0 de-risk spike for the Nexo TS engine built on pi-coding-agent.
  *
  * Verifies, with ZERO credentials/network by default:
  *   1. The barrel imports headless (non-TTY) without side effects.
@@ -84,7 +84,7 @@ async function runFauxTurn(opts: {
   const sessionManager = SessionManager.inMemory(cwd);
   const resourceLoader = makeHeadlessLoader(
     cwd,
-    "You are Houston, a helpful agent.",
+    "You are Nexo, a helpful agent.",
   );
   await resourceLoader.reload();
 
@@ -191,7 +191,7 @@ async function liveTurnIfCreds() {
     : getModelDynamic("openai", "gpt-5.1-codex");
   const resourceLoader = makeHeadlessLoader(
     cwd,
-    "You are Houston. Answer in one short sentence.",
+    "You are Nexo. Answer in one short sentence.",
   );
   await resourceLoader.reload();
   const { session } = await createAgentSession({

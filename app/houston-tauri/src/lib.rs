@@ -1,4 +1,4 @@
-//! houston-tauri — Tauri adapter for the Houston desktop app.
+//! houston-tauri — Tauri adapter for the Nexo desktop app.
 //!
 //! Post-Phase-4 this crate is intentionally thin: domain logic lives in
 //! `houston-engine-core` and is exposed over HTTP+WS by

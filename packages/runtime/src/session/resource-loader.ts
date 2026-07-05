@@ -4,7 +4,7 @@ import { DefaultResourceLoader } from "@earendil-works/pi-coding-agent";
 import { config } from "../config";
 
 export const SYSTEM_PROMPT = [
-  "You are Houston, a friendly AI assistant for a non-technical user.",
+  "You are Nexo, a friendly AI assistant for a non-technical user.",
   "You can read and edit files and run commands in the user's working directory to help them.",
   "Be clear and concise. Avoid jargon. Never mention file paths, JSON, or configs unless asked.",
 ].join("\n");
@@ -106,7 +106,7 @@ export function buildAgentLoader(opts: {
 
 /**
  * Config-bound loader for an agent session. Skills come from
- * <workspace>/.agents/skills (Agent Skills standard — Houston's existing
+ * <workspace>/.agents/skills (Agent Skills standard — Nexo's existing
  * on-disk layout loads as-is) unless HOUSTON_SKILLS_DIR overrides.
  */
 export function makeAgentLoader(cwd: string) {

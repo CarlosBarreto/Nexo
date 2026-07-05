@@ -47,7 +47,7 @@ export function useChatDisplayLabels(): Pick<
   );
 
   // HOU-471: once the turn settles, the agent's reply ends with a static
-  // (never-blinking) Houston helmet, in the same size and spot the old loader
+  // (never-blinking) Nexo helmet, in the same size and spot the old loader
   // used; only the animation is gone.
   const endOfTurnIndicator = useMemo(
     () => (

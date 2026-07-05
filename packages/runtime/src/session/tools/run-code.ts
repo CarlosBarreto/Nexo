@@ -153,7 +153,7 @@ export function makeRunCodeTool(opts: RunCodeOptions) {
       } finally {
         release();
       }
-      // pi convention + Houston no-silent-failure: throw on a non-2xx.
+      // pi convention + Nexo no-silent-failure: throw on a non-2xx.
       if (!res.ok) {
         const body = await res.text().catch(() => "");
         if (res.status === 401) {

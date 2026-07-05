@@ -16,7 +16,7 @@ import { DEFAULT_AGENT_COLOR, DEFAULT_AGENT_CONFIG_ID } from "./synthetic";
 /**
  * Control-plane mode for the web adapter.
  *
- * In cloud, the web app talks to the Houston control plane (not a single local
+ * In cloud, the web app talks to the Nexo control plane (not a single local
  * runtime). Agents are REAL — the user's personal workspace, served by
  * `GET/POST/PATCH/DELETE /agents` — and a conversation is proxied to that agent's
  * sandbox via `/agents/:id/conversations/:cid/*`, which mirrors the runtime's own

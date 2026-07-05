@@ -75,7 +75,7 @@ export interface AIBoardProps {
   cardAvatar?: ReactNode;
   /** Avatar element shown in the detail panel header. */
   panelAvatar?: ReactNode;
-  /** Name shown next to the avatar in the panel header (e.g. "Houston"). */
+  /** Name shown next to the avatar in the panel header (e.g. "Nexo"). */
   panelAgentName?: string;
   /** Called when the detail panel opens or closes. */
   onPanelOpenChange?: (open: boolean) => void;
@@ -105,7 +105,7 @@ export interface AIBoardProps {
   /** Custom renderer for system messages. Forwarded to ChatPanel. */
   renderSystemMessage?: import("@nexo-ai/chat").ChatPanelProps["renderSystemMessage"];
   /** Static glyph shown after the agent's reply once the turn settles
-   *  (e.g. a non-blinking Houston helmet). Forwarded to ChatPanel. */
+   *  (e.g. a non-blinking Nexo helmet). Forwarded to ChatPanel. */
   endOfTurnIndicator?: import("@nexo-ai/chat").ChatPanelProps["endOfTurnIndicator"];
   /** Map active feed items before rendering. */
   mapFeedItems?: (ctx: { sessionKey: string; items: FeedItem[] }) => FeedItem[];

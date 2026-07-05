@@ -29,12 +29,12 @@ test("title leads with the user's own words when present", () => {
       ...payload,
       userMessage: "The chat froze   when I asked",
     }),
-  ).toBe("Houston feedback: The chat froze when I asked");
+  ).toBe("Nexo feedback: The chat froze when I asked");
   expect(formatIssueTitle({ ...payload, userMessage: "   " })).toBe(
-    "Houston bug: user_feedback - Error: no workspace found",
+    "Nexo bug: user_feedback - Error: no workspace found",
   );
   expect(formatIssueTitle({ ...payload, error: "" })).toBe(
-    "Houston bug: user_feedback",
+    "Nexo bug: user_feedback",
   );
 });
 
@@ -45,7 +45,7 @@ test("description carries user words first, then error, context, logs", () => {
   );
   expect(d.indexOf("it broke")).toBeLessThan(d.indexOf("## Error"));
   expect(d).toContain("- Command: user_feedback");
-  expect(d).toContain("- Surface: Houston Web (cloud)");
+  expect(d).toContain("- Surface: Nexo Web (cloud)");
   expect(d).toContain("- User: user@example.com");
   expect(d).toContain("- User Id: user-123");
   expect(d).toContain("backend log line");
@@ -133,7 +133,7 @@ test("LinearFeedbackSender resolves the label then files the issue", async () =>
   };
   expect(input.teamId).toBe("team-1");
   expect(input.labelIds).toEqual(["label-1"]);
-  expect(input.title).toBe("Houston feedback: deck never downloaded");
+  expect(input.title).toBe("Nexo feedback: deck never downloaded");
   expect(input.description).toContain("- User Id: user-9");
 
   await new Promise<void>((r) => stub.close(() => r()));

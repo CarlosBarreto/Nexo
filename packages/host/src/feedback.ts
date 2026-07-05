@@ -56,13 +56,11 @@ function codeBlock(language: string, content: string): string {
 
 export function formatIssueTitle(p: FeedbackPayload): string {
   const message = collapseWhitespace(p.userMessage ?? "");
-  if (message) return truncateChars(`Houston feedback: ${message}`, 140);
+  if (message) return truncateChars(`Nexo feedback: ${message}`, 140);
   const command = collapseWhitespace(p.command);
   const summary = collapseWhitespace(p.error.split("\n")[0] ?? "");
   return truncateChars(
-    summary
-      ? `Houston bug: ${command} - ${summary}`
-      : `Houston bug: ${command}`,
+    summary ? `Nexo bug: ${command} - ${summary}` : `Nexo bug: ${command}`,
     140,
   );
 }
@@ -80,7 +78,7 @@ export function formatIssueDescription(
     if (value) d += `- ${label}: ${value}\n`;
   };
   line("Command", p.command);
-  line("Surface", "Houston Web (cloud)");
+  line("Surface", "Nexo Web (cloud)");
   line("Timestamp", p.timestamp);
   line("App Version", p.appVersion);
   line("User", p.userEmail ?? undefined);

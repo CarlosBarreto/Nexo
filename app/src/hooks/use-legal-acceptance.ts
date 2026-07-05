@@ -38,7 +38,7 @@ export interface LegalAcceptanceState {
   isLoading: boolean;
   /** Write acceptance to engine prefs and invalidate the cached query. */
   accept: () => Promise<void>;
-  /** Close the Houston window. Called when the user clicks Decline. */
+  /** Close the Nexo window. Called when the user clicks Decline. */
   decline: () => Promise<void>;
 }
 

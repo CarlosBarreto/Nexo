@@ -51,7 +51,7 @@ import { RedisTurnBus } from "./turn/bus-redis";
 import { GcsVfs } from "./vfs/gcs";
 
 /**
- * The CLOUD wiring point (CLOSED) — Houston Cloud. Boots the host
+ * The CLOUD wiring point (CLOSED) — Nexo Cloud. Boots the host
  * (`createControlPlaneServer` from `@nexo/host`) with the cloud adapter
  * profile: Postgres stores, GCS workspace files, GKE sandbox lifecycle, Redis
  * shared-state, BigQuery billing, the Supabase verifier, and the operator-admin
@@ -261,7 +261,7 @@ function main(): void {
     ...(turn ? { cloudrun: new TurnChannel(turn) } : {}),
   };
 
-  // Integrations (platform model): Houston's ONE Composio project key, from the
+  // Integrations (platform model): Nexo's ONE Composio project key, from the
   // environment (never a literal). Users are plain `user_id`s under the project
   // — the verified Supabase `sub` — so there is no per-user credential store at
   // all: which apps a user connected lives with Composio. This host is ALSO the

@@ -9,7 +9,7 @@
 //!   2. hand it to the webview via the existing `auth://deep-link` event so
 //!      the PKCE exchange runs in JS with the Keychain-stored verifier,
 //!      exactly as the `nexo://` deep-link path did,
-//!   3. serve a small "you're signed in, return to Houston" page,
+//!   3. serve a small "you're signed in, return to Nexo" page,
 //!   4. pull the app window to the front — the macOS deep-link path never
 //!      did this, which is a big part of why users thought sign-in "hung",
 //!   5. shut the listener down.
@@ -177,8 +177,8 @@ async fn write_response(stream: &mut TcpStream, status: &str, body: &str) -> Res
 }
 
 /// Self-contained success page — the loopback serves no other assets, so the
-/// Houston helmet is inlined as SVG (no `<img src>` to 404) and the "Open
-/// Houston" button is a `nexo://open` deep link that focuses the app
+/// Nexo helmet is inlined as SVG (no `<img src>` to 404) and the "Open
+/// Nexo" button is a `nexo://open` deep link that focuses the app
 /// (handled in `lib.rs`). Copy matches the English-only sign-in flow; when
 /// that flow gets i18n this page's strings move with it.
 ///
@@ -189,7 +189,7 @@ const SUCCESS_PAGE: &str = r##"<!DOCTYPE html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Houston — Signed in</title>
+  <title>Nexo — Signed in</title>
   <style>
     :root { color-scheme: light; }
     body {
@@ -211,7 +211,7 @@ const SUCCESS_PAGE: &str = r##"<!DOCTYPE html>
 </head>
 <body>
   <main class="card">
-    <svg class="logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 412.248 448.898" role="img" aria-label="Houston">
+    <svg class="logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 412.248 448.898" role="img" aria-label="Nexo">
       <defs>
         <clipPath id="clip-path">
           <rect width="412.248" height="448.898" fill="none"/>
@@ -226,8 +226,8 @@ const SUCCESS_PAGE: &str = r##"<!DOCTYPE html>
       </g>
     </svg>
     <h1>You're signed in</h1>
-    <p>You can close this tab and return to Houston.</p>
-    <a class="btn" href="nexo://open">Open Houston</a>
+    <p>You can close this tab and return to Nexo.</p>
+    <a class="btn" href="nexo://open">Open Nexo</a>
   </main>
 </body>
 </html>"##;
@@ -265,7 +265,7 @@ mod tests {
 
     #[test]
     fn success_page_has_open_houston_deep_link() {
-        // The "Open Houston" button focuses the app via the `nexo://`
+        // The "Open Nexo" button focuses the app via the `nexo://`
         // scheme (handled in lib.rs), not an http URL.
         assert!(SUCCESS_PAGE.contains(r#"href="nexo://open""#));
     }

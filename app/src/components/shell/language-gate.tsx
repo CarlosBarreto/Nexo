@@ -9,7 +9,7 @@ import { NexoLogo } from "./experience-card";
 
 /**
  * First-run language flow, styled like the rest of setup. Two beats:
- *   1. A macOS-style "Welcome to Houston" hero that rotates through en/es/pt —
+ *   1. A macOS-style "Welcome to Nexo" hero that rotates through en/es/pt —
  *      a warm, language-agnostic hello before we ask anything.
  *   2. The language picker (pick, then Continue, so a misclick is recoverable).
  *
@@ -42,7 +42,7 @@ const DISPLAY_NAMES: Record<SupportedLocale, string> = {
   pt: "Português",
 };
 
-// "Welcome to Houston" across the supported languages. Gender-neutral phrasings
+// "Welcome to Nexo" across the supported languages. Gender-neutral phrasings
 // (LatAm-neutral Spanish, Brazilian Portuguese) to match the product voice.
 const GREETINGS = [
   { title: "Welcome to Nexo!", cta: "Continue" },

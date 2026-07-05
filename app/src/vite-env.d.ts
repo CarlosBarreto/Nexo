@@ -12,7 +12,7 @@ declare const __SENTRY_SEND_IN_DEV__: string;
 
 interface ImportMetaEnv {
   /**
-   * Percent-full at which Houston proactively compacts a conversation's
+   * Percent-full at which Nexo proactively compacts a conversation's
    * context (default 93). Optional build-time tuning knob; parsed + clamped
    * to [1, 99] by `resolveThreshold` in `lib/context-usage.ts`. Set it low
    * (e.g. 5) to force compaction while testing.

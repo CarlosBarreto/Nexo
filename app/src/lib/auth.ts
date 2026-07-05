@@ -26,7 +26,7 @@ function applySessionToCache(session: Session | null): void {
 //
 //   • Desktop (Tauri): a one-shot `http://127.0.0.1:<port>/auth/callback`
 //     loopback the app itself serves. A plain HTTP navigation — no website
-//     relay and no custom-scheme "open Houston?" dialog — so the user snaps
+//     relay and no custom-scheme "open Nexo?" dialog — so the user snaps
 //     straight back into the app instead of getting stranded on a web page.
 //   • Web / mobile PWA: the https relay bridge at getnexo.ai/auth/callback,
 //     which forwards the PKCE code into the `nexo://` deep link. These
@@ -108,7 +108,7 @@ async function signInWithProvider(provider: "google" | "azure"): Promise<void> {
       // gets the ID token but no way to refresh, and the session goes
       // stale on the first reload. Matches Supabase's documented azure
       // default. We deliberately don't request `profile` / `User.Read`
-      // since Houston only needs the email + sub claims for sign-in.
+      // since Nexo only needs the email + sub claims for sign-in.
       ...(provider === "azure"
         ? {
             scopes: "openid email offline_access",

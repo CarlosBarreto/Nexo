@@ -1,7 +1,7 @@
 /**
  * Lightweight client-side OS detection.
  *
- * Houston doesn't bundle `@tauri-apps/plugin-os`, and the webview's
+ * Nexo doesn't bundle `@tauri-apps/plugin-os`, and the webview's
  * `navigator` is enough for coarse OS detection: shortcut hints,
  * notification routing, and analytics OS breakdowns. Anything finer-grained
  * belongs in Rust behind `#[cfg]`.

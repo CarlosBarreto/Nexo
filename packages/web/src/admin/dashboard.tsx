@@ -10,7 +10,7 @@ import { OrphansPanel, SpendPanel, StatCards, UsersTable } from "./components";
 import { btn, C, ghostBtn, page } from "./styles";
 
 /**
- * Houston Cloud operator dashboard (served at /admin). Self-contained, like the
+ * Nexo Cloud operator dashboard (served at /admin). Self-contained, like the
  * cloud-login gate: owns its own Supabase client, signs the operator in, then
  * reads the control plane's cross-tenant pod + spend views with their token. The
  * control plane's CP_ADMIN_USER_IDS allowlist is the real gate; the UI just shows
@@ -124,7 +124,7 @@ function Dashboard({
       >
         <div>
           <div style={{ fontSize: 20, fontWeight: 800 }}>
-            Houston Cloud · Operations
+            Nexo Cloud · Operations
           </div>
           <div style={{ fontSize: 12, color: C.faint, marginTop: 2 }}>
             {loadedAt
@@ -246,7 +246,7 @@ function SignIn({ supabase, ready }: { supabase: SupaClient; ready: boolean }) {
           gap: 12,
         }}
       >
-        <div style={{ fontSize: 20, fontWeight: 700 }}>Houston Cloud · Ops</div>
+        <div style={{ fontSize: 20, fontWeight: 700 }}>Nexo Cloud · Ops</div>
         <div style={{ opacity: 0.6, fontSize: 13, marginBottom: 4 }}>
           {ready ? "Operator sign in." : "Loading…"}
         </div>

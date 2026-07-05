@@ -5,7 +5,7 @@ import { defineConfig, loadEnv } from "vite";
 import { version } from "./package.json";
 
 // packages/web composes the desktop app's React tree (app/src) and runs it in a
-// plain browser tab pointed at the Houston host (or the legacy Rust engine until
+// plain browser tab pointed at the Nexo host (or the legacy Rust engine until
 // final cutover). The ONLY platform
 // coupling app/src has is a handful of `@tauri-apps/*` imports; we redirect each
 // specifier to a browser shim under ./src/shims. `@nexo/app/*` aliases into

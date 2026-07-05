@@ -3,7 +3,7 @@
  *
  * The default Rust build learns its engine endpoint from the Tauri supervisor
  * and never sees this. In the TS-engine build (`VITE_NEW_ENGINE=1`) the login
- * screen instead asks the user whether Houston should run on this computer
+ * screen instead asks the user whether Nexo should run on this computer
  * (the host sidecar) or connect to a remote engine / gateway URL. The pick is
  * persisted here and read SYNCHRONOUSLY at `engine.ts` module load — the same
  * "set before any client is built" invariant HOU-546 relies on — so applying a

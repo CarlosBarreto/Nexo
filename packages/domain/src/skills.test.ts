@@ -41,7 +41,7 @@ integrations: [tavily, gmail]
 Step one.
 `;
 
-test("parses Houston's existing frontmatter, including YAML-1.1 'featured: yes' and date created", () => {
+test("parses Nexo's existing frontmatter, including YAML-1.1 'featured: yes' and date created", () => {
   const parsed = parseSkillMd("research-company", HOUSTON_SKILL);
   if ("error" in parsed) throw new Error(parsed.error);
   expect(parsed.summary.name).toBe("research-company");

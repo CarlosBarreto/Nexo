@@ -12,10 +12,10 @@ app's UI too: it's the same React tree. (True Tauri-shell E2E would need
 ## Run
 
 ```bash
-pnpm --filter houston-web test:e2e        # headless, starts both servers itself
-pnpm --filter houston-web test:e2e:ui     # Playwright UI mode (watch / debug)
-pnpm --filter houston-web test:e2e:report # open the last HTML report
-pnpm --filter houston-web typecheck:e2e   # typecheck the harness
+pnpm --filter nexo-web test:e2e        # headless, starts both servers itself
+pnpm --filter nexo-web test:e2e:ui     # Playwright UI mode (watch / debug)
+pnpm --filter nexo-web test:e2e:report # open the last HTML report
+pnpm --filter nexo-web typecheck:e2e   # typecheck the harness
 ```
 
 Playwright boots two servers automatically (see `playwright.config.ts`):

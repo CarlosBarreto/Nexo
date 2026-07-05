@@ -70,7 +70,7 @@ interface SetupProgressProps {
 
 /**
  * The single screen behind the intro AND every milestone celebration. It shows
- * the Houston mark, a title + message, and the four-milestone checklist grouped
+ * the Nexo mark, a title + message, and the four-milestone checklist grouped
  * Setup vs Onboarding — items the user has finished animate to a check. When a
  * milestone just completed, confetti rains. One component so the journey reads
  * as continuous progress; monochrome per the design system (confetti aside).

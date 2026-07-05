@@ -27,7 +27,7 @@ import { loadTheme } from "./lib/theme";
 // very first render. Empty DSN → silent no-op (dev / forks).
 initSentry();
 // Sentry smoke-test triggers (Ctrl+Alt+Shift+J/N + the __HOUSTON_SENTRY_SMOKE__
-// global) are DEV-ONLY. Houston is open source and official release binaries
+// global) are DEV-ONLY. Nexo is open source and official release binaries
 // bake the prod SENTRY_DSN, so shipping these error-injectors would let anyone
 // flood the prod Sentry project. The `import.meta.env.DEV` guard is statically
 // false in production builds, so Vite tree-shakes the call + the module away.

@@ -1,9 +1,9 @@
 //! First-launch DMG guard (macOS only — LetsMove pattern).
 //!
-//! When the user double-clicks `Houston.app` *inside the mounted DMG* (a
+//! When the user double-clicks `Nexo.app` *inside the mounted DMG* (a
 //! common mistake — they think they've "installed" it just by opening
 //! the DMG and double-clicking the icon), the app would otherwise launch
-//! from `/Volumes/Houston Installer/Houston.app`. Workspaces, databases,
+//! from `/Volumes/Nexo Installer/Nexo.app`. Workspaces, databases,
 //! and Keychain entries get tied to a read-only volume that disappears
 //! as soon as Finder ejects it. Confusing failure mode for non-technical
 //! users — many of ours, per the project memory.
@@ -81,11 +81,11 @@ enum Choice {
 fn show_move_dialog() -> Choice {
     let result = rfd::MessageDialog::new()
         .set_level(rfd::MessageLevel::Info)
-        .set_title("Move Houston to your Applications folder")
+        .set_title("Move Nexo to your Applications folder")
         .set_description(
-            "Houston is currently running from the installer disk image. To use it normally, \
+            "Nexo is currently running from the installer disk image. To use it normally, \
              move it to your Applications folder.\n\n\
-             Click Move to do this automatically. Then open Houston from Applications.",
+             Click Move to do this automatically. Then open Nexo from Applications.",
         )
         .set_buttons(rfd::MessageButtons::OkCancelCustom(
             "Move to Applications".into(),
@@ -111,29 +111,29 @@ fn show_error(title: &str, body: &str) {
 fn show_already_installed_and_running() {
     rfd::MessageDialog::new()
         .set_level(rfd::MessageLevel::Warning)
-        .set_title("Houston is already running")
+        .set_title("Nexo is already running")
         .set_description(
-            "Houston is already installed in your Applications folder and currently running. \
-             Quit the running copy first, then drag Houston from this disk image into Applications.",
+            "Nexo is already installed in your Applications folder and currently running. \
+             Quit the running copy first, then drag Nexo from this disk image into Applications.",
         )
         .set_buttons(rfd::MessageButtons::Ok)
         .show();
 }
 
-/// True if there's a Houston process running with `/Applications/Houston.app` in its path.
+/// True if there's a Nexo process running with `/Applications/Nexo.app` in its path.
 /// Best-effort — we shell out to `pgrep` because there's no portable Rust API for this.
 fn is_installed_copy_running() -> bool {
     Command::new("/usr/bin/pgrep")
-        .args(["-f", "/Applications/Houston.app/Contents/MacOS/"])
+        .args(["-f", "/Applications/Nexo.app/Contents/MacOS/"])
         .output()
         .map(|o| o.status.success() && !o.stdout.is_empty())
         .unwrap_or(false)
 }
 
-/// Copy the source `.app` bundle into `/Applications/Houston.app`,
+/// Copy the source `.app` bundle into `/Applications/Nexo.app`,
 /// replacing any existing copy. Returns the destination path on success.
 fn copy_to_applications(source_app: &Path) -> Result<PathBuf, String> {
-    let dest = PathBuf::from("/Applications/Houston.app");
+    let dest = PathBuf::from("/Applications/Nexo.app");
 
     if dest.exists() {
         if is_installed_copy_running() {
@@ -144,11 +144,11 @@ fn copy_to_applications(source_app: &Path) -> Result<PathBuf, String> {
         // recursive remove) fails on signed bundles whose `Contents/_CodeSignature`
         // has restrictive perms; the shell tool handles it correctly.
         let rm = Command::new("/bin/rm")
-            .args(["-rf", "/Applications/Houston.app"])
+            .args(["-rf", "/Applications/Nexo.app"])
             .status()
             .map_err(|e| format!("failed to invoke /bin/rm: {e}"))?;
         if !rm.success() {
-            return Err(format!("rm -rf /Applications/Houston.app exited with {rm}"));
+            return Err(format!("rm -rf /Applications/Nexo.app exited with {rm}"));
         }
     }
 
@@ -214,7 +214,7 @@ pub fn handle_if_needed() {
         }
         Choice::Move => {
             if forced_debug {
-                // Don't actually clobber /Applications/Houston.app in dev.
+                // Don't actually clobber /Applications/Nexo.app in dev.
                 tracing::info!("[dmg-guard] forced-debug Move clicked — skipping real copy");
                 return;
             }
@@ -222,9 +222,9 @@ pub fn handle_if_needed() {
                 Ok(dest) => {
                     if let Err(e) = launch_app(&dest) {
                         show_error(
-                            "Couldn't launch Houston from Applications",
+                            "Couldn't launch Nexo from Applications",
                             &format!(
-                                "Houston was copied to /Applications but failed to launch. \
+                                "Nexo was copied to /Applications but failed to launch. \
                                  Please open it from your Applications folder.\n\nDetails: {e}"
                             ),
                         );
@@ -238,10 +238,10 @@ pub fn handle_if_needed() {
                 }
                 Err(err) => {
                     show_error(
-                        "Couldn't move Houston to Applications",
+                        "Couldn't move Nexo to Applications",
                         &format!(
-                            "Houston couldn't copy itself to your Applications folder. \
-                             Please drag the Houston icon onto the Applications shortcut in the disk image instead.\n\n\
+                            "Nexo couldn't copy itself to your Applications folder. \
+                             Please drag the Nexo icon onto the Applications shortcut in the disk image instead.\n\n\
                              Details: {err}"
                         ),
                     );
@@ -260,30 +260,30 @@ mod tests {
     #[test]
     fn dmg_path_detected() {
         assert!(is_running_from_dmg(&PathBuf::from(
-            "/Volumes/Houston Installer/Houston.app"
+            "/Volumes/Nexo Installer/Nexo.app"
         )));
     }
 
     #[test]
     fn applications_path_not_dmg() {
         assert!(!is_running_from_dmg(&PathBuf::from(
-            "/Applications/Houston.app"
+            "/Applications/Nexo.app"
         )));
     }
 
     #[test]
     fn user_home_not_dmg() {
         assert!(!is_running_from_dmg(&PathBuf::from(
-            "/Users/foo/Downloads/Houston.app"
+            "/Users/foo/Downloads/Nexo.app"
         )));
     }
 
     #[test]
     fn finds_enclosing_app() {
-        let exe = PathBuf::from("/Volumes/Houston Installer/Houston.app/Contents/MacOS/houston-app");
+        let exe = PathBuf::from("/Volumes/Nexo Installer/Nexo.app/Contents/MacOS/houston-app");
         assert_eq!(
             enclosing_app_bundle(&exe),
-            Some(PathBuf::from("/Volumes/Houston Installer/Houston.app"))
+            Some(PathBuf::from("/Volumes/Nexo Installer/Nexo.app"))
         );
     }
 

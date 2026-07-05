@@ -17,7 +17,7 @@ export function BootSplash() {
         fontSize: 14,
       }}
     >
-      Starting Houston…
+      Starting Nexo…
     </div>
   );
 }

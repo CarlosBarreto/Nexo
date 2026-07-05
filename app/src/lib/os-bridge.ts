@@ -77,7 +77,7 @@ export function osStartOauthLoopback(): Promise<string> {
   return invoke<string>("start_oauth_loopback");
 }
 
-/** Pull the Houston window to the front. Used when a flow finishes in the
+/** Pull the Nexo window to the front. Used when a flow finishes in the
  * user's browser (e.g. a Composio integration connection lands) and we want
  * the app to surface itself — the same snap-back the sign-in loopback does.
  * No-op outside Tauri. */
@@ -158,7 +158,7 @@ export function osReadRecentLogs(
   });
 }
 
-/** Send a prepared bug report to Houston's native bug-report intake.
+/** Send a prepared bug report to Nexo's native bug-report intake.
  * Resolves with the Linear issue identifier (e.g. "BUG-123") when known. */
 export function osReportBug(payload: unknown): Promise<string | null> {
   return invoke<string | null>("report_bug", { payload });

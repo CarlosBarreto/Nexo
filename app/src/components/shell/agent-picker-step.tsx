@@ -34,7 +34,7 @@ export function AgentPickerStep({
 
   const query = search.trim().toLowerCase();
 
-  // Houston's first-party agents (`author === "Houston"`) render in the user's
+  // Nexo's first-party agents (`author === "Houston"`) render in the user's
   // language; third-party agents keep their author's language. Recompute when
   // the active language changes so switching locales relabels the picker live.
   // biome-ignore lint/correctness/useExhaustiveDependencies: i18n.language is required to relabel on locale switch

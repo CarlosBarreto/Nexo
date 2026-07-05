@@ -22,8 +22,8 @@ import type {
 
 /**
  * The Composio adapter — the first IntegrationProvider. Speaks Composio's v3
- * REST API directly (no bundled CLI, no SDK): the platform model, where Houston
- * holds ONE project API key (`x-api-key`) and each Houston user is a plain
+ * REST API directly (no bundled CLI, no SDK): the platform model, where Nexo
+ * holds ONE project API key (`x-api-key`) and each Nexo user is a plain
  * `user_id` under that project. Users never create a Composio account — they
  * only OAuth the app itself (Gmail, Slack…), and Composio hosts that dance.
  *
@@ -41,7 +41,7 @@ import type {
 const DEFAULT_BASE_URL = "https://backend.composio.dev";
 
 export interface ComposioOptions {
-  /** Houston's Composio PROJECT API key (dashboard → Project Settings). */
+  /** Nexo's Composio PROJECT API key (dashboard → Project Settings). */
   apiKey: string;
   /** Override for tests / self-host pointing at a different Composio backend. */
   baseURL?: string;

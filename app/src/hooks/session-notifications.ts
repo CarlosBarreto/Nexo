@@ -119,7 +119,7 @@ export async function sendSessionNotification(
     if (!nav) return;
 
     // Linux/Windows emit a real `notification-clicked` event, so arm even while
-    // focused: the user can click the toast from another Houston chat and that
+    // focused: the user can click the toast from another Nexo chat and that
     // explicit click should navigate. macOS has no desktop click event in the
     // JS plugin, so focus is its click proxy and we only arm while backgrounded.
     const focused = await getCurrentWindow().isFocused();

@@ -18,7 +18,7 @@ import {
  * The Files tab over an agent's workspace root, served by the host for every
  * profile (cloud GCS prefix `<prefix>/workspace`, local FS `<W>/<A>`). The agent
  * writes files to that root during a turn; these endpoints make them show up, be
- * readable, downloadable, renamable, and deletable. Internal Houston state
+ * readable, downloadable, renamable, and deletable. Internal Nexo state
  * (`.houston`, `.agents`) is hidden + refused, and path-safety stops a hostile
  * rel-path escaping the root.
  */
@@ -68,7 +68,7 @@ test("conversation/settings data outside the root is NOT listed", async () => {
 
 test("local layout (no workspace/ split): lists user files, hides .houston/.agents internals", async () => {
   const objects = new MemoryVfs();
-  const LOCAL = "Houston/Bo"; // local agentRoot — the agent dir IS the root
+  const LOCAL = "Nexo/Bo"; // local agentRoot — the agent dir IS the root
   await objects.writeText(`${LOCAL}/report.txt`, "hi");
   await objects.writeText(`${LOCAL}/Decks/q3.pptx`, "PPTX");
   await objects.writeText(`${LOCAL}/CLAUDE.md`, "instructions");
@@ -80,7 +80,7 @@ test("local layout (no workspace/ split): lists user files, hides .houston/.agen
   expect(paths).toContain("Decks"); // synthesized folder
   expect(paths).toContain("Decks/q3.pptx");
   expect(paths).toContain("CLAUDE.md");
-  // Internal Houston state is never exposed in the Files tab.
+  // Internal Nexo state is never exposed in the Files tab.
   expect(paths.some((p) => p.startsWith(".houston"))).toBe(false);
   expect(paths.some((p) => p.startsWith(".agents"))).toBe(false);
 });

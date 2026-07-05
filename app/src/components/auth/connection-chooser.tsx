@@ -10,7 +10,7 @@ import { NexoLogo } from "../shell/experience-card";
 /**
  * First-run engine-connection chooser (HOU-621). Shown by <ConnectionGate> in
  * the TS-engine build, before any engine gate, when the user has not yet chosen
- * whether Houston runs on this computer (the Tauri host sidecar) or connects to
+ * whether Nexo runs on this computer (the Tauri host sidecar) or connects to
  * a remote engine / gateway URL.
  *
  * Applying a choice persists it and reloads the webview so app/src/lib/engine.ts

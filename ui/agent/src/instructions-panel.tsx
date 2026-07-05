@@ -1,6 +1,6 @@
 /**
  * InstructionsPanel — editable instruction files for an agent workspace.
- * Visual style matches Houston's ContextTab exactly: labeled textareas
+ * Visual style matches Nexo's ContextTab exactly: labeled textareas
  * with auto-save on blur, bg-[#f9f9f9], subtle borders.
  */
 import { useEffect, useState } from "react";

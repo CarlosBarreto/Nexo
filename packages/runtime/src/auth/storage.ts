@@ -22,7 +22,7 @@ export const authStorage = AuthStorage.create(
  * Deliberately `has()` (stored only), NOT `hasAuth()`. `hasAuth()` ALSO returns
  * true for an ambient env var (`OPENROUTER_API_KEY`, `GEMINI_API_KEY`, …), a CLI
  * `--api-key` override, or a models.json fallback. Those can make a model
- * callable, but none is a connection the user made through Houston, and none is
+ * callable, but none is a connection the user made through Nexo, and none is
  * something "Sign out" can clear — so counting them leaves the provider stuck
  * "connected" forever and the logout button does nothing (HOU-557). pi's own
  * `AuthStorage.getAuthStatus()` draws the exact same line: a stored credential
