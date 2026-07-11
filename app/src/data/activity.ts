@@ -1,11 +1,11 @@
 /**
  * `.houston/activity/activity.json` — the board.
  *
- * Schema-validated via `@houston-ai/agent-schemas/activity.schema.json`.
+ * Schema-validated via `@nexo-ai/agent-schemas/activity.schema.json`.
  * Written atomically on every mutation (the backend handles the temp-file + rename).
  */
 
-import schema from "@houston-ai/agent-schemas/activity.schema.json";
+import schema from "@nexo-ai/agent-schemas/activity.schema.json";
 import { applyBulkPatch, applyBulkRemove, applyRemove } from "./activity-bulk";
 import { newId, now, readAgentJson, writeAgentJson } from "./agent-file";
 

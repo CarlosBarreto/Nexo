@@ -2,7 +2,7 @@ import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { createServer as netCreateServer } from "node:net";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { HoustonEvent } from "@houston/protocol";
+import type { NexoEvent } from "@nexo/protocol";
 import { expect, test } from "vitest";
 import type { RuntimeSpawner } from "../launcher/process";
 import { buildLocalHost, type LocalHost } from "./host";
@@ -20,7 +20,7 @@ import { buildLocalHost, type LocalHost } from "./host";
  *      being on disk, so this is the local analog of Layer-3 checklist row 4
  *      that DOESN'T need a turn.
  *
- *   2. A raw write under an agent's `.houston` surfaces the correct HoustonEvent
+ *   2. A raw write under an agent's `.houston` surfaces the correct NexoEvent
  *      on `/v1/events` — the FsWatcher → EventHub → SSE keystone, ASSEMBLED.
  *      The watcher unit test stops at the callback; the events-stream test
  *      drives only the cloud host-mutation path (MemoryVfs, no watcher). This is
@@ -137,7 +137,7 @@ test("a skill created via the API lands at the exact on-disk path pi loads", asy
 
 /**
  * Open the local host's SSE stream and resolve with the first matching
- * HoustonEvent after `onConnected` (the comment preamble) fires the FS write.
+ * NexoEvent after `onConnected` (the comment preamble) fires the FS write.
  * The watcher may legitimately emit a broad FilesChanged before the specific
  * ActivityChanged, so ignore non-matching events instead of racing event order.
  * Aborts on settle so the watcher + server unsubscribe; returns "timeout" past
@@ -146,9 +146,9 @@ test("a skill created via the API lands at the exact on-disk path pi loads", asy
 async function waitForEvent(
   base: string,
   onConnected: () => void,
-  matches: (event: HoustonEvent) => boolean,
+  matches: (event: NexoEvent) => boolean,
   timeoutMs = 4000,
-): Promise<HoustonEvent | "timeout"> {
+): Promise<NexoEvent | "timeout"> {
   const ac = new AbortController();
   const res = await fetch(`${base}/v1/events`, {
     headers: { Authorization: `Bearer ${TOKEN}` },
@@ -176,7 +176,7 @@ async function waitForEvent(
       for (const frame of frames) {
         const line = frame.split("\n").find((l) => l.startsWith("data: "));
         if (!line) continue;
-        const event = JSON.parse(line.slice("data: ".length)) as HoustonEvent;
+        const event = JSON.parse(line.slice("data: ".length)) as NexoEvent;
         if (matches(event)) return event;
       }
     }
@@ -192,7 +192,7 @@ test("a direct .houston file write surfaces on /v1/events (FsWatcher → SSE)", 
   const { host, base, workspacesRoot } = await bootLocal();
   // The agent (or the user, or an external edit) writes activity.json directly —
   // no host route involved. Reactivity must catch it. This is the local profile
-  // analog of cloud's post-turn synthetic FilesChanged: same HoustonEvent
+  // analog of cloud's post-turn synthetic FilesChanged: same NexoEvent
   // vocabulary, different detector (the documented asymmetry).
   const activityDir = join(
     workspacesRoot,

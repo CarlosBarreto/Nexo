@@ -1,5 +1,5 @@
-import { DropdownMenuItem } from "@houston-ai/core";
-import type { SidebarItem } from "@houston-ai/layout";
+import { DropdownMenuItem } from "@nexo-ai/core";
+import type { SidebarItem } from "@nexo-ai/layout";
 import type { Agent } from "../../lib/types";
 import type { AgentActivitySummary } from "./agent-activity-summary-model";
 import { AgentSidebarColorMenu } from "./agent-sidebar-color-menu";
@@ -8,6 +8,8 @@ import { AgentSidebarIcon, NeedsYouChip } from "./agent-sidebar-status";
 interface BuildAgentSidebarItemsArgs {
   agents: Agent[];
   summaries: Record<string, AgentActivitySummary>;
+  /** The agent's forged soul element, if any — drives the dot colour. */
+  elementFor: (agentId: string) => string | undefined;
   runningLabel: (count: number) => string;
   needsYouLabel: (count: number) => string;
   onChangeColor: (agentId: string, color: string) => void;
@@ -18,6 +20,7 @@ interface BuildAgentSidebarItemsArgs {
 export function buildAgentSidebarItems({
   agents,
   summaries,
+  elementFor,
   runningLabel,
   needsYouLabel,
   onChangeColor,
@@ -37,6 +40,7 @@ export function buildAgentSidebarItems({
       icon: (
         <AgentSidebarIcon
           color={agent.color}
+          element={elementFor(agent.id)}
           running={hasRunning}
           runningLabel={runningLabel(summary.runningCount)}
         />

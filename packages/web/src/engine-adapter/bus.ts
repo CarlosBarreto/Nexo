@@ -1,5 +1,5 @@
 /**
- * Shared in-process event bus. The adapter's HoustonClient emits HoustonEvents
+ * Shared in-process event bus. The adapter's NexoClient emits NexoEvents
  * (FeedItem, SessionStatus, ActivityChanged, …) onto it; the adapter's
  * EngineWebSocket delivers them to subscribers — standing in for the old
  * engine's real WebSocket so app/src renders streaming chat unchanged.
@@ -27,7 +27,7 @@ class EventBus {
 
 export const bus = new EventBus();
 
-/** Emit a HoustonEvent-shaped object. */
+/** Emit a NexoEvent-shaped object. */
 export function emitEvent(type: string, data: unknown): void {
   bus.emit({ type, data });
 }

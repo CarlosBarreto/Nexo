@@ -15,7 +15,7 @@
  * catalog (`providers.ts`) is frontend-only, so the size check lives here.
  */
 
-import type { FeedItem } from "@houston-ai/chat";
+import type { FeedItem } from "@nexo-ai/chat";
 
 export type ProviderHandoffMode = "replay" | "summarize";
 

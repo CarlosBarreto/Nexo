@@ -1,4 +1,4 @@
-import { Button, cn } from "@houston-ai/core";
+import { Button, cn } from "@nexo-ai/core";
 import { ArrowLeft, ArrowRight, Check, Loader2 } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -9,8 +9,8 @@ import type { ReactNode } from "react";
  * centered card on a dimmed backdrop with a small step eyebrow, one clear
  * question, the content, and a Back / helper / Next footer.
  *
- * Houston-monochrome, not Discord-blue: selection uses the near-black
- * foreground, never a decorative accent (design-system color restraint).
+ * Lunaria accent: selection uses the sky-blue primary (lunaria.css re-points
+ * --ht-primary); the design-system.md monochrome guidance is stale here.
  */
 interface SetupCardProps {
   /** Optional brand mark above the eyebrow (used by the Welcome hero). */
@@ -54,7 +54,7 @@ export function SetupCard({
           each step change, but not on in-step state updates like typing. */}
       <div
         key={title}
-        className="setup-step-in relative z-10 flex h-[680px] max-h-[88vh] w-full max-w-2xl flex-col rounded-2xl border border-black/10 bg-background p-8 shadow-[0_4px_24px_rgba(0,0,0,0.06)]"
+        className="setup-step-in relative z-10 flex h-[680px] max-h-[88vh] w-full max-w-2xl flex-col rounded-2xl border border-border/60 bg-background p-8 shadow-[0_4px_24px_rgba(0,0,0,0.06)]"
       >
         {icon && <div className="mb-4">{icon}</div>}
         {eyebrow && (
@@ -162,10 +162,10 @@ export function OptionCard({
         "flex w-full flex-col gap-3 rounded-xl p-4 text-left transition-colors",
         disabled
           ? "cursor-not-allowed bg-secondary/50 opacity-60"
-          : "bg-secondary hover:bg-black/[0.06]",
+          : "bg-secondary hover:bg-primary/5",
         // Inset so the selection ring is drawn INSIDE the card box — an
         // outset ring on an edge card gets clipped by the scroll container.
-        selected && !disabled && "ring-1 ring-inset ring-foreground",
+        selected && !disabled && "ring-1 ring-inset ring-primary",
       )}
     >
       <div className="flex items-center gap-3">
@@ -202,10 +202,10 @@ function RadioDot({ selected }: { selected: boolean }) {
       aria-hidden
       className={cn(
         "flex size-5 items-center justify-center rounded-full border transition-colors",
-        selected ? "border-foreground bg-foreground" : "border-black/25",
+        selected ? "border-primary bg-primary" : "border-border",
       )}
     >
-      {selected && <Check className="size-3 text-background" />}
+      {selected && <Check className="size-3 text-primary-foreground" />}
     </span>
   );
 }

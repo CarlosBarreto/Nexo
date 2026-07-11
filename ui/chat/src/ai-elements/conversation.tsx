@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, cn } from "@houston-ai/core";
+import { Button, cn } from "@nexo-ai/core";
 import type { UIMessage } from "ai";
 import { ArrowDownIcon, DownloadIcon } from "lucide-react";
 import type { ComponentProps } from "react";

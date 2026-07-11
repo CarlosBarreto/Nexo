@@ -10,7 +10,7 @@ import { DEFAULT_AGENT_COLOR, syntheticAgent } from "./synthetic";
  *
  * The new TS engine is single-user with no agent concept, so the desktop UI's
  * agents are persisted client-side (one bucket per synthetic workspace). One
- * default "Houston" agent is seeded on first access so the shell has a usable
+ * default "Nexo" agent is seeded on first access so the shell has a usable
  * agent immediately; the user can create / rename / recolor / delete more. Each
  * agent gets its own `folderPath`, which namespaces its board, config, and chats
  * (chat conversations key off the per-mission `session_key`).
@@ -35,7 +35,7 @@ function save(store: Store): void {
   }
 }
 
-/** Agents for a workspace, seeding the default Houston agent on first access. */
+/** Agents for a workspace, seeding the default Nexo agent on first access. */
 function seeded(store: Store, workspaceId: string): Agent[] {
   let agents = store[workspaceId];
   if (!agents) {

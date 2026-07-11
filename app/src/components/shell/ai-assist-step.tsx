@@ -1,5 +1,5 @@
-import { DialogTitle } from "@houston-ai/core";
-import type { SuggestedRoutine } from "@houston-ai/engine-client";
+import { DialogTitle } from "@nexo-ai/core";
+import type { SuggestedRoutine } from "@nexo-ai/engine-client";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { tauriAgents, tauriProvider } from "../../lib/tauri";

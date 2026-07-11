@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
   Spinner,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { analytics } from "../../lib/analytics";

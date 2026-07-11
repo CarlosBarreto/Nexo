@@ -1,15 +1,15 @@
-import { Button } from "@houston-ai/core";
+import { Button } from "@nexo-ai/core";
 import { ArrowRight } from "lucide-react";
 import { type ReactNode, useEffect, useState } from "react";
 import { useLocalePreference } from "../../hooks/use-locale-preference";
 import { analytics } from "../../lib/analytics";
 import { SUPPORTED_LOCALES, type SupportedLocale } from "../../lib/i18n";
 import { OptionCard, SetupCard } from "../onboarding/setup-card";
-import { HoustonLogo } from "./experience-card";
+import { NexoLogo } from "./experience-card";
 
 /**
  * First-run language flow, styled like the rest of setup. Two beats:
- *   1. A macOS-style "Welcome to Houston" hero that rotates through en/es/pt —
+ *   1. A macOS-style "Welcome to Nexo" hero that rotates through en/es/pt —
  *      a warm, language-agnostic hello before we ask anything.
  *   2. The language picker (pick, then Continue, so a misclick is recoverable).
  *
@@ -42,12 +42,12 @@ const DISPLAY_NAMES: Record<SupportedLocale, string> = {
   pt: "Português",
 };
 
-// "Welcome to Houston" across the supported languages. Gender-neutral phrasings
+// "Welcome to Nexo" across the supported languages. Gender-neutral phrasings
 // (LatAm-neutral Spanish, Brazilian Portuguese) to match the product voice.
 const GREETINGS = [
-  { title: "Welcome to Houston!", cta: "Continue" },
-  { title: "¡Bienvenido a Houston!", cta: "Continuar" },
-  { title: "Boas-vindas ao Houston!", cta: "Continuar" },
+  { title: "Welcome to Nexo!", cta: "Continue" },
+  { title: "¡Bienvenido a Nexo!", cta: "Continuar" },
+  { title: "Boas-vindas ao Nexo!", cta: "Continuar" },
 ];
 
 // Survives a remount within the session: if the user goes back to the picker
@@ -134,7 +134,7 @@ function RotatingWelcome({ onContinue }: { onContinue: () => void }) {
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center overflow-hidden bg-secondary/60 px-6 text-foreground">
       <div className="relative z-10 flex flex-col items-center gap-12 text-center">
-        <HoustonLogo size={72} />
+        <NexoLogo size={72} className="text-primary" />
         {/* Fixed height so greetings of different lengths don't shift the logo
             or button; the word itself blurs + scales in each rotation. */}
         <div className="flex min-h-[150px] max-w-2xl items-center justify-center">

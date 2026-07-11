@@ -1,14 +1,14 @@
 /**
  * Skill-invocation message marker.
  *
- * When a user runs a Houston Skill the selected Skill is shown above
+ * When a user runs a Nexo Skill the selected Skill is shown above
  * the composer; the message body sent to Claude is wrapped in an
  * HTML-comment marker carrying the Skill's display metadata so the
  * chat renderer can show a card (instead of the raw prompt) for both
  * the live message and reloaded history.
  *
  * The marker is intentionally framework-agnostic: parsing lives in
- * `@houston-ai/chat` so any consumer (desktop app, mobile, future
+ * `@nexo-ai/chat` so any consumer (desktop app, mobile, future
  * embedded chats) can decode + render the same way without inheriting
  * the desktop's skill/agent code.
  *

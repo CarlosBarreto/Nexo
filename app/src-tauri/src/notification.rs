@@ -1,5 +1,5 @@
 //! Native "agent finished" notifications for Linux + Windows whose CLICK
-//! brings Houston to the foreground and replays the pending mission nav.
+//! brings Nexo to the foreground and replays the pending mission nav.
 //!
 //! ## Why this exists (issue #289)
 //!
@@ -19,11 +19,11 @@
 //! frontend stashes the nav target in `pendingNotificationNav` and consumes it
 //! on `notification-clicked` — NOT on the generic `app-activated`, which also
 //! fires on any alt-tab / dock click / resume and would otherwise yank the user
-//! to a finished mission whenever they refocus Houston.
+//! to a finished mission whenever they refocus Nexo.
 
 use tauri::AppHandle;
 
-/// Show a native notification whose click raises Houston and emits
+/// Show a native notification whose click raises Nexo and emits
 /// `notification-clicked`. macOS keeps using the JS notification plugin (see
 /// `session-notifications.ts`) and never invokes this command.
 #[tauri::command(rename_all = "snake_case")]
@@ -110,7 +110,7 @@ mod linux {
                 match notify_rust::Notification::new()
                     .summary(&title)
                     .body(&body)
-                    .appname("Houston")
+                    .appname("Nexo")
                     .action("default", "Open")
                     .show()
                 {
@@ -134,7 +134,7 @@ mod windows {
     use tauri_winrt_notification::Toast;
 
     /// Pick the toast's Application User Model ID. Installed builds register the
-    /// `com.houston.app` AUMID so the toast carries Houston's icon + name;
+    /// `com.nexo.app` AUMID so the toast carries Nexo's icon + name;
     /// unregistered dev builds fall back to the PowerShell AUMID — the same
     /// split tauri-plugin-notification uses.
     fn resolve_toast_app_id(debug: bool, identifier: &str) -> String {
@@ -168,15 +168,15 @@ mod windows {
 
         #[test]
         fn release_uses_app_identifier_and_dev_uses_powershell() {
-            // Release: the toast must carry Houston's registered AUMID so the
+            // Release: the toast must carry Nexo's registered AUMID so the
             // OS shows our icon/name and routes the click back to us.
             assert_eq!(
-                resolve_toast_app_id(false, "com.houston.app").as_str(),
-                "com.houston.app",
+                resolve_toast_app_id(false, "com.nexo.app").as_str(),
+                "com.nexo.app",
             );
             // Dev: no AUMID is registered, so fall back to PowerShell's.
             assert_eq!(
-                resolve_toast_app_id(true, "com.houston.app").as_str(),
+                resolve_toast_app_id(true, "com.nexo.app").as_str(),
                 Toast::POWERSHELL_APP_ID,
             );
         }

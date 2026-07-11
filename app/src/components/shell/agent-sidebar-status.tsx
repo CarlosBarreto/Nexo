@@ -1,19 +1,23 @@
-import { Badge, cn, HoustonAvatar, resolveAgentColor } from "@houston-ai/core";
+import { Badge, cn, NexoAvatar, resolveIdentityColor } from "@nexo-ai/core";
 import type { CSSProperties } from "react";
 
 interface AgentSidebarIconProps {
   color?: string;
+  /** The agent's forged soul element, if any — takes precedence over `color`. */
+  element?: string;
   running: boolean;
   runningLabel: string;
 }
 
 export function AgentSidebarIcon({
   color,
+  element,
   running,
   runningLabel,
 }: AgentSidebarIconProps) {
+  // Identity colour = soul element when forged, else the user-picked colour.
   const avatar = (
-    <HoustonAvatar color={resolveAgentColor(color)} diameter={20} />
+    <NexoAvatar color={resolveIdentityColor(element, color)} diameter={20} />
   );
 
   if (!running) return avatar;

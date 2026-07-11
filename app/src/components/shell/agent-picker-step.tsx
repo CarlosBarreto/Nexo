@@ -1,4 +1,4 @@
-import { Input } from "@houston-ai/core";
+import { Input } from "@nexo-ai/core";
 import { Gift, Search } from "lucide-react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -17,6 +17,7 @@ interface AgentPickerStepProps {
   agents: AgentDefinition[];
   onSelect: (id: string) => void;
   onCreateWithAi: () => void;
+  onDiscoverSoul: () => void;
 }
 
 export function AgentPickerStep({
@@ -25,6 +26,7 @@ export function AgentPickerStep({
   agents,
   onSelect,
   onCreateWithAi,
+  onDiscoverSoul,
 }: AgentPickerStepProps) {
   const { t, i18n } = useTranslation(["shell", "portable", "agents"]);
   const setImportOpen = useUIStore((s) => s.setImportFromFriendOpen);
@@ -32,7 +34,7 @@ export function AgentPickerStep({
 
   const query = search.trim().toLowerCase();
 
-  // Houston's first-party agents (`author === "Houston"`) render in the user's
+  // Nexo's first-party agents (`author === "Houston"`) render in the user's
   // language; third-party agents keep their author's language. Recompute when
   // the active language changes so switching locales relabels the picker live.
   // biome-ignore lint/correctness/useExhaustiveDependencies: i18n.language is required to relabel on locale switch
@@ -119,6 +121,15 @@ export function AgentPickerStep({
                 description={t("aiAssist.cardDescription")}
                 className="min-h-[132px]"
                 onClick={onCreateWithAi}
+              />
+            )}
+            {!query && (
+              <SkillCard
+                image="crystal-ball"
+                title={t("soulRitual.cardTitle")}
+                description={t("soulRitual.cardDescription")}
+                className="min-h-[132px]"
+                onClick={onDiscoverSoul}
               />
             )}
             {reorderedAgents.map((def) => {

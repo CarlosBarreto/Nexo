@@ -34,7 +34,7 @@
   },
   "attachmentIssues": {
     "title": "Some files were not attached",
-    "description": "Houston kept your prompt and the files it can use.",
+    "description": "Nexo kept your prompt and the files it can use.",
     "close": "Got it",
     "reasons": {
       "blockedType": "This file type cannot be used here.",

@@ -2,8 +2,8 @@ import type {
   FeedItem,
   MergeFeedOptions,
   PendingUserEcho,
-} from "@houston-ai/chat";
-import { mergeFeedItem, reconcileUserMessageEcho } from "@houston-ai/chat";
+} from "@nexo-ai/chat";
+import { mergeFeedItem, reconcileUserMessageEcho } from "@nexo-ai/chat";
 import { create } from "zustand";
 
 /**

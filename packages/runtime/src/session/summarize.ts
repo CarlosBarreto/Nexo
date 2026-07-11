@@ -6,7 +6,7 @@ import {
   type ModelRegistry,
   SessionManager,
 } from "@earendil-works/pi-coding-agent";
-import type { ChatMessage } from "@houston/runtime-client";
+import type { ChatMessage } from "@nexo/runtime-client";
 import { resolveModel } from "../ai/providers";
 import { authStorage, modelRegistry } from "../auth/storage";
 import { config } from "../config";

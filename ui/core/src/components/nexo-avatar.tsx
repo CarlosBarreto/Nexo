@@ -1,9 +1,9 @@
 /**
- * HoustonAvatar — the colored Houston helmet glyph, optionally wrapped in
+ * NexoAvatar — the colored Nexo helmet glyph, optionally wrapped in
  * the "card-running-glow" comet halo when an agent is actively working.
  *
  * This is the single source of truth for rendering an agent's avatar
- * across every Houston surface (desktop, mobile, any third-party
+ * across every Nexo surface (desktop, mobile, any third-party
  * frontend built on `houston-engine`). Old local copies in `app/` and
  * `mobile/` duplicated the SVG path data + the running-glow wrapper;
  * every tweak had to be done twice. Not anymore.
@@ -19,15 +19,15 @@ import { cn } from "../utils";
 const HOUSTON_GRAY = "#9b9b9b";
 
 interface HelmetProps {
-  /** Hex fill color. Defaults to Houston gray. */
+  /** Hex fill color. Defaults to Nexo gray. */
   color?: string;
   /** Pixel size (width + height). */
   size?: number;
   className?: string;
 }
 
-/** Bare Houston helmet SVG. No container, no halo — just the glyph. */
-export function HoustonHelmet({
+/** Bare Nexo helmet SVG. No container, no halo — just the glyph. */
+export function NexoHelmet({
   color = HOUSTON_GRAY,
   size = 24,
   className,
@@ -55,7 +55,7 @@ export function HoustonHelmet({
   );
 }
 
-interface HoustonAvatarProps {
+interface NexoAvatarProps {
   /** Agent's themed hex color. Drives both the helmet fill AND the
    *  faint circle tint behind it. */
   color?: string;
@@ -69,15 +69,15 @@ interface HoustonAvatarProps {
   className?: string;
 }
 
-/** Agent avatar badge: colored circle + Houston helmet. Flip `running`
+/** Agent avatar badge: colored circle + Nexo helmet. Flip `running`
  *  to `true` and the badge grows a spinning comet border without any
  *  other code change required. */
-export function HoustonAvatar({
+export function NexoAvatar({
   color,
   diameter = 40,
   running = false,
   className,
-}: HoustonAvatarProps) {
+}: NexoAvatarProps) {
   const bg = color ?? HOUSTON_GRAY;
   const innerDiameter = running ? Math.max(diameter - 4, 1) : diameter;
   const inner = (
@@ -92,7 +92,7 @@ export function HoustonAvatar({
         backgroundColor: `color-mix(in srgb, var(--color-secondary, #f5f5f5) 82%, ${bg} 18%)`,
       }}
     >
-      <HoustonHelmet color={bg} size={Math.round(innerDiameter * 0.65)} />
+      <NexoHelmet color={bg} size={Math.round(innerDiameter * 0.65)} />
     </div>
   );
   if (!running) return inner;

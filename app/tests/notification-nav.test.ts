@@ -224,7 +224,7 @@ describe("shouldArmNotificationNav", () => {
     strictEqual(shouldArmNotificationNav(false, false), true);
   });
 
-  // Regression for focused Windows/Linux: user can be in another Houston chat,
+  // Regression for focused Windows/Linux: user can be in another Nexo chat,
   // click the toast, and still navigate because the native click event is the
   // consume signal.
   it("arms while focused when a native click event exists", () => {
@@ -245,7 +245,7 @@ describe("shouldNavigateOnAppActivation", () => {
 
   // Regression for the refocus-yank: on Linux/Windows a plain foregrounding
   // (alt-tab, taskbar, resume) must NOT navigate — only the distinct
-  // notification-clicked event does. Otherwise returning to Houston after a
+  // notification-clicked event does. Otherwise returning to Nexo after a
   // mission finished in the background throws the user into that mission.
   it("does not navigate on app activation on Linux/Windows", () => {
     strictEqual(shouldNavigateOnAppActivation(false), false);

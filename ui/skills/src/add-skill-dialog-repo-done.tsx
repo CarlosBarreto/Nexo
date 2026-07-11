@@ -1,4 +1,4 @@
-import { Button } from "@houston-ai/core";
+import { Button } from "@nexo-ai/core";
 import { Check } from "lucide-react";
 import type { RepoViewLabels } from "./add-skill-dialog-repo-labels";
 

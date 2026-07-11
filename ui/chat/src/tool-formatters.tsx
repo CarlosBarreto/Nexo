@@ -3,7 +3,7 @@
  *
  * Maps tool names to icons, detail strings, and formatted result components.
  * Designed for non-technical users: friendly labels, clean code blocks,
- * smart truncation. No Houston-specific logic.
+ * smart truncation. No Nexo-specific logic.
  */
 
 import {

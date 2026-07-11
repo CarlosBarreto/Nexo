@@ -8,14 +8,14 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { Archive, ArrowLeft, ChevronDown, ListFilter } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { shortcutLabel } from "../lib/shortcuts";
 import type { Agent } from "../lib/types";
 import { MissionSearchInput } from "./mission-search-input";
 import { AgentCardAvatar } from "./shell/agent-card-avatar";
-import { HoustonLogo } from "./shell/experience-card";
+import { NexoLogo } from "./shell/experience-card";
 
 interface MissionControlToolbarProps {
   agents: Agent[];
@@ -37,6 +37,9 @@ interface MissionControlToolbarProps {
    *  search placeholder and collapses the buttons to icons so the title stays
    *  on one line. The search itself flexes to fill whatever space is left. */
   collapsed: boolean;
+  /** Live-thread count for the Lunaria subtitle ("N hilos vivos en Lunaria").
+   *  Omit on the archived toolbar, which shows no subtitle. */
+  activeCount?: number;
 }
 
 export function MissionControlToolbar({
@@ -51,6 +54,7 @@ export function MissionControlToolbar({
   onNewMission,
   onBack,
   collapsed,
+  activeCount,
 }: MissionControlToolbarProps) {
   const { t } = useTranslation("dashboard");
   const selectedAgent = agents.find((agent) => agent.folderPath === filterPath);
@@ -74,9 +78,16 @@ export function MissionControlToolbar({
             <TooltipContent side="bottom">{t("archived.back")}</TooltipContent>
           </Tooltip>
         )}
-        <h1 className="shrink-0 text-xl font-semibold text-foreground">
-          {archivedActive ? t("archived.title") : t("title")}
-        </h1>
+        <div className="shrink-0">
+          <h1 className="text-xl font-semibold text-foreground">
+            {archivedActive ? t("archived.title") : t("title")}
+          </h1>
+          {!archivedActive && activeCount !== undefined && (
+            <p className="mt-0.5 text-[13px] text-muted-foreground">
+              {t("subtitle", { count: activeCount })}
+            </p>
+          )}
+        </div>
         <div className="flex min-w-0 flex-1 items-center justify-end gap-2">
           <MissionSearchInput
             value={search}
@@ -158,7 +169,7 @@ export function MissionControlToolbar({
                     onClick={onNewMission}
                     aria-label={t("empty.newMission")}
                   >
-                    <HoustonLogo size={16} />
+                    <NexoLogo size={16} />
                     {!collapsed && t("empty.newMission")}
                   </Button>
                 </TooltipTrigger>

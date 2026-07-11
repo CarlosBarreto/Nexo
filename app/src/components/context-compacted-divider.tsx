@@ -1,4 +1,4 @@
-import type { ChatCompactionInfo } from "@houston-ai/chat";
+import type { ChatCompactionInfo } from "@nexo-ai/chat";
 import { useTranslation } from "react-i18next";
 import { getProvider } from "../lib/providers";
 
@@ -10,7 +10,7 @@ interface ContextCompactedDividerProps {
  * Subtle divider marking a conversation boundary. Two kinds:
  *
  *  - `compacted` — the context was compacted (the provider auto-compacted, or
- *    Houston proactively summarized + reseeded to free space).
+ *    Nexo proactively summarized + reseeded to free space).
  *  - `provider_switch` — the user switched the conversation to a different
  *    provider; the new provider continued with the full conversation carried
  *    over (`summarized: false`) or a summary of it (`summarized: true`).

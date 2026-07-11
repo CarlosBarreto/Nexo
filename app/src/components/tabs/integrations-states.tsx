@@ -3,11 +3,11 @@ import {
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { Loader2 } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { HoustonLogo } from "../shell/experience-card";
+import { NexoLogo } from "../shell/experience-card";
 
 /** First load: logo pulse + a slow fill bar (the catalog fetch takes a beat). */
 export function LoadingState() {
@@ -24,7 +24,7 @@ export function LoadingState() {
 
   return (
     <Empty className="border-0">
-      <HoustonLogo size={48} className="mb-2 animate-pulse" />
+      <NexoLogo size={48} className="mb-2 animate-pulse" />
       <EmptyHeader>
         <EmptyTitle>{t("loading.title")}</EmptyTitle>
         <EmptyDescription>{t("loading.body")}</EmptyDescription>
@@ -40,7 +40,7 @@ export function LoadingState() {
   );
 }
 
-/** Desktop, signed out of Houston: one sign-in is the only step. */
+/** Desktop, signed out of Nexo: one sign-in is the only step. */
 export function SigninState({
   onSignIn,
   signingIn,

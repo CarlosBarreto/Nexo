@@ -4,7 +4,7 @@ import {
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { FileText } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

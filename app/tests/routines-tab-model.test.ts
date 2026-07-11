@@ -1,6 +1,6 @@
 import { deepStrictEqual, strictEqual } from "node:assert";
 import { describe, it } from "node:test";
-import type { Routine, RoutineRun } from "@houston-ai/routines";
+import type { Routine, RoutineRun } from "@nexo-ai/routines";
 import {
   EMPTY_FORM,
   formMatchesRoutine,

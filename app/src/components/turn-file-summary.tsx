@@ -1,4 +1,4 @@
-import { cn } from "@houston-ai/core";
+import { cn } from "@nexo-ai/core";
 import type { TFunction } from "i18next";
 import { ChevronDownIcon, Lightbulb, Play, ScrollText } from "lucide-react";
 import { useCallback, useState } from "react";

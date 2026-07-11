@@ -10,8 +10,8 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@houston-ai/core";
-import { TabBar } from "@houston-ai/layout";
+} from "@nexo-ai/core";
+import { TabBar } from "@nexo-ai/layout";
 import { Compass, Plus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -37,9 +37,10 @@ import { ExportAgentWizard } from "../portable/export-wizard";
 import { ImportAgentWizard } from "../portable/import-wizard";
 import { SettingsView } from "../settings/settings-view";
 import { ShortcutCheatsheet } from "../shortcut-cheatsheet";
+import { BestiaryDialog } from "./bestiary-dialog";
 import { CreateAgentDialog } from "./create-workspace-dialog";
 import { DetailPanelProvider } from "./detail-panel-context";
-import { HoustonLogo } from "./experience-card";
+import { NexoLogo } from "./experience-card";
 import { AgentRenderer } from "./experience-renderer";
 import { Sidebar } from "./sidebar";
 import { UiTour } from "./ui-tour";
@@ -251,7 +252,7 @@ export function WorkspaceShell({
                                         "shell:tabActions.newMission",
                                       )}
                                     >
-                                      <HoustonLogo size={16} />
+                                      <NexoLogo size={16} />
                                       {!missionPanelOpen &&
                                         t("shell:tabActions.newMission")}
                                     </Button>
@@ -327,6 +328,7 @@ export function WorkspaceShell({
           </Sidebar>
         </div>
         <CreateAgentDialog />
+        <BestiaryDialog />
         <ExportAgentWizard />
         <ImportAgentWizard />
         <CommandPalette />

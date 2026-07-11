@@ -7,7 +7,7 @@
  * `usage` → `done`) when the message lands — exactly like the real runtime
  * (packages/runtime-client + engine-adapter/translate.ts).
  */
-import type { WireEvent } from "@houston/runtime-client";
+import type { WireEvent } from "@nexo/runtime-client";
 import { noContent } from "./http";
 import { type SseSink, sseResponse } from "./sse";
 import * as state from "./state";

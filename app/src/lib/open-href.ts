@@ -4,7 +4,7 @@ import { tauriFiles, tauriSystem } from "./tauri";
 /**
  * Open a link the agent emitted in chat. Two shapes land here:
  *
- *   1. Absolute URLs — `https://...`, `http://...`, `mailto:...`, `houston://...`,
+ *   1. Absolute URLs — `https://...`, `http://...`, `mailto:...`, `nexo://...`,
  *      etc. These go to the system browser via `tauriSystem.openUrl`.
  *
  *   2. Relative or bare paths — e.g. `perfil.md`, `subfolder/output.docx`,
@@ -50,7 +50,7 @@ function looksLikeUrl(value: string): boolean {
   // path separator immediately after the colon. Treat as path, not URL.
   if (rest.startsWith("\\")) return false;
   // `c:/foo` is ambiguous — could be a Windows path or a single-letter
-  // custom scheme. We side with "path" because no real Houston-emitted
+  // custom scheme. We side with "path" because no real Nexo-emitted
   // scheme is one letter.
   if (rest.startsWith("/") && schemeMatch[1].length === 1) return false;
   return true;

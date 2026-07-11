@@ -25,7 +25,7 @@ export type SkillErrorKind =
 
 /**
  * Pull the typed `kind` off any thrown value. Works whether the
- * caller threw a `HoustonEngineError` (which exposes `.kind` via a
+ * caller threw a `NexoEngineError` (which exposes `.kind` via a
  * getter on `error.details.kind`) or a plain `{ kind }` object.
  *
  * Returns `undefined` when the error isn't typed — callers should

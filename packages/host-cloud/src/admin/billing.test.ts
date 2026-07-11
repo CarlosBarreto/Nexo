@@ -108,8 +108,8 @@ test("BigQueryBillingReader builds a parameterized query and parses net cost per
   }) as unknown as typeof fetch;
 
   const reader = new BigQueryBillingReader({
-    project: "gethouston",
-    table: "gethouston.billing.gcp_billing_export_resource_v1_ABC",
+    project: "getnexo",
+    table: "getnexo.billing.gcp_billing_export_resource_v1_ABC",
     location: "US",
     fetchToken: async () => "fake-token",
     fetchImpl,
@@ -120,7 +120,7 @@ test("BigQueryBillingReader builds a parameterized query and parses net cost per
   // The job ran against the right project, with NAMED params (no value interpolation).
   const firstCall = calls[0];
   if (!firstCall) throw new Error("Expected at least one fetch call");
-  expect(firstCall.url).toContain("/projects/gethouston/queries");
+  expect(firstCall.url).toContain("/projects/getnexo/queries");
   expect(firstCall.body?.parameterMode).toBe("NAMED");
   expect(firstCall.body?.query).toContain("k8s-namespace");
   expect(firstCall.body?.query).toContain("@project_id");

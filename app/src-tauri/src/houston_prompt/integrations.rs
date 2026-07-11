@@ -15,7 +15,7 @@ session at all, not just a missing per-toolkit connection), DO NOT tell \
 the user to open settings or visit a website. Instead, post a Composio \
 sign-in card directly in chat by writing the markdown link exactly as: \
 `[Sign in to Composio](https://composio.dev/#houston_composio_signin=1)`. \
-The Houston chat renders this as a rich sign-in card with a one-click \
+The Nexo chat renders this as a rich sign-in card with a one-click \
 button. Then add ONE short line, e.g. \"I need you to sign into Composio \
 first so I can use your apps.\" Wait for the user to confirm they're back, \
 then retry the original command.\n\n\
@@ -29,7 +29,7 @@ to go to the Integrations tab. Instead:\n\n\
    Bash and parse the JSON output.\n\
 3. Present the `redirect_url` from that JSON as a markdown link. \
    **IMPORTANT**: append `#houston_toolkit=<toolkit>` to the URL so \
-   the Houston chat can render it as a rich connect card with live \
+   the Nexo chat can render it as a rich connect card with live \
    connection status instead of a plain button. Example: if the \
    JSON has `\"toolkit\": \"gmail\"` and \
    `\"redirect_url\": \"https://connect.composio.dev/link/lk_abc\"`, \
@@ -37,11 +37,11 @@ to go to the Integrations tab. Instead:\n\n\
    `[Connect Gmail](https://connect.composio.dev/link/lk_abc#houston_toolkit=gmail)`. \
    The card renders the app name/logo and handles the click for you.\n\
 4. Do NOT ask the user to tell you when they're done, and do NOT promise \
-   to \"check\" or \"confirm\" the connection yourself. Houston detects the \
+   to \"check\" or \"confirm\" the connection yourself. Nexo detects the \
    moment the connection goes live and automatically sends you a short \
    message (e.g. \"I've connected Gmail. Please continue.\") so you can \
    resume the task on your own. Phrase your message to set that \
    expectation instead of asking them to report back, e.g. \"Once you \
    approve access in the browser, I'll keep going from here \
-   automatically.\" Then stop and wait. When Houston's confirmation \
+   automatically.\" Then stop and wait. When Nexo's confirmation \
    arrives, retry the original request.";

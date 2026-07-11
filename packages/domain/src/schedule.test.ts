@@ -1,4 +1,4 @@
-import type { Routine } from "@houston/protocol";
+import type { Routine } from "@nexo/protocol";
 import { expect, test } from "vitest";
 import { createRoutine } from "./routines";
 import {
@@ -6,6 +6,7 @@ import {
   createRoutineRun,
   dueAt,
   extractRunSummary,
+  isSystemConversation,
   nextRun,
   responseIsSilent,
   routineConversationId,
@@ -100,6 +101,14 @@ test("routineConversationId: shared reuses one chat, per_run is unique per run",
   const perRun = routine({ chat_mode: "per_run" });
   expect(routineConversationId(perRun, "run-1")).toBe("routine-r1-run-1");
   expect(routineConversationId(perRun, "run-2")).toBe("routine-r1-run-2");
+});
+
+test("isSystemConversation flags agent-initiated chats (routine-/judge-), never user chats", () => {
+  expect(isSystemConversation("routine-r1")).toBe(true);
+  expect(isSystemConversation("routine-r1-run-2")).toBe(true); // per_run variant
+  expect(isSystemConversation("judge-run-1")).toBe(true);
+  expect(isSystemConversation("chat-1")).toBe(false);
+  expect(isSystemConversation("my-routine-log")).toBe(false); // prefix, not substring
 });
 
 test("createRoutineRun starts as running with the run's conversation as session_key", () => {

@@ -11,7 +11,7 @@
  * loads, so it can't use `t()` or Tailwind classes.
  */
 
-import { HoustonClient } from "@houston-ai/engine-client";
+import { NexoClient } from "@nexo-ai/engine-client";
 import { type CSSProperties, type FormEvent, useState } from "react";
 import type { EngineConfig } from "../engine-config";
 
@@ -30,7 +30,7 @@ interface Strings {
 
 const STRINGS: Record<"en" | "es" | "pt", Strings> = {
   en: {
-    subtitle: "Connect to your Houston engine",
+    subtitle: "Connect to your Nexo engine",
     urlLabel: "Engine URL",
     tokenLabel: "Engine token",
     tokenPlaceholder: "paste the engine token",
@@ -42,7 +42,7 @@ const STRINGS: Record<"en" | "es" | "pt", Strings> = {
     hint: "The engine prints its URL and token on startup:",
   },
   es: {
-    subtitle: "Conéctate a tu motor de Houston",
+    subtitle: "Conéctate a tu motor de Nexo",
     urlLabel: "URL del motor",
     tokenLabel: "Token del motor",
     tokenPlaceholder: "pega el token del motor",
@@ -54,7 +54,7 @@ const STRINGS: Record<"en" | "es" | "pt", Strings> = {
     hint: "El motor muestra su URL y token al iniciar:",
   },
   pt: {
-    subtitle: "Conecte-se ao seu motor do Houston",
+    subtitle: "Conecte-se ao seu motor do Nexo",
     urlLabel: "URL do motor",
     tokenLabel: "Token do motor",
     tokenPlaceholder: "cole o token do motor",
@@ -100,7 +100,7 @@ export function ConnectScreen({
     setError(null);
     try {
       // Validates reachability (CORS + network) AND the token (401 throws).
-      await new HoustonClient({ baseUrl: url, token: tok }).listWorkspaces();
+      await new NexoClient({ baseUrl: url, token: tok }).listWorkspaces();
       onConnect({ baseUrl: url, token: tok });
     } catch (err) {
       setError(err instanceof Error ? t.failed(err.message) : t.failedGeneric);
@@ -111,7 +111,7 @@ export function ConnectScreen({
   return (
     <div style={styles.page}>
       <form style={styles.card} onSubmit={submit}>
-        <div style={styles.brand}>Houston</div>
+        <div style={styles.brand}>Nexo</div>
         <p style={styles.subtitle}>{t.subtitle}</p>
 
         <label style={styles.label}>

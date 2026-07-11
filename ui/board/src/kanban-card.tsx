@@ -4,9 +4,10 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { Check, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { accentGlowVars } from "./card-accent";
 import type { KanbanItem } from "./types";
 
 export interface KanbanCardLabels {
@@ -130,6 +131,20 @@ export function KanbanCard({
     setEditing(false);
   };
 
+  // Identity accent (e.g. a Lunaria soul element). When present on a running
+  // card, retint the comet's five gradient stops to the accent so the "alive"
+  // sweep reads in the agent's colour. Merged with the selected+running
+  // --glow-bg override so a selected running card keeps its inner tint.
+  const accent = item.accent;
+  const cardStyle: Record<string, string> = {
+    ...accentGlowVars(accent, isRunning),
+  };
+  if ((selected || highlighted) && isRunning) {
+    cardStyle["--glow-bg"] =
+      "color-mix(in srgb, var(--color-background) 93%, currentColor 7%)";
+  }
+  const hasCardStyle = Object.keys(cardStyle).length > 0;
+
   return (
     <>
       <div
@@ -153,20 +168,10 @@ export function KanbanCard({
         data-kanban-draggable={canDrag ? "" : undefined}
         aria-selected={selected || highlighted}
         data-highlighted={highlighted || undefined}
-        // For running + active, override the running-glow inner fill
-        // (--glow-bg) so the accent tint is visible through the rotating
-        // border. The accent token is a translucent overlay (rgba), which
-        // would let the conic gradient bleed through — flatten it via
-        // color-mix to a solid tint that matches bg-accent rendered over
-        // the card background.
-        style={
-          (selected || highlighted) && isRunning
-            ? ({
-                "--glow-bg":
-                  "color-mix(in srgb, var(--color-background) 93%, currentColor 7%)",
-              } as React.CSSProperties)
-            : undefined
-        }
+        // Running-glow tuning: the selected+running --glow-bg override (so the
+        // inner fill matches bg-accent through the rotating border) and the
+        // per-element comet retint (--glow-c*). Both are built in `cardStyle`.
+        style={hasCardStyle ? (cardStyle as React.CSSProperties) : undefined}
         className={cn(
           // `transition-all` would also try to animate the
           // running-glow's `linear-gradient(--glow-bg, --glow-bg)`
@@ -341,9 +346,23 @@ export function KanbanCard({
         {/* Footer: tags + custom actions. The Approve action moved to the
            top-right icon row (see above) so it's visually consistent with
            Rename / Delete and the tooltip explains exactly what it does. */}
-        {(item.tags?.length || actions) && (
+        {(item.accentLabel || item.tags?.length || actions) && (
           <div className="flex items-center justify-between mt-2.5">
             <div className="flex items-center gap-1 flex-wrap min-w-0">
+              {/* Accent (element) pill — coloured from the identity accent, ahead
+                  of the monochrome tags. Only when both accent + label are set. */}
+              {accent && item.accentLabel && (
+                <span
+                  className="inline-flex h-[18px] items-center rounded-full border px-2 text-[10px] font-medium"
+                  style={{
+                    color: accent,
+                    backgroundColor: `color-mix(in srgb, ${accent} 12%, transparent)`,
+                    borderColor: `color-mix(in srgb, ${accent} 30%, transparent)`,
+                  }}
+                >
+                  {item.accentLabel}
+                </span>
+              )}
               {item.tags?.map((tag) => (
                 <span
                   key={tag}

@@ -1,10 +1,10 @@
 import type {
   IntegrationConnection,
   IntegrationToolkit,
-} from "@houston-ai/engine-client";
+} from "@nexo-ai/engine-client";
 
 /**
- * The integrations provider (platform mode): Houston holds the platform key
+ * The integrations provider (platform mode): Nexo holds the platform key
  * server-side; the user only OAuths the apps themselves — no Composio account,
  * no sign-in step in this tab.
  */

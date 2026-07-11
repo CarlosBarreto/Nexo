@@ -15,8 +15,8 @@
  * the firehose so they don't waste bandwidth.
  */
 
-import type { HoustonEvent } from "@houston-ai/core";
-import { topics } from "@houston-ai/engine-client";
+import type { NexoEvent } from "@nexo-ai/core";
+import { topics } from "@nexo-ai/engine-client";
 import { getEngineWs } from "./engine";
 import { legacyEmit, legacyListen } from "./os-bridge";
 
@@ -27,15 +27,13 @@ function toHandler<T>(handler: (ev: T) => void) {
 }
 
 /**
- * Subscribe to every `HoustonEvent` emitted by the backend.
+ * Subscribe to every `NexoEvent` emitted by the backend.
  *
  * Idempotent: calling this multiple times is safe — the underlying
  * `EngineWebSocket` de-duplicates subscriptions, so the firehose topic is
  * added once regardless of how many UI hooks mount.
  */
-export function subscribeHoustonEvents(
-  handler: (ev: HoustonEvent) => void,
-): Unsub {
+export function subscribeNexoEvents(handler: (ev: NexoEvent) => void): Unsub {
   const ws = getEngineWs();
   ws.subscribe([topics.firehose]);
   return ws.onEvent(toHandler(handler));

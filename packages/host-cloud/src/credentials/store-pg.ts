@@ -1,17 +1,17 @@
-import type { WorkspaceId } from "@houston/host/src/domain/types";
+import type { WorkspaceId } from "@nexo/host/src/domain/types";
 import type {
   CredentialStore,
   WorkspaceCredential,
-} from "@houston/host/src/ports";
+} from "@nexo/host/src/ports";
 import type { Pool } from "pg";
 
 /**
  * The live (closed) Postgres connect-once credential store — the cloud half of
  * the credentials/store.ts split. The open in-memory adapter
- * (MemoryCredentialStore) stays in `@houston/host`; this is the production store
+ * (MemoryCredentialStore) stays in `@nexo/host`; this is the production store
  * backing the `workspace_credentials` migration. Same interface, same semantics;
  * the two are held to one shared contract (runCredentialStoreContract, exported
- * from `@houston/host`).
+ * from `@nexo/host`).
  */
 
 interface CredRow {

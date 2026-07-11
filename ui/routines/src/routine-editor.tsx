@@ -16,7 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   Switch,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import {
   ArrowLeft,
   CalendarClock,

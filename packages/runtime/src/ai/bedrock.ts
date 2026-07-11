@@ -12,10 +12,10 @@ type BedrockBearerOptions<T extends StreamOptions> = T & {
 };
 
 /**
- * pi-coding-agent resolves stored Houston API-key credentials into `apiKey`, but
+ * pi-coding-agent resolves stored Nexo API-key credentials into `apiKey`, but
  * pi-ai's Bedrock provider reads Bedrock API keys from `bearerToken` (or
  * AWS_BEARER_TOKEN_BEDROCK). Mirror the stored key into the provider-specific
- * option so Houston's normal paste-a-key flow works for Amazon Bedrock too.
+ * option so Nexo's normal paste-a-key flow works for Amazon Bedrock too.
  */
 export function bedrockOptionsWithBearerToken<T extends StreamOptions>(
   options: T | undefined,
@@ -26,8 +26,8 @@ export function bedrockOptionsWithBearerToken<T extends StreamOptions>(
   return { ...bedrockOptions, bearerToken: options.apiKey };
 }
 
-/** Override pi-ai's Bedrock API handler with Houston's credential bridge. */
-export function registerHoustonBedrockProvider(): void {
+/** Override pi-ai's Bedrock API handler with Nexo's credential bridge. */
+export function registerNexoBedrockProvider(): void {
   registerApiProvider(
     {
       api: "bedrock-converse-stream",

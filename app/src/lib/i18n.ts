@@ -1,5 +1,5 @@
 /**
- * i18next setup for the Houston desktop app.
+ * i18next setup for the Nexo desktop app.
  *
  * Source of truth for the user's locale = engine preference `locale`.
  * localStorage is only a boot-time cache so the first paint doesn't flash
@@ -22,6 +22,7 @@ import errorsEn from "../locales/en/errors.json";
 import eventsEn from "../locales/en/events.json";
 import integrationsEn from "../locales/en/integrations.json";
 import legalEn from "../locales/en/legal.json";
+import lunariaEn from "../locales/en/lunaria.json";
 import orgEn from "../locales/en/org.json";
 import portableEn from "../locales/en/portable.json";
 import providersEn from "../locales/en/providers.json";
@@ -41,6 +42,7 @@ import errorsEs from "../locales/es/errors.json";
 import eventsEs from "../locales/es/events.json";
 import integrationsEs from "../locales/es/integrations.json";
 import legalEs from "../locales/es/legal.json";
+import lunariaEs from "../locales/es/lunaria.json";
 import orgEs from "../locales/es/org.json";
 import portableEs from "../locales/es/portable.json";
 import providersEs from "../locales/es/providers.json";
@@ -60,6 +62,7 @@ import errorsPt from "../locales/pt/errors.json";
 import eventsPt from "../locales/pt/events.json";
 import integrationsPt from "../locales/pt/integrations.json";
 import legalPt from "../locales/pt/legal.json";
+import lunariaPt from "../locales/pt/lunaria.json";
 import orgPt from "../locales/pt/org.json";
 import portablePt from "../locales/pt/portable.json";
 import providersPt from "../locales/pt/providers.json";
@@ -123,6 +126,7 @@ const resources = {
     connect: connectEn,
     setup: setupEn,
     legal: legalEn,
+    lunaria: lunariaEn,
     shell: shellEn,
     dashboard: dashboardEn,
     settings: settingsEn,
@@ -144,6 +148,7 @@ const resources = {
     connect: connectEs,
     setup: setupEs,
     legal: legalEs,
+    lunaria: lunariaEs,
     shell: shellEs,
     dashboard: dashboardEs,
     settings: settingsEs,
@@ -165,6 +170,7 @@ const resources = {
     connect: connectPt,
     setup: setupPt,
     legal: legalPt,
+    lunaria: lunariaPt,
     shell: shellPt,
     dashboard: dashboardPt,
     settings: settingsPt,
@@ -206,6 +212,7 @@ void i18n
       "connect",
       "setup",
       "legal",
+      "lunaria",
       "shell",
       "dashboard",
       "settings",

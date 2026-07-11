@@ -1,4 +1,4 @@
-import { AsyncButton } from "@houston-ai/core";
+import { AsyncButton } from "@nexo-ai/core";
 import { ExternalLink, Loader2 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -19,7 +19,7 @@ interface ProviderLoginMissionProps {
 }
 
 /**
- * Step 2 of the AI setup: CONNECT the provider the user picked. If Houston
+ * Step 2 of the AI setup: CONNECT the provider the user picked. If Nexo
  * already detects the provider's CLI signed in on this machine (the user's own
  * subscription), this is a success screen with nothing to do. Otherwise it's a
  * single clear "Log in to {Provider}" button that launches the browser flow and

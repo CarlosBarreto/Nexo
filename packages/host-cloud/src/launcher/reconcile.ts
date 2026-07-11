@@ -1,15 +1,15 @@
-import type { Agent } from "@houston/host/src/domain/types";
-import {
-  deploymentName,
-  namespaceFor,
-  pvcName,
-  serviceName,
-} from "@houston/host/src/launcher/names";
 import {
   type AppsV1Api,
   type CoreV1Api,
   HttpError,
 } from "@kubernetes/client-node";
+import type { Agent } from "@nexo/host/src/domain/types";
+import {
+  deploymentName,
+  namespaceFor,
+  pvcName,
+  serviceName,
+} from "@nexo/host/src/launcher/names";
 import {
   buildDeployment,
   buildNamespace,

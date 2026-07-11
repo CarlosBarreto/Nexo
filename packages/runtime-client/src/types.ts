@@ -1,8 +1,8 @@
 /**
  * Wire types for the runtime's conversation core. The SHAPES live in
- * @houston/protocol (the v3 contract; the host re-serves this core under
+ * @nexo/protocol (the v3 contract; the host re-serves this core under
  * /v1/agents/:id/conversations/*) — this package re-exports them so existing
- * consumers keep importing from @houston/runtime-client.
+ * consumers keep importing from @nexo/runtime-client.
  */
 
 export type {
@@ -16,6 +16,7 @@ export type {
   LoginInfo,
   LoginState,
   LoginStatus,
+  LoopStats,
   ProviderAuth,
   ProviderError,
   ProviderId,
@@ -25,7 +26,7 @@ export type {
   ToolCallRecord,
   WireEvent,
   WireEventType,
-} from "@houston/protocol";
+} from "@nexo/protocol";
 
 /** The runtime's own conversation-core surface version (`GET /version`). */
 export const PROTOCOL_VERSION = 2;

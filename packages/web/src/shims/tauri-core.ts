@@ -2,7 +2,7 @@
  * Web shim for `@tauri-apps/api/core`.
  *
  * packages/web composes the desktop app's React tree (app/src) but runs in a
- * plain browser tab against the Houston host or legacy engine. There is no Tauri runtime,
+ * plain browser tab against the Nexo host or legacy engine. There is no Tauri runtime,
  * so `invoke` can't reach native commands. Vite + tsconfig alias
  * `@tauri-apps/api/core` to this module (see vite.config.ts / tsconfig.json).
  *
@@ -27,7 +27,7 @@ type InvokeArgs = Record<string, unknown> | undefined;
 
 function notAvailable(cmd: string): never {
   throw new Error(
-    `This is a desktop-only action and isn't available in the Houston web app (${cmd}).`,
+    `This is a desktop-only action and isn't available in the Nexo web app (${cmd}).`,
   );
 }
 
@@ -99,7 +99,7 @@ export async function invoke<T = unknown>(
       return undefined as T;
     }
     case "show_session_notification": {
-      const title = typeof args?.title === "string" ? args.title : "Houston";
+      const title = typeof args?.title === "string" ? args.title : "Nexo";
       const body = typeof args?.body === "string" ? args.body : "";
       try {
         if (

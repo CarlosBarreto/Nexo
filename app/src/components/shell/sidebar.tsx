@@ -1,9 +1,10 @@
-import { ConfirmDialog } from "@houston-ai/core";
-import { AppSidebar, WorkspaceSwitcher } from "@houston-ai/layout";
-import { LayoutDashboard, Settings } from "lucide-react";
+import { ConfirmDialog } from "@nexo-ai/core";
+import { AppSidebar, WorkspaceSwitcher } from "@nexo-ai/layout";
+import { BookOpen, LayoutDashboard, Settings } from "lucide-react";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DEFAULT_TAB_ID } from "../../agents/standard-tabs";
+import { useSouls } from "../../hooks/queries/use-souls";
 import { useCanCreateAgents } from "../../hooks/use-can-create-agents";
 import { orderAgents } from "../../lib/agent-order";
 import { resolveAutoCollapse } from "../../lib/sidebar-auto-collapse";
@@ -35,12 +36,13 @@ export function Sidebar({ children }: { children: ReactNode }) {
   const viewMode = useUIStore((s) => s.viewMode);
   const setViewMode = useUIStore((s) => s.setViewMode);
   const setDialogOpen = useUIStore((s) => s.setCreateAgentDialogOpen);
+  const setBestiaryOpen = useUIStore((s) => s.setBestiaryOpen);
   const { canCreate: canCreateAgents } = useCanCreateAgents();
   const collapsed = useUIStore((s) => s.sidebarCollapsed);
   const toggleCollapsed = useUIStore((s) => s.toggleSidebarCollapsed);
   const setSidebarCollapsed = useUIStore((s) => s.setSidebarCollapsed);
 
-  // Auto-collapse the rail when the window gets narrow (e.g. Houston docked to
+  // Auto-collapse the rail when the window gets narrow (e.g. Nexo docked to
   // half the screen). Acts only when crossing the threshold, so a manual toggle
   // is otherwise respected; auto-expands again when it widens back across it.
   const prevWidth = useRef<number | null>(null);
@@ -58,10 +60,14 @@ export function Sidebar({ children }: { children: ReactNode }) {
 
   const sorted = orderAgents(agents);
   const activitySummaries = useAgentActivitySummaries(agents);
+  // Forged element (if any) drives the sidebar dot colour; unforged agents fall
+  // back to their user-picked colour.
+  const souls = useSouls(agents);
 
   const items = buildAgentSidebarItems({
     agents: sorted,
     summaries: activitySummaries,
+    elementFor: (agentId) => souls[agentId]?.element ?? undefined,
     runningLabel: (count) => t("shell:sidebar.runningCount", { count }),
     needsYouLabel: (count) => t("shell:sidebar.needsYouCount", { count }),
     onChangeColor: (agentId, color) => {
@@ -151,6 +157,12 @@ export function Sidebar({ children }: { children: ReactNode }) {
               icon: <LayoutDashboard className="h-4 w-4" />,
               onClick: () => setViewMode("dashboard"),
               dataAttrs: { "data-tour-target": "nav-dashboard" },
+            },
+            {
+              id: "bestiary",
+              label: t("shell:sidebar.bestiary"),
+              icon: <BookOpen className="h-4 w-4" />,
+              onClick: () => setBestiaryOpen(true),
             },
             {
               id: "settings",

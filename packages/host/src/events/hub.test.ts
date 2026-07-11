@@ -1,4 +1,4 @@
-import type { HoustonEvent } from "@houston/protocol";
+import type { NexoEvent } from "@nexo/protocol";
 import { expect, test } from "vitest";
 import { MemoryTurnBus } from "../turn/bus";
 import { BusEventHub } from "./hub";
@@ -11,7 +11,7 @@ import { BusEventHub } from "./hub";
 
 test("emit reaches the same user's subscriber", async () => {
   const hub = new BusEventHub(new MemoryTurnBus());
-  const seen: HoustonEvent[] = [];
+  const seen: NexoEvent[] = [];
   hub.subscribe("alice", (e) => seen.push(e));
 
   hub.emit("alice", { type: "ActivityChanged", agentPath: "a1" });
@@ -23,8 +23,8 @@ test("emit reaches the same user's subscriber", async () => {
 test("one user's events never reach another user (per-user channel)", async () => {
   const bus = new MemoryTurnBus();
   const hub = new BusEventHub(bus);
-  const alice: HoustonEvent[] = [];
-  const bob: HoustonEvent[] = [];
+  const alice: NexoEvent[] = [];
+  const bob: NexoEvent[] = [];
   hub.subscribe("alice", (e) => alice.push(e));
   hub.subscribe("bob", (e) => bob.push(e));
 
@@ -38,7 +38,7 @@ test("one user's events never reach another user (per-user channel)", async () =
 
 test("unsubscribe stops delivery", async () => {
   const hub = new BusEventHub(new MemoryTurnBus());
-  const seen: HoustonEvent[] = [];
+  const seen: NexoEvent[] = [];
   const off = hub.subscribe("alice", (e) => seen.push(e));
   off();
   hub.emit("alice", { type: "ConfigChanged", agentPath: "a1" });
@@ -49,7 +49,7 @@ test("unsubscribe stops delivery", async () => {
 test("a malformed frame on the bus is dropped, not thrown to the subscriber", async () => {
   const bus = new MemoryTurnBus();
   const hub = new BusEventHub(bus);
-  const seen: HoustonEvent[] = [];
+  const seen: NexoEvent[] = [];
   hub.subscribe("alice", (e) => seen.push(e));
 
   // A non-JSON frame published directly to the user's channel must not throw.

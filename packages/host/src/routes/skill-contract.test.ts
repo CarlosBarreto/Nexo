@@ -1,5 +1,5 @@
 import type { Server } from "node:http";
-import type { Capabilities, SkillDetail } from "@houston/protocol";
+import type { Capabilities, SkillDetail } from "@nexo/protocol";
 import { beforeEach, expect, test } from "vitest";
 import { MemoryCredentialStore } from "../credentials/store";
 import type { RuntimeChannel, TokenVerifier } from "../ports";

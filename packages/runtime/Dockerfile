@@ -28,7 +28,7 @@ COPY packages/protocol/ ./packages/protocol/
 COPY packages/runtime-client/ ./packages/runtime-client/
 COPY packages/runtime/ ./packages/runtime/
 
-RUN pnpm install --frozen-lockfile --prod --filter @houston/runtime...
+RUN pnpm install --frozen-lockfile --prod --filter @nexo/runtime...
 
 # ---------- Runtime stage ----------
 FROM node:22-bookworm-slim AS runtime

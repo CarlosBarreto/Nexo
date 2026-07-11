@@ -184,6 +184,8 @@ export interface CreateAgent {
   installedPath?: string;
   seeds?: Record<string, string>;
   existingPath?: string;
+  /** Soul element for the new agent (fire/water/earth/air). v3 host only; the legacy engine ignores it. */
+  element?: string;
 }
 
 export interface CreateAgentResult {
@@ -459,9 +461,9 @@ export interface CommunitySkill {
 // ---------- Providers / preferences ----------
 
 /**
- * Where Houston found the CLI binary backing a provider. Surfaced so
- * the UI can label whether the user is talking to a copy Houston shipped
- * (`bundled`), one Houston downloaded for them (`managed`), one already
+ * Where Nexo found the CLI binary backing a provider. Surfaced so
+ * the UI can label whether the user is talking to a copy Nexo shipped
+ * (`bundled`), one Nexo downloaded for them (`managed`), one already
  * on their PATH (`path`), or nothing at all (`missing`).
  *
  * Mirrors the Rust `houston_engine_core::provider::InstallSource` enum
@@ -788,8 +790,8 @@ export interface ClaudeInstallError {
  *
  * `lastInstallError` is the field the onboarding "Sign in with
  * Anthropic" card reads when `installed` is `false` — it disambiguates
- * "Houston tried to download Claude Code and failed (likely no
- * internet)" from "Houston hasn't tried yet". See issue #231 for the
+ * "Nexo tried to download Claude Code and failed (likely no
+ * internet)" from "Nexo hasn't tried yet". See issue #231 for the
  * UX bug this addresses.
  */
 export interface ClaudeStatus {
@@ -1023,11 +1025,11 @@ export interface PortableInstalledAgent {
 
 // ── integrations (Composio, platform mode) ───────────────────────────────────
 // User-level: no provider account — the user only connects apps (Gmail, Slack…)
-// via OAuth; Houston's platform key lives server-side, keyed by the user's id.
+// via OAuth; Nexo's platform key lives server-side, keyed by the user's id.
 
 export interface IntegrationProviderStatus {
   provider: string;
-  /** False on desktop until the user signs in to Houston (gateway needs it). */
+  /** False on desktop until the user signs in to Nexo (gateway needs it). */
   ready: boolean;
   reason?: "signin";
   /**

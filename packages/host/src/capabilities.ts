@@ -1,4 +1,4 @@
-import type { Capabilities } from "@houston/protocol";
+import type { Capabilities } from "@nexo/protocol";
 
 /**
  * The two deployment capability profiles, in ONE place so the host, the local
@@ -18,7 +18,7 @@ import type { Capabilities } from "@houston/protocol";
  */
 
 /**
- * Every connect-once / API-key provider Houston serves. Shared by all profiles:
+ * Every connect-once / API-key provider Nexo serves. Shared by all profiles:
  * cloud deployments offer the exact same model providers as desktop. The local
  * LLM is NOT in this list — it rides the separate `openaiCompatible` flag, which
  * only the local profile sets, since it needs a server on the user's own machine.

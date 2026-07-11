@@ -8,7 +8,7 @@ describe("engineCallSurface", () => {
       toast: true,
       capture: true,
     });
-    deepStrictEqual(engineCallSurface("HoustonEngineError"), {
+    deepStrictEqual(engineCallSurface("NexoEngineError"), {
       toast: true,
       capture: true,
     });

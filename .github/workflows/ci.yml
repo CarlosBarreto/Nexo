@@ -78,19 +78,19 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Install Playwright Chromium
-        run: pnpm --filter houston-web exec playwright install --with-deps chromium
+        run: pnpm --filter nexo-web exec playwright install --with-deps chromium
 
       - name: Typecheck (web)
-        run: pnpm --filter houston-web typecheck
+        run: pnpm --filter nexo-web typecheck
 
       - name: Typecheck (e2e harness)
-        run: pnpm --filter houston-web typecheck:e2e
+        run: pnpm --filter nexo-web typecheck:e2e
 
       - name: Unit tests (web)
-        run: pnpm --filter houston-web test
+        run: pnpm --filter nexo-web test
 
       - name: UI tests (Playwright)
-        run: pnpm --filter houston-web test:e2e
+        run: pnpm --filter nexo-web test:e2e
 
       - name: Upload Playwright report
         if: ${{ !cancelled() }}
@@ -117,4 +117,4 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Unit tests (app)
-        run: pnpm --filter houston-app test
+        run: pnpm --filter nexo-app test

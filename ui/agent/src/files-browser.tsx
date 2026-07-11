@@ -3,7 +3,7 @@
  * Column headers with sort, file/folder tree, status bar, drag-and-drop.
  */
 
-import { Button, cn } from "@houston-ai/core";
+import { Button, cn } from "@nexo-ai/core";
 import { Upload } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";

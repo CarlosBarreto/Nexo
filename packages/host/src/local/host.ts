@@ -69,7 +69,7 @@ export interface LocalHostOptions {
   capabilities?: ControlPlaneDeps["capabilities"];
   /**
    * Integration wiring (platform model):
-   *  - `gatewayUrl`: Houston's cloud host; the desktop forwards with the user's
+   *  - `gatewayUrl`: Nexo's cloud host; the desktop forwards with the user's
    *    Supabase session, so no provider key ever lives on this machine.
    *  - `composioApiKey`: a DIRECT platform key — self-host/dev only, where the
    *    operator owns the key. Never ship a shared key to end-user desktops.
@@ -158,7 +158,7 @@ export function buildLocalHost(opts: LocalHostOptions): LocalHost {
   });
 
   // Integrations (platform model): the desktop holds NO provider key — the
-  // gateway adapter forwards every call to Houston's cloud host with the user's
+  // gateway adapter forwards every call to Nexo's cloud host with the user's
   // Supabase session (kept fresh by the frontend via PUT /v1/integrations/
   // session). Self-host/dev goes direct with its own COMPOSIO_API_KEY instead.
   // A leftover `integrations.json` from the retired "Composio for you" model

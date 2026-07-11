@@ -1,18 +1,18 @@
 /**
- * Fake Houston host for the Playwright UI tests.
+ * Fake Nexo host for the Playwright UI tests.
  *
  * A single Node process that answers just enough of the host + per-agent
  * runtime for the desktop UI (app/src) to boot and run on the new-engine adapter
  * in host mode — with NO real backend, no AI provider, no credentials.
  * Deterministic and hermetic: the same click always produces the same pixels.
  *
- * Run standalone with `pnpm --filter houston-web fake-host`; the Playwright
+ * Run standalone with `pnpm --filter nexo-web fake-host`; the Playwright
  * config starts it automatically as a `webServer`.
  */
 
 import { createServer } from "node:http";
 import { Readable } from "node:stream";
-import type { Capabilities } from "@houston-ai/engine-client";
+import type { Capabilities } from "@nexo-ai/engine-client";
 import { clearChatStreams } from "./chat";
 import { CORS, json, noContent } from "./http";
 import { FAKE_HOST_PORT } from "./ports";

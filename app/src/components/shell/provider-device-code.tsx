@@ -1,4 +1,4 @@
-import { Button, DialogFooter, Spinner } from "@houston-ai/core";
+import { Button, DialogFooter, Spinner } from "@nexo-ai/core";
 import { Check, Copy } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";

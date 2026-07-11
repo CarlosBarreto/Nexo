@@ -1,4 +1,4 @@
-import type { Agent, Capabilities, OrgRole } from "@houston-ai/engine-client";
+import type { Agent, Capabilities, OrgRole } from "@nexo-ai/engine-client";
 
 /**
  * Pure, DOM-free role logic for the multiplayer org surface. Mirrors the C3

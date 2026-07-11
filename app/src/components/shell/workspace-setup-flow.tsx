@@ -1,4 +1,4 @@
-import { Button, Input } from "@houston-ai/core";
+import { Button, Input } from "@nexo-ai/core";
 import { ArrowLeft } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
@@ -101,7 +101,7 @@ export function WorkspaceSetupFlow({ mode, onComplete }: Props) {
           <p className="text-sm text-muted-foreground">
             <Trans
               i18nKey="setup:provider.description"
-              defaults="Houston uses <emph>your own</emph> subscription. We never see your credentials."
+              defaults="Nexo uses <emph>your own</emph> subscription. We never see your credentials."
               components={{
                 emph: <strong className="text-foreground font-medium" />,
               }}

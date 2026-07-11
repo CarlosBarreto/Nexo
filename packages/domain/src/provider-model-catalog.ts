@@ -3,7 +3,7 @@
  * (see `provider-model.ts` for the mapping logic). Kept separate so the logic
  * file stays small and the catalog is easy to refresh when pi's model line moves.
  *
- * The catalog is hard-coded (NOT read from pi-ai) so `@houston/domain` stays free
+ * The catalog is hard-coded (NOT read from pi-ai) so `@nexo/domain` stays free
  * of the pi-ai dependency and the open/closed boundary. The valid-model sets were
  * captured from `getModels("anthropic")` / `getModels("openai-codex")` — keep them
  * in sync when pi's catalog changes (a stale entry only ever means we migrate to

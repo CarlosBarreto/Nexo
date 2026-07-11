@@ -14,7 +14,7 @@ function fakeT(table: Record<string, string>): TFunction {
 }
 
 describe("localizeCatalogCopy", () => {
-  it("translates a first-party (Houston) agent that has catalog entries", () => {
+  it("translates a first-party (Nexo) agent that has catalog entries", () => {
     const t = fakeT({
       "agents:catalog.personal-assistant.name": "Asistente personal",
       "agents:catalog.personal-assistant.description": "Descripción en español",
@@ -32,7 +32,7 @@ describe("localizeCatalogCopy", () => {
     strictEqual(result.description, "Descripción en español");
   });
 
-  it("translates a bundled Houston store listing by id", () => {
+  it("translates a bundled Nexo store listing by id", () => {
     const t = fakeT({
       "agents:catalog.bookkeeping.name": "Contabilidad",
       "agents:catalog.bookkeeping.description": "Categoriza transacciones...",
@@ -50,7 +50,7 @@ describe("localizeCatalogCopy", () => {
     strictEqual(result.description, "Categoriza transacciones...");
   });
 
-  it("falls back to the raw strings when a Houston agent has no catalog entry", () => {
+  it("falls back to the raw strings when a Nexo agent has no catalog entry", () => {
     const t = fakeT({});
     const result = localizeCatalogCopy(
       {
@@ -66,7 +66,7 @@ describe("localizeCatalogCopy", () => {
   });
 
   it("keeps a third-party agent in its author's language, ignoring catalog keys", () => {
-    // Even if a catalog key collides by id, a non-Houston agent must never be
+    // Even if a catalog key collides by id, a non-Nexo agent must never be
     // relabeled: author's language wins (App Store model).
     const t = fakeT({
       "agents:catalog.bookkeeping.name": "SHOULD NOT APPLY",

@@ -17,14 +17,14 @@
  * duplicate the encoding + feed-push logic in two places.
  */
 
-import type { AIBoardProps } from "@houston-ai/board";
-import type { ChatMessage, ChatPanelProps, FeedItem } from "@houston-ai/chat";
+import type { AIBoardProps } from "@nexo-ai/board";
+import type { ChatMessage, ChatPanelProps, FeedItem } from "@nexo-ai/chat";
 import {
   decodeAttachmentMessage,
   UserAttachmentMessage,
   type UserAttachmentMessageLabels,
-} from "@houston-ai/chat";
-import { Button } from "@houston-ai/core";
+} from "@nexo-ai/chat";
+import { Button } from "@nexo-ai/core";
 import { useQueryClient } from "@tanstack/react-query";
 import { Paperclip, Play } from "lucide-react";
 import {

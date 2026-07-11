@@ -18,7 +18,7 @@ export interface StartupAnalytics {
  * from the landing pageview) into the app's install identity.
  */
 export function welcomeBridgeUrl(installId: string): string {
-  return `https://gethouston.ai/welcome?install_id=${encodeURIComponent(installId)}`;
+  return `https://getnexo.ai/welcome?install_id=${encodeURIComponent(installId)}`;
 }
 
 /**

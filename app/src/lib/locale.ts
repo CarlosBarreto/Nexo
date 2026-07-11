@@ -1,5 +1,5 @@
 /**
- * Pure locale value-logic for the Houston desktop app — no i18next, no DOM, no
+ * Pure locale value-logic for the Nexo desktop app — no i18next, no DOM, no
  * JSON-module imports, so it loads under the bare Node test runner and stays
  * unit-testable. The i18next runtime wiring (init, changeLanguage, the
  * localStorage flash-cache, applying the engine value) lives in `./i18n`, which
@@ -70,7 +70,7 @@ export interface WorkspaceLocaleInput {
 
 /**
  * Pick the boot-time active workspace's locale override. Mirrors how the app
- * restores the active workspace at startup (see `useHoustonInit`): the
+ * restores the active workspace at startup (see `useNexoInit`): the
  * last-used workspace wins, else the default, else the first. Returns that
  * workspace's override — which may be null (inherit the global default) — or
  * null when there are no workspaces.
@@ -102,7 +102,7 @@ export function activeWorkspaceLocale(
  *
  * Blocking the gate on that override is what hung the whole app on launch: a
  * non-settling `GET /workspaces` left the gate loading forever, so `<App/>`
- * never mounted and the window stayed blank (gethouston/houston#439).
+ * never mounted and the window stayed blank (getnexo/nexo#439).
  */
 export function localeGateIsLoading(
   globalQueryLoading: boolean,

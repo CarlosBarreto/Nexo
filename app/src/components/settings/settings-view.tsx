@@ -1,4 +1,4 @@
-import { Spinner } from "@houston-ai/core";
+import { Spinner } from "@nexo-ai/core";
 import {
   Bot,
   Bug,

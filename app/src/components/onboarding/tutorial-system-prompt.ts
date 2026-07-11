@@ -41,7 +41,7 @@ export function buildSetupSection(choices: SetupEmailChoices): string {
     : `${recipientEmail}`;
   const messageLine = message?.trim()
     ? `"${message.trim()}"`
-    : "a short, warm two-sentence hello from their new Houston agent";
+    : "a short, warm two-sentence hello from their new Nexo agent";
 
   return `## Set up mode (first run)
 

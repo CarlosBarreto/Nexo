@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import type { HoustonEvent } from "@houston/protocol";
+import type { NexoEvent } from "@nexo/protocol";
 import type { Agent, Workspace } from "../domain/types";
 import type { WorkspacePaths } from "../paths";
 import type { Vfs } from "../vfs";
@@ -15,7 +15,7 @@ import { json, readJson } from "./http";
  */
 
 /** The reactivity event a write under a known `.houston` family should fire. */
-function eventForPath(rel: string, agentPath: string): HoustonEvent | null {
+function eventForPath(rel: string, agentPath: string): NexoEvent | null {
   if (rel.startsWith(".houston/routine_runs"))
     return { type: "RoutineRunsChanged", agentPath };
   if (rel.startsWith(".houston/routines"))
@@ -37,7 +37,7 @@ export async function handleAgentFile(
   rest: string,
   req: IncomingMessage,
   res: ServerResponse,
-  emit?: (event: HoustonEvent) => void,
+  emit?: (event: NexoEvent) => void,
 ): Promise<boolean> {
   const m = rest.match(/^agentfile\/(.+)$/);
   if (!m) return false;

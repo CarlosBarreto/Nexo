@@ -9,8 +9,8 @@ import {
   skillDirKey,
   skillKey,
   slugify,
-} from "@houston/domain";
-import type { HoustonEvent, SkillDetail } from "@houston/protocol";
+} from "@nexo/domain";
+import type { NexoEvent, SkillDetail } from "@nexo/protocol";
 import type { Agent, Workspace } from "../domain/types";
 import type { WorkspacePaths } from "../paths";
 import type { Vfs } from "../vfs";
@@ -31,7 +31,7 @@ export async function handleSkills(
   rest: string,
   req: IncomingMessage,
   res: ServerResponse,
-  emit?: (event: HoustonEvent) => void,
+  emit?: (event: NexoEvent) => void,
 ): Promise<boolean> {
   const m = rest.match(/^skills(?:\/([^/]+))?$/);
   if (!m) return false;

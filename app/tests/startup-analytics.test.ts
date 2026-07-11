@@ -33,7 +33,7 @@ describe("welcomeBridgeUrl", () => {
   it("builds the /welcome attribution bridge URL with an encoded install_id", () => {
     strictEqual(
       welcomeBridgeUrl("abc 123"),
-      "https://gethouston.ai/welcome?install_id=abc%20123",
+      "https://getnexo.ai/welcome?install_id=abc%20123",
     );
   });
 });

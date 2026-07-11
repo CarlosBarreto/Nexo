@@ -62,7 +62,7 @@ export function ProviderAccountRow({
   /**
    * Abort an in-flight sign-in. While `pending`, the action button
    * turns into a Cancel control (spinner + visible label) so a user who
-   * abandoned the OAuth tab can retry without restarting Houston (#237).
+   * abandoned the OAuth tab can retry without restarting Nexo (#237).
    */
   onCancel: () => void;
 }) {

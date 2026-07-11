@@ -1,4 +1,4 @@
-import { cn } from "@houston-ai/core";
+import { cn } from "@nexo-ai/core";
 import { Loader2, XIcon } from "lucide-react";
 import { forwardRef } from "react";
 
@@ -21,7 +21,7 @@ export interface KanbanDetailPanelProps {
   actions?: React.ReactNode;
   /** Large avatar shown in the header */
   avatar?: React.ReactNode;
-  /** Name displayed next to the avatar (e.g. "Houston") */
+  /** Name displayed next to the avatar (e.g. "Nexo") */
   agentName?: string;
   runningStatuses?: string[];
   statusLabels?: Record<string, string>;

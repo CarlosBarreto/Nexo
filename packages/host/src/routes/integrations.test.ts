@@ -2,7 +2,7 @@ import { existsSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import type { Server } from "node:http";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { Capabilities } from "@houston/protocol";
+import type { Capabilities } from "@nexo/protocol";
 import { expect, test } from "vitest";
 import { MemoryCredentialStore } from "../credentials/store";
 import { EnvCredentialVault } from "../credentials/vault";
@@ -18,7 +18,7 @@ import { MemoryWorkspaceStore } from "../store/memory";
  * (`/v1/integrations/*`) and the runtime-facing HMAC proxy
  * (`/sandbox/integrations/*`), driven against an in-memory fake provider so the
  * routing/auth logic is verified without a live Composio. Platform model: no
- * provider login — users only connect toolkits, keyed by their Houston userId.
+ * provider login — users only connect toolkits, keyed by their Nexo userId.
  */
 
 const USER = "alice";

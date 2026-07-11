@@ -1,9 +1,9 @@
 /**
- * `HoustonClient` — thin fetch wrapper keyed by `{baseUrl, token}`.
+ * `NexoClient` — thin fetch wrapper keyed by `{baseUrl, token}`.
  *
  * Usage:
  * ```ts
- * const engine = new HoustonClient({ baseUrl: "http://127.0.0.1:7777", token });
+ * const engine = new NexoClient({ baseUrl: "http://127.0.0.1:7777", token });
  * const workspaces = await engine.listWorkspaces();
  * ```
  *
@@ -120,7 +120,7 @@ const RETRYABLE_STATUS = new Set([502, 503, 504]);
 
 /** Methods safe to replay after a SERVER response (a mutation may have
  *  partially run). A thrown network error is handled separately and IS safe
- *  to replay for any method — see `HoustonClient.send`. */
+ *  to replay for any method — see `NexoClient.send`. */
 function isIdempotentMethod(method: string): boolean {
   return (
     method === "GET" ||
@@ -144,7 +144,7 @@ function makeAbortError(): Error {
   return e;
 }
 
-export interface HoustonClientOptions {
+export interface NexoClientOptions {
   baseUrl: string;
   token: string;
   /** Override transport retry tuning (tests, latency-sensitive hosts). */
@@ -153,7 +153,7 @@ export interface HoustonClientOptions {
   fetchImpl?: typeof fetch;
 }
 
-export class HoustonClient {
+export class NexoClient {
   // Mutable so the desktop supervisor can repoint us at a fresh
   // `{baseUrl, token}` when it restarts a crashed engine on a NEW random port
   // (HOU-432) — without every cached client reference going stale. In-flight
@@ -163,7 +163,7 @@ export class HoustonClient {
   private readonly retryConfig: RetryConfig;
   private readonly fetchImpl: typeof fetch;
 
-  constructor(opts: HoustonClientOptions) {
+  constructor(opts: NexoClientOptions) {
     this.baseUrl = opts.baseUrl.replace(/\/$/, "");
     this.token = opts.token;
     this.retryConfig = { ...DEFAULT_RETRY, ...opts.retry };
@@ -371,9 +371,9 @@ export class HoustonClient {
     });
   }
 
-  private async toError(res: Response): Promise<HoustonEngineError> {
+  private async toError(res: Response): Promise<NexoEngineError> {
     const err = (await res.json().catch(() => null)) as ErrorBody | null;
-    return new HoustonEngineError(res.status, err);
+    return new NexoEngineError(res.status, err);
   }
 
   private seg(s: string): string {
@@ -906,7 +906,7 @@ export class HoustonClient {
    * Persist a Gemini API key to `~/.gemini/.env`. The engine validates
    * the key shape, writes atomically, and chmods 0600 on Unix. The
    * next `providerStatus("gemini")` poll will return `Authenticated`
-   * without requiring a Houston restart.
+   * without requiring a Nexo restart.
    *
    * Gemini-specific: other providers use the CLI's own OAuth flow via
    * `providerLogin`. Do NOT generalize this route until a second
@@ -1467,7 +1467,7 @@ export class HoustonClient {
   }
 }
 
-export class HoustonEngineError extends Error {
+export class NexoEngineError extends Error {
   status: number;
   body: ErrorBody | null;
 
@@ -1475,7 +1475,7 @@ export class HoustonEngineError extends Error {
     super(body?.error.message ?? `Engine error ${status}`);
     this.status = status;
     this.body = body;
-    this.name = "HoustonEngineError";
+    this.name = "NexoEngineError";
   }
 
   get code(): string | undefined {
@@ -1500,6 +1500,6 @@ export class HoustonEngineError extends Error {
 }
 
 /** Type guard for engine errors. Convenient in catch blocks. */
-export function isHoustonEngineError(e: unknown): e is HoustonEngineError {
-  return e instanceof HoustonEngineError;
+export function isNexoEngineError(e: unknown): e is NexoEngineError {
+  return e instanceof NexoEngineError;
 }

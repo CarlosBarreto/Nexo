@@ -24,8 +24,8 @@ test("creates an agent and shows it in the sidebar", async ({ page }) => {
 /**
  * Switching agents swaps the board. Each agent has its own missions, so the
  * seeded agent's "Plan a trip to Tokyo" must vanish on a fresh agent and return
- * when we switch back. (The agent "Houston" button is `.last()` — the first
- * "Houston" button is the workspace switcher at the top of the sidebar.)
+ * when we switch back. (The agent "Nexo" button is `.last()` — the first
+ * "Nexo" button is the workspace switcher at the top of the sidebar.)
  */
 test("switches between two agents", async ({ page }) => {
   await page.goto("/");
@@ -41,10 +41,7 @@ test("switches between two agents", async ({ page }) => {
   await expect(page.getByText("Plan a trip to Tokyo")).toHaveCount(0);
 
   // Switch back to the seeded agent → its mission returns.
-  await page
-    .getByRole("button", { name: "Houston", exact: true })
-    .last()
-    .click();
+  await page.getByRole("button", { name: "Nexo", exact: true }).last().click();
   await expect(page.getByText("Plan a trip to Tokyo")).toBeVisible();
 });
 
@@ -56,9 +53,7 @@ test("switches between two agents", async ({ page }) => {
 test("renames an agent", async ({ page }) => {
   await page.goto("/");
 
-  const agent = page
-    .getByRole("button", { name: "Houston", exact: true })
-    .last();
+  const agent = page.getByRole("button", { name: "Nexo", exact: true }).last();
   await agent.hover();
   await page.getByRole("button", { name: "Agent menu" }).click();
   await page.getByRole("menuitem", { name: "Rename" }).click();

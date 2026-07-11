@@ -102,7 +102,7 @@ export const config = {
 
   /**
    * Override for the skills directory. Default is <workspace>/.agents/skills —
-   * the Agent Skills standard (SKILL.md folders), the same layout Houston has
+   * the Agent Skills standard (SKILL.md folders), the same layout Nexo has
    * always kept on disk. An absent directory simply means no skills.
    */
   skillsDirOverride: env.HOUSTON_SKILLS_DIR || "",

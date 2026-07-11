@@ -1,4 +1,4 @@
-import { Badge } from "@houston-ai/core";
+import { Badge } from "@nexo-ai/core";
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 

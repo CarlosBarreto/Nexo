@@ -12,8 +12,8 @@ import {
   seedSchemas,
   skillKey,
   unpackAgent,
-} from "@houston/domain";
-import type { PortableSelection } from "@houston/protocol";
+} from "@nexo/domain";
+import type { PortableSelection } from "@nexo/protocol";
 import type { Agent, UserId, Workspace } from "../domain/types";
 import type { WorkspacePaths } from "../paths";
 import { CloudPaths } from "../paths";

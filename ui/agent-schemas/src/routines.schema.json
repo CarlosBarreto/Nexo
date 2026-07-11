@@ -17,18 +17,38 @@
       "updated_at"
     ],
     "properties": {
-      "id": { "type": "string" },
-      "name": { "type": "string" },
-      "description": { "type": "string" },
+      "id": {
+        "type": "string"
+      },
+      "name": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
       "prompt": {
         "type": "string",
         "description": "Prompt sent to Claude when the routine fires."
       },
       "schedule": {
         "type": "string",
-        "description": "Cron expression (e.g. '0 9 * * 1-5')."
+        "description": "Cron expression (e.g. '0 9 * * 1-5'). Empty for idle-triggered routines."
       },
-      "enabled": { "type": "boolean" },
+      "trigger": {
+        "type": "string",
+        "enum": ["cron", "idle"],
+        "default": "cron",
+        "description": "How the routine fires: on the cron schedule (default) or after the agent has been idle for idle_minutes ('dream')."
+      },
+      "idle_minutes": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 10080,
+        "description": "Idle threshold in minutes; required when trigger is 'idle'."
+      },
+      "enabled": {
+        "type": "boolean"
+      },
       "suppress_when_silent": {
         "type": "boolean",
         "description": "If true, runs that respond ROUTINE_OK are silent."
@@ -41,7 +61,9 @@
       },
       "integrations": {
         "type": "array",
-        "items": { "type": "string" },
+        "items": {
+          "type": "string"
+        },
         "default": [],
         "description": "Composio toolkit slugs this routine uses (e.g. ['gmail', 'slack'])."
       },
@@ -57,8 +79,23 @@
         "type": ["string", "null"],
         "description": "Reasoning-effort override (e.g. 'high', 'max'); validated per-provider at dispatch; null/absent means inherit the agent's effort."
       },
-      "created_at": { "type": "string", "format": "date-time" },
-      "updated_at": { "type": "string", "format": "date-time" }
+      "created_at": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "updated_at": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "judge_enabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Opt-in AI-as-a-Judge: a completed run's reply is evaluated by a second turn."
+      },
+      "judge_criteria": {
+        "type": "string",
+        "description": "Extra evaluation criteria for the judge; the routine's prompt is always the base intent."
+      }
     },
     "additionalProperties": false
   }

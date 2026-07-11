@@ -8,7 +8,7 @@ import type { TokenVerifier } from "../ports";
  *
  * The CLOUD verifier (`SupabaseTokenVerifier`, jose/JWKS) and the
  * `makeTokenVerifier` factory that picks dev-vs-Supabase at startup live in
- * `@houston/host-cloud` (auth/verify-supabase.ts) — they are the closed half of
+ * `@nexo/host-cloud` (auth/verify-supabase.ts) — they are the closed half of
  * this split. `SupabaseTokenVerifier` reuses `stripBearer` exported from here.
  *
  * Failure policy (CLAUDE.md "no silent failures"): only *authentication*

@@ -1,4 +1,4 @@
-import type { RoutineUpdate } from "@houston/protocol";
+import type { RoutineUpdate } from "@nexo/protocol";
 import { expect, test } from "vitest";
 import {
   applyActivityUpdate,
@@ -282,6 +282,41 @@ test("routine provider/model/effort: pinned on create, cleared by null, left by 
   const untouched = applyRoutineUpdate(pinned, { name: "Renamed" }, NOW);
   expect(untouched.model).toBe("claude-opus-4-8");
   expect(untouched.effort).toBe("high");
+});
+
+test("routine update enforces the trigger invariant: idle sheds cron, cron sheds idle_minutes", () => {
+  const cron = createRoutine(
+    { name: "R", prompt: "p", schedule: "0 9 * * *" },
+    "r",
+    NOW,
+  );
+
+  // Switch to idle → the schedule is forced empty. The trigger-unaware legacy
+  // engine would otherwise keep firing the stale cron alongside the dream.
+  const toIdle = applyRoutineUpdate(
+    cron,
+    { trigger: "idle", idle_minutes: 30 },
+    NOW,
+  );
+  expect(toIdle.trigger).toBe("idle");
+  expect(toIdle.schedule).toBe("");
+  expect(toIdle.idle_minutes).toBe(30);
+
+  // Switch back to cron → idle_minutes is dropped so a stale threshold can never
+  // resurrect the idle path (the key is absent, not left at a phantom value).
+  const backToCron = applyRoutineUpdate(
+    toIdle,
+    { trigger: "cron", schedule: "0 8 * * *" },
+    NOW,
+  );
+  expect(backToCron.trigger).toBe("cron");
+  expect(backToCron.schedule).toBe("0 8 * * *");
+  expect("idle_minutes" in backToCron).toBe(false);
+
+  // An unrelated update to an idle routine still holds schedule empty (the
+  // invariant is re-asserted on every write, not only on the trigger flip).
+  const renamedIdle = applyRoutineUpdate(toIdle, { name: "Dozing" }, NOW);
+  expect(renamedIdle.schedule).toBe("");
 });
 
 test("config: object round-trip; junk reported as empty + diagnostic", async () => {

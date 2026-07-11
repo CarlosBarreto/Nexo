@@ -11,7 +11,7 @@ import type { Agent, AgentId } from "../domain/types";
 const ENGINE_PORT = 4317;
 
 /** Label key + value stamped on every object the control plane creates. The admin
- *  cluster reader selects on this to find exactly Houston's agent pods. */
+ *  cluster reader selects on this to find exactly Nexo's agent pods. */
 export const MANAGED_BY_LABEL = "app.kubernetes.io/managed-by";
 export const MANAGED_BY_VALUE = "houston-control-plane";
 /** The label keys carrying tenancy ids, read back to attribute a pod to its agent/workspace. */

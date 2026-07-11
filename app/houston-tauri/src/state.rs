@@ -4,7 +4,7 @@ use houston_scheduler::Scheduler;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 
-/// Generic application state for Houston-based Tauri apps.
+/// Generic application state for Nexo-based Tauri apps.
 /// Register with `app.manage(AppState { db, .. })` during Tauri setup.
 pub struct AppState {
     pub db: Database,

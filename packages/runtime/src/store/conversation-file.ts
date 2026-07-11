@@ -14,7 +14,7 @@ import type {
   ConversationSummary,
   TokenUsage,
   ToolCallRecord,
-} from "@houston/runtime-client";
+} from "@nexo/runtime-client";
 
 /**
  * Pure, dir-parameterized conversation file logic: one JSON file per
@@ -85,6 +85,7 @@ export function appendAssistantMessageAt(
   usage?: TokenUsage | null,
   providerSwitch?: ChatMessage["providerSwitch"],
   providerError?: ChatMessage["providerError"],
+  stats?: ChatMessage["stats"],
 ) {
   const conv = loadConversation(dir, id);
   if (!conv) return;
@@ -96,6 +97,7 @@ export function appendAssistantMessageAt(
     usage: usage ?? undefined,
     providerSwitch,
     providerError,
+    stats,
   });
   conv.updatedAt = Date.now();
   save(dir, conv);

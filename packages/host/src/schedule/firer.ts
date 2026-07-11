@@ -1,4 +1,4 @@
-import { routinePrompt } from "@houston/domain";
+import { routinePrompt } from "@nexo/domain";
 import type { WorkspaceRuntime } from "../domain/types";
 import type { RuntimeChannel } from "../ports";
 import type { FiringJob, RoutineFirer } from "./scheduler";

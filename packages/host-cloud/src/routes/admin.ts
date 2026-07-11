@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import type { UserId } from "@houston/host/src/domain/types";
-import type { WorkspaceStore } from "@houston/host/src/ports";
-import { json, readJson } from "@houston/host/src/routes/http";
+import type { UserId } from "@nexo/host/src/domain/types";
+import type { WorkspaceStore } from "@nexo/host/src/ports";
+import { json, readJson } from "@nexo/host/src/routes/http";
 import type { AutopilotRates, BillingActualsReader } from "../admin/billing";
 import type { ClusterReader } from "../admin/cluster";
 import {

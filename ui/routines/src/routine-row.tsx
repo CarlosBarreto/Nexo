@@ -5,7 +5,7 @@
  * + colored accent. Switch on the right. The whole row is clickable; the
  * switch stops propagation so toggling doesn't open the editor.
  */
-import { cn, Switch } from "@houston-ai/core";
+import { cn, Switch } from "@nexo-ai/core";
 import {
   DEFAULT_NEXT_FIRE_LABELS,
   DEFAULT_ROW_LABELS,

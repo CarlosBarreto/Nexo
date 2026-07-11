@@ -5,10 +5,10 @@
 Houston lets anyone hire AI agents that actually complete tasks across the apps they already use, from bookkeeping to inbox to expense reports. Bring your own model, connect your tools once, and let agents do the work.
 
 ## Core pages
-- [Home](https://gethouston.ai/): What Houston is and how the agents work.
-- [For Startups](https://gethouston.ai/startups/): Build your AI native product fast on Houston.
-- [Waitlist](https://gethouston.ai/waitlist/): Join the beta waiting list.
-- [Changelog](https://gethouston.ai/changelog/): Every release in plain language.
+- [Home](https://getnexo.ai/): What Houston is and how the agents work.
+- [For Startups](https://getnexo.ai/startups/): Build your AI native product fast on Houston.
+- [Waitlist](https://getnexo.ai/waitlist/): Join the beta waiting list.
+- [Changelog](https://getnexo.ai/changelog/): Every release in plain language.
 
 ## Code
-- [GitHub](https://github.com/gethouston/houston): The open source Houston repository.
+- [GitHub](https://github.com/getnexo/nexo): The open source Houston repository.

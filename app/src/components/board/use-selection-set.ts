@@ -1,4 +1,4 @@
-import type { KanbanItem } from "@houston-ai/board";
+import type { KanbanItem } from "@nexo-ai/board";
 import { useCallback, useEffect, useState } from "react";
 import { selectAllIds } from "../../lib/mission-selection";
 

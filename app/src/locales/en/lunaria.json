@@ -1,0 +1,24 @@
+{
+  "intro": {
+    "eyebrow": "Creation Myth",
+    "title": "LUNARIA",
+    "lore": [
+      "Before the world there was the Veil of Possibility.",
+      "Four forces met: Fire, Water, Earth and Air.",
+      "From their balance the island of Lunaria was born.",
+      "On it the first Axies awoke, each with a unique SOUL.",
+      "Every birth is an echo of the myth. An identity like no other."
+    ],
+    "pressStart": "PRESS START",
+    "hint": "press any key to enter",
+    "booting": "WAKING LUNARIA...",
+    "ariaLabel": "Lunaria intro. Press start to enter Nexo."
+  },
+  "elements": {
+    "fire": "Flame",
+    "water": "Tides",
+    "earth": "Roots",
+    "air": "Wind",
+    "system": "System"
+  }
+}

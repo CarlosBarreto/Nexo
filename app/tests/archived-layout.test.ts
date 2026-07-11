@@ -26,9 +26,7 @@ describe("archived mission layout", () => {
 
   it("left-aligns the archived list and its search on the shared rail", () => {
     ok(
-      searchSource.includes(
-        'import { KanbanListRail } from "@houston-ai/board";',
-      ),
+      searchSource.includes('import { KanbanListRail } from "@nexo-ai/board";'),
     );
     ok(searchSource.includes('<KanbanListRail align="left">'));
     ok(tabSource.includes('listAlign="left"'));

@@ -29,12 +29,12 @@ test("title leads with the user's own words when present", () => {
       ...payload,
       userMessage: "The chat froze   when I asked",
     }),
-  ).toBe("Houston feedback: The chat froze when I asked");
+  ).toBe("Nexo feedback: The chat froze when I asked");
   expect(formatIssueTitle({ ...payload, userMessage: "   " })).toBe(
-    "Houston bug: user_feedback - Error: no workspace found",
+    "Nexo bug: user_feedback - Error: no workspace found",
   );
   expect(formatIssueTitle({ ...payload, error: "" })).toBe(
-    "Houston bug: user_feedback",
+    "Nexo bug: user_feedback",
   );
 });
 
@@ -45,7 +45,7 @@ test("description carries user words first, then error, context, logs", () => {
   );
   expect(d.indexOf("it broke")).toBeLessThan(d.indexOf("## Error"));
   expect(d).toContain("- Command: user_feedback");
-  expect(d).toContain("- Surface: Houston Web (cloud)");
+  expect(d).toContain("- Surface: Nexo Web (cloud)");
   expect(d).toContain("- User: user@example.com");
   expect(d).toContain("- User Id: user-123");
   expect(d).toContain("backend log line");
@@ -85,7 +85,7 @@ test("LinearFeedbackSender resolves the label then files the issue", async () =>
     const body = JSON.parse(Buffer.concat(chunks).toString("utf8"));
     requests.push({ auth: req.headers.authorization, body });
     res.writeHead(200, { "Content-Type": "application/json" });
-    if (body.query.includes("HoustonBugReportLabel")) {
+    if (body.query.includes("NexoBugReportLabel")) {
       res.end(
         JSON.stringify({
           data: {
@@ -133,7 +133,7 @@ test("LinearFeedbackSender resolves the label then files the issue", async () =>
   };
   expect(input.teamId).toBe("team-1");
   expect(input.labelIds).toEqual(["label-1"]);
-  expect(input.title).toBe("Houston feedback: deck never downloaded");
+  expect(input.title).toBe("Nexo feedback: deck never downloaded");
   expect(input.description).toContain("- User Id: user-9");
 
   await new Promise<void>((r) => stub.close(() => r()));
@@ -160,7 +160,7 @@ test("LinearFeedbackSender surfaces GraphQL errors instead of swallowing", async
 // Route-level: POST /feedback on the control-plane server
 // ---------------------------------------------------------------------------
 
-import type { Capabilities } from "@houston/protocol";
+import type { Capabilities } from "@nexo/protocol";
 import { ProxyChannel } from "./channel/proxy";
 import { MemoryCredentialStore } from "./credentials/store";
 import type { RuntimeEndpoint, RuntimeLauncher, TokenVerifier } from "./ports";

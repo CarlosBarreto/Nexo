@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generate a QR PNG that points at gethouston.ai with UTM params baked in.
+# Generate a QR PNG that points at getnexo.ai with UTM params baked in.
 #
 # Usage:
 #   ./scripts/event-qr.sh <campaign_slug> [content_slug]
@@ -42,7 +42,7 @@ for slug in "$CAMPAIGN" "$CONTENT"; do
   fi
 done
 
-URL="https://gethouston.ai/?utm_source=qr_code&utm_medium=event&utm_campaign=${CAMPAIGN}&utm_content=${CONTENT}"
+URL="https://getnexo.ai/?utm_source=qr_code&utm_medium=event&utm_campaign=${CAMPAIGN}&utm_content=${CONTENT}"
 OUTPUT="${CAMPAIGN}-${CONTENT}.png"
 
 # -s 16: 16px per QR module → big enough for printed material

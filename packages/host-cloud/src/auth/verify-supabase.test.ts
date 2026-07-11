@@ -4,7 +4,7 @@ import { SupabaseTokenVerifier } from "./verify-supabase";
 
 /**
  * The CLOSED Supabase verifier (jose/JWKS). The open dev / service-token
- * verifiers are tested in `@houston/host` (auth/verify.test.ts).
+ * verifiers are tested in `@nexo/host` (auth/verify.test.ts).
  */
 
 const SECRET = "test-shared-secret-which-is-suitably-long-for-hs256";

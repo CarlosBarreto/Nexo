@@ -1,4 +1,4 @@
-import type { Activity, Routine, RoutineRun } from "@houston/protocol";
+import type { Activity, Routine, RoutineRun } from "@nexo/protocol";
 import { Cron } from "croner";
 
 /**
@@ -72,6 +72,16 @@ export function routineConversationId(routine: Routine, runId: string): string {
   return routine.chat_mode === "per_run"
     ? `routine-${routine.id}-${runId}`
     : `routine-${routine.id}`;
+}
+
+/**
+ * Agent-initiated background chats — routine runs ("routine-", above) and
+ * judge turns ("judge-", judgeConversationId in judge.ts). The idle probe
+ * excludes these so background turns never count as user activity; new
+ * system-conversation prefixes must be added HERE, not at call sites.
+ */
+export function isSystemConversation(id: string): boolean {
+  return id.startsWith("routine-") || id.startsWith("judge-");
 }
 
 /** A fresh "running" run record. Caller supplies id + clock (domain stays pure). */

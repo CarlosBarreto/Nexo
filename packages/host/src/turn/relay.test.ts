@@ -1,4 +1,4 @@
-import type { WireEvent } from "@houston/runtime-client";
+import type { WireEvent } from "@nexo/runtime-client";
 import { expect, test } from "vitest";
 import { MemoryTurnBus } from "./bus";
 import { TurnRelay } from "./relay";

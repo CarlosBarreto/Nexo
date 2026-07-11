@@ -1,7 +1,7 @@
 /**
  * New-engine web root: gates between the engine Connect screen (URL + token) and
  * the new-engine WebApp. Mirrors ../root.tsx, but for the new TS engine — the
- * user points the browser at any reachable Houston host at runtime, so no URL
+ * user points the browser at any reachable Nexo host at runtime, so no URL
  * needs to be baked at build time (and the token stays in this browser's
  * localStorage, never in the shipped bundle). We set window.__HOUSTON_ENGINE__
  * BEFORE WebApp lazy-loads the app graph (app/src/lib/engine.ts reads the global
@@ -43,7 +43,7 @@ export function NewEngineRoot({
     <Suspense
       fallback={
         <div style={ui.page}>
-          <div style={ui.muted}>Loading Houston…</div>
+          <div style={ui.muted}>Loading Nexo…</div>
         </div>
       }
     >

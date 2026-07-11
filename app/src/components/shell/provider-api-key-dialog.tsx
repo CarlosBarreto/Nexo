@@ -6,7 +6,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { ExternalLink, Eye, EyeOff } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

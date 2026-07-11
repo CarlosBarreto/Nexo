@@ -1,4 +1,4 @@
-import type { TurnBus } from "@houston/host/src/turn/bus";
+import type { TurnBus } from "@nexo/host/src/turn/bus";
 import { Redis } from "ioredis";
 
 /**

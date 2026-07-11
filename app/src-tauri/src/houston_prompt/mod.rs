@@ -1,9 +1,9 @@
-//! Houston product prompts, the authoritative identity copy for the Houston
+//! Nexo product prompts, the authoritative identity copy for the Nexo
 //! desktop app.
 //!
 //! These strings are the product layer. The engine is prompt-agnostic: it
 //! assembles per-agent context from disk, while this module defines how the
-//! Houston desktop agent behaves and speaks.
+//! Nexo desktop agent behaves and speaks.
 
 mod base;
 mod integrations;
@@ -41,7 +41,7 @@ mod tests {
     fn system_prompt_contains_new_interaction_gates() {
         let prompt = system_prompt();
 
-        assert!(prompt.contains("# Houston Context"));
+        assert!(prompt.contains("# Nexo Context"));
         assert!(prompt.contains("# Interaction Procedure"));
         assert!(prompt.contains("# Load Relevant Guidance"));
         assert!(prompt.contains("Classify the request"));

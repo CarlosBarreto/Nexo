@@ -1,5 +1,5 @@
 import type { Server } from "node:http";
-import type { Capabilities, Workspace } from "@houston/protocol";
+import type { Capabilities, Workspace } from "@nexo/protocol";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import { ProxyChannel } from "../channel/proxy";
 import { MemoryCredentialStore } from "../credentials/store";

@@ -7,9 +7,9 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-  HoustonAvatar,
+  NexoAvatar,
   resolveAgentColor,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { Keyboard, LayoutDashboard, Plus, Settings } from "lucide-react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -26,9 +26,7 @@ import { useUIStore } from "../stores/ui";
 const AVATAR_PX = 28;
 
 function PaletteAvatar({ color }: { color?: string }) {
-  return (
-    <HoustonAvatar color={resolveAgentColor(color)} diameter={AVATAR_PX} />
-  );
+  return <NexoAvatar color={resolveAgentColor(color)} diameter={AVATAR_PX} />;
 }
 
 const RECENT_MISSION_LIMIT = 12;

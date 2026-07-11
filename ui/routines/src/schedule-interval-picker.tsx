@@ -6,7 +6,7 @@
  * All visible text arrives via props so the package stays i18n-agnostic; the
  * pills show the singular or plural unit name depending on the count.
  */
-import { cn } from "@houston-ai/core";
+import { cn } from "@nexo-ai/core";
 import { Minus, Plus } from "lucide-react";
 import type { IntervalUnit } from "./schedule-interval-utils";
 import { labelClass } from "./schedule-picker-fields";

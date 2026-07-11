@@ -13,22 +13,22 @@ export function prettifyAuthError(raw: string): string {
     return "That email is already signed in with another provider. Use the original sign-in option, or contact support to merge accounts.";
   }
   if (msg.includes("aadsts50020") || msg.includes("does not exist in tenant")) {
-    return "Your Microsoft account isn't allowed in this Houston workspace. Try a different account, or ask your admin to invite it.";
+    return "Your Microsoft account isn't allowed in this Nexo workspace. Try a different account, or ask your admin to invite it.";
   }
   if (
     msg.includes("aadsts700016") ||
     msg.includes("application with identifier")
   ) {
-    return "Microsoft sign-in isn't fully configured for Houston yet. Please contact support.";
+    return "Microsoft sign-in isn't fully configured for Nexo yet. Please contact support.";
   }
   if (msg.includes("aadsts65001") || msg.includes("consent")) {
-    return "Microsoft needs admin consent before this account can sign in. Ask your IT admin to approve Houston, then try again.";
+    return "Microsoft needs admin consent before this account can sign in. Ask your IT admin to approve Nexo, then try again.";
   }
   if (msg.includes("redirect") && msg.includes("invalid")) {
     return "The sign-in callback URL isn't allow-listed. Please contact support.";
   }
   if (msg.includes("provider") && msg.includes("not enabled")) {
-    return "This sign-in option isn't turned on for Houston yet. Try another option.";
+    return "This sign-in option isn't turned on for Nexo yet. Try another option.";
   }
   if (
     msg.includes("otp") ||

@@ -141,7 +141,7 @@ export function resolvePendingActivitySelection({
  * Whether a session-finished notification should arm its click-to-navigate
  * target. Linux/Windows have a distinct native click event, so arming while
  * focused is safe and required: the user may click the toast while working in a
- * different Houston chat. macOS has no desktop click event in the JS plugin, so
+ * different Nexo chat. macOS has no desktop click event in the JS plugin, so
  * focus is the click proxy there and we only arm while backgrounded.
  */
 export function shouldArmNotificationNav(

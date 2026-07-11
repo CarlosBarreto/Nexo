@@ -22,7 +22,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { Check, ChevronDown, Globe } from "lucide-react";
 import { useMemo, useState } from "react";
 import { buildZoneOptions, foldDiacritics } from "./timezone-format.ts";

@@ -1,4 +1,4 @@
-import { cn } from "@houston-ai/core";
+import { cn } from "@nexo-ai/core";
 import { AlertCircle, Check, Loader2, Plus } from "lucide-react";
 import type { CommunitySkill } from "./types";
 

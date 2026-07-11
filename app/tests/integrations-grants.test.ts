@@ -1,6 +1,6 @@
 import { deepStrictEqual } from "node:assert";
 import { describe, it } from "node:test";
-import type { IntegrationConnection } from "@houston-ai/engine-client";
+import type { IntegrationConnection } from "@nexo-ai/engine-client";
 import { splitByGrant } from "../src/components/tabs/integrations-tab-model.ts";
 import {
   applyGrantChange,

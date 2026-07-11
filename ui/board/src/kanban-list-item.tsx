@@ -5,7 +5,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import type { KanbanCardLabels } from "./kanban-card";

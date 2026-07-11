@@ -3,10 +3,10 @@ import {
   cn,
   colorHex,
   DialogTitle,
-  HoustonAvatar,
   Input,
+  NexoAvatar,
   resolveAgentColor,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { Check } from "lucide-react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -51,7 +51,7 @@ export function AiReviewStep({
         <div className="max-w-2xl mx-auto space-y-6">
           {/* Avatar + color */}
           <div className="flex flex-col items-center gap-4">
-            <HoustonAvatar color={resolvedColor} diameter={72} />
+            <NexoAvatar color={resolvedColor} diameter={72} />
             <div className="flex items-center gap-2">
               {AGENT_COLORS.map((c) => {
                 const hex = colorHex(c);

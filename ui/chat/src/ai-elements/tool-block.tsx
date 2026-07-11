@@ -21,7 +21,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
   cn,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { ChevronDownIcon } from "lucide-react";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import type { ToolEntry } from "../feed-to-messages";

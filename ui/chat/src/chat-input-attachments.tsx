@@ -1,4 +1,4 @@
-import { Popover, PopoverContent, PopoverTrigger } from "@houston-ai/core";
+import { Popover, PopoverContent, PopoverTrigger } from "@nexo-ai/core";
 import { Plus } from "lucide-react";
 import type { ChangeEvent, ReactNode, RefObject } from "react";
 import { useState } from "react";

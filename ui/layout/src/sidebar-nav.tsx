@@ -1,4 +1,4 @@
-import { cn, Tooltip, TooltipContent, TooltipTrigger } from "@houston-ai/core";
+import { cn, Tooltip, TooltipContent, TooltipTrigger } from "@nexo-ai/core";
 import type { ReactNode } from "react";
 
 export interface SidebarNavItemProps {

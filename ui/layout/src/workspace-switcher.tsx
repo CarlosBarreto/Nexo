@@ -4,7 +4,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { ChevronDown, Plus } from "lucide-react";
 
 export interface WorkspaceSwitcherProps {

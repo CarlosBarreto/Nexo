@@ -1,4 +1,4 @@
-import type { Capabilities } from "@houston-ai/engine-client";
+import type { Capabilities } from "@nexo-ai/engine-client";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import { getEngine, newEngineActive } from "../lib/engine";

@@ -6,7 +6,7 @@ import {
   LOCAL_CAPABILITIES,
   MANAGED_CLOUD_CAPABILITIES,
 } from "../capabilities";
-import { houstonSystemPrompt } from "../houston-prompt";
+import { nexoSystemPrompt } from "../nexo-prompt";
 import { installParentWatchdog } from "../parent-watchdog";
 import { buildLocalHost } from "./host";
 
@@ -76,13 +76,13 @@ const host = buildLocalHost({
   runtimeCommand: runtimeCommand(),
   // The real Tauri app hands over its own product prompt; this is the built-in
   // default so the agent knows how to create Skills/Routines/learnings.
-  systemPrompt: process.env.HOUSTON_APP_SYSTEM_PROMPT || houstonSystemPrompt(),
+  systemPrompt: process.env.HOUSTON_APP_SYSTEM_PROMPT || nexoSystemPrompt(),
   capabilities:
     process.env.HOUSTON_MANAGED_CLOUD === "1"
       ? MANAGED_CLOUD_CAPABILITIES
       : LOCAL_CAPABILITIES,
   // Platform-mode integrations: desktops get HOUSTON_INTEGRATIONS_URL (the
-  // cloud gateway holding Houston's Composio key); self-host + the managed pod
+  // cloud gateway holding Nexo's Composio key); self-host + the managed pod
   // set their own COMPOSIO_API_KEY and go direct. Neither → integrations off.
   integrations: {
     composioApiKey: process.env.COMPOSIO_API_KEY || undefined,

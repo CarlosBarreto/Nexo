@@ -3,7 +3,7 @@ import {
   EMPTY_SNAPSHOT as EMPTY,
   reduceSnapshot,
   type WireEvent,
-} from "@houston/runtime-client";
+} from "@nexo/runtime-client";
 
 /**
  * Per-conversation event bus. This is the ONE place conversation isolation is
@@ -14,7 +14,7 @@ import {
  * It also keeps a small in-flight snapshot per conversation (is a turn running +
  * the assistant text so far) so a late or reconnecting subscriber can be caught
  * up to the current turn via a `sync` frame, without waiting for it to finish.
- * The snapshot reducer lives in @houston/runtime-client (shared with the
+ * The snapshot reducer lives in @nexo/runtime-client (shared with the
  * control plane's turn relay, which must mirror these semantics exactly).
  */
 

@@ -1,6 +1,6 @@
 import type { AssistantMessage } from "@earendil-works/pi-ai";
 import type { AgentSessionEvent } from "@earendil-works/pi-coding-agent";
-import type { TokenUsage, WireEvent } from "@houston/runtime-client";
+import type { TokenUsage, WireEvent } from "@nexo/runtime-client";
 import { classifyProviderError } from "../ai/provider-error";
 
 /**

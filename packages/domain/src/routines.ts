@@ -3,7 +3,7 @@ import type {
   Routine,
   RoutineRun,
   RoutineUpdate,
-} from "@houston/protocol";
+} from "@nexo/protocol";
 import { docKey } from "./layout";
 import {
   type DocDiagnostic,
@@ -46,6 +46,10 @@ export function normalizeRoutines(
         enabled: true,
         suppress_when_silent: false,
         chat_mode: entry.chat_mode === "per_run" ? "per_run" : "shared",
+        // Absent on disk = "cron", so legacy routines read unchanged and the
+        // discriminant is always present inside TS (exhaustive dispatch).
+        trigger: entry.trigger === "idle" ? "idle" : "cron",
+        judge_enabled: entry.judge_enabled === true,
         integrations: Array.isArray(entry.integrations)
           ? entry.integrations
           : [],
@@ -102,6 +106,13 @@ export function createRoutine(
     enabled: input.enabled ?? true,
     suppress_when_silent: input.suppress_when_silent ?? false,
     chat_mode: input.chat_mode ?? "shared",
+    trigger: input.trigger ?? "cron",
+    // Only written for idle routines, so cron routines stay absent on disk.
+    ...(input.trigger === "idle" && input.idle_minutes
+      ? { idle_minutes: input.idle_minutes }
+      : {}),
+    judge_enabled: input.judge_enabled ?? false,
+    ...(input.judge_criteria ? { judge_criteria: input.judge_criteria } : {}),
     // Per-routine provider/model/effort pins. Absent (null) means inherit the
     // agent's config at dispatch — see resolveTurnModel in the runtime.
     provider: input.provider ?? null,
@@ -133,7 +144,14 @@ export function applyRoutineUpdate(
   );
   // `...current` preserves `created_by` (RoutineUpdate can't set it, so a client
   // can never reassign a routine's creator — it stays whoever created it).
-  return { ...current, ...defined, updated_at: nowIso } as Routine;
+  const merged = { ...current, ...defined, updated_at: nowIso } as Routine;
+  // The on-disk trigger invariant every writer must hold: an idle routine has
+  // NO cron (schedule "" — the legacy Rust engine, trigger-unaware, would
+  // otherwise fire the dream prompt on the stale cron); a cron routine
+  // carries no idle_minutes. Same normalization POST applies at create.
+  if (merged.trigger === "idle") return { ...merged, schedule: "" };
+  const { idle_minutes: _stale, ...cron } = merged;
+  return cron as Routine;
 }
 
 /** Normalize raw routine runs (written by the scheduler; read by the UI). */

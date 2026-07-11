@@ -1,8 +1,8 @@
 import type {
   ChatMessage,
-  HoustonEngineClient,
+  NexoEngineClient,
   WireEvent,
-} from "@houston/runtime-client";
+} from "@nexo/runtime-client";
 import { expect, test } from "vitest";
 import { bus } from "../src/engine-adapter/bus";
 import { historyToFeed, streamTurn } from "../src/engine-adapter/translate";
@@ -17,13 +17,13 @@ type FinalResult = {
  * synchronously, then closes. `sendMessage` is a no-op. Enough to drive one turn
  * through `streamTurn` without a real engine.
  */
-function fakeEngine(events: WireEvent[]): HoustonEngineClient {
+function fakeEngine(events: WireEvent[]): NexoEngineClient {
   return {
     async streamEvents(_id: string, opts: { onEvent: (e: WireEvent) => void }) {
       for (const ev of events) opts.onEvent(ev);
     },
     async sendMessage() {},
-  } as unknown as HoustonEngineClient;
+  } as unknown as NexoEngineClient;
 }
 
 /** Collect every feed item the turn emits on the in-process bus. */
@@ -52,7 +52,7 @@ test("a completed turn drives the activity setter running -> needs_you", async (
       { type: "text", data: "ok" },
       { type: "done", data: null },
     ]),
-    "Houston/Bo",
+    "Nexo/Bo",
     "activity-abc",
     "hi",
     setStatus,
@@ -76,7 +76,7 @@ test("an errored turn drives the activity setter running -> error", async () => 
 
   await streamTurn(
     fakeEngine([{ type: "error", data: { message: "boom" } }]),
-    "Houston/Bo",
+    "Nexo/Bo",
     "activity-abc",
     "hi",
     setStatus,
@@ -100,7 +100,7 @@ test("a turn's usage frame is attached to the final_result", async () => {
       },
       { type: "done", data: null },
     ]),
-    "Houston/Bo",
+    "Nexo/Bo",
     "activity-usage",
     "hi",
     async () => {},
@@ -121,7 +121,7 @@ test("a turn with no usage frame yields a null final_result usage", async () => 
       { type: "text", data: "x" },
       { type: "done", data: null },
     ]),
-    "Houston/Bo",
+    "Nexo/Bo",
     "activity-nousage",
     "hi",
     async () => {},
@@ -170,7 +170,7 @@ test("a failing status persist surfaces in the feed, not silently", async () => 
 
   await streamTurn(
     fakeEngine([{ type: "done", data: null }]),
-    "Houston/Bo",
+    "Nexo/Bo",
     "activity-abc",
     "hi",
     setStatus,

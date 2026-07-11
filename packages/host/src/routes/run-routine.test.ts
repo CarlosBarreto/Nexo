@@ -1,6 +1,6 @@
 import type { Server } from "node:http";
-import { loadRoutineRuns } from "@houston/domain";
-import type { Capabilities, Routine, RoutineRun } from "@houston/protocol";
+import { loadRoutineRuns } from "@nexo/domain";
+import type { Capabilities, Routine, RoutineRun } from "@nexo/protocol";
 import { beforeEach, expect, test } from "vitest";
 import { MemoryCredentialStore } from "../credentials/store";
 import type { ChannelCtx, RuntimeChannel, TokenVerifier } from "../ports";

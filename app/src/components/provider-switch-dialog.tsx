@@ -5,7 +5,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogTitle,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { useTranslation } from "react-i18next";
 import type { ProviderHandoffMode } from "../lib/provider-switch";
 import { RowCard } from "./cards/row-card";

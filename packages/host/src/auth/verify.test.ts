@@ -7,7 +7,7 @@ import {
 
 /**
  * The OPEN token verifiers (dev / service-token wrapper + parseServiceTokens).
- * The CLOUD SupabaseTokenVerifier (jose/JWKS) is tested in `@houston/host-cloud`
+ * The CLOUD SupabaseTokenVerifier (jose/JWKS) is tested in `@nexo/host-cloud`
  * (auth/verify-supabase.test.ts) — the closed half of the auth/verify.ts split.
  */
 

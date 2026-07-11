@@ -1,15 +1,15 @@
 import {
-  AGENT_LABEL,
-  MANAGED_BY_LABEL,
-  MANAGED_BY_VALUE,
-  WORKSPACE_LABEL,
-} from "@houston/host/src/launcher/names";
-import {
   CoreV1Api,
   type KubeConfig,
   type V1PersistentVolumeClaim,
   type V1Pod,
 } from "@kubernetes/client-node";
+import {
+  AGENT_LABEL,
+  MANAGED_BY_LABEL,
+  MANAGED_BY_VALUE,
+  WORKSPACE_LABEL,
+} from "@nexo/host/src/launcher/names";
 import { parseCpuToCores, parseMemToBytes } from "./quantity";
 
 /**
@@ -60,7 +60,7 @@ export interface ClusterSnapshot {
 }
 
 export interface ClusterReader {
-  /** Every Houston-managed agent pod + PVC across the cluster, in two apiserver calls. */
+  /** Every Nexo-managed agent pod + PVC across the cluster, in two apiserver calls. */
   snapshot(): Promise<ClusterSnapshot>;
 }
 

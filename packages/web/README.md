@@ -25,7 +25,7 @@ From the repo root:
 ```bash
 cp .env.example .env.local
 (cd packages/host && pnpm dev)
-pnpm --filter houston-web dev:host     # http://localhost:1430
+pnpm --filter nexo-web dev:host     # http://localhost:1430
 ```
 
 `dev:host` loads the repo-root `.env.local`, so the browser uses

@@ -27,7 +27,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import type { ChatStatus, FileUIPart, SourceDocumentUIPart } from "ai";
 import {
   ArrowUpIcon,

@@ -2,7 +2,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { Check } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { type ProviderPickerState, pickerModelRows } from "../lib/model-picker";

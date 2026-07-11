@@ -62,7 +62,7 @@ objc2 = "0.6"
 objc2-app-kit = { version = "0.3", features = ["NSApplication", "NSResponder"] }
 
 # Windows + Linux only: the OS protocol handler launches a fresh
-# `houston-app.exe` for every `houston://` URL it receives (Start-menu
+# `houston-app.exe` for every `nexo://` URL it receives (Start-menu
 # launches go to `C:\Program Files\Houston\…`, protocol-handler launches
 # go to the 8.3 short form `C:\PROGRA~1\Houston\…`). Without
 # single-instance the second exe holds an orphan webview while the
@@ -89,7 +89,7 @@ notify-rust = "4.11"
 # previous storage adapter silently swallowed it — sessions worked
 # in-memory but never persisted to disk, so every app close forced a
 # fresh sign-in. We now write the session to a per-user DPAPI-encrypted
-# file under `%LOCALAPPDATA%\com.houston.app\auth\<key>.dpapi` instead.
+# file under `%LOCALAPPDATA%\com.nexo.app\auth\<key>.dpapi` instead.
 # DPAPI binds the ciphertext to the Windows user account so a copied
 # file is useless to another user. See `src/auth.rs` storage module.
 [target."cfg(target_os = \"windows\")".dependencies]

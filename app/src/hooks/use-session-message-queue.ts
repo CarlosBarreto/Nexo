@@ -1,4 +1,4 @@
-import type { QueuedChatMessage as QueuedChatMessageView } from "@houston-ai/chat";
+import type { QueuedChatMessage as QueuedChatMessageView } from "@nexo-ai/chat";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import {
   combineQueuedMessageFiles,

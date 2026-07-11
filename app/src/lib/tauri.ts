@@ -1,8 +1,8 @@
 /**
- * Houston backend adapter.
+ * Nexo backend adapter.
  *
  * Every domain call (workspaces, agents, chat, skills, store, sync, …) flows
- * through `@houston-ai/engine-client` to the `houston-engine` subprocess the
+ * through `@nexo-ai/engine-client` to the `houston-engine` subprocess the
  * Tauri supervisor spawned on startup (see `engine_supervisor.rs`).
  *
  * OS-native calls (`reveal_file`, `open_url`, `pick_directory`, terminal
@@ -20,7 +20,7 @@ import type {
   ImportedWorkspace,
   ProviderAuthState,
   StoreListing,
-} from "@houston-ai/engine-client";
+} from "@nexo-ai/engine-client";
 import { useProviderSwitchStore } from "../stores/provider-switch";
 import { shouldAutocompactForSession } from "./autocompact";
 import { COMPOSIO_ALREADY_CONNECTED_KIND } from "./composio-already-connected";
@@ -49,13 +49,13 @@ interface EngineCallOptions {
    *  user-initiated failures always reach crash reporting; set false only for
    *  genuinely fire-and-forget calls or ones with their own report path. */
   capture?: boolean;
-  /** Engine error `kind`s that are expected + explainable (not Houston bugs).
+  /** Engine error `kind`s that are expected + explainable (not Nexo bugs).
    *  Matching errors are logged but get NO red bug toast and NO Sentry report;
    *  the caller surfaces them inline. Use sparingly, only for kinds a user can
    *  understand and act on (e.g. the legacy Rust engine's typed
    *  `composio_login_timeout` / `composio_already_connected`). */
   silenceKinds?: string[];
-  /** Classifier for errors that are expected + explainable (not Houston bugs).
+  /** Classifier for errors that are expected + explainable (not Nexo bugs).
    *  A matching error is logged but gets NO red bug toast and NO Sentry report;
    *  the caller surfaces it inline. Use sparingly, only for failures a user can
    *  understand and act on (e.g. a skill that was renamed or removed). The TS
@@ -104,7 +104,7 @@ async function surfaceError(
   //    `kind` (e.g. `composio_login_timeout`, `composio_already_connected`).
   //  - `silence` — the TS host emits bare-string / status-only errors with no
   //    typed `kind`, so callers pass a predicate over the whole error (e.g.
-  //    `isMissingSkillError`, which reads the HoustonEngineError `.status`).
+  //    `isMissingSkillError`, which reads the NexoEngineError `.status`).
   const kind =
     err && typeof err === "object" && "kind" in err
       ? (err as { kind?: unknown }).kind
@@ -152,15 +152,15 @@ export const tauriWorkspaces = {
       getEngine().setWorkspaceLocale(id, locale),
     ),
   getContext: (id: string) =>
-    call<import("@houston-ai/engine-client").WorkspaceContext>(
+    call<import("@nexo-ai/engine-client").WorkspaceContext>(
       "get_workspace_context",
       () => getEngine().getWorkspaceContext(id),
     ),
   setContext: (
     id: string,
-    body: import("@houston-ai/engine-client").WorkspaceContext,
+    body: import("@nexo-ai/engine-client").WorkspaceContext,
   ) =>
-    call<import("@houston-ai/engine-client").WorkspaceContext>(
+    call<import("@nexo-ai/engine-client").WorkspaceContext>(
       "set_workspace_context",
       () => getEngine().setWorkspaceContext(id, body),
     ),
@@ -172,7 +172,7 @@ export interface CreateAgentResult {
   agent: Agent;
 }
 
-function toAgent(a: import("@houston-ai/engine-client").Agent): Agent {
+function toAgent(a: import("@nexo-ai/engine-client").Agent): Agent {
   return {
     id: a.id,
     name: a.name,
@@ -201,6 +201,7 @@ export const tauriAgents = {
     installedPath?: string,
     seeds?: Record<string, string>,
     existingPath?: string,
+    element?: string,
   ) =>
     call<CreateAgentResult>("create_agent", async () => {
       const r = await getEngine().createAgent(workspaceId, {
@@ -211,6 +212,7 @@ export const tauriAgents = {
         installedPath,
         seeds,
         existingPath,
+        element,
       });
       return {
         agent: toAgent(r.agent),
@@ -394,7 +396,7 @@ export const tauriSkills = {
       // installed (the host answers 404). That's expected — the Skills view
       // surfaces it inline and refreshes the list — so don't fire the red bug
       // toast or report it. Predicate form: the TS host's 404 carries no typed
-      // `kind`, so `isMissingSkillError` reads the HoustonEngineError `.status`.
+      // `kind`, so `isMissingSkillError` reads the NexoEngineError `.status`.
       { silence: isMissingSkillError },
     ),
   create: (
@@ -480,7 +482,7 @@ export const tauriConnections = {
         };
       },
       { toolkit },
-      // "Already connected" is an expected state, not a Houston bug: the
+      // "Already connected" is an expected state, not a Nexo bug: the
       // caller refreshes the connected-toolkits list so the card flips to
       // connected (HOU-463). Silence it so it gets no red bug toast and no
       // Sentry report — the prior over-reporting was the source of this issue.
@@ -662,7 +664,7 @@ export const tauriConversations = {
 };
 
 function conversationToRaw(
-  c: import("@houston-ai/engine-client").ConversationEntry,
+  c: import("@nexo-ai/engine-client").ConversationEntry,
 ): RawConversation {
   return {
     id: c.id,
@@ -685,7 +687,7 @@ function conversationToRaw(
 import type {
   NewRoutine as EngineNewRoutine,
   RoutineUpdate as EngineRoutineUpdate,
-} from "@houston-ai/engine-client";
+} from "@nexo-ai/engine-client";
 import * as activityData from "../data/activity";
 import * as configData from "../data/config";
 
@@ -975,7 +977,7 @@ export const tauriProvider = {
    * tab, stuck spinner). Kills the CLI subprocess on the engine and
    * frees the slot so the next `launchLogin` isn't rejected as
    * "already pending" — the user can retry immediately instead of
-   * restarting Houston (#237). Idempotent and benign: the engine emits
+   * restarting Nexo (#237). Idempotent and benign: the engine emits
    * a `ProviderLoginComplete` with `success: false` and no `error`, so
    * pending spinners clear without an error toast.
    */
@@ -1041,7 +1043,7 @@ export const tauriSystem = {
 
 // ─── Claude Code runtime installer ────────────────────────────────────
 
-import type { ClaudeStatus as EngineClaudeStatus } from "@houston-ai/engine-client";
+import type { ClaudeStatus as EngineClaudeStatus } from "@nexo-ai/engine-client";
 
 /** Mirror of the engine `ClaudeStatus` — re-exported so callers can
  *  import from `lib/tauri.ts` like the other engine DTOs. */
@@ -1051,7 +1053,7 @@ export type ClaudeStatus = EngineClaudeStatus;
  *
  *  Distinct from `tauriProvider`: provider-level concerns (auth, CLI
  *  spawn) sit on `tauriProvider`; the *install* of Anthropic's CLI is
- *  Houston-managed (we download it because the license forbids
+ *  Nexo-managed (we download it because the license forbids
  *  bundling) and exposed here so the onboarding card can show a
  *  specific "couldn't reach Anthropic — Retry" affordance — issue #231.
  */
@@ -1091,7 +1093,7 @@ export const tauriWatcher = {
 import type {
   PairingCode as EnginePairingCode,
   TunnelStatus as EngineTunnelStatus,
-} from "@houston-ai/engine-client";
+} from "@nexo-ai/engine-client";
 
 export const tauriTunnel = {
   status: () =>
@@ -1108,7 +1110,7 @@ export const tauriTunnel = {
 
 /**
  * Integrations (Composio, platform mode). The user never creates a provider
- * account — they only OAuth apps (Gmail, Slack…); Houston's platform key lives
+ * account — they only OAuth apps (Gmail, Slack…); Nexo's platform key lives
  * server-side. Host-only — these reach the v3 host's /v1/integrations routes;
  * the tab is gated to the control-plane build so they never run on the legacy
  * Rust wire. Types flow by inference.
@@ -1163,15 +1165,13 @@ export const tauriIntegrations = {
  */
 export const tauriOrg = {
   get: () => call("get_org", () => getEngine().getOrg()),
-  addMember: (
-    email: string,
-    role: import("@houston-ai/engine-client").OrgRole,
-  ) => call("add_org_member", () => getEngine().addOrgMember(email, role)),
+  addMember: (email: string, role: import("@nexo-ai/engine-client").OrgRole) =>
+    call("add_org_member", () => getEngine().addOrgMember(email, role)),
   removeMember: (userId: string) =>
     call("remove_org_member", () => getEngine().removeOrgMember(userId)),
   setMemberRole: (
     userId: string,
-    role: import("@houston-ai/engine-client").OrgRole,
+    role: import("@nexo-ai/engine-client").OrgRole,
   ) =>
     call("set_org_member_role", () =>
       getEngine().setOrgMemberRole(userId, role),

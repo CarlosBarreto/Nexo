@@ -1,21 +1,21 @@
-import { Button } from "@houston-ai/core";
+import { Button } from "@nexo-ai/core";
 import { type FormEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   normalizeEngineUrl,
   setEngineConnection,
 } from "../../lib/engine-connection";
-import { HoustonLogo } from "../shell/experience-card";
+import { NexoLogo } from "../shell/experience-card";
 
 /**
  * First-run engine-connection chooser (HOU-621). Shown by <ConnectionGate> in
  * the TS-engine build, before any engine gate, when the user has not yet chosen
- * whether Houston runs on this computer (the Tauri host sidecar) or connects to
+ * whether Nexo runs on this computer (the Tauri host sidecar) or connects to
  * a remote engine / gateway URL.
  *
  * Applying a choice persists it and reloads the webview so app/src/lib/engine.ts
  * re-runs at module load with the choice in hand — it configures the client
- * synchronously before any HoustonClient is constructed. This screen renders
+ * synchronously before any NexoClient is constructed. This screen renders
  * before the LanguageGate, so it reads the language i18n detected at boot.
  */
 export function ConnectionChooser() {
@@ -43,7 +43,7 @@ export function ConnectionChooser() {
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-background text-foreground px-6">
       <div className="flex flex-col items-center gap-6 max-w-sm w-full">
-        <HoustonLogo size={48} />
+        <NexoLogo size={48} className="text-primary" />
         {step === "mode" ? (
           <>
             <div className="text-center">

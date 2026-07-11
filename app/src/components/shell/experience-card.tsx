@@ -6,9 +6,9 @@ export {
   AgentAvatar,
   getAgentIcon,
   getAgentIconColor,
-  getHoustonLogo,
-  HoustonLogo,
+  getNexoLogo,
   isLightColor,
+  NexoLogo,
 } from "./agent-avatar";
 
 interface AgentCardProps {

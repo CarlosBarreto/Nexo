@@ -1,4 +1,4 @@
-// Routine types — mirrors Houston's new file-backed Routine model.
+// Routine types — mirrors Nexo's new file-backed Routine model.
 
 /**
  * Whether a routine's runs share one chat or each start a fresh one.

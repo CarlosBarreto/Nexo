@@ -55,7 +55,7 @@ fn launch_app(path: &Path) -> Result<(), String> {
         .arg("-n")
         .arg(path)
         .spawn()
-        .map_err(|e| format!("Failed to relaunch Houston: {e}"))?;
+        .map_err(|e| format!("Failed to relaunch Nexo: {e}"))?;
     Ok(())
 }
 
@@ -63,7 +63,7 @@ fn launch_app(path: &Path) -> Result<(), String> {
 fn launch_app(path: &Path) -> Result<(), String> {
     std::process::Command::new(path)
         .spawn()
-        .map_err(|e| format!("Failed to relaunch Houston: {e}"))?;
+        .map_err(|e| format!("Failed to relaunch Nexo: {e}"))?;
     Ok(())
 }
 
@@ -75,10 +75,10 @@ mod tests {
     #[test]
     #[cfg(target_os = "macos")]
     fn resolves_macos_bundle_from_executable_path() {
-        let exe = PathBuf::from("/Applications/Houston.app/Contents/MacOS/Houston");
+        let exe = PathBuf::from("/Applications/Nexo.app/Contents/MacOS/Nexo");
         assert_eq!(
             app_path_from_exe(&exe),
-            PathBuf::from("/Applications/Houston.app")
+            PathBuf::from("/Applications/Nexo.app")
         );
     }
 

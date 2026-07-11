@@ -17,7 +17,7 @@ interface FinishedMissionProps {
 
 /**
  * Onboarding finished: a quick celebration, then a fork — take the tour of
- * Houston or go connect more integrations. Either way the user lands in the app.
+ * Nexo or go connect more integrations. Either way the user lands in the app.
  */
 export function FinishedMission({
   onTour,

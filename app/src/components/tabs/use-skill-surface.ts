@@ -1,4 +1,4 @@
-import type { Skill } from "@houston-ai/skills";
+import type { Skill } from "@nexo-ai/skills";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";

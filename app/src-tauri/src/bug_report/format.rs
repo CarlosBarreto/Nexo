@@ -12,15 +12,15 @@ pub(super) fn format_issue_title(payload: &BugReportPayload) -> String {
         .map(collapse_whitespace)
         .filter(|s| !s.is_empty())
     {
-        return truncate_chars(&format!("Houston feedback: {message}"), 140);
+        return truncate_chars(&format!("Nexo feedback: {message}"), 140);
     }
 
     let command = collapse_whitespace(&payload.command);
     let summary = collapse_whitespace(payload.error.lines().next().unwrap_or(""));
     if summary.is_empty() {
-        truncate_chars(&format!("Houston bug: {command}"), 140)
+        truncate_chars(&format!("Nexo bug: {command}"), 140)
     } else {
-        truncate_chars(&format!("Houston bug: {command} - {summary}"), 140)
+        truncate_chars(&format!("Nexo bug: {command} - {summary}"), 140)
     }
 }
 
@@ -145,7 +145,7 @@ mod tests {
         let payload = sample_payload();
         assert_eq!(
             format_issue_title(&payload),
-            "Houston bug: list_workspaces - Error: no workspace found"
+            "Nexo bug: list_workspaces - Error: no workspace found"
         );
     }
 
@@ -175,7 +175,7 @@ mod tests {
         let title = format_issue_title(&payload);
         assert_eq!(
             title,
-            "Houston feedback: The chat froze when I asked about taxes"
+            "Nexo feedback: The chat froze when I asked about taxes"
         );
     }
 
@@ -201,6 +201,6 @@ mod tests {
         let title = format_issue_title(&payload);
         // Whitespace-only message is treated as absent; we use the
         // command + error summary path instead.
-        assert!(title.starts_with("Houston bug:"));
+        assert!(title.starts_with("Nexo bug:"));
     }
 }

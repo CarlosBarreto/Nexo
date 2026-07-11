@@ -1,10 +1,10 @@
-// Pure helpers for Houston's Sentry transport + delivery confirmation.
+// Pure helpers for Nexo's Sentry transport + delivery confirmation.
 //
 // Imported BOTH by the browser Sentry init (lib/sentry.ts) and by the Node
 // test runner, so this module stays dependency-free: no @sentry/browser, no
 // DOM. Only structural types + plain logic.
 //
-// Why delivery confirmation: Houston sends renderer events straight to Sentry
+// Why delivery confirmation: Nexo sends renderer events straight to Sentry
 // over HTTP (@sentry/browser's fetch transport). lib/sentry.ts wraps that
 // transport so each send's real HTTP outcome is recorded per event id, and
 // only surfaces an event id (the green "report sent" toast) once Sentry has

@@ -1,4 +1,4 @@
-import { Spinner } from "@houston-ai/core";
+import { Spinner } from "@nexo-ai/core";
 import { Suspense } from "react";
 import { STANDARD_TABS } from "../../agents/standard-tabs";
 import { resolveTabComponent } from "../../agents/tab-resolver";

@@ -2,7 +2,7 @@ import type {
   SkillContract,
   SkillFieldSpec,
   SkillFieldType,
-} from "@houston/protocol";
+} from "@nexo/protocol";
 import { parse as parseToml } from "smol-toml";
 import { skillDirKey } from "./skills";
 import type { DocDiagnostic, TextStore } from "./store";
@@ -135,6 +135,23 @@ export function parseSkillContract(
     input: input.fields,
     output: output.fields,
   };
+
+  if (raw.judge !== undefined) {
+    if (!isRecord(raw.judge)) return { error: "[judge] is not a table" };
+    if (typeof raw.judge.enabled !== "boolean")
+      return { error: "judge.enabled must be a boolean" };
+    if (
+      raw.judge.criteria !== undefined &&
+      typeof raw.judge.criteria !== "string"
+    )
+      return { error: "judge.criteria must be a string" };
+    contract.judge = {
+      enabled: raw.judge.enabled,
+      ...(typeof raw.judge.criteria === "string"
+        ? { criteria: raw.judge.criteria }
+        : {}),
+    };
+  }
 
   if (raw.security !== undefined) {
     if (!isRecord(raw.security)) return { error: "[security] is not a table" };

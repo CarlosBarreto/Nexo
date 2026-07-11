@@ -4,7 +4,7 @@
  * Visual: dense one-line rows so a long history scans quickly. Surfaced runs
  * get a "View" affordance that links back to the activity board.
  */
-import { Button, cn } from "@houston-ai/core";
+import { Button, cn } from "@nexo-ai/core";
 import { ArrowUpRight, PauseCircle, Square } from "lucide-react";
 import {
   DEFAULT_RUN_HISTORY_LABELS,

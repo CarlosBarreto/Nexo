@@ -1,4 +1,4 @@
-import { type FileEntry, FilesBrowser } from "@houston-ai/agent";
+import { type FileEntry, FilesBrowser } from "@nexo-ai/agent";
 import { isTauri } from "@tauri-apps/api/core";
 import { FolderOpen } from "lucide-react";
 import { useState } from "react";

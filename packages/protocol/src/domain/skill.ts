@@ -68,9 +68,17 @@ export interface SkillSecuritySpec {
   timeoutSeconds?: number;
 }
 
+export interface SkillJudgeSpec {
+  /** Evaluate the skill's outcome with a second LLM pass when a run record exists. */
+  enabled: boolean;
+  /** Extra evaluation criteria; the skill's description is always the base intent. */
+  criteria?: string;
+}
+
 export interface SkillContract {
   skill: { name: string; description?: string; version?: string };
   input: Record<string, SkillFieldSpec>;
   output: Record<string, SkillFieldSpec>;
   security?: SkillSecuritySpec;
+  judge?: SkillJudgeSpec;
 }

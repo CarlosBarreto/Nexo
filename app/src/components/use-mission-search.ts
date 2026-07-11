@@ -1,5 +1,5 @@
-import type { KanbanItem } from "@houston-ai/board";
-import type { FeedItem } from "@houston-ai/chat";
+import type { KanbanItem } from "@nexo-ai/board";
+import type { FeedItem } from "@nexo-ai/chat";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { matchesPhrase } from "./mission-highlight";
 import {

@@ -1,6 +1,6 @@
 /** `.houston/config/config.json` — per-agent provider/model config. */
 
-import schema from "@houston-ai/agent-schemas/config.schema.json";
+import schema from "@nexo-ai/agent-schemas/config.schema.json";
 import { readAgentJson, writeAgentJson } from "./agent-file";
 
 export interface Config {

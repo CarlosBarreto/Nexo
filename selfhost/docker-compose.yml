@@ -50,7 +50,7 @@ services:
       HOUSTON_DOMAIN: "${HOUSTON_DOMAIN:?set HOUSTON_DOMAIN in .env (the public hostname for this VPS)}"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      # Optional: drop a `pnpm --filter houston-web build` dist here to serve the
+      # Optional: drop a `pnpm --filter nexo-web build` dist here to serve the
       # web app from the same domain (see README "Frontend"). Safe to leave empty.
       - ./web:/srv:ro
       - caddy-data:/data # persisted certs — don't lose this or you re-issue on every boot

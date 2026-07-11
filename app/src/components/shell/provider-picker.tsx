@@ -1,11 +1,11 @@
-import type { HoustonEvent } from "@houston-ai/core";
-import { ConfirmDialog, Spinner } from "@houston-ai/core";
+import type { NexoEvent } from "@nexo-ai/core";
+import { ConfirmDialog, Spinner } from "@nexo-ai/core";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useCapabilities } from "../../hooks/use-capabilities";
 import { analytics } from "../../lib/analytics";
 import { newEngineActive } from "../../lib/engine";
-import { subscribeHoustonEvents } from "../../lib/events";
+import { subscribeNexoEvents } from "../../lib/events";
 import { osIsTauri } from "../../lib/os-bridge";
 import {
   COMING_SOON_PROVIDERS,
@@ -153,7 +153,7 @@ export function ProviderPicker({ onSelect }: Props) {
   // setState avoids stale-closure reads when several providers fire
   // events concurrently.
   useEffect(() => {
-    const off = subscribeHoustonEvents((ev: HoustonEvent) => {
+    const off = subscribeNexoEvents((ev: NexoEvent) => {
       if (ev.type === "ProviderLoginUrl") {
         // Resolve the display name from the connect list first so the merged
         // OpenCode account toasts as "OpenCode", not its primary gateway's

@@ -23,15 +23,15 @@ import {
   colorHex,
   Dialog,
   DialogContent,
-  HoustonAvatar,
   Input,
+  NexoAvatar,
   resolveAgentColor,
   Switch,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import type {
   PortableScanResponse,
   PortableUploadPreviewResponse,
-} from "@houston-ai/engine-client";
+} from "@nexo-ai/engine-client";
 import { invoke } from "@tauri-apps/api/core";
 import { Check } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -497,7 +497,7 @@ function NameStep({
   return (
     <div className="flex flex-col items-center justify-center min-h-full px-6 py-12">
       <div className="flex flex-col items-center gap-4 mb-8">
-        <HoustonAvatar color={resolvedColor} diameter={80} />
+        <NexoAvatar color={resolvedColor} diameter={80} />
         <div className="text-center">
           <p className="text-lg font-semibold">
             {name.trim() || t("import.step2.placeholderName")}

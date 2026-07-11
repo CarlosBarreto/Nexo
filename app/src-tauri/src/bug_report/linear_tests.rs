@@ -66,7 +66,7 @@ async fn send_bug_report_posts_linear_issue_create_mutation() {
     assert!(joined.contains("\"teamId\":\"team-id\""));
     assert!(joined.contains("\"labelIds\":[\"label-id\"]"));
     assert!(
-        joined.contains("\"title\":\"Houston bug: list_workspaces - Error: no workspace found\"")
+        joined.contains("\"title\":\"Nexo bug: list_workspaces - Error: no workspace found\"")
     );
 }
 

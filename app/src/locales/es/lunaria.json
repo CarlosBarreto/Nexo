@@ -1,0 +1,24 @@
+{
+  "intro": {
+    "eyebrow": "Mito de Creación",
+    "title": "LUNARIA",
+    "lore": [
+      "Antes del mundo existía el Velo de la Posibilidad.",
+      "Cuatro fuerzas se encontraron: Fuego, Agua, Tierra y Aire.",
+      "Del equilibrio nació la isla de Lunaria.",
+      "En ella despertaron los primeros Axies, cada uno con un SOUL único.",
+      "Cada nacimiento es un eco del mito. Una identidad irrepetible."
+    ],
+    "pressStart": "PRESS START",
+    "hint": "pulsa cualquier tecla para entrar",
+    "booting": "DESPERTANDO LUNARIA...",
+    "ariaLabel": "Intro de Lunaria. Presiona start para entrar a Nexo."
+  },
+  "elements": {
+    "fire": "Llama",
+    "water": "Mareas",
+    "earth": "Raíces",
+    "air": "Viento",
+    "system": "Sistema"
+  }
+}

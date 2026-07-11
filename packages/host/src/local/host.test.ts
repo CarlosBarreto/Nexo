@@ -2,7 +2,7 @@ import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { createServer } from "node:net";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { Capabilities, Workspace } from "@houston/protocol";
+import type { Capabilities, Workspace } from "@nexo/protocol";
 import { expect, test } from "vitest";
 import { MANAGED_CLOUD_CAPABILITIES } from "../capabilities";
 import type { Agent } from "../domain/types";

@@ -1,4 +1,4 @@
-import type { KanbanItem } from "@houston-ai/board";
+import type { KanbanItem } from "@nexo-ai/board";
 
 type MissionControlSessionItem = Pick<KanbanItem, "id" | "metadata">;
 

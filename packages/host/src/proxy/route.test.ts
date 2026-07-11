@@ -37,7 +37,7 @@ async function readBody(req: IncomingMessage): Promise<string> {
   return Buffer.concat(chunks).toString("utf8");
 }
 
-// The exact bytes a Houston runtime's SSE stream produces: a comment heartbeat,
+// The exact bytes a Nexo runtime's SSE stream produces: a comment heartbeat,
 // a `sync` frame, and a `text` frame. The proxy must deliver these verbatim.
 const SSE_PAYLOAD =
   ": heartbeat\n\n" +

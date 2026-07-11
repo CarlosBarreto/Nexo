@@ -1,4 +1,4 @@
-import { Button, ConfirmDialog } from "@houston-ai/core";
+import { Button, ConfirmDialog } from "@nexo-ai/core";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAgentStore } from "../../../stores/agents";

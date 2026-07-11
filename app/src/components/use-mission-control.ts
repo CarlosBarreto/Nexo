@@ -1,10 +1,12 @@
-import type { KanbanItem } from "@houston-ai/board";
-import type { FeedItem } from "@houston-ai/chat";
-import { mergeFeedHistory, messagePreviewText } from "@houston-ai/chat";
+import type { KanbanItem } from "@nexo-ai/board";
+import type { FeedItem } from "@nexo-ai/chat";
+import { mergeFeedHistory, messagePreviewText } from "@nexo-ai/chat";
+import { elementKey, resolveElementColor } from "@nexo-ai/core";
 import { useQueryClient } from "@tanstack/react-query";
 import { createElement, useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAllConversations } from "../hooks/queries";
+import { useSouls } from "../hooks/queries/use-souls";
 import { buildAttachmentPrompt } from "../lib/attachment-message";
 import { createMission } from "../lib/create-mission";
 import { missionCardTags } from "../lib/mission-card";
@@ -24,7 +26,7 @@ import { resolveActivityOverride } from "./mission-control-send";
 import { AgentCardAvatar } from "./shell/agent-card-avatar";
 
 export function useMissionControl(agents: Agent[]) {
-  const { t } = useTranslation(["chat", "board"]);
+  const { t } = useTranslation(["chat", "board", "lunaria"]);
   const queryClient = useQueryClient();
   const addToast = useUIStore((s) => s.addToast);
   const getAgentDef = useAgentCatalogStore((s) => s.getById);
@@ -73,6 +75,10 @@ export function useMissionControl(agents: Agent[]) {
     for (const a of agents) m[a.folderPath] = a;
     return m;
   }, [agents]);
+  // Souls carry the forged element that drives the card's Lunaria identity
+  // (avatar tint, accent pill, comet colour). Unforged agents resolve to null
+  // and fall back to their user-picked colour with no element pill.
+  const souls = useSouls(agents);
 
   const items: KanbanItem[] = useMemo(() => {
     if (!convos) return [];
@@ -92,6 +98,9 @@ export function useMissionControl(agents: Agent[]) {
         const agentModes = agent
           ? getAgentDef(agent.configId)?.config.agents
           : undefined;
+        const element = agent
+          ? (souls[agent.id]?.element ?? undefined)
+          : undefined;
         map[c.id] = c.agent_path;
         sessionMap[c.session_key] = {
           agentPath: c.agent_path,
@@ -106,7 +115,16 @@ export function useMissionControl(agents: Agent[]) {
           group: c.agent_name,
           icon: createElement(AgentCardAvatar, {
             color: agentColorMap[c.agent_path],
+            element,
           }),
+          // Lunaria identity: forged element tints the comet + colours the pill;
+          // unforged agents carry neither (the avatar keeps its user colour).
+          ...(element
+            ? {
+                accent: resolveElementColor(element),
+                accentLabel: t(`lunaria:elements.${elementKey(element)}`),
+              }
+            : {}),
           status: c.status ?? "",
           updatedAt: c.updated_at ?? new Date().toISOString(),
           tags: missionCardTags({
@@ -127,7 +145,7 @@ export function useMissionControl(agents: Agent[]) {
     pathMapRef.current = map;
     sessionMapRef.current = sessionMap;
     return result;
-  }, [convos, agentColorMap, agentMap, getAgentDef, t]);
+  }, [convos, agentColorMap, agentMap, souls, getAgentDef, t]);
 
   const loadHistory = useCallback(
     async (sessionKey: string): Promise<FeedItem[]> => {

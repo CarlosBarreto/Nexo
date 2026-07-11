@@ -1,9 +1,9 @@
-import type { FeedItem } from "@houston-ai/chat";
-import type { HoustonEvent } from "@houston-ai/core";
+import type { FeedItem } from "@nexo-ai/chat";
+import type { NexoEvent } from "@nexo-ai/core";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { hasToolRuntimeError } from "../components/tool-runtime-feed";
-import { listenOsEvent, subscribeHoustonEvents } from "../lib/events";
+import { listenOsEvent, subscribeNexoEvents } from "../lib/events";
 import { logger } from "../lib/logger";
 import {
   resolveNotificationTarget,
@@ -60,7 +60,7 @@ export function useSessionEvents() {
       Notification.requestPermission();
     }
 
-    const unlisten = subscribeHoustonEvents((payload: HoustonEvent) => {
+    const unlisten = subscribeNexoEvents((payload: NexoEvent) => {
       const h = handlersRef.current;
 
       switch (payload.type) {
@@ -118,7 +118,7 @@ export function useSessionEvents() {
           }
           if (status === "completed") {
             const workspace = h.getWorkspace();
-            const workspaceName = workspace?.name ?? "Houston";
+            const workspaceName = workspace?.name ?? "Nexo";
 
             // Activity status flip (→ "needs_you") is owned by the
             // engine now — `sessions::start` spawns a task that writes
@@ -178,7 +178,7 @@ export function useSessionEvents() {
     // notification clicks navigate via the `app-activated` / focus path below
     // (macOS: OS app-activation on click; Linux/Windows: the Rust command in
     // notification.rs raises the window and emits `app-activated`). Kept for
-    // when Houston ships a mobile shell.
+    // when Nexo ships a mobile shell.
     let unlistenNotificationAction: (() => void) | undefined;
     import("@tauri-apps/plugin-notification").then(({ onAction }) => {
       onAction((action) => {
@@ -209,7 +209,7 @@ export function useSessionEvents() {
     //    desktop click event and a click is indistinguishable from activation.
     //    On Linux/Windows a real click arrives as the distinct
     //    `notification-clicked` event below, so navigating here would yank the
-    //    user back to a finished mission whenever they refocus Houston for any
+    //    user back to a finished mission whenever they refocus Nexo for any
     //    reason — the bug we're fixing.
     //  - Agent-list refresh: always, so external changes (e.g. Finder delete)
     //    are picked up when the window comes forward.

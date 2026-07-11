@@ -1,10 +1,10 @@
-import type { CredentialVault, TokenVerifier } from "@houston/host/src/ports";
+import type { CredentialVault, TokenVerifier } from "@nexo/host/src/ports";
 import {
   type ControlPlaneDeps,
   createControlPlaneServer,
-} from "@houston/host/src/server";
-import { MemoryWorkspaceStore } from "@houston/host/src/store/memory";
-import type { Capabilities } from "@houston/protocol";
+} from "@nexo/host/src/server";
+import { MemoryWorkspaceStore } from "@nexo/host/src/store/memory";
+import type { Capabilities } from "@nexo/protocol";
 import { expect, test } from "vitest";
 import type { AutopilotRates } from "../admin/billing";
 import { FakeClusterReader } from "../admin/cluster";
@@ -14,7 +14,7 @@ import { type AdminDeps, handleAdmin } from "./admin";
 /**
  * The operator dashboard (`/admin/*`) end-to-end through the CLOSED admin surface,
  * injected into the OPEN host server via the `mountAdmin` seam — exactly how the
- * cloud entry point (`@houston/host-cloud` main.ts) wires it. The open server's
+ * cloud entry point (`@nexo/host-cloud` main.ts) wires it. The open server's
  * own server.test.ts only proves the seam is absent by default (`/admin/*` 404s);
  * the full 403/200/billing/405 behavior is here, where the closed `handleAdmin`
  * + `FakeClusterReader` + `AdminDeps` live.

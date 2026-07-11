@@ -1,5 +1,5 @@
-import type { RoutineFormData } from "@houston-ai/routines";
-import { RoutineEditor, RoutinesGrid } from "@houston-ai/routines";
+import type { RoutineFormData } from "@nexo-ai/routines";
+import { RoutineEditor, RoutinesGrid } from "@nexo-ai/routines";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {

@@ -15,7 +15,7 @@ fn main() {
     //                       first; CI wires that into the release workflow.
     //                       Missing → warn, don't fail (dev builds resolve it at
     //                       runtime, and host/cutover dev mode skips spawning it).
-    //   - `host-sidecar` → the Bun-compiled Houston host, staged from
+    //   - `host-sidecar` → the Bun-compiled Nexo host, staged from
     //                       `target/host-sidecar/houston-host-<triple>`.
     //                       Missing → FAIL: a host-sidecar build with no host
     //                       ships a non-functional app (no runtime fallback).
@@ -227,7 +227,7 @@ fn stage_engine_sidecar() -> Result<(), String> {
         }
         None => {
             // The Rust engine isn't built — the single-engine cutover dev loop
-            // runs the desktop against the external Houston host and never
+            // runs the desktop against the external Nexo host and never
             // spawns this sidecar (see lib.rs host_mode). Tauri's externalBin
             // bundling still requires the file to exist, so stage a harmless
             // placeholder. Host mode skips spawning it; a real Rust build would
@@ -258,7 +258,7 @@ fn stage_engine_sidecar() -> Result<(), String> {
     Ok(())
 }
 
-/// Stage the Bun-compiled Houston host (the `host-sidecar` feature path) as the
+/// Stage the Bun-compiled Nexo host (the `host-sidecar` feature path) as the
 /// Tauri externalBin `binaries/houston-engine-<triple>`.
 ///
 /// Source: `target/host-sidecar/houston-host-<triple>[.exe]`, produced by

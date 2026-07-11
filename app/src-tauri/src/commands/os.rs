@@ -1,7 +1,7 @@
 //! OS-native commands — kept in the Tauri adapter because they only make
 //! sense on the user's local machine.
 //!
-//! The engine may run on a remote VPS for Houston Always On / Teams /
+//! The engine may run on a remote VPS for Nexo Always On / Teams /
 //! Cloud; these commands (folder picker, file-manager reveal, URL open, terminal
 //! launch, local CLI probes) would be meaningless there and stay
 //! desktop-only.

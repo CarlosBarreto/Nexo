@@ -1,4 +1,4 @@
-import { SkillDetailPage } from "@houston-ai/skills";
+import { SkillDetailPage } from "@nexo-ai/skills";
 import { Brain, FileText, LibraryBig, Settings } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";

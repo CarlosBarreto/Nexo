@@ -15,7 +15,7 @@
     "cancel": "Cancel"
   },
   "setup": {
-    "installHint": "Install the {{cli}} CLI on your machine. Houston will pick it up automatically.",
+    "installHint": "Install the {{cli}} CLI on your machine. Nexo will pick it up automatically.",
     "installGuide": "Install guide",
     "signInWith": "Sign in",
     "waiting": "Waiting for the sign-in to finish in your browser...",
@@ -24,7 +24,7 @@
   },
   "signOutConfirm": {
     "title": "Sign out of {{provider}}?",
-    "description": "Houston will stop using {{provider}} until you sign in again. Existing missions can still finish their current turn.",
+    "description": "Nexo will stop using {{provider}} until you sign in again. Existing missions can still finish their current turn.",
     "confirm": "Sign out",
     "cancel": "Cancel"
   },
@@ -60,7 +60,7 @@
   },
   "apiKey": {
     "title": "Connect {{name}}",
-    "description": "Paste your {{name}} API key. Houston keeps it safe and uses it for your chats.",
+    "description": "Paste your {{name}} API key. Nexo keeps it safe and uses it for your chats.",
     "getKey": "Get your API key",
     "label": "API key",
     "placeholder": "Paste your API key",
@@ -86,7 +86,7 @@
   },
   "openaiCompatible": {
     "title": "Connect a local model",
-    "description": "Point Houston at a model running on your computer, like Ollama, LM Studio or vLLM.",
+    "description": "Point Nexo at a model running on your computer, like Ollama, LM Studio or vLLM.",
     "baseUrlLabel": "Server address",
     "baseUrlPlaceholder": "http://localhost:11434/v1",
     "baseUrlHelp": "The address where your local server is listening. For Ollama this is usually http://localhost:11434/v1.",

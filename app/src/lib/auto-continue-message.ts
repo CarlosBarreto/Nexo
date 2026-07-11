@@ -1,5 +1,5 @@
 /**
- * A "continue the task" message Houston sends to the agent on the user's
+ * A "continue the task" message Nexo sends to the agent on the user's
  * behalf when something completes out-of-band and the agent should resume
  * without the user retyping.
  *
@@ -14,7 +14,7 @@
  * verbatim (that is how Skill cards survive a reload), so the same filter
  * applies to the optimistic path AND to the message replayed on reload.
  */
-import type { FeedItem } from "@houston-ai/chat";
+import type { FeedItem } from "@nexo-ai/chat";
 
 const AUTO_CONTINUE_MARKER = "<!--houston:auto_continue-->";
 
@@ -23,7 +23,7 @@ export function encodeAutoContinueMessage(text: string): string {
   return `${AUTO_CONTINUE_MARKER}\n\n${text}`;
 }
 
-/** True for a message Houston auto-sent to resume a task. */
+/** True for a message Nexo auto-sent to resume a task. */
 export function isAutoContinueMessage(content: string): boolean {
   return content.startsWith(AUTO_CONTINUE_MARKER);
 }

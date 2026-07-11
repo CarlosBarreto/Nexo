@@ -36,8 +36,8 @@ export default defineConfig(({ mode }) => {
   const authStorageMode = resolveAuthStorageMode(mode, env);
   // Cutover: when VITE_NEW_ENGINE_URL (or VITE_NEW_ENGINE=1) is set, swap the
   // engine client for the new-engine adapter so the desktop UI runs on the v3
-  // Houston host instead of the Rust engine. Mirrors packages/web. Unset → the
-  // real @houston-ai/engine-client (v1 → Rust engine) is untouched.
+  // Nexo host instead of the Rust engine. Mirrors packages/web. Unset → the
+  // real @nexo-ai/engine-client (v1 → Rust engine) is untouched.
   const useHost =
     Boolean(env.VITE_NEW_ENGINE_URL) ||
     Boolean(env.VITE_HOSTED_ENGINE_URL) ||
@@ -49,7 +49,7 @@ export default defineConfig(({ mode }) => {
       alias: useHost
         ? [
             {
-              find: "@houston-ai/engine-client",
+              find: "@nexo-ai/engine-client",
               replacement: path.resolve(
                 __dirname,
                 "../packages/web/src/engine-adapter/index.ts",
@@ -92,15 +92,15 @@ export default defineConfig(({ mode }) => {
     // are picked up immediately without stale cache issues.
     optimizeDeps: {
       exclude: [
-        "@houston-ai/chat",
-        "@houston-ai/core",
-        "@houston-ai/board",
-        "@houston-ai/layout",
-        "@houston-ai/events",
-        "@houston-ai/routines",
-        "@houston-ai/skills",
-        "@houston-ai/review",
-        "@houston-ai/agent",
+        "@nexo-ai/chat",
+        "@nexo-ai/core",
+        "@nexo-ai/board",
+        "@nexo-ai/layout",
+        "@nexo-ai/events",
+        "@nexo-ai/routines",
+        "@nexo-ai/skills",
+        "@nexo-ai/review",
+        "@nexo-ai/agent",
       ],
     },
     server: {

@@ -1,5 +1,5 @@
 {
-  "name": "@houston-ai/engine-client",
+  "name": "@nexo-ai/engine-client",
   "version": "0.4.0",
   "description": "TypeScript client for the Houston Engine HTTP+WS protocol. Consumed by the desktop app, mobile app, and third-party integrators.",
   "type": "module",

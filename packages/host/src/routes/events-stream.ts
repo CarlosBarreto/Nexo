@@ -8,7 +8,7 @@ const HEARTBEAT_MS = 15_000;
 /**
  * Open the global event stream for a user (SSE). Long-lived: it does not resolve
  * until the client disconnects. Strictly scoped to `userId` — a tenant receives
- * only their own agents' change events. Each frame is `data: <HoustonEvent JSON>`.
+ * only their own agents' change events. Each frame is `data: <NexoEvent JSON>`.
  */
 export function handleEventStream(
   hub: EventHub,

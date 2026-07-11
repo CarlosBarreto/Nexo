@@ -37,7 +37,7 @@ async fn save_dialog(default_name: &str) -> Result<Option<String>, String> {
 Add-Type -AssemblyName System.Windows.Forms | Out-Null
 $dlg = New-Object System.Windows.Forms.SaveFileDialog
 $dlg.FileName = "{default_name}"
-$dlg.Filter = "Houston Agent (*.houstonagent)|*.houstonagent"
+$dlg.Filter = "Nexo Agent (*.houstonagent)|*.houstonagent"
 if ($dlg.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) {{
     Write-Output $dlg.FileName
 }}
@@ -75,7 +75,7 @@ async fn open_dialog() -> Result<Option<String>, String> {
     let script = r#"
 Add-Type -AssemblyName System.Windows.Forms | Out-Null
 $dlg = New-Object System.Windows.Forms.OpenFileDialog
-$dlg.Filter = "Houston Agent (*.houstonagent)|*.houstonagent|All files (*.*)|*.*"
+$dlg.Filter = "Nexo Agent (*.houstonagent)|*.houstonagent|All files (*.*)|*.*"
 if ($dlg.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) {
     Write-Output $dlg.FileName
 }

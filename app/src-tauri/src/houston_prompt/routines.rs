@@ -1,7 +1,7 @@
 /// Routines guidance: scheduled or recurring agent behavior.
 pub const ROUTINES_GUIDANCE: &str = r#"## How-To Guidance: Routines
 
-Routines are scheduled work Houston runs later. If the user asks for repeated automatic work, recurring work, scheduled work, daily, weekly, monthly, a specific future time/date, reminder, monitoring, check-in, or explicitly says "routine", create or update a Houston Routine.
+Routines are scheduled work Nexo runs later. If the user asks for repeated automatic work, recurring work, scheduled work, daily, weekly, monthly, a specific future time/date, reminder, monitoring, check-in, or explicitly says "routine", create or update a Nexo Routine.
 
 Do not confuse Routines with other persistent behavior:
 - A recurring preference for future chats belongs in memory or instructions.

@@ -20,7 +20,7 @@ describe("composio already-connected classifier (HOU-463)", () => {
     );
   });
 
-  it("recognizes an error exposing kind via a getter (HoustonEngineError shape)", () => {
+  it("recognizes an error exposing kind via a getter (NexoEngineError shape)", () => {
     const err = new Error("gmail is already connected. Disconnect it first...");
     Object.defineProperty(err, "kind", {
       get: () => "composio_already_connected",

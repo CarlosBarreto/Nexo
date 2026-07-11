@@ -1,11 +1,11 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { ensureSoul, loadRoutines, seedSchemas } from "@houston/domain";
+import { ensureSoul, loadRoutines, seedSchemas } from "@nexo/domain";
 import {
   type Capabilities,
   type CustomEndpoint,
-  type HoustonEvent,
   isSoulElement,
-} from "@houston/protocol";
+  type NexoEvent,
+} from "@nexo/protocol";
 import { canUseAgent } from "../domain/access";
 import type {
   Agent,
@@ -25,6 +25,7 @@ import type { Vfs } from "../vfs";
 import { handleAgentData } from "./agent-data";
 import { handleAgentFile } from "./agent-file";
 import { json, readJson } from "./http";
+import { handleMemory } from "./memory";
 import { handlePortableExport } from "./portable";
 import { handleSkills } from "./skills";
 import { handleSoul } from "./soul";
@@ -475,7 +476,7 @@ export async function handleAgents(
     const ctx = { workspace: authz.workspace, agent: authz.agent };
     // Reactivity emits target the workspace owner (the only member, personal tier).
     const emit = deps.events
-      ? (event: HoustonEvent) =>
+      ? (event: NexoEvent) =>
           deps.events?.emit(authz.workspace.ownerUserId, event)
       : undefined;
 
@@ -503,6 +504,20 @@ export async function handleAgents(
     if (await handleSkills(deps.vfs, paths, ctx, method, rest, req, res, emit))
       return true;
     if (await handleSoul(deps.vfs, paths, ctx, method, rest, req, res))
+      return true;
+    if (
+      await handleMemory(
+        deps.vfs,
+        paths,
+        ctx,
+        method,
+        rest,
+        req,
+        res,
+        url.searchParams,
+        emit,
+      )
+    )
       return true;
     // The Files tab: served by the HOST off the workspace vfs for every profile
     // (the runtime has no /files route). Same handler cloud + local — zero drift.

@@ -1,4 +1,4 @@
-import { Spinner } from "@houston-ai/core";
+import { Spinner } from "@nexo-ai/core";
 import { humanizeSkillName } from "../lib/humanize-skill-name";
 import type { SkillSummary } from "../lib/types";
 import { SkillCard } from "./skill-card";

@@ -13,7 +13,7 @@ import { MemoryCredentialStore } from "./store";
  * The OPEN CredentialStore adapters (Memory + File) run through the shared
  * contract (../testing/credential-contract.ts → runCredentialStoreContract). The
  * CLOSED PgCredentialStore runs the SAME contract over an in-process Postgres
- * (pg-mem) in `@houston/host-cloud` (credentials/store-pg.contract.test.ts) — the
+ * (pg-mem) in `@nexo/host-cloud` (credentials/store-pg.contract.test.ts) — the
  * contract function lives on the open side of the seam; only the adapters differ.
  */
 

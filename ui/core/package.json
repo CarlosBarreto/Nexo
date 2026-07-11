@@ -1,5 +1,5 @@
 {
-  "name": "@houston-ai/core",
+  "name": "@nexo-ai/core",
   "version": "0.4.26",
   "type": "module",
   "main": "src/index.ts",

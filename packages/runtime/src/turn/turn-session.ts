@@ -8,14 +8,16 @@ import {
   SessionManager,
 } from "@earendil-works/pi-coding-agent";
 import type {
+  LoopStats,
   ProviderError,
   TokenUsage,
   ToolCallRecord,
   WireEvent,
-} from "@houston/runtime-client";
+} from "@nexo/runtime-client";
 import { DEFAULT_REASONING_EFFORT, toThinkingLevel } from "../ai/effort";
 import { providerDefaultModel, safeGetModel } from "../ai/providers";
 import { config } from "../config";
+import { LoopStatsAccumulator } from "../session/loop-stats";
 import { makeAgentLoader } from "../session/resource-loader";
 import { buildToolSelection } from "../session/tool-selection";
 import { makeClampedFileTools } from "../session/tools/clamped-fs";
@@ -168,7 +170,10 @@ export async function runPiTurn(
       ],
     });
 
+    const loopStats = new LoopStatsAccumulator();
     const unsub = session.subscribe((e: AgentSessionEvent) => {
+      // Raw-event observation BEFORE toWire's filter (steps = pi turn_starts).
+      loopStats.observe(e);
       const wire = toWire(e);
       if (!wire) return;
       if (wire.type === "text") assistantText += wire.data;
@@ -182,11 +187,16 @@ export async function runPiTurn(
     });
     const onAbort = () => void session.abort();
     signal?.addEventListener("abort", onAbort, { once: true });
+    let stats: LoopStats;
     try {
       await session.prompt(text);
     } finally {
       signal?.removeEventListener("abort", onAbort);
       unsub();
+      // Emitted before the per-turn server's trailing terminal frame, matching
+      // chat.ts's placement (before done / after provider_error).
+      stats = loopStats.finish(tools);
+      emit({ type: "loop_stats", data: stats });
     }
     // Persist the turn's assistant message with any typed provider error so the
     // inline card survives a reload of this cloud conversation. The provider_error
@@ -202,6 +212,7 @@ export async function runPiTurn(
       usage,
       undefined,
       providerError,
+      stats,
     );
     return {};
   } catch (err) {

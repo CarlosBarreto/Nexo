@@ -20,7 +20,7 @@
 //!   when the parent's pipe write-end closes on death. On **Windows that
 //!   does not work**: `TerminateProcess` (force-quit, crash, Task Manager
 //!   "End task") never delivers stdin EOF to the child, so the watchdog
-//!   blocks forever and the engine orphaned (gethouston/houston#306).
+//!   blocks forever and the engine orphaned (getnexo/nexo#306).
 //!   Windows instead binds the engine to a kill-on-close **Job Object**
 //!   (see the `win_job` module): when the app process dies the OS closes the job
 //!   handle and the kernel terminates the engine and every process it
@@ -134,7 +134,7 @@ impl EngineSubprocess {
     /// Spawn `houston-engine` and wait up to `timeout` for the banner.
     ///
     /// `env` is merged on top of the inherited environment — used by the
-    /// Houston app to pass product-layer prompts (`HOUSTON_APP_SYSTEM_PROMPT`,
+    /// Nexo app to pass product-layer prompts (`HOUSTON_APP_SYSTEM_PROMPT`,
     /// `HOUSTON_APP_ONBOARDING_PROMPT`) into the engine at boot so the engine
     /// itself carries no product copy.
     pub fn spawn(
@@ -212,7 +212,7 @@ impl EngineSubprocess {
             // which compiles with Rust's default `console` PE
             // subsystem so its tracing output stays inspectable when
             // launched from a terminal — pops a visible cmd window
-            // every time Houston launches. Tauri's own `Sidecar`
+            // every time Nexo launches. Tauri's own `Sidecar`
             // helper sets this flag for us; we don't use it
             // (engine_supervisor speaks raw std::process::Command
             // for the stdin-watchdog trick), so we have to set it
@@ -230,7 +230,7 @@ impl EngineSubprocess {
         // stdin-EOF watchdog covers Unix but NOT Windows —
         // `TerminateProcess` (force-quit / crash) never delivers EOF to a
         // child's piped stdin, so the watchdog would block forever and the
-        // engine orphaned (gethouston/houston#306). Assigned immediately
+        // engine orphaned (getnexo/nexo#306). Assigned immediately
         // after spawn: the engine spawns no subprocess in the microseconds
         // before assignment (its first child processes run on tokio
         // blocking tasks, many ms later), so the whole subtree is covered.
@@ -389,7 +389,7 @@ impl Drop for EngineSubprocess {
 ///    engine crate).
 /// 3. Sibling of the current executable — this is where Tauri's
 ///    `externalBin` places sidecars in shipped app bundles:
-///      - macOS: `Houston.app/Contents/MacOS/houston-engine`
+///      - macOS: `Nexo.app/Contents/MacOS/houston-engine`
 ///      - Windows: next to `houston-app.exe`
 ///      - Linux AppImage: inside the mounted AppImage root
 ///    Authoritative for release builds. (Tauri's `resource_dir()` points
@@ -677,7 +677,7 @@ mod libc {
 /// watchdog (`spawn_parent_watchdog`) is Unix-only in effect: on Windows
 /// `TerminateProcess` (force-quit, crash, Task Manager "End task") does not
 /// deliver EOF to the child's piped stdin, so the watchdog never fires and
-/// the engine orphaned (gethouston/houston#306). A kill-on-close job is
+/// the engine orphaned (getnexo/nexo#306). A kill-on-close job is
 /// kernel-enforced and fires on every death mode.
 #[cfg(windows)]
 mod win_job {

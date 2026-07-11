@@ -10,7 +10,7 @@
  * Either way the per-variant files own only the copy + which CTAs to mount.
  */
 
-import { Button } from "@houston-ai/core";
+import { Button } from "@nexo-ai/core";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { reportBug } from "../../../lib/bug-report";

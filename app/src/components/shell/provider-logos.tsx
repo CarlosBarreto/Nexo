@@ -1,5 +1,5 @@
 /**
- * Inline SVG logos for every provider Houston knows about (active +
+ * Inline SVG logos for every provider Nexo knows about (active +
  * coming-soon). Extracted out of `provider-picker.tsx` to keep that file
  * under the 200-line non-test limit.
  *
@@ -234,7 +234,7 @@ export function AmazonBedrockLogo({
 /**
  * Monochrome provider logo by provider id — the single source the cards use
  * for the "which AI provider" mark (reconnect, sign-in, rate-limit,
- * provider-switch). Maps each provider Houston has a logo for (active +
+ * provider-switch). Maps each provider Nexo has a logo for (active +
  * coming-soon) to its own mark and falls back to the provider's first initial
  * for anything unknown, so a new provider can never silently borrow the wrong
  * brand's logo (the old `anthropic ? Claude : OpenAI` ternary did exactly that

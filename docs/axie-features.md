@@ -130,6 +130,12 @@ timeout_seconds = 30
 
 ### Tier 2 — High Impact, Medium Effort
 
+> **Status: IMPLEMENTED (2026-07-02, `feat/axie-tier2`).** What landed:
+>
+> - **Memory Stack (2.4)** — `memory` family at `.houston/memory/memory.json` (profile facts + operational goals, schema seeded) plus `episodes/<id>.md` for the episodic layer. Flat learnings migrate into the profile lazily on first read (one-shot, learnings.json untouched). Host surface: `GET /memory`, `PUT /memory/{profile,operational}`, episodes CRUD. The pi runtime injects profile (always) + active goals into context via `loadMemoryContext` (`packages/runtime/src/session/resource-loader.ts`); episodes are never injected wholesale.
+> - **Hybrid Retrieval (2.5)** — `packages/domain/src/retrieval.ts`: dependency-free BM25, cosine similarity, RRF merge, and an `Embedder` port. `GET /memory/retrieve?q=` ranks episodes; with no embedder wired the fusion degrades to plain BM25 deterministically, and an embedder failure surfaces rather than silently degrading. Wiring a concrete embedder (in-process or API-key) is the remaining piece.
+> - **Birth Ritual (2.6)** — 5-chapter narrative wizard (`app/src/components/shell/soul-ritual/`) reached from the agent picker ("Discover with the ritual"). Answers tally invisible element points (manifesto counts double; deterministic tie-breaks); the revealed element selects the matching archetype preset AND rides the create call end-to-end (store → tauri shim → engine-client `CreateAgent.element` → v3 `POST /agents`), so the soul is born with the ritual's element on the TS host. Full i18n (en/es/pt) including archetype catalog cards.
+
 ---
 
 #### 2.4 Three-Layer Memory Stack
@@ -205,6 +211,15 @@ Each answer maps to weighted element scores. The dominant element becomes the SO
 
 ### Tier 3 — Medium Impact, Higher Effort
 
+> **Status: IMPLEMENTED (2026-07-03, `feat/axie-tier3`).** What landed:
+>
+> - **Dream Auto-Schedule (2.7)** — routines gain `trigger: "cron" | "idle"`; an idle routine fires after the agent's real conversations go quiet for `idle_minutes` (pure `idleDueAt` beside `dueAt`; probe = newest non-`routine-*` conversation mtime, so a dream never resets its own clock; at most once per idle period, durably guarded by the recorded run). `dreamRoutineTemplate` + `DREAM_PROMPT` consolidate the Tier 2 memory stack while idle. Disk stays legacy-compatible (`schedule: ""`; the Rust engine skips it non-fatally).
+> - **ReAct Loop Observability (2.8)** — a `loop_stats` wire frame (tool_calls, tool_errors, steps = pi model requests, duration_ms) emitted once per prompt right before the terminal frame — on failed turns too — aggregated by a shared accumulator from events pi already emits (no pi changes). Persisted as `ChatMessage.stats`; the web adapter fills `final_result.duration_ms` (a slot the chat UI already renders), live and on reload.
+> - **AI-as-a-Judge (2.9)** — opt-in per routine (`judge_enabled` + `judge_criteria`): on run completion, reconcile fires ONE judge turn into a dedicated `judge-<runId>` conversation (bare fire, no run record → structurally no judge-of-judge; never the run's shared chat) and settles the verdict onto the run record on a later sweep (`judge_status` + `judge_verdict`). A sentinel-less/silent judge is an error, never a default pass. Skill contracts gain a `[judge]` table for parity.
+> - **Bestiario (2.10)** — `AgentGallery` in `ui/agent` (props-only) + a sidebar-opened dialog: avatar, element badge, birth date, description per agent. Souls read files-first (`.houston/soul/soul.json` via the agent-file layer) — correct on BOTH engines; unforged agents render deliberately with `createdAt` fallback.
+>
+> Scope notes: judge wiring to skill execution waits until skills have run records; UI editors for idle/judge routine fields ride the routines form later (the API + scheduler + persistence are complete); es sidebar label inherits the English fallback until upstream restores es's sidebar block.
+
 ---
 
 #### 2.7 Dream Auto-Schedule — Autonomous Background Tasks
@@ -278,18 +293,18 @@ Suggested phasing based on dependency order and impact:
 2. **Agent Archetypes** (2.2) — 4 builtin presets in the creation picker
 3. **Skill Contract Validation** (2.3) — `contract.toml` parser + authoring-time validation in host
 
-### Sprint 2 (Week 3–4)
-4. **Narrative Onboarding Ritual** (2.6) — 5-step UI wizard, element scoring, SOUL assignment
-5. **Three-Layer Memory Stack** (2.4) — schema migration + context builder refactor
+### Sprint 2 (Week 3–4) — ✅ DONE (2026-07-02)
+4. **Narrative Onboarding Ritual** (2.6) — 5-step wizard + element scoring + create-flow wiring
+5. **Three-Layer Memory Stack** (2.4) — `memory` family + lazy learnings migration + runtime injection
 
-### Sprint 3 (Week 5–6)
-6. **Hybrid Retrieval** (2.5) — FTS5 + embeddings + RRF in host memory endpoint
-7. **Dream Auto-Schedule** (2.7) — idle trigger + dream skill
+### Sprint 3 (Week 5–6) — ✅ DONE (2.5: 2026-07-02, embedder wiring pending; 2.7: 2026-07-03)
+6. **Hybrid Retrieval** (2.5) — BM25 + RRF + Embedder port in `/memory/retrieve`
+7. **Dream Auto-Schedule** (2.7) — idle trigger + dream template
 
-### Sprint 4 (Week 7–8)
-8. **ReAct Loop Observability** (2.8) — protocol events + activity feed
-9. **AI-as-a-Judge** (2.9) — opt-in judge hook in pi runtime
-10. **Bestiario Gallery** (2.10) — AgentGallery UI component
+### Sprint 4 (Week 7–8) — ✅ DONE (2026-07-03)
+8. **ReAct Loop Observability** (2.8) — loop_stats wire frame + persisted ChatMessage.stats
+9. **AI-as-a-Judge** (2.9) — reconcile-driven judge turn + verdict on the run record
+10. **Bestiario Gallery** (2.10) — AgentGallery (ui/agent) + sidebar dialog
 
 ---
 
@@ -298,7 +313,7 @@ Suggested phasing based on dependency order and impact:
 | Feature | Reason |
 |---|---|
 | **Telegram bot interface** | Houston already handles multi-channel via web + desktop. Telegram = Composio integration, not a core feature. |
-| **Lunaria world-building / lore** | Domain-specific to the Axie narrative. Houston is domain-agnostic — lore belongs in agent CLAUDE.md, not the platform. |
+| **Lunaria world-building / lore** | Platform core stays domain-agnostic. Exception (2026-07-04): the revert-able Lunaria tropicalization ships the creation myth as a one-time, first-run pixel-art arcade intro (`app/src/components/shell/lunaria-intro/`), gated by a localStorage flag and independent of agent behaviour. It is the product differentiator, not baked into the engine. Lore text is pulled verbatim from the Axie website (`600_06_Axies/apps/axies_website` myth page). |
 | **Genealogy / family trees** | Narrative feature; not useful at Houston's current scale. Revisit when multi-agent spawning is stable. |
 | **Python-first stack (fastembed / Pydantic)** | Houston is TypeScript-first. Hybrid retrieval (2.5) uses in-process providers or API-key embeddings to stay in TS. |
 | **Axie web portal (Astro)** | Houston has its own web frontend (`packages/web`). The Astro portal is replaced by the Bestiario Gallery (2.10). |
@@ -319,5 +334,5 @@ Suggested phasing based on dependency order and impact:
 
 _20260702 - mictlan - axie features doc for houston fork -- Begin_
 _Source projects: `03_SOFT_PERS/600_06_Axies`, `03_SOFT_PERS/604_03_nano_axie`, `03_SOFT_PERS/2603_Axie`_
-_Last updated: 2026-07-02_
+_Last updated: 2026-07-04 (Lunaria first-run arcade intro)_
 _20260702 - mictlan - axie features doc for houston fork -- End_

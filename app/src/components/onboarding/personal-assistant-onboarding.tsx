@@ -1,4 +1,4 @@
-import { type Toast, ToastContainer } from "@houston-ai/core";
+import { type Toast, ToastContainer } from "@nexo-ai/core";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { analytics } from "../../lib/analytics";

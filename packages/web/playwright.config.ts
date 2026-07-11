@@ -42,7 +42,7 @@ export default defineConfig({
       stderr: "pipe",
     },
     {
-      // VITE_NEW_ENGINE=1 aliases @houston-ai/engine-client → the new-engine
+      // VITE_NEW_ENGINE=1 aliases @nexo-ai/engine-client → the new-engine
       // adapter and mounts NewEngineRoot (see packages/web/src/main.tsx).
       command: "pnpm dev",
       port: WEB_PORT,

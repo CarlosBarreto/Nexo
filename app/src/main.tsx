@@ -1,4 +1,4 @@
-import { TooltipProvider } from "@houston-ai/core";
+import { TooltipProvider } from "@nexo-ai/core";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Component, type ReactNode, useEffect } from "react";
 import { createRoot } from "react-dom/client";
@@ -10,6 +10,7 @@ import { ConnectionGate } from "./components/shell/connection-gate";
 import { DisclaimerGate } from "./components/shell/disclaimer-gate";
 import { EngineGate } from "./components/shell/engine-gate";
 import { LanguageGate } from "./components/shell/language-gate";
+import { LunariaIntroGate } from "./components/shell/lunaria-intro/lunaria-intro-gate";
 import { analytics, classifyAnalyticsError } from "./lib/analytics";
 import { whenEngineReady } from "./lib/engine";
 import { showErrorToast } from "./lib/error-toast";
@@ -26,7 +27,7 @@ import { loadTheme } from "./lib/theme";
 // very first render. Empty DSN → silent no-op (dev / forks).
 initSentry();
 // Sentry smoke-test triggers (Ctrl+Alt+Shift+J/N + the __HOUSTON_SENTRY_SMOKE__
-// global) are DEV-ONLY. Houston is open source and official release binaries
+// global) are DEV-ONLY. Nexo is open source and official release binaries
 // bake the prod SENTRY_DSN, so shipping these error-injectors would let anyone
 // flood the prod Sentry project. The `import.meta.env.DEV` guard is statically
 // false in production builds, so Vite tree-shakes the call + the module away.
@@ -151,15 +152,17 @@ createRoot(rootElement).render(
       <ErrorBoundary>
         <TooltipProvider>
           <StartupEffects>
-            <ConnectionGate>
-              <EngineGate>
-                <LanguageGate>
-                  <DisclaimerGate>
-                    <App />
-                  </DisclaimerGate>
-                </LanguageGate>
-              </EngineGate>
-            </ConnectionGate>
+            <LunariaIntroGate>
+              <ConnectionGate>
+                <EngineGate>
+                  <LanguageGate>
+                    <DisclaimerGate>
+                      <App />
+                    </DisclaimerGate>
+                  </LanguageGate>
+                </EngineGate>
+              </ConnectionGate>
+            </LunariaIntroGate>
           </StartupEffects>
         </TooltipProvider>
       </ErrorBoundary>

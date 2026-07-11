@@ -19,7 +19,7 @@ test("providerConnected: an ambient env API key is NOT a connection, so logout s
     // The trap that broke logout: pi's hasAuth() treats the ambient env key as
     // usable auth, so the provider reported "configured" forever.
     expect(store.hasAuth("openrouter")).toBe(true);
-    // Houston must NOT call that connected — the user never connected it here
+    // Nexo must NOT call that connected — the user never connected it here
     // and "Sign out" cannot clear an env var.
     expect(providerConnected(store, "openrouter")).toBe(false);
 

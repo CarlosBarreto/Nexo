@@ -1,18 +1,18 @@
-import type { Agent, AgentId } from "@houston/host/src/domain/types";
+import { AppsV1Api, CoreV1Api, type KubeConfig } from "@kubernetes/client-node";
+import type { Agent, AgentId } from "@nexo/host/src/domain/types";
 import {
   deploymentName,
   namespaceFor,
   pvcName,
   serviceBaseUrl,
   serviceName,
-} from "@houston/host/src/launcher/names";
+} from "@nexo/host/src/launcher/names";
 import type {
   CredentialVault,
   RuntimeEndpoint,
   RuntimeLauncher,
   RuntimeState,
-} from "@houston/host/src/ports";
-import { AppsV1Api, CoreV1Api, type KubeConfig } from "@kubernetes/client-node";
+} from "@nexo/host/src/ports";
 import {
   deleteIgnoringMissing,
   ensureDeployment,

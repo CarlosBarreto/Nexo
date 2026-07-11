@@ -1,6 +1,6 @@
-/** Engine client bootstrap for the Houston desktop app. */
+/** Engine client bootstrap for the Nexo desktop app. */
 
-import { EngineWebSocket, HoustonClient } from "@houston-ai/engine-client";
+import { EngineWebSocket, NexoClient } from "@nexo-ai/engine-client";
 import { isTauri } from "@tauri-apps/api/core";
 import { getEngineConnection } from "./engine-connection";
 import { pullEngineHandshakeWithRetry } from "./engine-handshake";
@@ -18,7 +18,7 @@ declare global {
 
 /**
  * Cutover switch. When `VITE_NEW_ENGINE_URL` is set, the desktop frontend talks
- * to the v3 Houston host (host mode) instead of the Tauri-spawned Rust
+ * to the v3 Nexo host (host mode) instead of the Tauri-spawned Rust
  * engine — mirroring packages/web's same flag. The host URL + token come from
  * the env (the host runs as the sidecar, or by hand in dev). Unset → the Rust
  * path below is completely untouched, so the default build stays releasable and
@@ -33,7 +33,7 @@ const HOST_TOKEN: string =
 
 // Fold the build-time engine env flags together with the user's runtime
 // local-vs-remote choice (HOU-621). The choice is read synchronously here at
-// module load — before any HoustonClient is constructed — so applying a new one
+// module load — before any NexoClient is constructed — so applying a new one
 // reloads the webview to re-run this module deterministically (the same
 // "set before any client is built" invariant HOU-546 relies on below).
 const RESOLVED = resolveEngine(
@@ -72,7 +72,7 @@ const REMOTE_HOST_MODE = Boolean(STATIC_HOST_URL || HOSTED_ENGINE_URL);
 // When the new-engine adapter is aliased in (VITE_NEW_ENGINE or
 // VITE_NEW_ENGINE_URL — see app/vite.config.ts `useHost`), the desktop ALWAYS
 // talks to a v3 host, so flip the adapter into host mode. This must be
-// set HERE, at module load, before any HoustonClient is constructed: the
+// set HERE, at module load, before any NexoClient is constructed: the
 // adapter reads window.__HOUSTON_CP__ in its constructor, and the handshake can
 // arrive via the get_engine_handshake poll or the houston-engine-ready event —
 // neither of which sets this flag. On a cold first launch that poll wins the
@@ -120,7 +120,7 @@ function resolveConfig(): { baseUrl: string; token: string } | null {
   return null;
 }
 
-let _client: HoustonClient | null = null;
+let _client: NexoClient | null = null;
 let _resolveReady: (() => void) | null = null;
 const _ready: Promise<void> = new Promise((resolve) => {
   _resolveReady = resolve;
@@ -137,7 +137,7 @@ function applyConfig(config: { baseUrl: string; token: string }) {
     // client's own retry/backoff bridges the restart gap (HOU-432).
     _client.setEndpoint(config);
   } else {
-    _client = new HoustonClient(config);
+    _client = new NexoClient(config);
   }
   if (_resolveReady) {
     _resolveReady();
@@ -242,7 +242,7 @@ export function newEngineActive(): boolean {
   );
 }
 
-export function getEngine(): HoustonClient {
+export function getEngine(): NexoClient {
   if (!_client) {
     throw new Error(
       "[engine] not bootstrapped. window.__HOUSTON_ENGINE__ missing. " +

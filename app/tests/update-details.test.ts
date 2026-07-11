@@ -24,17 +24,16 @@ describe("normalizeUpdateNotes", () => {
 
   it("normalizes CRLF to LF so markdown blocks parse consistently", () => {
     strictEqual(
-      normalizeUpdateNotes("## Houston 0.4.16\r\n\r\nArchive missions."),
-      "## Houston 0.4.16\n\nArchive missions.",
+      normalizeUpdateNotes("## Nexo 0.4.16\r\n\r\nArchive missions."),
+      "## Nexo 0.4.16\n\nArchive missions.",
     );
   });
 
   it("trims surrounding whitespace but preserves the markdown body", () => {
-    const body =
-      "\n\n## Houston 0.4.16\n\n- Archive missions\n- Manage apps\n\n";
+    const body = "\n\n## Nexo 0.4.16\n\n- Archive missions\n- Manage apps\n\n";
     strictEqual(
       normalizeUpdateNotes(body),
-      "## Houston 0.4.16\n\n- Archive missions\n- Manage apps",
+      "## Nexo 0.4.16\n\n- Archive missions\n- Manage apps",
     );
   });
 });
@@ -47,8 +46,8 @@ describe("selectUpdateNotes", () => {
 
   it("returns the English base unchanged when there is no i18n marker", () => {
     strictEqual(
-      selectUpdateNotes("## Houston 1.0\n\n- Thing", "es"),
-      "## Houston 1.0\n\n- Thing",
+      selectUpdateNotes("## Nexo 1.0\n\n- Thing", "es"),
+      "## Nexo 1.0\n\n- Thing",
     );
   });
 

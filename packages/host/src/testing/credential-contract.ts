@@ -12,9 +12,9 @@ import {
  * must agree on: null-before-put, put→get round-trip, upsert-in-place on
  * refresh, per-(workspace, provider) key isolation, and idempotent remove.
  *
- * Exported from `@houston/host` (OPEN) so BOTH the open adapter suite
+ * Exported from `@nexo/host` (OPEN) so BOTH the open adapter suite
  * (credentials/contract.test.ts: Memory/File) AND the closed adapter suite in
- * `@houston/host-cloud` (credentials/store-pg.contract.test.ts: PgCredentialStore
+ * `@nexo/host-cloud` (credentials/store-pg.contract.test.ts: PgCredentialStore
  * over pg-mem) run the SAME assertions.
  *
  * The contract treats the stored value as a faithful copy: a `put` followed by a

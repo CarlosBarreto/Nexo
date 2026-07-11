@@ -1,4 +1,4 @@
-import type { Learning, Routine } from "@houston/protocol";
+import type { Learning, Routine } from "@nexo/protocol";
 import { expect, test } from "vitest";
 import {
   type PortableContent,
@@ -143,7 +143,7 @@ test("a future format version is rejected with an upgrade hint", () => {
       }),
     ),
   });
-  expect(() => unpackAgent(bytes)).toThrow("newer Houston");
+  expect(() => unpackAgent(bytes)).toThrow("newer Nexo");
 });
 
 test("malformed routine/learning entries are dropped on unpack", () => {

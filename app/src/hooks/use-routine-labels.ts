@@ -5,12 +5,12 @@ import type {
   RoutinesGridLabels,
   RunHistoryLabels,
   ScheduleLabels,
-} from "@houston-ai/routines";
+} from "@nexo-ai/routines";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 /**
- * Builds the localized label objects the `@houston-ai/routines` components take.
+ * Builds the localized label objects the `@nexo-ai/routines` components take.
  * The package stays i18n-agnostic (library boundary): it exposes `labels` props
  * with English defaults, and this hook feeds it `t()` results.
  *

@@ -10,9 +10,9 @@ import type { TurnBus } from "../turn/bus";
  * unsubscribe, key set/get/del with TTL, the setNx mutex + lease renew via
  * expire, and atomic incr/decr with creation TTL.
  *
- * Exported from `@houston/host` (OPEN) so BOTH the open adapter suite
+ * Exported from `@nexo/host` (OPEN) so BOTH the open adapter suite
  * (turn/bus.contract.test.ts: MemoryTurnBus, virtual clock) AND the closed
- * adapter suite in `@houston/host-cloud` (turn/bus-redis.contract.test.ts:
+ * adapter suite in `@nexo/host-cloud` (turn/bus-redis.contract.test.ts:
  * RedisTurnBus against ioredis-mock) run the SAME assertions.
  *
  * TIME: the contract is parameterized by a `make(now)` so impls with a virtual

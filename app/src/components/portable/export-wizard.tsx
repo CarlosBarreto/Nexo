@@ -3,7 +3,7 @@
  *
  *   1. Pick what to share. CLAUDE.md is implicit; skills, routines,
  *      learnings get per-item switches.
- *   2. Optionally let Houston anonymize. Side-by-side diffs.
+ *   2. Optionally let Nexo anonymize. Side-by-side diffs.
  *   3. Save the file.
  *
  * Visual language follows `knowledge-base/design-system.md` — near-black
@@ -12,11 +12,11 @@
  * corner). Switches match the routine editor.
  */
 
-import { Button, cn, Dialog, DialogContent, Switch } from "@houston-ai/core";
+import { Button, cn, Dialog, DialogContent, Switch } from "@nexo-ai/core";
 import type {
   PortableAnonymizeResponse,
   PortableInventoryPreview,
-} from "@houston-ai/engine-client";
+} from "@nexo-ai/engine-client";
 import { invoke } from "@tauri-apps/api/core";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";

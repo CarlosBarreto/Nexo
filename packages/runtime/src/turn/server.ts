@@ -8,7 +8,7 @@ import {
 } from "node:http";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { WireEvent } from "@houston/runtime-client";
+import type { WireEvent } from "@nexo/runtime-client";
 import { applyServedCredential } from "../auth/auth-file";
 import { openSSE } from "../transport/sse";
 import { hydrate, syncBack } from "./hydrate";

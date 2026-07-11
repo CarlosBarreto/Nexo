@@ -13,8 +13,8 @@ import {
   saveRoutines,
   upsertById,
   validateSchedule,
-} from "@houston/domain";
-import type { HoustonEvent, NewRoutine } from "@houston/protocol";
+} from "@nexo/domain";
+import type { NewRoutine, NexoEvent } from "@nexo/protocol";
 import type { Agent, Workspace } from "../domain/types";
 import type { WorkspacePaths } from "../paths";
 import type { Vfs } from "../vfs";
@@ -27,7 +27,7 @@ import { json, readJson } from "./http";
 export { workspaceRoot } from "../paths";
 
 /** Each typed family's reactivity event — emitted after a successful mutation. */
-const FAMILY_EVENT: Record<string, (agentPath: string) => HoustonEvent> = {
+const FAMILY_EVENT: Record<string, (agentPath: string) => NexoEvent> = {
   activities: (agentPath) => ({ type: "ActivityChanged", agentPath }),
   routines: (agentPath) => ({ type: "RoutinesChanged", agentPath }),
   routine_runs: (agentPath) => ({ type: "RoutineRunsChanged", agentPath }),
@@ -53,7 +53,7 @@ export async function handleAgentData(
   rest: string,
   req: IncomingMessage,
   res: ServerResponse,
-  emit?: (event: HoustonEvent) => void,
+  emit?: (event: NexoEvent) => void,
   // The authenticated caller's id — recorded as a new routine's `created_by`
   // so a fired routine turn can act as its creator (C2). Absent in callers that
   // don't carry identity (local single-user); the field then stays absent.
@@ -101,23 +101,44 @@ export async function handleAgentData(
     }
     if (method === "POST" && !itemId) {
       const body = await readJson(req);
-      for (const field of ["name", "prompt", "schedule"]) {
+      // Idle ("dream") routines have no cron schedule — they fire on agent
+      // inactivity. Their schedule is stored as "" (the legacy Rust engine
+      // fails to parse it and skips the routine non-fatally).
+      const isIdle = body.trigger === "idle";
+      const required = isIdle
+        ? ["name", "prompt"]
+        : ["name", "prompt", "schedule"];
+      for (const field of required) {
         if (!body[field] || typeof body[field] !== "string") {
           json(res, 400, { error: `missing '${field}'` });
           return true;
         }
       }
-      // The loop above proved name/prompt/schedule are non-empty strings.
-      const input = body as unknown as NewRoutine;
-      // Reject a bad cron NOW — otherwise the routine saves and silently never
-      // fires (the scheduler would skip it forever, with no signal to the user).
-      // Validate against the single account-wide zone (HOU-470): there is no
-      // per-routine timezone, so a stray body.timezone is not honored.
-      const accountTz = await getPreference(vfs, ctx.workspace.id, "timezone");
-      const scheduleErr = validateSchedule(input.schedule, accountTz);
-      if (scheduleErr) {
-        json(res, 400, { error: `invalid schedule: ${scheduleErr}` });
+      if (isIdle && !isValidIdleMinutes(body.idle_minutes)) {
+        json(res, 400, {
+          error: "'idle_minutes' must be an integer between 1 and 10080",
+        });
         return true;
+      }
+      // The loop above proved the required fields are non-empty strings.
+      const input = (isIdle
+        ? { ...body, schedule: "" }
+        : body) as unknown as NewRoutine;
+      if (!isIdle) {
+        // Reject a bad cron NOW — otherwise the routine saves and silently never
+        // fires (the scheduler would skip it forever, with no signal to the user).
+        // Validate against the single account-wide zone (HOU-470): there is no
+        // per-routine timezone, so a stray body.timezone is not honored.
+        const accountTz = await getPreference(
+          vfs,
+          ctx.workspace.id,
+          "timezone",
+        );
+        const scheduleErr = validateSchedule(input.schedule, accountTz);
+        if (scheduleErr) {
+          json(res, 400, { error: `invalid schedule: ${scheduleErr}` });
+          return true;
+        }
       }
       const { items } = await loadRoutines(vfs, root);
       const routine = createRoutine(
@@ -141,17 +162,27 @@ export async function handleAgentData(
       if (method === "PATCH") {
         const update = await readJson(req);
         const next = applyRoutineUpdate(current, update, nowIso);
-        // A PATCH may change the schedule; validate it against the account-wide
-        // zone (HOU-470: no per-routine timezone).
-        const accountTz = await getPreference(
-          vfs,
-          ctx.workspace.id,
-          "timezone",
-        );
-        const scheduleErr = validateSchedule(next.schedule, accountTz);
-        if (scheduleErr) {
-          json(res, 400, { error: `invalid schedule: ${scheduleErr}` });
-          return true;
+        // Validate the MERGED result: an idle routine needs a sane threshold
+        // (and no cron); a cron routine needs a valid schedule, against the
+        // account-wide zone (HOU-470: no per-routine timezone).
+        if (next.trigger === "idle") {
+          if (!isValidIdleMinutes(next.idle_minutes)) {
+            json(res, 400, {
+              error: "'idle_minutes' must be an integer between 1 and 10080",
+            });
+            return true;
+          }
+        } else {
+          const accountTz = await getPreference(
+            vfs,
+            ctx.workspace.id,
+            "timezone",
+          );
+          const scheduleErr = validateSchedule(next.schedule, accountTz);
+          if (scheduleErr) {
+            json(res, 400, { error: `invalid schedule: ${scheduleErr}` });
+            return true;
+          }
         }
         await saveRoutines(vfs, root, upsertById(items, next));
         fireChange();
@@ -204,4 +235,9 @@ export async function handleAgentData(
 
   json(res, 405, { error: "method not allowed" });
   return true;
+}
+
+/** Idle threshold sanity: 1 minute to 1 week (10080). */
+function isValidIdleMinutes(v: unknown): v is number {
+  return typeof v === "number" && Number.isInteger(v) && v >= 1 && v <= 10080;
 }

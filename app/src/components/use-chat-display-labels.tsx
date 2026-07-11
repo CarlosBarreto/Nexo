@@ -1,8 +1,8 @@
-import type { ChatPanelProps } from "@houston-ai/chat";
-import { ChatStatusLine, Shimmer } from "@houston-ai/chat";
+import type { ChatPanelProps } from "@nexo-ai/chat";
+import { ChatStatusLine, Shimmer } from "@nexo-ai/chat";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { HoustonLogo } from "./shell/experience-card";
+import { NexoLogo } from "./shell/experience-card";
 
 export function useChatDisplayLabels(): Pick<
   ChatPanelProps,
@@ -47,12 +47,12 @@ export function useChatDisplayLabels(): Pick<
   );
 
   // HOU-471: once the turn settles, the agent's reply ends with a static
-  // (never-blinking) Houston helmet, in the same size and spot the old loader
+  // (never-blinking) Nexo helmet, in the same size and spot the old loader
   // used; only the animation is gone.
   const endOfTurnIndicator = useMemo(
     () => (
       <div className="py-2 flex items-center">
-        <HoustonLogo size={20} />
+        <NexoLogo size={20} />
       </div>
     ),
     [],

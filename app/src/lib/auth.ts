@@ -26,18 +26,18 @@ function applySessionToCache(session: Session | null): void {
 //
 //   • Desktop (Tauri): a one-shot `http://127.0.0.1:<port>/auth/callback`
 //     loopback the app itself serves. A plain HTTP navigation — no website
-//     relay and no custom-scheme "open Houston?" dialog — so the user snaps
+//     relay and no custom-scheme "open Nexo?" dialog — so the user snaps
 //     straight back into the app instead of getting stranded on a web page.
-//   • Web / mobile PWA: the https relay bridge at gethouston.ai/auth/callback,
-//     which forwards the PKCE code into the `houston://` deep link. These
+//   • Web / mobile PWA: the https relay bridge at getnexo.ai/auth/callback,
+//     which forwards the PKCE code into the `nexo://` deep link. These
 //     clients aren't co-located with a local listener, so the bridge stays.
 //     See website/src/auth/callback/index.html.
 //
-// `houston://auth-callback` is the desktop fallback if the loopback can't
+// `nexo://auth-callback` is the desktop fallback if the loopback can't
 // bind (every candidate port busy). All three shapes are registered in the
 // Supabase project's redirect allow-list.
-const WEB_REDIRECT_URI = "https://gethouston.ai/auth/callback/";
-const DESKTOP_FALLBACK_REDIRECT_URI = "houston://auth-callback";
+const WEB_REDIRECT_URI = "https://getnexo.ai/auth/callback/";
+const DESKTOP_FALLBACK_REDIRECT_URI = "nexo://auth-callback";
 
 /**
  * Pick — and, on desktop, provision — the OAuth redirect target. Desktop
@@ -65,7 +65,7 @@ let pendingProvider: "google" | "azure" | null = null;
  * Kick off an OAuth flow for the given provider. Supabase generates a
  * fresh PKCE verifier (stored in Keychain via our storage adapter),
  * returns an auth URL, and we open it in the user's system browser.
- * After consent the browser redirects to `houston://auth-callback?code=...`,
+ * After consent the browser redirects to `nexo://auth-callback?code=...`,
  * which the deep-link handler in Rust forwards to `installDeepLinkListener`.
  *
  * Idempotent — re-calling kicks off a brand-new PKCE flow, which is
@@ -82,7 +82,7 @@ async function signInWithProvider(provider: "google" | "azure"): Promise<void> {
   // Web build (no Tauri webview / deep link): a normal in-browser redirect to
   // `/auth/callback`, where Supabase's URL sniffer (detectSessionInUrl) trades
   // the `?code=` for a session. The desktop flow below opens the system browser
-  // and waits for the `houston://` deep link (or the loopback redirect) instead.
+  // and waits for the `nexo://` deep link (or the loopback redirect) instead.
   if (!osIsTauri()) {
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
@@ -108,7 +108,7 @@ async function signInWithProvider(provider: "google" | "azure"): Promise<void> {
       // gets the ID token but no way to refresh, and the session goes
       // stale on the first reload. Matches Supabase's documented azure
       // default. We deliberately don't request `profile` / `User.Read`
-      // since Houston only needs the email + sub claims for sign-in.
+      // since Nexo only needs the email + sub claims for sign-in.
       ...(provider === "azure"
         ? {
             scopes: "openid email offline_access",
@@ -365,9 +365,9 @@ async function completeAuthCallback(rawUrl: string): Promise<void> {
 }
 
 /**
- * Dev-only sign-in fallback. In a dev build the `houston://auth-callback` deep
+ * Dev-only sign-in fallback. In a dev build the `nexo://auth-callback` deep
  * link opens the INSTALLED production app (both builds share the `houston` URL
- * scheme + `com.houston.app` bundle id), so the dev app stays stuck on the
+ * scheme + `com.nexo.app` bundle id), so the dev app stays stuck on the
  * sign-in screen while production swallows the callback. The dev app still holds
  * the PKCE verifier it generated when it opened the flow, so pasting the `code`
  * (or the whole `…/auth/callback?code=…` URL the browser landed on) lets it

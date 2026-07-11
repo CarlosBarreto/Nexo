@@ -1,6 +1,6 @@
 import { strictEqual } from "node:assert";
 import { describe, it } from "node:test";
-import type { KanbanColumnConfig, KanbanItem } from "@houston-ai/board";
+import type { KanbanColumnConfig, KanbanItem } from "@nexo-ai/board";
 import { navigateBoard } from "../src/lib/board-navigate.ts";
 
 const COLUMNS: KanbanColumnConfig[] = [

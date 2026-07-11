@@ -1,4 +1,4 @@
-import { HoustonAvatar, resolveAgentColor } from "@houston-ai/core";
+import { NexoAvatar, resolveAgentColor } from "@nexo-ai/core";
 
 export function AgentPanelAvatar({
   color,
@@ -8,7 +8,7 @@ export function AgentPanelAvatar({
   running: boolean;
 }) {
   return (
-    <HoustonAvatar
+    <NexoAvatar
       color={resolveAgentColor(color)}
       diameter={40}
       running={running}

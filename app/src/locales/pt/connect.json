@@ -1,17 +1,17 @@
 {
-  "title": "Conectar o Houston",
-  "subtitle": "Escolha como o Houston se conecta ao motor.",
+  "title": "Conectar o Nexo",
+  "subtitle": "Escolha como o Nexo se conecta ao motor.",
   "local": {
     "title": "Usar este computador",
-    "description": "Execute o Houston de forma privada neste dispositivo."
+    "description": "Execute o Nexo de forma privada neste dispositivo."
   },
   "remote": {
     "title": "Conectar a um motor remoto",
-    "description": "Aponte o Houston para um motor rodando na nuvem ou na sua rede."
+    "description": "Aponte o Nexo para um motor rodando na nuvem ou na sua rede."
   },
   "url": {
     "title": "Motor remoto",
-    "description": "Informe o endereço do seu motor ou gateway do Houston.",
+    "description": "Informe o endereço do seu motor ou gateway do Nexo.",
     "placeholder": "https://engine.example.com",
     "invalid": "Informe um endereço http ou https válido.",
     "back": "Voltar",

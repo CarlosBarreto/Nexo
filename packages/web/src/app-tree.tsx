@@ -1,9 +1,9 @@
 /**
- * The Houston app tree, composed for the web.
+ * The Nexo app tree, composed for the web.
  *
  * This mirrors app/src/main.tsx's provider/gate nesting but is web-owned so it
  * can be lazy-loaded only after the engine config is in place (see root.tsx).
- * It imports the REAL app components from app/src (via the `@houston/app/*`
+ * It imports the REAL app components from app/src (via the `@nexo/app/*`
  * alias) — no fork. The only platform difference is reached through the Tauri
  * shims (vite.config.ts), so behavior matches the desktop app except where a
  * capability genuinely can't exist in a browser.
@@ -13,22 +13,22 @@
  *   I18nextProvider > LanguageGate > DisclaimerGate > App
  */
 
-import App from "@houston/app/App";
-import { DisclaimerGate } from "@houston/app/components/shell/disclaimer-gate";
-import { LanguageGate } from "@houston/app/components/shell/language-gate";
-import { analytics, classifyAnalyticsError } from "@houston/app/lib/analytics";
-import { isEngineReady, whenEngineReady } from "@houston/app/lib/engine";
-import { showErrorToast } from "@houston/app/lib/error-toast";
-import { installGlobalErrorHandlers } from "@houston/app/lib/global-error-handlers";
-import i18n from "@houston/app/lib/i18n";
-import { initFrontendLogging, logger } from "@houston/app/lib/logger";
-import { queryClient } from "@houston/app/lib/query-client";
-import { initSentry } from "@houston/app/lib/sentry";
-import { TooltipProvider } from "@houston-ai/core";
+import App from "@nexo/app/App";
+import { DisclaimerGate } from "@nexo/app/components/shell/disclaimer-gate";
+import { LanguageGate } from "@nexo/app/components/shell/language-gate";
+import { analytics, classifyAnalyticsError } from "@nexo/app/lib/analytics";
+import { isEngineReady, whenEngineReady } from "@nexo/app/lib/engine";
+import { showErrorToast } from "@nexo/app/lib/error-toast";
+import { installGlobalErrorHandlers } from "@nexo/app/lib/global-error-handlers";
+import i18n from "@nexo/app/lib/i18n";
+import { initFrontendLogging, logger } from "@nexo/app/lib/logger";
+import { queryClient } from "@nexo/app/lib/query-client";
+import { initSentry } from "@nexo/app/lib/sentry";
+import { TooltipProvider } from "@nexo-ai/core";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Component, type ReactNode, useEffect, useState } from "react";
 import { I18nextProvider } from "react-i18next";
-import "@houston/app/styles/globals.css";
+import "@nexo/app/styles/globals.css";
 
 // Sentry first so the global handlers below can capture from the first render.
 // Empty DSN (the default web build) → silent no-op.

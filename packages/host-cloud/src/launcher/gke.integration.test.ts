@@ -1,13 +1,13 @@
-import type { Agent } from "@houston/host/src/domain/types";
+import { CoreV1Api, KubeConfig } from "@kubernetes/client-node";
+import type { Agent } from "@nexo/host/src/domain/types";
 import {
   deploymentName,
   namespaceFor,
   pvcName,
   serviceName,
-} from "@houston/host/src/launcher/names";
-import type { CredentialVault, RuntimeLauncher } from "@houston/host/src/ports";
-import { runRuntimeLauncherContract } from "@houston/host/src/testing/launcher-contract";
-import { CoreV1Api, KubeConfig } from "@kubernetes/client-node";
+} from "@nexo/host/src/launcher/names";
+import type { CredentialVault, RuntimeLauncher } from "@nexo/host/src/ports";
+import { runRuntimeLauncherContract } from "@nexo/host/src/testing/launcher-contract";
 import { afterAll, beforeAll, describe, expect, test } from "vitest";
 import { GkeLauncher } from "./gke";
 import {

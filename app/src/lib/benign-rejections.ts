@@ -1,6 +1,6 @@
 /**
  * Supabase auth-js coordinates token refresh across browser contexts (tabs,
- * webviews, Houston's multi-window shell) with the Web Locks API. When one
+ * webviews, Nexo's multi-window shell) with the Web Locks API. When one
  * context's lock acquire times out, auth-js recovers by *stealing* the lock
  * (`navigator.locks.request(name, { steal: true }, …)`). Per the Web Locks
  * spec the displaced holder's request promise then rejects. Depending on the

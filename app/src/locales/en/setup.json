@@ -1,6 +1,6 @@
 {
   "welcome": {
-    "title": "Welcome to Houston",
+    "title": "Welcome to Nexo",
     "tagline": "Ship the impossible.",
     "getStarted": "Get started"
   },
@@ -11,7 +11,7 @@
   },
   "provider": {
     "title": "Connect your AI",
-    "description": "Houston uses <emph>your own</emph> subscription. We never see your credentials.",
+    "description": "Nexo uses <emph>your own</emph> subscription. We never see your credentials.",
     "finishPage": "Get started",
     "finishDialog": "Create workspace"
   },
@@ -22,7 +22,7 @@
     "dismissError": "We couldn't save that. Please try again."
   },
   "tutorial": {
-    "brand": "Houston",
+    "brand": "Nexo",
     "counter": "Mission {{current}} of {{total}}",
     "nav": {
       "back": "Back",
@@ -35,8 +35,8 @@
       "setupFailed": "We couldn't finish setting up your workspace. Please try again."
     },
     "welcome": {
-      "title": "Welcome to Houston",
-      "tagline": "Houston is where you build agents that work with the same apps you already use.",
+      "title": "Welcome to Nexo",
+      "tagline": "Nexo is where you build agents that work with the same apps you already use.",
       "stepsTitle": "A quick setup to get your agent working:",
       "steps": {
         "meet": "Meet your agent",
@@ -79,10 +79,10 @@
       },
       "brain": {
         "title": "Log in to your AI subscription",
-        "body": "Choose the AI you already pay for. You bring your own subscription, so Houston never sees your password or your bill.",
+        "body": "Choose the AI you already pay for. You bring your own subscription, so Nexo never sees your password or your bill.",
         "continue": "Create my assistant",
         "creating": "Creating",
-        "continueHint": "Houston will create your assistant and open the next mission."
+        "continueHint": "Nexo will create your assistant and open the next mission."
       },
       "providerLogin": {
         "title": "Log in to {{provider}}",
@@ -100,7 +100,7 @@
         "body": "Your agent works with apps like Gmail and your calendar through Composio, a secure integration provider. One account lets it connect any app, only when you actually need it.",
         "steps": {
           "account": "Create your Composio account",
-          "authorize": "Authorize Houston to connect"
+          "authorize": "Authorize Nexo to connect"
         },
         "allow": "Sign in",
         "waiting": "Waiting for you in your browser...",
@@ -125,7 +125,7 @@
         "placeholder": "Reply to your agent...",
         "body": "Your agent will send a real email to you, so you can watch it work.",
         "skip": "Skip for now",
-        "skipHint": "Your agent finished but didn't confirm. You can skip and start using Houston."
+        "skipHint": "Your agent finished but didn't confirm. You can skip and start using Nexo."
       },
       "aiConnected": {
         "title": "Your AI is connected!",
@@ -163,7 +163,7 @@
       "finished": {
         "title": "You're all set!",
         "body": "Your agent is ready. What would you like to do next?",
-        "tour": "Take a tour of Houston",
+        "tour": "Take a tour of Nexo",
         "tourBody": "A quick walkthrough of the basics.",
         "connectMore": "Connect more apps",
         "connectMoreBody": "Give your agent access to more of your tools."
@@ -177,7 +177,7 @@
         "title": "Try a real mission",
         "intro": {
           "title": "Work with your first agent",
-          "body": "In Houston, your agents connect to your real tools to actually do work for you.",
+          "body": "In Nexo, your agents connect to your real tools to actually do work for you.",
           "cta": "Let's try that out"
         },
         "doneTitle": "You did it. First mission complete.",
@@ -223,7 +223,7 @@
         "placeholder": "Reply to your assistant...",
         "done": {
           "title": "Your Routine is ready",
-          "subtitle": "Houston will run this automatically on the schedule you picked.",
+          "subtitle": "Nexo will run this automatically on the schedule you picked.",
           "everyWeekdayAt": "Every weekday at {{time}}",
           "runsSkill": "Runs your {{skill}} Skill",
           "manualHint": "You can also create routines yourself from the Routines tab, or just ask any agent."
@@ -236,7 +236,7 @@
         "routineCardTitle": "Routine",
         "noSkill": "No Skill saved",
         "noRoutine": "No Routine saved",
-        "continueChip": "Enter Houston"
+        "continueChip": "Enter Nexo"
       }
     },
     "sectionCounter": "{{section}} · {{current}} of {{total}}",

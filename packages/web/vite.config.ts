@@ -5,10 +5,10 @@ import { defineConfig, loadEnv } from "vite";
 import { version } from "./package.json";
 
 // packages/web composes the desktop app's React tree (app/src) and runs it in a
-// plain browser tab pointed at the Houston host (or the legacy Rust engine until
+// plain browser tab pointed at the Nexo host (or the legacy Rust engine until
 // final cutover). The ONLY platform
 // coupling app/src has is a handful of `@tauri-apps/*` imports; we redirect each
-// specifier to a browser shim under ./src/shims. `@houston/app/*` aliases into
+// specifier to a browser shim under ./src/shims. `@nexo/app/*` aliases into
 // app/src so we can reuse it verbatim — no fork, no app/ changes.
 //
 // Keep these aliases in lockstep with the `paths` block in tsconfig.json.
@@ -38,13 +38,13 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: [
         // New-engine mode (see `useNewEngine` above) and host/cloud mode
-        // (VITE_CONTROL_PLANE_URL, legacy env name) both route @houston-ai/engine-client through
+        // (VITE_CONTROL_PLANE_URL, legacy env name) both route @nexo-ai/engine-client through
         // the new-engine adapter so the whole desktop UI runs on the new TS
         // runtime / the control plane.
         ...(useNewEngine || env.VITE_CONTROL_PLANE_URL
           ? [
               {
-                find: "@houston-ai/engine-client",
+                find: "@nexo-ai/engine-client",
                 replacement: path.resolve(
                   __dirname,
                   "src/engine-adapter/index.ts",
@@ -67,8 +67,8 @@ export default defineConfig(({ mode }) => {
           replacement: shim("tauri-plugin-notification.ts"),
         },
         // Order matters: the `/*` regex must come before the bare alias.
-        { find: /^@houston\/app\/(.*)$/, replacement: `${appSrc}/$1` },
-        { find: "@houston/app", replacement: appSrc },
+        { find: /^@nexo\/app\/(.*)$/, replacement: `${appSrc}/$1` },
+        { find: "@nexo/app", replacement: appSrc },
       ],
     },
     define: {
@@ -98,22 +98,22 @@ export default defineConfig(({ mode }) => {
     // (mirrors app/vite.config.ts).
     optimizeDeps: {
       exclude: [
-        "@houston/runtime-client",
-        "@houston-ai/chat",
-        "@houston-ai/core",
-        "@houston-ai/board",
-        "@houston-ai/layout",
-        "@houston-ai/events",
-        "@houston-ai/routines",
-        "@houston-ai/skills",
-        "@houston-ai/review",
-        "@houston-ai/agent",
+        "@nexo/runtime-client",
+        "@nexo-ai/chat",
+        "@nexo-ai/core",
+        "@nexo-ai/board",
+        "@nexo-ai/layout",
+        "@nexo-ai/events",
+        "@nexo-ai/routines",
+        "@nexo-ai/skills",
+        "@nexo-ai/review",
+        "@nexo-ai/agent",
       ],
     },
     server: {
       port: 1430,
       strictPort: true,
-      // We import from app/src and the @houston-ai source packages, which live
+      // We import from app/src and the @nexo-ai source packages, which live
       // outside this package root — allow the whole monorepo.
       fs: { allow: [repoRoot] },
     },

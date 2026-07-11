@@ -6,7 +6,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { Copy, ExternalLink, Eye, EyeOff } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -17,7 +17,7 @@ import { ProviderDeviceCode } from "./provider-device-code";
 import { providerLoginUrlHost } from "./provider-login-url";
 
 /**
- * Sign-in dialog for remote/headless Houston Engines, where the provider
+ * Sign-in dialog for remote/headless Nexo Engines, where the provider
  * CLI can't open the user's browser (it lives on another machine). The
  * engine surfaces the sign-in URL via a `ProviderLoginUrl` WS event; this
  * dialog shows it plus the per-provider completion step:

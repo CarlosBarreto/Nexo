@@ -1,4 +1,4 @@
-import type { SkillDetail, SkillSummary } from "@houston/protocol";
+import type { SkillDetail, SkillSummary } from "@nexo/protocol";
 import { parse as parseYaml, stringify as stringifyYaml } from "yaml";
 import { skillsDirKey } from "./layout";
 import type { DocDiagnostic, FileStore } from "./store";

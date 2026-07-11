@@ -1,4 +1,4 @@
-import type { KanbanColumnConfig } from "@houston-ai/board";
+import type { KanbanColumnConfig } from "@nexo-ai/board";
 
 interface MissionBoardColumnLabels {
   running: string;

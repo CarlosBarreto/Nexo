@@ -1,5 +1,5 @@
 {
-  "name": "@houston-ai/chat",
+  "name": "@nexo-ai/chat",
   "version": "0.4.26",
   "type": "module",
   "main": "src/index.ts",
@@ -10,7 +10,7 @@
   "peerDependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "@houston-ai/core": "workspace:*"
+    "@nexo-ai/core": "workspace:*"
   },
   "dependencies": {
     "ai": "^6.0.116",

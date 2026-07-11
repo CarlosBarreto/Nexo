@@ -6,12 +6,12 @@ import {
 } from "../src/lib/missing-skill.ts";
 
 describe("missing-skill classifier (HOU-515 / HOU-441)", () => {
-  it("matches a 404 HoustonEngineError — the host's 'skill not found'", () => {
+  it("matches a 404 NexoEngineError — the host's 'skill not found'", () => {
     // The TS host answers GET /v1/skills/<slug> with 404 when the directory is
-    // gone; @houston-ai/engine-client surfaces it as a HoustonEngineError whose
+    // gone; @nexo-ai/engine-client surfaces it as a NexoEngineError whose
     // `.status` is 404. The body is a bare string, so there is no typed `.kind`.
     strictEqual(
-      isMissingSkillError({ status: 404, name: "HoustonEngineError" }),
+      isMissingSkillError({ status: 404, name: "NexoEngineError" }),
       true,
     );
   });
@@ -27,7 +27,7 @@ describe("missing-skill classifier (HOU-515 / HOU-441)", () => {
     strictEqual(isMissingSkillError({ kind: "skill_not_found" }), true);
   });
 
-  it("recognizes an error exposing kind via a getter (HoustonEngineError shape)", () => {
+  it("recognizes an error exposing kind via a getter (NexoEngineError shape)", () => {
     const err = new Error("Skill not found: Redactar Outreach ESG");
     Object.defineProperty(err, "kind", { get: () => "skill_not_found" });
     strictEqual(isMissingSkillError(err), true);

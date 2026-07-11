@@ -1,4 +1,4 @@
-import { EngineError } from "@houston/runtime-client";
+import { EngineError } from "@nexo/runtime-client";
 import { describe, expect, test } from "vitest";
 import { configWriteToSettings, credentialSiblings } from "./synthetic";
 import {

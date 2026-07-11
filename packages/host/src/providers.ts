@@ -1,4 +1,4 @@
-import type { ProviderId } from "@houston/protocol";
+import type { ProviderId } from "@nexo/protocol";
 
 /**
  * Host-side provider catalog. The runtime (packages/runtime) owns the full model

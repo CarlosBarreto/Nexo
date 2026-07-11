@@ -1,4 +1,4 @@
-import { Kbd, KbdGroup } from "@houston-ai/core";
+import { Kbd, KbdGroup } from "@nexo-ai/core";
 import { useTranslation } from "react-i18next";
 import { type ShortcutAction, shortcutParts } from "../../../lib/shortcuts";
 

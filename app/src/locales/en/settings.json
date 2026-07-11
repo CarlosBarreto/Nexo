@@ -39,17 +39,17 @@
   },
   "provider": {
     "title": "AI provider",
-    "description": "Houston uses <emph>your own</emph> subscription. We never see your credentials."
+    "description": "Nexo uses <emph>your own</emph> subscription. We never see your credentials."
   },
   "connectPhone": {
     "title": "Connect phone",
-    "description": "Scan this code to manage Houston from your phone. The same code keeps working as long as this computer is on and Houston is open.",
+    "description": "Scan this code to manage Nexo from your phone. The same code keeps working as long as this computer is on and Nexo is open.",
     "loading": "Getting ready to connect your phone…",
     "connectingStatus": "Connecting to the phone service. This usually takes a few seconds.",
-    "keepComputerAwake": "Keep this computer awake while you use Houston on your phone.",
-    "alwaysOnHint": "For 24/7 access, <emph>Always On</emph> runs Houston on our servers.",
+    "keepComputerAwake": "Keep this computer awake while you use Nexo on your phone.",
+    "alwaysOnHint": "For 24/7 access, <emph>Always On</emph> runs Nexo on our servers.",
     "errors": {
-      "noInternet": "Houston needs an internet connection the first time you open the app. Please connect and reopen Houston to enable phone pairing.",
+      "noInternet": "Nexo needs an internet connection the first time you open the app. Please connect and reopen Nexo to enable phone pairing.",
       "generic": "Couldn't prepare a pairing code. Please try again."
     },
     "reset": {
@@ -79,7 +79,7 @@
   },
   "shortcuts": {
     "title": "Keyboard shortcuts",
-    "description": "Run Houston without touching the mouse."
+    "description": "Run Nexo without touching the mouse."
   },
   "reportBug": {
     "title": "Report bug",

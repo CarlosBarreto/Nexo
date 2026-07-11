@@ -14,7 +14,7 @@ import {
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
-} from "@houston-ai/core";
+} from "@nexo-ai/core";
 import { Plus } from "lucide-react";
 import { useMemo, useState } from "react";
 import { AddSkillDialog } from "./add-skill-dialog";

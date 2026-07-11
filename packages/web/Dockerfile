@@ -4,7 +4,7 @@
 #   VITE_CP_SUPABASE_URL=https://<ref>.supabase.co \
 #   VITE_CP_SUPABASE_ANON_KEY=<anon-key> \
 #   SENTRY_DSN=<houston-app DSN> \
-#     pnpm --filter houston-web build
+#     pnpm --filter nexo-web build
 # (SENTRY_DSN powers browser crash reporting; "Send feedback" needs the
 #  control plane's CP_LINEAR_API_KEY/CP_LINEAR_TEAM_ID — see cloud/k8s.)
 # then, from packages/web:

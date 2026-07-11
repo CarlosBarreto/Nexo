@@ -1,7 +1,7 @@
 import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { WireEvent } from "@houston/runtime-client";
+import type { WireEvent } from "@nexo/runtime-client";
 import { afterAll, expect, test, vi } from "vitest";
 
 // Keep any file the chat module touches inside a throwaway dir.

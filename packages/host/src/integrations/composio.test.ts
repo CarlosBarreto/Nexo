@@ -33,7 +33,7 @@ function harness(handler: (url: URL, method: string) => Reply) {
   const provider = new ComposioProvider({
     apiKey: "pk_test",
     baseURL: "https://cmp.test",
-    callbackUrl: "https://gethouston.ai/connected",
+    callbackUrl: "https://getnexo.ai/connected",
     fetch: fetchImpl,
   });
   return { provider, calls };
@@ -136,7 +136,7 @@ test("connect reuses the project's enabled auth config and mints a link session"
   expect(calls[1]?.body).toEqual({
     auth_config_id: "ac_gmail",
     user_id: USER,
-    callback_url: "https://gethouston.ai/connected",
+    callback_url: "https://getnexo.ai/connected",
   });
 
   // The auth config is cached — a second connect goes straight to the link.

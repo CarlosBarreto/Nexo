@@ -1,5 +1,5 @@
 /**
- * AgentAvatar — Avatar for Houston and Apollo across the app.
+ * AgentAvatar — Avatar for Nexo and Apollo across the app.
  */
 import { cn } from "../utils";
 

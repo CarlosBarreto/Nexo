@@ -1,4 +1,4 @@
-import type { AIBoardProps } from "@houston-ai/board";
+import type { AIBoardProps } from "@nexo-ai/board";
 import { useTranslation } from "react-i18next";
 
 /**

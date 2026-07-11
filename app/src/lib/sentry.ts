@@ -86,7 +86,7 @@ export function initSentry(): void {
     dsn: DSN,
     release: RELEASE,
     environment: import.meta.env.DEV ? "development" : "production",
-    // Keep PII off for Session Replay — Houston serves non-technical users
+    // Keep PII off for Session Replay — Nexo serves non-technical users
     // whose chat messages, prompts, agent + workspace names and file paths must
     // never enter a recording (the masking integration options below enforce
     // this).

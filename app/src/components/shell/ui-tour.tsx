@@ -1,4 +1,4 @@
-import { Button, cn } from "@houston-ai/core";
+import { Button, cn } from "@nexo-ai/core";
 import { useLayoutEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 

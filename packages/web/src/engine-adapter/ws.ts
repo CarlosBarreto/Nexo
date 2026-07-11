@@ -1,5 +1,5 @@
 import { bus } from "./bus";
-import type { HoustonClient } from "./client";
+import type { NexoClient } from "./client";
 
 /** Same topic helpers shape as the real package (the UI imports `topics`). */
 export const topics = {
@@ -21,9 +21,9 @@ type EventHandler = (event: unknown) => void;
 
 /**
  * Drop-in replacement for the real `EngineWebSocket`. There is no socket: the
- * new engine streams over SSE (handled inside HoustonClient.startSession), and
+ * new engine streams over SSE (handled inside NexoClient.startSession), and
  * those events are delivered here through the in-process `bus`. The public API
- * matches the original so app/src wiring (subscribeHoustonEvents, etc.) is
+ * matches the original so app/src wiring (subscribeNexoEvents, etc.) is
  * unchanged.
  */
 export class EngineWebSocket {
@@ -32,7 +32,7 @@ export class EngineWebSocket {
   private offBus: (() => void) | null = null;
   private offServer: (() => void) | null = null;
 
-  constructor(private readonly client: HoustonClient) {}
+  constructor(private readonly client: NexoClient) {}
 
   connect(): void {
     if (this.offBus) return;

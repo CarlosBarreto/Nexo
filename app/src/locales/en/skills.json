@@ -61,7 +61,7 @@
     "scratch": {
       "titleLabel": "What should this skill do?",
       "titlePlaceholder": "Draft a contract",
-      "titleHint": "Use the phrase you'd say in chat. Houston turns it into a slug.",
+      "titleHint": "Use the phrase you'd say in chat. Nexo turns it into a slug.",
       "slugPreviewPrefix": "Saved as",
       "descriptionLabel": "One-line description",
       "descriptionPlaceholder": "Drafts a starter contract you can review and sign.",

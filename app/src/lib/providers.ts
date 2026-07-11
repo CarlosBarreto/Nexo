@@ -1,4 +1,4 @@
-import type { Capabilities } from "@houston-ai/engine-client";
+import type { Capabilities } from "@nexo-ai/engine-client";
 
 /**
  * Reasoning-effort levels, ordered low→high. The set a given model accepts
@@ -76,7 +76,7 @@ export interface ProviderInfo {
   /**
    * How the user connects this provider. Default (absent) is subscription OAuth
    * (Claude / Codex). `"apiKey"` providers ask the user to
-   * paste a key instead. Houston opens `apiKeyUrl` for them to grab one.
+   * paste a key instead. Nexo opens `apiKeyUrl` for them to grab one.
    * `"openaiCompatible"` providers (a local server: Ollama / vLLM / LM Studio)
    * ask for a base URL + model id. Both run only on the new TS engine, and
    * `openaiCompatible` is desktop-only (the URL is the user's own machine) — see
@@ -464,7 +464,7 @@ export const PROVIDERS: readonly ProviderInfo[] = [
     // defaults, not the full catalog. `effortLevels` come from models.dev's
     // per-model `reasoning_options.effort.values` (the same source OpenCode
     // uses), intersected with what pi-ai actually maps; `minimal` is dropped
-    // (Houston's effort scale starts at `low`). Context windows are pi-ai's.
+    // (Nexo's effort scale starts at `low`). Context windows are pi-ai's.
     models: [
       {
         id: "openrouter/free",
@@ -515,7 +515,7 @@ export const PROVIDERS: readonly ProviderInfo[] = [
     auth: "apiKey",
     apiKeyUrl: "https://platform.deepseek.com/api_keys",
     // pi-ai `deepseek` model ids. Direct DeepSeek supports reasoning at high
-    // and max; pi maps Houston's xhigh to DeepSeek's max.
+    // and max; pi maps Nexo's xhigh to DeepSeek's max.
     models: [
       {
         id: "deepseek-v4-flash",
@@ -590,7 +590,7 @@ export const PROVIDERS: readonly ProviderInfo[] = [
     cost: "Pay-as-you-go on your AWS account",
     auth: "apiKey",
     apiKeyUrl: "https://console.aws.amazon.com/bedrock/home#/api-keys",
-    // pi-ai `amazon-bedrock` model ids. Houston's paste-a-key flow stores a
+    // pi-ai `amazon-bedrock` model ids. Nexo's paste-a-key flow stores a
     // Bedrock API key, which the runtime maps to pi's provider-specific
     // `bearerToken` option before each request.
     models: [
@@ -699,7 +699,7 @@ function capabilityIdsForProvider(provider: ProviderInfo): readonly string[] {
 
 /**
  * Providers to show in connect UIs. API-key providers run
- * only on the new TS engine — they paste a key Houston serves through the host —
+ * only on the new TS engine — they paste a key Nexo serves through the host —
  * so they're hidden when the legacy Rust engine is active. The OpenAI-compatible
  * (local) provider is additionally desktop-only: its base URL points at the
  * user's own machine, unreachable from a browser/cloud deployment (the host
@@ -733,7 +733,7 @@ export function getVisibleProviders(opts: {
 /**
  * The two OpenCode gateways — `opencode` (Zen, pay-as-you-go) and `opencode-go`
  * (Go, $10/mo subscription) — authenticate with the SAME opencode.ai key (pi
- * reads `OPENCODE_API_KEY` for both). Houston therefore presents ONE connectable
+ * reads `OPENCODE_API_KEY` for both). Nexo therefore presents ONE connectable
  * "OpenCode" account on the connect surfaces: the pasted key is stored under both
  * gateways (the adapter fans it out — see `credentialSiblings`), so a single
  * connect lights up both, and sign-out clears both. There is no way to tell a Go
@@ -843,8 +843,8 @@ export function getContextWindowConfig(
  * Return `providerId` only when it names a currently-active provider in
  * `PROVIDERS`. Used by the chat model selector and the per-chat
  * effective-provider fallback chain to skip stored values that point at
- * providers Houston has moved to `COMING_SOON_PROVIDERS` or dropped
- * entirely (e.g. an activity record from a previous Houston version that
+ * providers Nexo has moved to `COMING_SOON_PROVIDERS` or dropped
+ * entirely (e.g. an activity record from a previous Nexo version that
  * selected a provider that is no longer available). Callers chain it
  * with `??` to fall through to the next tier of preference.
  */
@@ -881,7 +881,7 @@ const LEGACY_MODEL_ALIASES: Readonly<Record<string, string>> = {
 };
 
 /**
- * Interpret a model value that may have been persisted by an older Houston
+ * Interpret a model value that may have been persisted by an older Nexo
  * build. The catalog pins explicit versions now, so a stored `"opus"`/`"sonnet"`
  * (an agent config the engine has not migrated yet, or an activity record —
  * those are never migrated) must be read as the version it denoted rather than

@@ -34,7 +34,7 @@
   },
   "attachmentIssues": {
     "title": "Alguns arquivos não foram anexados",
-    "description": "Houston manteve sua mensagem e os arquivos que pode usar.",
+    "description": "Nexo manteve sua mensagem e os arquivos que pode usar.",
     "close": "Entendi",
     "reasons": {
       "blockedType": "Este tipo de arquivo não pode ser usado aqui.",

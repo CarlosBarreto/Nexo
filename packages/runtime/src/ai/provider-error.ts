@@ -1,4 +1,4 @@
-import type { AuthFailureCause, ProviderError } from "@houston/runtime-client";
+import type { AuthFailureCause, ProviderError } from "@nexo/runtime-client";
 
 /**
  * Classify a failed model request into a typed `ProviderError` so the chat can
@@ -9,7 +9,7 @@ import type { AuthFailureCause, ProviderError } from "@houston/runtime-client";
  * and the `provider`/`model` it ran against (see pi-agent-core `agent-loop`).
  * That message — not a caught exception — is the signal we classify here. This
  * is the TS counterpart of the legacy Rust engine's `auth_error.rs` /
- * `codex_parser.rs` / `anthropic_classify.rs` (gethouston/houston PR #490).
+ * `codex_parser.rs` / `anthropic_classify.rs` (getnexo/nexo PR #490).
  *
  * pi-ai surfaces failures as a flat string (`errorMessage`), not typed classes —
  * each provider concatenates its SDK error, e.g. `"401 {…}"` (Anthropic SDK) or

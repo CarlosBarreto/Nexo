@@ -132,7 +132,7 @@ textarea {
   font-variant-ligatures: none;
 }
 
-/* Kanban card drag cursor (pointer-events based — see @houston-ai/board's
+/* Kanban card drag cursor (pointer-events based — see @nexo-ai/board's
    use-board-drag). Native HTML5 drag lets each OS pick the drag cursor; the
    board runs the drag itself, so we force ONE cursor across macOS, Windows and
    Linux here. The `!important` universal selector beats every element's own
@@ -180,17 +180,25 @@ body {
 .card-running-glow {
   --glow-angle: 0deg;
   --glow-bg: var(--color-background, #ffffff);
+  /* The comet's five gradient stops are variables so a consumer can retint the
+     sweep to an identity colour (e.g. a Lunaria element) without rewriting the
+     animation. Defaults reproduce the brand blue -> indigo -> orange -> yellow. */
+  --glow-c1: rgba(59, 130, 246, 0.15);
+  --glow-c2: #3b82f6;
+  --glow-c3: #818cf8;
+  --glow-c4: #f97316;
+  --glow-c5: #fbbf24;
   position: relative;
   background:
     linear-gradient(var(--glow-bg), var(--glow-bg)) padding-box,
     conic-gradient(
       from var(--glow-angle),
       transparent 60%,
-      rgba(59, 130, 246, 0.15) 68%,
-      #3b82f6 74%,
-      #818cf8 78%,
-      #f97316 82%,
-      #fbbf24 84%,
+      var(--glow-c1) 68%,
+      var(--glow-c2) 74%,
+      var(--glow-c3) 78%,
+      var(--glow-c4) 82%,
+      var(--glow-c5) 84%,
       transparent 88%
     ) border-box;
   border: 1.5px solid transparent;

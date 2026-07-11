@@ -1,4 +1,4 @@
-import type { HoustonEvent } from "@houston/protocol";
+import type { NexoEvent } from "@nexo/protocol";
 
 /**
  * Map a changed path (relative to `~/.houston/workspaces`) to a reactivity
@@ -8,16 +8,16 @@ import type { HoustonEvent } from "@houston/protocol";
  *
  * Returns null for paths not inside an agent or not worth an event.
  */
-export function classifyChange(relPath: string): HoustonEvent | null {
+export function classifyChange(relPath: string): NexoEvent | null {
   const parts = relPath.split(/[\\/]/).filter(Boolean);
   if (parts.length < 3) return null; // need <Workspace>/<Agent>/<something>
   const agentPath = `${parts[0]}/${parts[1]}`;
   const rest = parts.slice(2).join("/");
   const type = eventTypeFor(rest);
-  return type ? ({ type, agentPath } as HoustonEvent) : null;
+  return type ? ({ type, agentPath } as NexoEvent) : null;
 }
 
-function eventTypeFor(rest: string): HoustonEvent["type"] | null {
+function eventTypeFor(rest: string): NexoEvent["type"] | null {
   // Order matters: routine_runs must be tested before routines (prefix overlap).
   if (rest.startsWith(".houston/routine_runs")) return "RoutineRunsChanged";
   if (rest.startsWith(".houston/routines")) return "RoutinesChanged";

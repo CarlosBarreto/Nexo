@@ -1,11 +1,11 @@
 /**
- * Whether this build talks to the v3 Houston host (host mode) instead
+ * Whether this build talks to the v3 Nexo host (host mode) instead
  * of the Tauri-spawned Rust engine.
  *
  * This MUST mirror `useHost` in `app/vite.config.ts`, which aliases
- * `@houston-ai/engine-client` to the host adapter exactly when one of
+ * `@nexo-ai/engine-client` to the host adapter exactly when one of
  * these flags is set. The adapter decides its protocol (v3 host vs the
- * Rust wire) from `window.__HOUSTON_CP__` at HoustonClient *construction* time,
+ * Rust wire) from `window.__HOUSTON_CP__` at NexoClient *construction* time,
  * so the flag has to be a deterministic build constant set before any client is
  * built — NOT a value injected by the Tauri host handshake, which can lose the
  * race against the `get_engine_handshake` poll / `houston-engine-ready` event
@@ -126,7 +126,7 @@ export function hostedGateState(input: {
  * The user's runtime engine-connection choice (HOU-621). Persisted by
  * `engine-connection.ts` and only consulted in the TS-engine build (where vite
  * aliases the v3 adapter — see {@link resolveEngine}). `local` runs the
- * Tauri-spawned host sidecar; `remote` points the desktop at a Houston host /
+ * Tauri-spawned host sidecar; `remote` points the desktop at a Nexo host /
  * gateway URL and authenticates with the Supabase session token.
  */
 export type RuntimeConnection =

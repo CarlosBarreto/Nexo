@@ -1,4 +1,4 @@
-import { cn } from "@houston-ai/core";
+import { cn } from "@nexo-ai/core";
 import ReactMarkdown from "react-markdown";
 
 export function DeliverableCard({ content }: { content: string }) {

@@ -1,4 +1,4 @@
-// Chat-related types extracted from Houston's type system.
+// Chat-related types extracted from Nexo's type system.
 // Only the types needed by chat components are included here.
 
 /**
@@ -35,7 +35,7 @@ export type FeedItem =
   | {
       /**
        * A context-compaction boundary. Earlier turns were summarized to free
-       * context, either by the provider CLI itself (`native`) or by Houston's
+       * context, either by the provider CLI itself (`native`) or by Nexo's
        * proactive reseed (`proactive`). Rendered as a subtle divider; the full
        * chat above and below stays visible. `pre_tokens` is how full the
        * context was just before compaction, when reported.

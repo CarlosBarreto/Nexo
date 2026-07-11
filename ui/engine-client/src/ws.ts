@@ -28,7 +28,7 @@
  * directly through the reverse tunnel.)
  */
 
-import type { HoustonClient } from "./client.ts";
+import type { NexoClient } from "./client.ts";
 import type { EngineEnvelope } from "./types.ts";
 
 type EnvelopeHandler = (env: EngineEnvelope) => void;
@@ -69,7 +69,7 @@ export class EngineWebSocket {
   /** Topics the caller wants subscribed. Re-sent on every reconnect. */
   private subscribed: Set<string> = new Set();
 
-  constructor(private client: HoustonClient) {}
+  constructor(private client: NexoClient) {}
 
   connect(): void {
     this.shouldRun = true;
@@ -90,7 +90,7 @@ export class EngineWebSocket {
   }
 
   /**
-   * Typed event handler — called once per `HoustonEvent` (kind:"event"
+   * Typed event handler — called once per `NexoEvent` (kind:"event"
    * frames, payload is the tagged event object). Non-event frames are
    * filtered out. Lag markers (`{type:"Lag",...}`) pass through.
    */

@@ -1,4 +1,4 @@
-import { Button, Input } from "@houston-ai/core";
+import { Button, Input } from "@nexo-ai/core";
 import { type FormEvent, useState } from "react";
 import { sendEmailOtp, verifyEmailOtp } from "../../lib/auth";
 import { logger } from "../../lib/logger";

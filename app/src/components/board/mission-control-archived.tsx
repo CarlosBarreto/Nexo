@@ -1,4 +1,4 @@
-import { AIBoard } from "@houston-ai/board";
+import { AIBoard } from "@nexo-ai/board";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { openAgentHref } from "../../lib/open-href";

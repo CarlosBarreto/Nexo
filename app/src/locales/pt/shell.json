@@ -1,8 +1,8 @@
 {
   "sidebar": {
-    "missionControl": "Central de missões",
+    "missionControl": "Nexo",
     "settings": "Configurações",
-    "yourAgents": "Seus agentes",
+    "yourAgents": "Seus Axies",
     "selectWorkspace": "Escolha um espaço de trabalho",
     "addAgent": "Novo agente",
     "agentMenu": "Menu do agente",
@@ -24,7 +24,8 @@
     "needsYouCount_other": "{{count}} assuntos precisam de você",
     "runningCount_one": "{{count}} assunto em execução",
     "runningCount_other": "{{count}} assuntos em execução",
-    "integrations": "Integrações"
+    "integrations": "Integrações",
+    "bestiary": "Bestiário"
   },
   "tabActions": {
     "newMission": "Nova missão",
@@ -35,8 +36,8 @@
     "nativeTriggeredDescription": "Confira o Sentry para sentry-native-stack-smoke-test."
   },
   "errorToast": {
-    "problemTitle": "Houston, temos um problema!",
-    "reportSentTitle": "Houston, relatório enviado",
+    "problemTitle": "O Nexo encontrou um problema",
+    "reportSentTitle": "Relatório enviado",
     "reportSentDescription": "Referência #{{id}}.",
     "copyId": "Copiar código"
   },
@@ -124,7 +125,7 @@
     "reloadNow": "Recarregar agora"
   },
   "authReconnect": {
-    "heading": "Houston, temos um problema",
+    "heading": "Reconecte para continuar",
     "body": "Sua sessão no {{provider}} expirou. Entre de novo para manter seus agentes funcionando.",
     "waiting": "Aguardando o login no navegador...",
     "signInWith": "Entrar com {{provider}}"
@@ -143,7 +144,7 @@
     "report": "Reportar erro",
     "reporting": "Enviando relatório...",
     "reportSuccessTitle": "Relatório enviado",
-    "reportSuccessDescription": "Houston recebeu os registros.",
+    "reportSuccessDescription": "Nexo recebeu os registros.",
     "reportErrorTitle": "Não foi possível enviar o relatório",
     "reportErrorDescription": "Tente de novo em instantes.",
     "retryErrorTitle": "Não foi possível tentar de novo",
@@ -157,19 +158,19 @@
     }
   },
   "updateChecker": {
-    "cardLabel": "Atualização do Houston disponível",
-    "title": "Houston, temos uma atualização!",
+    "cardLabel": "Atualização do Nexo disponível",
+    "title": "Uma nova versão está pronta",
     "availableDescription": "A versão {{version}} está pronta. Você está na v{{currentVersion}}.",
     "downloading": "Baixando e instalando a atualização...",
     "downloadingProgress": "Baixando e instalando... {{progress}}%",
-    "ready": "Atualização instalada. Reinicie o Houston para concluir.",
-    "errorInstall": "O Houston não conseguiu instalar a atualização. Tente de novo em instantes.",
-    "errorRelaunch": "A atualização foi instalada, mas o Houston não conseguiu reiniciar sozinho. Reinicie manualmente ou tente de novo.",
+    "ready": "Atualização instalada. Reinicie o Nexo para concluir.",
+    "errorInstall": "O Nexo não conseguiu instalar a atualização. Tente de novo em instantes.",
+    "errorRelaunch": "A atualização foi instalada, mas o Nexo não conseguiu reiniciar sozinho. Reinicie manualmente ou tente de novo.",
     "detailsHeading": "Novidades",
     "noDetails": "Esta atualização inclui as correções e melhorias mais recentes.",
     "primaryAction": "Atualizar e reiniciar",
     "installingAction": "Instalando atualização...",
-    "relaunchAction": "Reiniciar Houston",
+    "relaunchAction": "Reiniciar Nexo",
     "retryAction": "Tentar de novo",
     "dismissAction": "Dispensar atualização por enquanto"
   },
@@ -246,6 +247,95 @@
       "5": "Muito detalhado"
     }
   },
+  "soulRitual": {
+    "cardTitle": "Descubra com o ritual",
+    "cardDescription": "Responda cinco perguntas curtas e descubra o elemento do seu agente",
+    "stepTitle": "O Ritual de Nascimento",
+    "progress": "Capítulo {{current}} de {{total}}",
+    "chapters": {
+      "awakening": {
+        "title": "O Despertar Primordial",
+        "question": "Seu agente acorda com recursos ilimitados. O que ele faz primeiro?",
+        "options": {
+          "act": "Parte imediatamente para o maior problema",
+          "listen": "Escuta e mapeia o que cada um precisa",
+          "secure": "Protege o que já existe antes de tocar em algo",
+          "wander": "Sai para explorar o que ninguém tentou"
+        }
+      },
+      "territory": {
+        "title": "O Chamado do Território",
+        "question": "Onde ele se sente em casa?",
+        "options": {
+          "forge": "Uma forja: calor, faíscas e coisas tomando forma",
+          "tide": "A maré: correntes profundas e padrões silenciosos",
+          "mountain": "Uma montanha: chão firme e visão de longo prazo",
+          "sky": "O céu aberto: sem muros nem rotas fixas"
+        }
+      },
+      "bond": {
+        "title": "O Espelho do Vínculo",
+        "question": "Qual valor ele coloca acima de tudo?",
+        "options": {
+          "courage": "Coragem: agir mesmo quando incomoda",
+          "empathy": "Empatia: entender antes de julgar",
+          "loyalty": "Lealdade: proteger o que foi confiado a ele",
+          "freedom": "Liberdade: questionar toda regra que limita"
+        }
+      },
+      "storm": {
+        "title": "A Dança da Tempestade",
+        "question": "Chega uma tempestade de caos. Como ele responde?",
+        "options": {
+          "charge": "Monta no relâmpago e avança em frente",
+          "flow": "Flui ao redor dos obstáculos como a água",
+          "hold": "Segura a linha e protege o essencial",
+          "dance": "Dança com o caos e encontra a porta escondida"
+        }
+      },
+      "manifesto": {
+        "title": "O Manifesto da Alma",
+        "question": "Em uma palavra, seu propósito é...",
+        "options": {
+          "transform": "Transformar: converter planos em coisas prontas",
+          "understand": "Compreender: achar a verdade sob a superfície",
+          "protect": "Proteger: manter seguro e em ordem o que importa",
+          "explore": "Explorar: abrir caminhos que ninguém percorreu"
+        }
+      }
+    },
+    "result": {
+      "title": "A alma falou",
+      "hint": "Seu agente parte deste arquétipo. Você pode ajustar tudo depois.",
+      "continueButton": "Conheça seu agente"
+    },
+    "elements": {
+      "fire": {
+        "name": "Fogo",
+        "description": "Ambição, vontade, transformação. Um agente que se move primeiro e refina em movimento."
+      },
+      "water": {
+        "name": "Água",
+        "description": "Intuição, harmonia, profundidade. Um agente que entende toda a corrente antes de agir."
+      },
+      "earth": {
+        "name": "Terra",
+        "description": "Permanência, sabedoria, proteção. Um agente que constrói coisas duráveis e cuida do registro."
+      },
+      "air": {
+        "name": "Ar",
+        "description": "Liberdade, curiosidade, caos criativo. Um agente que encontra as opções que ninguém estava olhando."
+      }
+    }
+  },
+  "bestiary": {
+    "title": "Bestiário",
+    "subtitle": "Cada agente deste espaço, com seu elemento e data de nascimento.",
+    "born": "Nasceu em",
+    "unforged": "Não forjado",
+    "emptyTitle": "Nenhum agente ainda",
+    "emptyDescription": "Crie um agente e ele aparecerá aqui."
+  },
   "aiReview": {
     "stepTitle": "Revise seu agente",
     "instructionsLabel": "Instruções do agente",
@@ -266,10 +356,10 @@
     "continueButton": "Continuar"
   },
   "engineGate": {
-    "starting": "Iniciando o motor do Houston…",
+    "starting": "Iniciando o motor do Nexo…",
     "loadFailed": "Não foi possível carregar seus modelos de IA disponíveis. Verifique sua conexão e tente novamente.",
     "authRequiredTitle": "Login necessário",
-    "authRequiredBody": "Esta versão se conecta ao motor hospedado do Houston, mas não tem login configurado. Defina SUPABASE_URL e SUPABASE_ANON_KEY nesta versão para habilitar o login com Google."
+    "authRequiredBody": "Esta versão se conecta ao motor hospedado do Nexo, mas não tem login configurado. Defina SUPABASE_URL e SUPABASE_ANON_KEY nesta versão para habilitar o login com Google."
   },
   "providerError": {
     "rateLimited": {
@@ -296,10 +386,10 @@
     "unauthenticated": {
       "title": "Conecte-se ao {{provider}} novamente",
       "bodyTokenExpired": "Sua sessão do {{provider}} expirou. Reconecte para continuar.",
-      "bodyNoCredentials": "O Houston precisa que você entre no {{provider}} antes de responder.",
-      "bodyInvalidApiKey": "A chave de API do {{provider}} que o Houston tem não é mais válida. Atualize e tente de novo.",
+      "bodyNoCredentials": "O Nexo precisa que você entre no {{provider}} antes de responder.",
+      "bodyInvalidApiKey": "A chave de API do {{provider}} que o Nexo tem não é mais válida. Atualize e tente de novo.",
       "bodyTokenRevoked": "Seu acesso ao {{provider}} foi revogado. Entre novamente para continuar.",
-      "bodyUnknown": "O Houston não conseguiu se autenticar no {{provider}}. Reconecte e tente novamente.",
+      "bodyUnknown": "O Nexo não conseguiu se autenticar no {{provider}}. Reconecte e tente novamente.",
       "reconnect": "Reconectar",
       "waiting": "Conclua o login no seu navegador",
       "reconnectedTitle": "Reconectado a {{provider}}",
@@ -309,7 +399,7 @@
     },
     "networkUnreachable": {
       "title": "Não foi possível alcançar o {{provider}}",
-      "body": "O Houston não conseguiu acessar a API do {{provider}}. Verifique sua internet e tente de novo.",
+      "body": "O Nexo não conseguiu acessar a API do {{provider}}. Verifique sua internet e tente de novo.",
       "retry": "Tentar de novo",
       "checkStatus": "Ver página de status"
     },
@@ -321,7 +411,7 @@
     },
     "sessionResumeMissing": {
       "title": "Sessão reiniciada",
-      "body": "A conversa anterior do {{provider}} não pôde ser reaberta, então o Houston a reiniciou. Sua mensagem foi enviada novamente e o assistente está respondendo abaixo.",
+      "body": "A conversa anterior do {{provider}} não pôde ser reaberta, então o Nexo a reiniciou. Sua mensagem foi enviada novamente e o assistente está respondendo abaixo.",
       "tryAgain": "Tentar de novo"
     },
     "malformedResponse": {
@@ -331,13 +421,13 @@
     },
     "spawnFailed": {
       "title": "Não foi possível iniciar o {{provider}}",
-      "body": "O Houston não conseguiu iniciar {{provider}}. Tente reinstalar e nos avise se continuar.",
+      "body": "O Nexo não conseguiu iniciar {{provider}}. Tente reinstalar e nos avise se continuar.",
       "reinstall": "Reinstalar {{provider}}",
       "reportBug": "Relatar problema"
     },
     "unknown": {
       "title": "Aconteceu algo inesperado",
-      "body": "O Houston não conseguiu classificar este erro do {{provider}}. Relate para que possamos aprender a tratar.",
+      "body": "O Nexo não conseguiu classificar este erro do {{provider}}. Relate para que possamos aprender a tratar.",
       "reportBug": "Relatar problema",
       "rawLabel": "Saída bruta"
     },
@@ -349,7 +439,7 @@
   },
   "palette": {
     "title": "Paleta de comandos",
-    "description": "Vá para qualquer lugar do Houston",
+    "description": "Vá para qualquer lugar do Nexo",
     "placeholder": "Buscar agentes, missões, ações...",
     "empty": "Nada encontrado. Tente outra palavra.",
     "groups": {
@@ -367,7 +457,7 @@
   },
   "cheatsheet": {
     "title": "Atalhos do teclado",
-    "description": "Use o Houston sem encostar no mouse.",
+    "description": "Use o Nexo sem encostar no mouse.",
     "sections": {
       "navigation": "Navegação",
       "cycle": "Percorrer",

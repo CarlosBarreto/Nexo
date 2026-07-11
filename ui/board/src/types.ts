@@ -1,4 +1,4 @@
-import type { HighlightRange } from "@houston-ai/core";
+import type { HighlightRange } from "@nexo-ai/core";
 import type React from "react";
 
 export interface KanbanItem {
@@ -10,6 +10,14 @@ export interface KanbanItem {
   group?: string;
   /** Small pill labels shown at the bottom of the card. */
   tags?: string[];
+  /** Identity accent colour (any CSS colour). When set, a running card retints
+   *  its comet glow to this colour and, together with `accentLabel`, the card
+   *  shows a matching coloured pill. The consumer maps a domain concept (e.g. a
+   *  Lunaria soul element) to a colour here — the library stays domain-agnostic. */
+  accent?: string;
+  /** Short label for the accent pill (e.g. an element name). Rendered only when
+   *  `accent` is also set. */
+  accentLabel?: string;
   status: string;
   updatedAt: string;
   icon?: React.ReactNode;

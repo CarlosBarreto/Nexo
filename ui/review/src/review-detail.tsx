@@ -1,4 +1,4 @@
-import { Button, Input } from "@houston-ai/core";
+import { Button, Input } from "@nexo-ai/core";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { DeliverableCard, UserFeedback } from "./deliverable-card";

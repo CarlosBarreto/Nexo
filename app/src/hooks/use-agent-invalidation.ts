@@ -1,8 +1,8 @@
-import type { HoustonEvent } from "@houston-ai/core";
+import type { NexoEvent } from "@nexo-ai/core";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { onEngineRestarted } from "../lib/engine";
-import { subscribeHoustonEvents } from "../lib/events";
+import { subscribeNexoEvents } from "../lib/events";
 import { logger } from "../lib/logger";
 import { osFocusWindow } from "../lib/os-bridge";
 import { queryKeys } from "../lib/query-keys";
@@ -25,7 +25,7 @@ export function useAgentInvalidation() {
       qc.invalidateQueries({ queryKey: ["activity"] });
       qc.invalidateQueries({ queryKey: ["all-conversations"] });
     });
-    const unlisten = subscribeHoustonEvents((p: HoustonEvent) => {
+    const unlisten = subscribeNexoEvents((p: NexoEvent) => {
       console.log(
         "[invalidation] event:",
         p.type,

@@ -1,6 +1,6 @@
-import { cn, DialogTitle, Input, Switch } from "@houston-ai/core";
-import type { RoutineFormData, SchedulePreset } from "@houston-ai/routines";
-import { ScheduleBuilder } from "@houston-ai/routines";
+import { cn, DialogTitle, Input, Switch } from "@nexo-ai/core";
+import type { RoutineFormData, SchedulePreset } from "@nexo-ai/routines";
+import { ScheduleBuilder } from "@nexo-ai/routines";
 import { AlertTriangle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useRoutineLabels } from "../../hooks/use-routine-labels";

@@ -1,6 +1,6 @@
 import { ok, rejects, strictEqual } from "node:assert";
 import { describe, it } from "node:test";
-import { HoustonClient, isHoustonEngineError } from "../src/client.ts";
+import { isNexoEngineError, NexoClient } from "../src/client.ts";
 
 /**
  * Transport retry/backoff — the fix for HOU-432 (engine sidecar drops →
@@ -33,10 +33,10 @@ function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-describe("HoustonClient transport retry (HOU-432)", () => {
+describe("NexoClient transport retry (HOU-432)", () => {
   it("succeeds on the first try with exactly one fetch", async () => {
     let calls = 0;
-    const client = new HoustonClient({
+    const client = new NexoClient({
       baseUrl: "http://127.0.0.1:1111",
       token: "t",
       retry: { ...FAST, maxAttempts: 5 },
@@ -51,7 +51,7 @@ describe("HoustonClient transport retry (HOU-432)", () => {
 
   it("retries a 'Load failed' TypeError on an idempotent GET, then succeeds", async () => {
     let calls = 0;
-    const client = new HoustonClient({
+    const client = new NexoClient({
       baseUrl: "http://127.0.0.1:1111",
       token: "t",
       retry: { ...FAST, maxAttempts: 5 },
@@ -67,7 +67,7 @@ describe("HoustonClient transport retry (HOU-432)", () => {
 
   it("gives up after maxAttempts and surfaces the network error", async () => {
     let calls = 0;
-    const client = new HoustonClient({
+    const client = new NexoClient({
       baseUrl: "http://127.0.0.1:1111",
       token: "t",
       retry: { ...FAST, maxAttempts: 3 },
@@ -82,7 +82,7 @@ describe("HoustonClient transport retry (HOU-432)", () => {
 
   it("stops on the wall-clock deadline before exhausting maxAttempts", async () => {
     let calls = 0;
-    const client = new HoustonClient({
+    const client = new NexoClient({
       baseUrl: "http://127.0.0.1:1111",
       token: "t",
       // A generous attempt cap but a tiny deadline: the clock must stop it.
@@ -105,7 +105,7 @@ describe("HoustonClient transport retry (HOU-432)", () => {
 
   it("never retries an HTTP 4xx (the request was processed)", async () => {
     let calls = 0;
-    const client = new HoustonClient({
+    const client = new NexoClient({
       baseUrl: "http://127.0.0.1:1111",
       token: "t",
       retry: { ...FAST, maxAttempts: 5 },
@@ -114,13 +114,13 @@ describe("HoustonClient transport retry (HOU-432)", () => {
         return jsonResponse({ error: { code: "nope", message: "bad" } }, 404);
       },
     });
-    await rejects(client.health(), (err: unknown) => isHoustonEngineError(err));
+    await rejects(client.health(), (err: unknown) => isNexoEngineError(err));
     strictEqual(calls, 1);
   });
 
   it("retries a 503 on a GET (idempotent), then succeeds", async () => {
     let calls = 0;
-    const client = new HoustonClient({
+    const client = new NexoClient({
       baseUrl: "http://127.0.0.1:1111",
       token: "t",
       retry: { ...FAST, maxAttempts: 5 },
@@ -136,7 +136,7 @@ describe("HoustonClient transport retry (HOU-432)", () => {
 
   it("retries a 503 on a PUT (idempotent), then succeeds", async () => {
     let calls = 0;
-    const client = new HoustonClient({
+    const client = new NexoClient({
       baseUrl: "http://127.0.0.1:1111",
       token: "t",
       retry: { ...FAST, maxAttempts: 5 },
@@ -152,7 +152,7 @@ describe("HoustonClient transport retry (HOU-432)", () => {
 
   it("does NOT retry a 503 on a mutating POST", async () => {
     let calls = 0;
-    const client = new HoustonClient({
+    const client = new NexoClient({
       baseUrl: "http://127.0.0.1:1111",
       token: "t",
       retry: { ...FAST, maxAttempts: 5 },
@@ -162,14 +162,14 @@ describe("HoustonClient transport retry (HOU-432)", () => {
       },
     });
     await rejects(client.createWorkspace({ name: "w" }), (err: unknown) =>
-      isHoustonEngineError(err),
+      isNexoEngineError(err),
     );
     strictEqual(calls, 1);
   });
 
   it("does NOT retry a network TypeError on a mutating POST (could double-execute)", async () => {
     let calls = 0;
-    const client = new HoustonClient({
+    const client = new NexoClient({
       baseUrl: "http://127.0.0.1:1111",
       token: "t",
       retry: { ...FAST, maxAttempts: 5 },
@@ -189,7 +189,7 @@ describe("HoustonClient transport retry (HOU-432)", () => {
 
   it("DOES retry a network TypeError on a read-only POST (the HOU-432 culprit)", async () => {
     let calls = 0;
-    const client = new HoustonClient({
+    const client = new NexoClient({
       baseUrl: "http://127.0.0.1:1111",
       token: "t",
       retry: { ...FAST, maxAttempts: 5 },
@@ -209,8 +209,8 @@ describe("HoustonClient transport retry (HOU-432)", () => {
     const OLD = "http://127.0.0.1:57461";
     const NEW = "http://127.0.0.1:62000";
     const urls: string[] = [];
-    let client: HoustonClient;
-    client = new HoustonClient({
+    let client: NexoClient;
+    client = new NexoClient({
       baseUrl: OLD,
       token: "t",
       retry: { ...FAST, maxAttempts: 5 },
@@ -236,7 +236,7 @@ describe("HoustonClient transport retry (HOU-432)", () => {
     let calls = 0;
     const controller = new AbortController();
     controller.abort();
-    const client = new HoustonClient({
+    const client = new NexoClient({
       baseUrl: "http://127.0.0.1:1111",
       token: "t",
       retry: { ...FAST, maxAttempts: 5 },
@@ -256,7 +256,7 @@ describe("HoustonClient transport retry (HOU-432)", () => {
   it("normalizes an abort during backoff to an AbortError and stops retrying", async () => {
     let calls = 0;
     const controller = new AbortController();
-    const client = new HoustonClient({
+    const client = new NexoClient({
       baseUrl: "http://127.0.0.1:1111",
       token: "t",
       // Backoff long enough that we can abort mid-wait.
@@ -282,9 +282,9 @@ describe("HoustonClient transport retry (HOU-432)", () => {
 
   it("sends the bearer token from the CURRENT endpoint on each retry", async () => {
     const tokens: (string | null)[] = [];
-    let client: HoustonClient;
+    let client: NexoClient;
     let calls = 0;
-    client = new HoustonClient({
+    client = new NexoClient({
       baseUrl: "http://127.0.0.1:1111",
       token: "old-token",
       retry: { ...FAST, maxAttempts: 5 },

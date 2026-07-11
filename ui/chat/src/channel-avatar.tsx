@@ -1,4 +1,4 @@
-import { cn } from "@houston-ai/core";
+import { cn } from "@nexo-ai/core";
 
 export type ChannelSource = "telegram" | "slack" | "desktop" | string;
 

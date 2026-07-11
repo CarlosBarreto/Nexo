@@ -104,7 +104,7 @@ pub(super) fn sample_payload() -> BugReportPayload {
         command: "list_workspaces".to_string(),
         error: "Error: no workspace found\nsecond line".to_string(),
         space_name: Some("Mission Control".to_string()),
-        workspace_name: Some("Houston".to_string()),
+        workspace_name: Some("Nexo".to_string()),
         user_email: Some("user@example.com".to_string()),
         timestamp: "2026-04-30T12:00:00.000Z".to_string(),
         app_version: "0.4.4".to_string(),

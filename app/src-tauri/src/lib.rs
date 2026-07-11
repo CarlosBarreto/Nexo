@@ -125,14 +125,14 @@ fn engine_sentry_env(
 pub fn run() {
     // First-launch DMG guard (macOS only). If we were double-clicked from
     // inside the installer DMG (path under /Volumes/…), show a native
-    // dialog asking the user to move Houston to Applications, do the
+    // dialog asking the user to move Nexo to Applications, do the
     // copy + relaunch, and exit this process. Must run BEFORE Sentry +
     // logging init so the in-DMG instance never touches `~/.houston/`.
     #[cfg(target_os = "macos")]
     dmg_guard::handle_if_needed();
 
     // `houston_dir()` flips to `~/.dev-houston/` in debug builds so
-    // `pnpm tauri dev` stays isolated from an installed release of Houston.
+    // `pnpm tauri dev` stays isolated from an installed release of Nexo.
     let houston = houston_tauri::houston_db::db::houston_dir();
 
     // Sentry MUST init before logging so the tracing subscriber's
@@ -199,18 +199,18 @@ pub fn run() {
     // Single-instance plugin — MUST be registered before the deep-link
     // plugin on Windows / Linux so its second-instance argv-forwarding
     // is the one the deep-link plugin attaches to. Without this, every
-    // `houston://auth-callback?...` from the Google OAuth flow launches
+    // `nexo://auth-callback?...` from the Google OAuth flow launches
     // a fresh houston-app.exe (the OS protocol handler does this by
-    // design — Start-menu launches resolve to `C:\Program Files\Houston\…`
+    // design — Start-menu launches resolve to `C:\Program Files\Nexo\…`
     // and protocol-handler launches resolve to the 8.3 short form
-    // `C:\PROGRA~1\Houston\…`, both visible as separate engine spawns
+    // `C:\PROGRA~1\Nexo\…`, both visible as separate engine spawns
     // in `backend.log` on the bad path) while the primary instance
     // sits on the login screen waiting for an event that never arrives.
     //
     // The callback below also raises the primary window so the user
     // sees the auth state transition (browser → app) immediately.
     //
-    // No-op on macOS — NSWorkspace delivers `houston://` URLs to the
+    // No-op on macOS — NSWorkspace delivers `nexo://` URLs to the
     // running app natively, no second instance is ever spawned.
     #[cfg(any(target_os = "windows", target_os = "linux"))]
     {
@@ -235,7 +235,7 @@ pub fn run() {
         .plugin(tauri_plugin_deep_link::init())
         .setup(move |app| {
             // Deep-link handler for Google-OAuth callbacks
-            // (`houston://auth-callback?code=...`). Forwards the URL to the
+            // (`nexo://auth-callback?code=...`). Forwards the URL to the
             // frontend; Supabase's PKCE exchange runs in JS so the verifier
             // stays in Keychain-backed storage end-to-end.
             {
@@ -243,13 +243,13 @@ pub fn run() {
                 let handle = app.handle().clone();
                 app.deep_link().on_open_url(move |event| {
                     for url in event.urls() {
-                        // Any deep link brings Houston forward — e.g. the
-                        // "Open Houston" button on the sign-in success page
-                        // (`houston://open`), or the `houston://auth-callback`
+                        // Any deep link brings Nexo forward — e.g. the
+                        // "Open Nexo" button on the sign-in success page
+                        // (`nexo://open`), or the `nexo://auth-callback`
                         // fallback when the loopback couldn't bind.
                         window_focus::bring_to_front(&handle);
                         // Only the OAuth callback carries a code/error for the
-                        // webview to exchange; a bare `houston://open` is
+                        // webview to exchange; a bare `nexo://open` is
                         // focus-only (routing it through the auth path would
                         // surface a spurious "missing authorization code").
                         if url.host_str() == Some("auth-callback") {
@@ -273,7 +273,7 @@ pub fn run() {
 
             // One-time migration: earlier versions stored workspaces under
             // `~/Documents/Houston/`. New default is `$HOUSTON_HOME/workspaces/`
-            // so everything Houston owns is under a single discoverable root.
+            // so everything Nexo owns is under a single discoverable root.
             // Move the legacy directory if it exists and the new location is
             // empty. Idempotent on subsequent launches.
             migrate_legacy_docs_dir(&houston);
@@ -304,7 +304,7 @@ pub fn run() {
             //
             // Cutover host mode: when VITE_NEW_ENGINE_URL (static token) or
             // VITE_HOSTED_ENGINE_URL (Supabase bearer) is set, the frontend
-            // talks to an external Houston host/gateway (see app/src/lib/engine.ts),
+            // talks to an external Nexo host/gateway (see app/src/lib/engine.ts),
             // so don't spawn or health-check the Rust engine sidecar at all.
             let host_mode = ["VITE_NEW_ENGINE_URL", "VITE_HOSTED_ENGINE_URL"]
                 .iter()
@@ -320,7 +320,7 @@ pub fn run() {
                 // Keep get_engine_handshake callable (the frontend skips it here).
                 app.manage(EngineHandshakeState::default());
             } else {
-                // `host-sidecar` feature: spawn the Bun-compiled Houston host
+                // `host-sidecar` feature: spawn the Bun-compiled Nexo host
                 // (packages/host/src/local/main.ts) as the sidecar and
                 // drive the frontend into control-plane mode against it. Default
                 // (feature off): the Rust engine — unchanged, so main stays
@@ -461,12 +461,12 @@ fn spawn_rust_engine(
     });
     // Product-layer prompts live in the `houston_prompt` module and are
     // exported to the engine via env vars. The engine treats these
-    // as opaque strings — it has no hardcoded Houston copy.
+    // as opaque strings — it has no hardcoded Nexo copy.
     //
     // Also pin HOUSTON_HOME + HOUSTON_DOCS so the engine uses the
     // same data roots as the app. Workspaces live under
     // `$HOUSTON_HOME/workspaces/` in both debug (`~/.dev-houston/`)
-    // and release (`~/.houston/`) — everything Houston writes is
+    // and release (`~/.houston/`) — everything Nexo writes is
     // rooted at a single discoverable location.
     let docs_dir = houston.join("workspaces");
     let mut engine_env: Vec<(String, String)> = vec![
@@ -499,7 +499,7 @@ fn spawn_rust_engine(
     }
     // Pass through `HOUSTON_TUNNEL_URL` for local relay dev
     // (`wrangler dev` on localhost:8787). Production uses the
-    // engine's baked-in default (`tunnel.gethouston.ai`).
+    // engine's baked-in default (`tunnel.getnexo.ai`).
     if let Ok(v) = std::env::var("HOUSTON_TUNNEL_URL") {
         if !v.is_empty() {
             engine_env.push(("HOUSTON_TUNNEL_URL".into(), v));
@@ -582,7 +582,7 @@ fn spawn_rust_engine(
     }
 }
 
-/// Spawn the Bun-compiled Houston host as the sidecar (`host-sidecar` feature)
+/// Spawn the Bun-compiled Nexo host as the sidecar (`host-sidecar` feature)
 /// and drive the frontend into control-plane mode against it.
 ///
 /// Mirrors the Rust-engine spawn in `setup()` but:
@@ -640,7 +640,7 @@ fn spawn_host_sidecar(
             houston_prompt::system_prompt(),
         ),
     ];
-    // Integrations gateway (platform-mode Composio): Houston's cloud host owns
+    // Integrations gateway (platform-mode Composio): Nexo's cloud host owns
     // the platform key; this desktop host only forwards with the user's
     // Supabase session. Runtime env wins (dev override), else the compile-time
     // URL CI bakes in. No URL → the host runs with integrations off. The URL

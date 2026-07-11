@@ -6,7 +6,7 @@
  * -> `CoreError::Labeled` in
  * `engine/houston-engine-server/src/routes/composio.rs`).
  *
- * This is an expected, explainable state, NOT a Houston bug: it means the
+ * This is an expected, explainable state, NOT a Nexo bug: it means the
  * caller's cached connected-toolkits list was stale, which is why the
  * Connect button was still live. Surfaces refresh that list so the card
  * flips to its connected state, and the engine-call wrapper silences the
@@ -16,7 +16,7 @@ export const COMPOSIO_ALREADY_CONNECTED_KIND = "composio_already_connected";
 
 /**
  * True when a thrown engine error means the toolkit is already connected.
- * Reads the typed `.kind` exposed by `HoustonEngineError` (and tolerates a
+ * Reads the typed `.kind` exposed by `NexoEngineError` (and tolerates a
  * plain `{ kind }` object), so it never depends on parsing message strings.
  */
 export function isAlreadyConnectedError(err: unknown): boolean {

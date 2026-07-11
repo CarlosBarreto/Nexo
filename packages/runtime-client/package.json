@@ -1,5 +1,5 @@
 {
-  "name": "@houston/runtime-client",
+  "name": "@nexo/runtime-client",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -25,6 +25,6 @@
     "typescript": "^6.0.2"
   },
   "dependencies": {
-    "@houston/protocol": "workspace:*"
+    "@nexo/protocol": "workspace:*"
   }
 }

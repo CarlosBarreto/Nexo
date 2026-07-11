@@ -1,8 +1,4 @@
-import type {
-  Routine,
-  RoutineFormData,
-  RoutineRun,
-} from "@houston-ai/routines";
+import type { Routine, RoutineFormData, RoutineRun } from "@nexo-ai/routines";
 import {
   getDefaultModel,
   normalizeLegacyModel,
