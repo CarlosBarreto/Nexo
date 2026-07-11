@@ -8,6 +8,8 @@ import { AgentSidebarIcon, NeedsYouChip } from "./agent-sidebar-status";
 interface BuildAgentSidebarItemsArgs {
   agents: Agent[];
   summaries: Record<string, AgentActivitySummary>;
+  /** The agent's forged soul element, if any — drives the dot colour. */
+  elementFor: (agentId: string) => string | undefined;
   runningLabel: (count: number) => string;
   needsYouLabel: (count: number) => string;
   onChangeColor: (agentId: string, color: string) => void;
@@ -18,6 +20,7 @@ interface BuildAgentSidebarItemsArgs {
 export function buildAgentSidebarItems({
   agents,
   summaries,
+  elementFor,
   runningLabel,
   needsYouLabel,
   onChangeColor,
@@ -37,6 +40,7 @@ export function buildAgentSidebarItems({
       icon: (
         <AgentSidebarIcon
           color={agent.color}
+          element={elementFor(agent.id)}
           running={hasRunning}
           runningLabel={runningLabel(summary.runningCount)}
         />

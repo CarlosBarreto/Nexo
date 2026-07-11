@@ -4,6 +4,7 @@ import { BookOpen, LayoutDashboard, Settings } from "lucide-react";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DEFAULT_TAB_ID } from "../../agents/standard-tabs";
+import { useSouls } from "../../hooks/queries/use-souls";
 import { useCanCreateAgents } from "../../hooks/use-can-create-agents";
 import { orderAgents } from "../../lib/agent-order";
 import { resolveAutoCollapse } from "../../lib/sidebar-auto-collapse";
@@ -59,10 +60,14 @@ export function Sidebar({ children }: { children: ReactNode }) {
 
   const sorted = orderAgents(agents);
   const activitySummaries = useAgentActivitySummaries(agents);
+  // Forged element (if any) drives the sidebar dot colour; unforged agents fall
+  // back to their user-picked colour.
+  const souls = useSouls(agents);
 
   const items = buildAgentSidebarItems({
     agents: sorted,
     summaries: activitySummaries,
+    elementFor: (agentId) => souls[agentId]?.element ?? undefined,
     runningLabel: (count) => t("shell:sidebar.runningCount", { count }),
     needsYouLabel: (count) => t("shell:sidebar.needsYouCount", { count }),
     onChangeColor: (agentId, color) => {

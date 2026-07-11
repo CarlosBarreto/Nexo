@@ -71,6 +71,21 @@ export function resolveElementColor(element: string | undefined): string {
   return colorHex(ELEMENT_COLORS[elementKey(element)]);
 }
 
+/**
+ * The agent's identity colour: its forged soul element when it has one, else its
+ * user-picked palette colour. This is the Lunaria "element with a colour
+ * fallback" rule — agents without a soul (legacy engine, or pre-soul v3) keep
+ * the colour the user chose instead of collapsing to the `system` blue.
+ */
+export function resolveIdentityColor(
+  element: string | undefined,
+  storedColor: string | undefined,
+): string {
+  return element
+    ? resolveElementColor(element)
+    : resolveAgentColor(storedColor);
+}
+
 function isDark(): boolean {
   if (typeof document === "undefined") return false;
   return document.documentElement.getAttribute("data-theme") === "dark";

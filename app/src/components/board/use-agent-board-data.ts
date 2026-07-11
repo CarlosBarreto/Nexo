@@ -1,6 +1,7 @@
 import type { KanbanItem } from "@nexo-ai/board";
 import type { FeedItem } from "@nexo-ai/chat";
 import { mergeFeedHistory, messagePreviewText } from "@nexo-ai/chat";
+import { resolveElementColor } from "@nexo-ai/core";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -8,6 +9,7 @@ import {
   useDeleteActivity,
   useUpdateActivity,
 } from "../../hooks/queries";
+import { useSouls } from "../../hooks/queries/use-souls";
 import { missionCardTags } from "../../lib/mission-card";
 import { canDropMission, selectActive } from "../../lib/mission-selection";
 import { tauriActivity, tauriChat } from "../../lib/tauri";
@@ -47,6 +49,14 @@ export function useAgentBoardData({
   const deleteActivity = useDeleteActivity(path);
   const updateActivity = useUpdateActivity(path);
 
+  // This board is scoped to one agent, so its soul element only needs to tint
+  // the running comet — the element pill would repeat on every card, so it's
+  // reserved for the cross-agent Mission Control board.
+  const soulAgents = useMemo(() => [agent], [agent]);
+  const souls = useSouls(soulAgents);
+  const element = souls[agent.id]?.element ?? undefined;
+  const accent = element ? resolveElementColor(element) : undefined;
+
   const activeRaw = useMemo(() => selectActive(rawItems ?? []), [rawItems]);
   const items: KanbanItem[] = useMemo(
     () =>
@@ -59,6 +69,7 @@ export function useAgentBoardData({
         status: activity.status,
         updatedAt: activity.updated_at ?? new Date().toISOString(),
         group: agent.name,
+        ...(accent ? { accent } : {}),
         tags: missionCardTags({
           agent: activity.agent,
           agentModes,
@@ -74,7 +85,7 @@ export function useAgentBoardData({
             : {}),
         },
       })),
-    [agent.name, agentModes, activeRaw, t],
+    [agent.name, accent, agentModes, activeRaw, t],
   );
 
   const feedBucket = useFeedStore((s) => s.items[path]);

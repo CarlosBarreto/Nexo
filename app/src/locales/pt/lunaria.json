@@ -13,5 +13,12 @@
     "hint": "aperte qualquer tecla para entrar",
     "booting": "DESPERTANDO LUNARIA...",
     "ariaLabel": "Intro de Lunaria. Aperte start para entrar no Nexo."
+  },
+  "elements": {
+    "fire": "Chama",
+    "water": "Marés",
+    "earth": "Raízes",
+    "air": "Vento",
+    "system": "Sistema"
   }
 }
